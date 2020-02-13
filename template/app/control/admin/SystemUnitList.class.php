@@ -18,6 +18,9 @@ class SystemUnitList extends TStandardList
     protected $deleteButton;
     protected $transformCallback;
     
+    // trait com onReload, onSearch, onDelete...
+    use Adianti\Base\AdiantiStandardListTrait;
+
     /**
      * Page constructor
      */
