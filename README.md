@@ -18,5 +18,5 @@ https://www.adianti.com.br/framework-quickstart
 
 ### O que tem em cada pasta ?
 * template  - é o fork 
-* Documents - diveros arquvivos sobre o fork
+* documents - diveros arquvivos sobre o fork
 
