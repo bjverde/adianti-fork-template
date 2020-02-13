@@ -13,3 +13,10 @@ https://www.adianti.com.br/
 ### Qual é a licença do Adianti Framework ?
 https://www.adianti.com.br/framework-license
 
+### Tem um documentação de uso ?
+https://www.adianti.com.br/framework-quickstart
+
+### O que tem em cada pasta ?
+* template  - é o fork 
+* Documents - diveros arquvivos sobre o fork
+
