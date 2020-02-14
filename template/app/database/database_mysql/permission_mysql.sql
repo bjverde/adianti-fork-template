@@ -258,3 +258,54 @@ INSERT INTO system_unit VALUES(2,'Unit B','unit_b');
 
 INSERT INTO system_user VALUES(1,'Administrator','admin','21232f297a57a5a743894a0e4a801fc3','admin@admin.net','Y',10,1);
 INSERT INTO system_user VALUES(2,'User','user','ee11cbb19052e40b07aac0ca060c23ee','user@user.net','Y',7,1);
+
+INSERT INTO system_user_group VALUES(1,1,1);
+INSERT INTO system_user_group VALUES(2,2,2);
+INSERT INTO system_user_group VALUES(3,1,2);
+
+INSERT INTO system_user_unit VALUES(1,1,1);
+INSERT INTO system_user_unit VALUES(2,1,2);
+INSERT INTO system_user_unit VALUES(3,2,1);
+INSERT INTO system_user_unit VALUES(4,2,2);
+
+INSERT INTO system_group_program VALUES(1,1,1);
+INSERT INTO system_group_program VALUES(2,1,2);
+INSERT INTO system_group_program VALUES(3,1,3);
+INSERT INTO system_group_program VALUES(4,1,4);
+INSERT INTO system_group_program VALUES(5,1,5);
+INSERT INTO system_group_program VALUES(6,1,6);
+INSERT INTO system_group_program VALUES(7,1,8);
+INSERT INTO system_group_program VALUES(8,1,9);
+INSERT INTO system_group_program VALUES(9,1,11);
+INSERT INTO system_group_program VALUES(10,1,14);
+INSERT INTO system_group_program VALUES(11,1,15);
+INSERT INTO system_group_program VALUES(12,2,10);
+INSERT INTO system_group_program VALUES(13,2,12);
+INSERT INTO system_group_program VALUES(14,2,13);
+INSERT INTO system_group_program VALUES(15,2,16);
+INSERT INTO system_group_program VALUES(16,2,17);
+INSERT INTO system_group_program VALUES(17,2,18);
+INSERT INTO system_group_program VALUES(18,2,19);
+INSERT INTO system_group_program VALUES(19,2,20);
+INSERT INTO system_group_program VALUES(20,1,21);
+INSERT INTO system_group_program VALUES(21,2,22);
+INSERT INTO system_group_program VALUES(22,2,23);
+INSERT INTO system_group_program VALUES(23,2,24);
+INSERT INTO system_group_program VALUES(24,2,25);
+INSERT INTO system_group_program VALUES(25,1,26);
+INSERT INTO system_group_program VALUES(26,1,27);
+INSERT INTO system_group_program VALUES(27,1,28);
+INSERT INTO system_group_program VALUES(28,1,29);
+INSERT INTO system_group_program VALUES(29,2,30);
+INSERT INTO system_group_program VALUES(30,1,31);
+INSERT INTO system_group_program VALUES(31,1,32);
+INSERT INTO system_group_program VALUES(32,1,33);
+INSERT INTO system_group_program VALUES(33,1,34);
+INSERT INTO system_group_program VALUES(34,1,35);
+INSERT INTO system_group_program VALUES(36,1,36);
+INSERT INTO system_group_program VALUES(37,1,37);
+INSERT INTO system_group_program VALUES(38,1,38);
+INSERT INTO system_group_program VALUES(39,1,39);
+INSERT INTO system_group_program VALUES(40,1,40);
+
+INSERT INTO system_user_program VALUES(1,2,7);
