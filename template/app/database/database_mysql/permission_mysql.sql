@@ -53,15 +53,14 @@ CREATE TABLE IF NOT EXISTS `system_group_program` (
   `system_group_id` INT(11) NOT NULL,
   `system_program_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `sys_group_program_program_idx` (),
-  INDEX `fk_system_group_program_system_group1_idx` (`system_group_id` ASC),
-  INDEX `fk_system_group_program_system_program1_idx` (`system_program_id` ASC),
-  CONSTRAINT `fk_system_group_program_system_group1`
+  INDEX `fk_system_group_program_system_group_idx` (`system_group_id` ASC),
+  INDEX `fk_system_group_program_system_program_idx` (`system_program_id` ASC),
+  CONSTRAINT `fk_system_group_program_system_group`
     FOREIGN KEY (`system_group_id`)
     REFERENCES `system_group` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_system_group_program_system_program1`
+  CONSTRAINT `fk_system_group_program_system_program`
     FOREIGN KEY (`system_program_id`)
     REFERENCES `system_program` (`id`)
     ON DELETE NO ACTION
@@ -112,15 +111,14 @@ CREATE TABLE IF NOT EXISTS `system_user` (
   `frontpage_id` INT(11) NOT NULL,
   `system_unit_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `sys_user_program_idx` (),
   INDEX `fk_system_user_system_unit_idx` (`system_unit_id` ASC),
-  INDEX `fk_system_user_system_program1_idx` (`frontpage_id` ASC),
+  INDEX `fk_system_user_system_program_idx` (`frontpage_id` ASC),
   CONSTRAINT `fk_system_user_system_unit`
     FOREIGN KEY (`system_unit_id`)
     REFERENCES `system_unit` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_system_user_system_program1`
+  CONSTRAINT `fk_system_user_system_program`
     FOREIGN KEY (`frontpage_id`)
     REFERENCES `system_program` (`id`)
     ON DELETE NO ACTION
@@ -139,9 +137,8 @@ CREATE TABLE IF NOT EXISTS `system_user_group` (
   `system_user_id` INT(11) NOT NULL,
   `system_group_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `sys_user_group_group_idx` (),
-  INDEX `fk_system_user_group_system_user1_idx` (`system_user_id` ASC),
-  INDEX `fk_system_user_group_system_group1_idx` (`system_group_id` ASC),
+  INDEX `fk_system_user_group_system_user_idx` (`system_user_id` ASC),
+  INDEX `fk_system_user_group_system_group_idx` (`system_group_id` ASC),
   CONSTRAINT `fk_system_user_group_system_user1`
     FOREIGN KEY (`system_user_id`)
     REFERENCES `system_user` (`id`)
@@ -166,15 +163,14 @@ CREATE TABLE IF NOT EXISTS `system_user_program` (
   `system_user_id` INT(11) NOT NULL,
   `system_program_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `sys_user_program_program_idx` (),
-  INDEX `fk_system_user_program_system_user1_idx` (`system_user_id` ASC),
-  INDEX `fk_system_user_program_system_program1_idx` (`system_program_id` ASC),
-  CONSTRAINT `fk_system_user_program_system_user1`
+  INDEX `fk_system_user_program_system_user_idx` (`system_user_id` ASC),
+  INDEX `fk_system_user_program_system_program_idx` (`system_program_id` ASC),
+  CONSTRAINT `fk_system_user_program_system_user`
     FOREIGN KEY (`system_user_id`)
     REFERENCES `system_user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_system_user_program_system_program1`
+  CONSTRAINT `fk_system_user_program_system_program`
     FOREIGN KEY (`system_program_id`)
     REFERENCES `system_program` (`id`)
     ON DELETE NO ACTION
@@ -193,14 +189,14 @@ CREATE TABLE IF NOT EXISTS `system_user_unit` (
   `system_user_id` INT(11) NOT NULL,
   `system_unit_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_system_user_unit_system_unit1_idx` (`system_unit_id` ASC),
-  INDEX `fk_system_user_unit_system_user1_idx` (`system_user_id` ASC),
-  CONSTRAINT `fk_system_user_unit_system_unit1`
+  INDEX `fk_system_user_unit_system_unit_idx` (`system_unit_id` ASC),
+  INDEX `fk_system_user_unit_system_user_idx` (`system_user_id` ASC),
+  CONSTRAINT `fk_system_user_unit_system_unit`
     FOREIGN KEY (`system_unit_id`)
     REFERENCES `system_unit` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_system_user_unit_system_user1`
+  CONSTRAINT `fk_system_user_unit_system_user`
     FOREIGN KEY (`system_user_id`)
     REFERENCES `system_user` (`id`)
     ON DELETE NO ACTION
