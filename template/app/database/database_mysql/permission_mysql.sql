@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS `system_program` (
   `id` INT(11) NOT NULL,
   `name` VARCHAR(100) NULL DEFAULT NULL,
   `controller` VARCHAR(100) NULL DEFAULT NULL,
-  `system_programcol` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
