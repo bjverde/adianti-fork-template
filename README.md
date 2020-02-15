@@ -1,5 +1,5 @@
 # adianti-template
-Fork do Tempalte do Adianti FrameWork
+Fork do Tempalte do Adianti 7.1
 
 
 ## Perguntas frequentes
@@ -20,3 +20,5 @@ https://www.adianti.com.br/framework-quickstart
 * template  - é o fork 
 * documents - diveros arquvivos sobre o fork
 
+### Quais são as modificações em relação a versão original ?
+Veja documento [Changelog do Fork](documents/changelog_fork.md)
