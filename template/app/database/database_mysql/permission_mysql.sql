@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `system_user` (
   `email` VARCHAR(100) NULL,
   `active` CHAR(1) NULL,
   `frontpage_id` INT(11) NOT NULL,
-  `system_unit_id` INT(11) NOT NULL,
+  `system_unit_id` INT(11) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_system_user_system_unit_idx` (`system_unit_id` ASC),
   INDEX `fk_system_user_system_program_idx` (`frontpage_id` ASC),
@@ -256,8 +256,11 @@ INSERT INTO system_program VALUES(40,'System Session dump','SystemSessionDumpVie
 INSERT INTO system_unit VALUES(1,'Unit A','unit_a');
 INSERT INTO system_unit VALUES(2,'Unit B','unit_b');
 
-INSERT INTO system_user VALUES(1,'Administrator','admin','21232f297a57a5a743894a0e4a801fc3','admin@admin.net','Y',10,1);
-INSERT INTO system_user VALUES(2,'User','user','ee11cbb19052e40b07aac0ca060c23ee','user@user.net','Y',7,1);
+INSERT INTO system_user (`id`,`login`,`password`                        ,`name`         ,`email`          ,`active`,`frontpage_id`,`system_unit_id`)
+                 VALUES (1   ,'admin','21232f297a57a5a743894a0e4a801fc3','Administrator','admin@admin.net','Y'     ,10            ,null);
+
+INSERT INTO system_user (`id`,`login`,`password`                        ,`name`         ,`email`          ,`active`,`frontpage_id`,`system_unit_id`)
+                 VALUES (2   ,'user' ,'ee11cbb19052e40b07aac0ca060c23ee','User'         ,'user@user.net'  ,'Y'     ,7             ,null);
 
 INSERT INTO system_user_group VALUES(1,1,1);
 INSERT INTO system_user_group VALUES(2,2,2);
