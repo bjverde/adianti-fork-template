@@ -26,7 +26,19 @@ class AdiantiMenuBuilder
                     $menu->show();
                     $menu_string = ob_get_clean();
                     return $menu_string;
-            break;                
+            break;
+            case 'theme3_h':
+                ob_start();
+                $callback = array('SystemPermission', 'checkPermission');
+                $xml = new SimpleXMLElement(file_get_contents($file));
+                //$menu = new TMenu($xml, $callback, 1, 'treeview-menu', 'treeview', '');
+                //$menu->class = 'sidebar-menu';
+                //$menu->id    = 'side-menu';
+                $menu = new TMenuBar($xml, $callback,'nav navbar-nav');
+                $menu->show();
+                $menu_string = ob_get_clean();
+                return $menu_string;
+            break;              
             default:
                 ob_start();
                 $callback = array('SystemPermission', 'checkPermission');
