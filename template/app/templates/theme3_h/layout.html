@@ -38,7 +38,7 @@
         $(function() {
             $.get('engine.php?class=SearchBox', function(data)
             {
-              $('.navbar-custom-menu').append(data).show();
+              $('.navbar-custom-menu-searchBox').append(data).show();
               var search_box = $('.navbar-nav').nextAll('div');
               search_box.css('padding-top', '10px');
               search_box.css('padding-left', '25px');
@@ -59,28 +59,50 @@
     </script>
   </head>
   
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="skin-blue layout-top-nav">
     <div class="wrapper">
 
       <header class="main-header">
-        <!-- Logo -->
-        <a href="{logo-link-class}" target="newwindow" class="logo">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini">{logo-mini}</span>
-          <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">{logo-lg}</span>
-        </a>
-        <!-- Header Navbar: style can be found in header.less -->
-        <nav class="navbar navbar-static-top" role="navigation">
-          <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
+        <nav class="navbar navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <a href="{logo-link-class}" class="navbar-brand"><b>{logo-lg}</b></a>
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                <i class="fa fa-bars"></i>
+              </button>
+            </div>
+            <!-- MENU -->
+            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+              {MENU}
+            </div>
+            <!-- MENU -->
+    
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!--
+            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <div class="navbar-custom-menu-searchBox2"></div>
+            </div>
+            -->
+            <!-- /.navbar-collapse -->
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+              <ul class="nav navbar-nav">
               <!--{BUILDER-MENU}-->
             
               <li class="dropdown messages-menu" id="envelope_messages">
@@ -99,8 +121,9 @@
               
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
+                <!-- Menu Toggle Button -->
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-user"></i>
+                  <img src="app/images/photos/{login}.jpg" class="user-image" alt="User Image">
                   <span class="hidden-xs">{username}</span>
                 </a>
                 <ul class="dropdown-menu">
@@ -109,8 +132,9 @@
                     <!-- <i class="fa fa-user fa-3x" style="color:white"></i> -->
                     <img src="app/images/photos/{login}.jpg" onError="this.onerror=null;this.src='app/templates/{template}/img/avatar5.png';" style="border-radius:50%" alt="User" />
                     <p>
-                      {username}<br>
-                      <a href="index.php?class=SystemProfileView" style="color:white;font-size:12px">[_t{Profile}]</a>
+                      {username}
+                      <br>{usermail}
+                      <br><a href="index.php?class=SystemProfileView" style="color:white;font-size:12px">[_t{Profile}]</a>
                     </p>
                   </li>
                   <!-- Menu Body -->
@@ -127,34 +151,11 @@
               </li>
             </ul>
           </div>
+            <!-- /.navbar-custom-menu -->
+          </div>
+          <!-- /.container-fluid -->
         </nav>
       </header>
-      <!-- Left side column. contains the logo and sidebar -->
-      <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-          <!-- Sidebar user panel -->
-          <div class="user-panel">
-            <div class="pull-left image">
-              <!-- <i class="fa fa-user fa-2x" style="color:white"></i> -->
-              <img src="app/images/photos/{login}.jpg" onError="this.onerror=null;this.src='app/templates/{template}/img/avatar5.png';" style="border-radius:50%;margin-top:10px" alt="User" />
-            </div>
-            <div class="pull-left info" style="position:initial">
-            <br>
-              <p>{username}</p>
-              <span style="font-size:10pt">{usermail}</span>
-            </div>
-          </div>
-          <!-- search form -->
-          <!-- /.search form -->
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
-          <li class="header">MAIN NAVIGATION</li>
-          </ul>
-          {MENU}
-        </section>
-        <!-- /.sidebar -->
-      </aside>
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -169,6 +170,7 @@
         
         <div id="adianti_right_panel" class="right-panel"></div>
       </div><!-- /.content-wrapper -->
+      
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
           <b>Version</b> {system_version}
