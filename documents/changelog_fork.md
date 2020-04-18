@@ -31,8 +31,10 @@ Inclusão da coluna com o nome da Classe de controle nas telas
 * edição de Usuários
 * edição de Grupos
 
-## 5 - Tema3 customizado
+## 5 - O Temas customizado
 
-Já está pronta uma pequena customização do tema 3 que será colocada em breve nesse Fork. Link do Tema3 customizado
+O tema padrão é o theme3_v4 para o template. 
 
-https://github.com/bjverde/adianti-theme/blob/master/documents/template.md 
+Informações e alterações veja
+
+https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstrap_theme3_v4.md
