@@ -59,7 +59,7 @@
     </script>
   </head>
   
-  <body class="skin-blue layout-top-nav">
+  <body class="hold-transition skin-blue layout-top-nav">
     <div class="wrapper">
 
       <header class="main-header">
@@ -67,13 +67,15 @@
           <div class="container">
             <div class="navbar-header">
               <a href="{logo-link-class}" class="navbar-brand"><b>{logo-lg}</b></a>
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu">
                 <i class="fa fa-bars"></i>
               </button>
             </div>
             <!-- MENU -->
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-              {MENU}
+            <div class="collapse navbar-collapse pull-left" id="main-menu">
+              <ul class="nav navbar-nav">
+                {MENU}
+              </ul>
             </div>
             <!-- MENU -->
     
