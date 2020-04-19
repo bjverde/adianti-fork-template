@@ -55,7 +55,7 @@ header
     right: 0px;	
 	background	:#efefef;
 	background-repeat:repeat-x;
-	background-image:url(imagens/app/headerbgsilver.gif);
+	background-image:url(../img/headerbgsilver.gif);
 }
 #app_header_logo
 {
@@ -139,7 +139,7 @@ footer
 	background		:#efefef;
 	height          :20px;
 	background-repeat:repeat-x;
-	background-image:url('imagens/app/footerbgsilver.gif');
+	background-image:url('../img/footerbgsilver.gif');
 }
 #app_footer_message
 {
@@ -155,98 +155,6 @@ footer
 {
 	float: right;
 	width: 30%;	
-}
-#button_end_session
-{
-	height: 19px;
-	color:blue;
-	font-size:9px;
-	background-repeat:repeat-x;
-	background-image:url('../imagens/fwbuttonbg.gif');
-	vertical-align: middle;
-	cursor:pointer;
-}
-#button_end_session:hover
-{
-	color:red;
-}
-#app_iframe
-{
-	/*height:500px;*/
-	width:100%;
-	overflow:auto;
-	border:none;
-	color:black;
-	font-size:10px;
-	background-color: transparent;
-	vertical-align: middle;
-	margin:0px;
-	padding: 0px;
-}
-.app_div_message{
-	display:none;
-	position:absolute;
-	top:30px;
-	text-align:center;	
-	width:600px;
-}
-.app_div_error{
-    width:50%;
-    overflow:hidden;
-    background-color:#FFEFEF;
-    border:1px solid #FFA0A0;
-    color:#0000ff;
-    font-size:14px;
-    font-family:Arial;
-    padding:2px;
-    text-align:left;
-}
-.app_div_sucess{
-    width:50%;
-    overflow:hidden;
-    background-color:#E4F9E4;
-    border:1px solid #A0ECA0;
-    color:#0000ff;
-    font-size:14px;
-    font-family:Arial;
-    padding:2px;
-    text-align:left;
-}
-.app_div_attention{
-    width:50%;
-    overflow:hidden;
-    background-color:#FEFEDC;
-    border:1px solid #FBFB00;
-    color:#0000ff;
-    font-size:14px;
-    font-family:Arial;
-    padding:2px;
-    text-align:left;
-}
-.fwBlockScreenDiv
-{
-    display: none;
-    z-index:1001;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: gray;
-    opacity:.40;
-    filter: alpha(opacity=40);
-}
-
-.ui-widget-overlay
-{
-    opacity: 0.8;
-    -moz-opacity:0.80;
-    filter: alpha(opacity=80);
-}
-
-.menuIcon {
-	width: 16px;
-	height: 16px;
 }
 
 

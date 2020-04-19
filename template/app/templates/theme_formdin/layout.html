@@ -22,6 +22,8 @@
     <link href="app/templates/{template}/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" media="screen">
     <link href="app/templates/{template}/css/fonts/MaterialIcons/material-icons.css" rel="stylesheet">
 
+    <link href="app/templates/{template}/css/formdin5.css" rel="stylesheet">
+
     <script>
         function update_messages_menu() {
             $.get('engine.php?class=MessageList&theme=theme3', function(data) {
@@ -169,15 +171,16 @@
         <div id="adianti_right_panel" class="right-panel"></div>
       </div><!-- /.content-wrapper -->
       
-      <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> {system_version}
+
+      <footer>
+        <div id="app_footer_message"><b>Version</b> {system_version}</div>
+        <div id="app_footer_company"><strong>{userunitid} - {userunitname}</strong></div>
+        <div id="app_footer_module">
+          <!--[IFADMIN]-->
+          <a style="cursor:pointer; color: teal" generator="adianti" href="index.php?class=SystemModulesCheckView"> <i class="fa fa-code" aria-hidden="true"></i> PHP Modules </a> &nbsp;&nbsp;
+          <span style="cursor:pointer; color: teal" onclick="Adianti.showDebugPanel()"> <i class="fa fa-window-maximize" aria-hidden="true"></i> Debug Console </span>
+          <!--[/IFADMIN]-->          
         </div>
-        <strong>{userunitid} - {userunitname}</strong>
-        <!--[IFADMIN]-->
-        <a style="cursor:pointer; color: teal" generator="adianti" href="index.php?class=SystemModulesCheckView"> <i class="fa fa-code" aria-hidden="true"></i> PHP Modules </a> &nbsp;&nbsp;
-        <span style="cursor:pointer; color: teal" onclick="Adianti.showDebugPanel()"> <i class="fa fa-window-maximize" aria-hidden="true"></i> Debug Console </span>
-        <!--[/IFADMIN]-->
       </footer>
       
       <div id="adianti_debug_panel" class="debug-panel">
