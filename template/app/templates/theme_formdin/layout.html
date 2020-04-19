@@ -154,9 +154,6 @@
 
 
     <div class="wrapper">
-
-
-
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Main content -->
@@ -171,18 +168,6 @@
         <div id="adianti_right_panel" class="right-panel"></div>
       </div><!-- /.content-wrapper -->
       
-
-      <footer>
-        <div id="app_footer_message"><b>Version</b> {system_version}</div>
-        <div id="app_footer_company"><strong>{userunitid} - {userunitname}</strong></div>
-        <div id="app_footer_module">
-          <!--[IFADMIN]-->
-          <a style="cursor:pointer; color: teal" generator="adianti" href="index.php?class=SystemModulesCheckView"> <i class="fa fa-code" aria-hidden="true"></i> PHP Modules </a> &nbsp;&nbsp;
-          <span style="cursor:pointer; color: teal" onclick="Adianti.showDebugPanel()"> <i class="fa fa-window-maximize" aria-hidden="true"></i> Debug Console </span>
-          <!--[/IFADMIN]-->          
-        </div>
-      </footer>
-      
       <div id="adianti_debug_panel" class="debug-panel">
           <i onclick="Adianti.hideDebugPanel()" class="fa fa-times" aria-hidden="true" title="_t{Close}"></i>
           <span > Request URL </span>
@@ -195,6 +180,17 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
+
+    <footer>
+      <div id="app_footer_message"><b>Version</b> {system_version}</div>
+      <div id="app_footer_company"><strong>{userunitid} - {userunitname}</strong></div>
+      <div id="app_footer_module">
+        <!--[IFADMIN]-->
+        <a style="cursor:pointer; color: teal" generator="adianti" href="index.php?class=SystemModulesCheckView"> <i class="fa fa-code" aria-hidden="true"></i> PHP Modules </a> &nbsp;&nbsp;
+        <span style="cursor:pointer; color: teal" onclick="Adianti.showDebugPanel()"> <i class="fa fa-window-maximize" aria-hidden="true"></i> Debug Console </span>
+        <!--[/IFADMIN]-->          
+      </div>
+    </footer>
 
     <!-- AdminLTE App -->
     <script src="app/templates/{template}/js/app.min.js"></script>
