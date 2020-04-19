@@ -31,11 +31,7 @@ class AdiantiMenuBuilder
                 ob_start();
                 $callback = array('SystemPermission', 'checkPermission');
                 $xml = new SimpleXMLElement(file_get_contents($file));
-                //$menu = new TMenu($xml, $callback,1,'navbar-nav mr-auto','nav-item dropdown','dropdown-item');
-                //$menu = new TMenu($xml, $callback, 1, 'nav-item dropdown');
-                //$menu = new TMenu($xml, $callback, 1, 'nav-item dropdown','dropdown');
-                //$menu = new TMenu($xml, $callback, 1, 'nav-item dropdown','dropdown');
-                $menu = new TMenu($xml, $callback, 1,'dropdown-menu','dropdown','dropdown-toggle');
+                $menu = new TMenu($xml, $callback, 1,'dropdown-menu','nav-item dropdown','nav-link dropdown-toggle');
                 $menu->id    = 'main-menu-top';
                 $menu->show();
                 $menu_string = ob_get_clean();
