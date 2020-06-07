@@ -14,7 +14,7 @@ use Exception;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class TRequiredValidator extends TFieldValidator
+class TRequiredListValidator extends TFieldValidator
 {
     /**
      * Validate a given value
@@ -22,18 +22,11 @@ class TRequiredValidator extends TFieldValidator
      * @param $value Value to be validated
      * @param $parameters aditional parameters for validation
      */
-    public function validate($label, $value, $parameters = NULL)
+    public function validate($label, $values, $parameters = NULL)
     {
-        $scalar_empty = function($test) {
-            return ( is_scalar($test) AND !is_bool($test) AND trim($test) == '' );
-        };
-        
-        if ( (is_null($value))
-          OR ($scalar_empty($value))
-          OR (is_array($value) AND count($value)==1 AND isset($value[0]) AND $scalar_empty($value[0]))
-          OR (is_array($value) AND empty($value)) )
+        foreach ($values as $value)
         {
-            throw new Exception(AdiantiCoreTranslator::translate('The field ^1 is required', $label));
+            (new TRequiredValidator)->validate($label, $value);
         }
     }
 }
