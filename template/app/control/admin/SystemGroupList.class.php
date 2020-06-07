@@ -18,9 +18,6 @@ class SystemGroupList extends TStandardList
     protected $deleteButton;
     protected $transformCallback;
     
-    // trait com onReload, onSearch, onDelete...
-    use Adianti\Base\AdiantiStandardListTrait;
-
     /**
      * Page constructor
      */
@@ -55,7 +52,6 @@ class SystemGroupList extends TStandardList
         // add the search form actions
         $btn = $this->form->addAction(_t('Find'), new TAction(array($this, 'onSearch')), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
-        $this->form->addActionLink(_t('Clear'),  new TAction([$this, 'clear']), 'fa:eraser red');
         $this->form->addAction(_t('New'),  new TAction(array('SystemGroupForm', 'onEdit')), 'fa:plus green');
         
         // creates a DataGrid
@@ -158,14 +154,5 @@ class SystemGroupList extends TStandardList
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }
-    }
-
-     /**
-     * Clear filters
-     */
-    public function clear()
-    {
-        $this->clearFilters();
-        $this->onReload();
     }
 }
