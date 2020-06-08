@@ -1,5 +1,5 @@
 # adianti-template
-Fork do Tempalte do Adianti 7.1
+Fork do Tempalte do Adianti 7.2.1
 
 
 ## Perguntas frequentes
