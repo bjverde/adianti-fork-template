@@ -1,0 +1,19 @@
+# Defina o comportamento padrão, caso as pessoas não tenham configurado o core.autocrlf.
+# https://docs.github.com/pt/free-pro-team@latest/github/using-git/configuring-git-to-handle-line-endings
+* text eol=lf
+
+# Declare explicitamente os arquivos de texto que você deseja que sempre sejam normalizados e convertidos 
+# em delimitadores de linha nativos ao fazer checkout.
+*.php text
+*.htm text
+*.html text
+*.css text
+*.sql text
+
+# Declare os arquivos que sempre terão delimitadores de linha CRLF ao fazer checkout.
+# *.sln text eol=crlf
+
+# Indique todos os arquivos que são verdadeiramente binários e que não devem ser modificados.
+*.png binary
+*.jpg binary
+*.db  binary
