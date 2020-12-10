@@ -69,34 +69,9 @@ abstract class CSSBlockList extends CSSList {
 				if ($sSpecificitySearch === null) {
 					$aResult[] = $oSelector;
 				} else {
-					$sComparator = '===';
-					$aSpecificitySearch = explode(' ', $sSpecificitySearch);
-					$iTargetSpecificity = $aSpecificitySearch[0];
-					if(count($aSpecificitySearch) > 1) {
-						$sComparator = $aSpecificitySearch[0];
-						$iTargetSpecificity = $aSpecificitySearch[1];
-					}
-					$iTargetSpecificity = (int)$iTargetSpecificity;
-					$iSelectorSpecificity = $oSelector->getSpecificity();
-					$bMatches = false;
-					switch($sComparator) {
-						case '<=':
-							$bMatches = $iSelectorSpecificity <= $iTargetSpecificity;
-						break;
-						case '<':
-							$bMatches = $iSelectorSpecificity < $iTargetSpecificity;
-						break;
-						case '>=':
-							$bMatches = $iSelectorSpecificity >= $iTargetSpecificity;
-						break;
-						case '>':
-							$bMatches = $iSelectorSpecificity > $iTargetSpecificity;
-						break;
-						default:
-							$bMatches = $iSelectorSpecificity === $iTargetSpecificity;
-						break;
-					}
-					if ($bMatches) {
+					$sComparison = "\$bRes = {$oSelector->getSpecificity()} $sSpecificitySearch;";
+					eval($sComparison);
+					if ($bRes) {
 						$aResult[] = $oSelector;
 					}
 				}

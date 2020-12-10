@@ -3,9 +3,8 @@
 namespace FontLib\Tests;
 
 use FontLib\Font;
-use PHPUnit\Framework\TestCase;
 
-class FontTest extends TestCase
+class FontTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException \Fontlib\Exception\FontNotFoundException

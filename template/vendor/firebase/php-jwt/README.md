@@ -23,7 +23,7 @@ Example
 use \Firebase\JWT\JWT;
 
 $key = "example_key";
-$payload = array(
+$token = array(
     "iss" => "http://example.org",
     "aud" => "http://example.com",
     "iat" => 1356999524,
@@ -36,7 +36,7 @@ $payload = array(
  * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40
  * for a list of spec-compliant algorithms.
  */
-$jwt = JWT::encode($payload, $key);
+$jwt = JWT::encode($token, $key);
 $decoded = JWT::decode($jwt, $key, array('HS256'));
 
 print_r($decoded);
@@ -93,14 +93,14 @@ ehde/zUxo6UvS7UrBQIDAQAB
 -----END PUBLIC KEY-----
 EOD;
 
-$payload = array(
+$token = array(
     "iss" => "example.org",
     "aud" => "example.com",
     "iat" => 1356999524,
     "nbf" => 1357000000
 );
 
-$jwt = JWT::encode($payload, $privateKey, 'RS256');
+$jwt = JWT::encode($token, $privateKey, 'RS256');
 echo "Encode:\n" . print_r($jwt, true) . "\n";
 
 $decoded = JWT::decode($jwt, $publicKey, array('RS256'));

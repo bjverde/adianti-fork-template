@@ -8,10 +8,11 @@
 
 namespace Svg\Tests;
 
-use Svg\Style;
-use PHPUnit\Framework\TestCase;
+include_once __DIR__ . "/../../src/autoload.php";
 
-class StyleTest extends TestCase
+use Svg\Style;
+
+class StyleTest extends \PHPUnit\Framework\TestCase
 {
 
     public function test_parseColor()
