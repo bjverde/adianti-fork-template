@@ -1,4 +1,4 @@
-# Changelog do Fork do Template do Adianti 7.1
+# Changelog do Fork do Template do Adianti 7.2.2
 
 Informações sobre o Adianti e seu criado veja  [pagina principal](../README.md)
 
@@ -31,10 +31,17 @@ Inclusão da coluna com o nome da Classe de controle nas telas
 * edição de Usuários
 * edição de Grupos
 
-## 5 - O Temas customizado
+## 5 - Novos temas
 
 O tema padrão é o theme3_v4 para o template. 
 
-Informações e alterações veja
-
+Informações e alterações veja no link abaixo
 https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstrap_theme3_v4.md
+
+### 5.1 - outros temas
+* [theme_formdin](https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstrap_theme_formdin.md)
+* [theme3_h](https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstrap_theme3_h.md)
+* [theme4_h](https://github.com/bjverde/adianti-theme/blob/master/documents/template/material_theme4_v4.md)
+
+## 6 - Arquivos 
+Todos os arquivos com EOL (end of line) no formato Unix (LF) e arquivos em UTF-8 sem BOM
