@@ -32,6 +32,22 @@ class LoginForm extends TPage
         $login = new TEntry('login');
         $password = new TPassword('password');
         
+        $previous_class = new THidden('previous_class');
+        $previous_method = new THidden('previous_method');
+        $previous_parameters = new THidden('previous_parameters');
+        
+        if (!empty($param['previous_class']) && $param['previous_class'] !== 'LoginForm')
+        {
+            $previous_class->setValue($param['previous_class']);
+            
+            if (!empty($param['previous_method']))
+            {
+                $previous_method->setValue($param['previous_method']);
+            }
+            
+            $previous_parameters->setValue(serialize($param));
+        }
+        
         // define the sizes
         $login->setSize('70%', 40);
         $password->setSize('70%', 40);
@@ -49,15 +65,19 @@ class LoginForm extends TPage
         $unit   = '<span class="login-avatar"><span class="fa fa-university"></span></span>';
         $lang   = '<span class="login-avatar"><span class="fa fa-globe"></span></span>';
         
-        $this->form->addFields( [$user, $login] );
-        $this->form->addFields( [$locker, $password] );
+        $row = $this->form->addFields( [$user, $login] );
+        $row->layout = ['col-sm-12 display-flex'];
+        $row = $this->form->addFields( [$locker, $password] );
+        $row->layout = ['col-sm-12 display-flex'];
+        $this->form->addFields( [$previous_class, $previous_method, $previous_parameters] );
         
         if (!empty($ini['general']['multiunit']) and $ini['general']['multiunit'] == '1')
         {
             $unit_id = new TCombo('unit_id');
             $unit_id->setSize('70%');
             $unit_id->style = 'height:35px;font-size:14px;float:left;border-bottom-left-radius: 0;border-top-left-radius: 0;';
-            $this->form->addFields( [$unit, $unit_id] );
+            $row = $this->form->addFields( [$unit, $unit_id] );
+            $row->layout = ['col-sm-12 display-flex'];
             $login->setExitAction(new TAction( [$this, 'onExitUser'] ) );
         }
         
@@ -69,7 +89,8 @@ class LoginForm extends TPage
             $lang_id->addItems( $ini['general']['lang_options'] );
             $lang_id->setValue( $ini['general']['language'] );
             $lang_id->setDefaultOption(FALSE);
-            $this->form->addFields( [$lang, $lang_id] );
+            $row = $this->form->addFields( [$lang, $lang_id] );
+            $row->layout = ['col-sm-12 display-flex'];
         }
         
         $btn = $this->form->addAction(_t('Log in'), new TAction(array($this, 'onLogin')), '');
@@ -149,7 +170,11 @@ class LoginForm extends TPage
                 SystemAccessLogService::registerLogin();
                 
                 $frontpage = $user->frontpage;
-                if ($frontpage instanceof SystemProgram and $frontpage->controller)
+                if (!empty($param['previous_class']) && $param['previous_class'] !== 'LoginForm')
+                {
+                    AdiantiCoreApplication::gotoPage($param['previous_class'], $param['previous_method'], unserialize($param['previous_parameters'])); // reload
+                }
+                else if ($frontpage instanceof SystemProgram and $frontpage->controller)
                 {
                     AdiantiCoreApplication::gotoPage($frontpage->controller); // reload
                     TSession::setValue('frontpage', $frontpage->controller);
