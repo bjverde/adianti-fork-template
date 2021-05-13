@@ -68,3 +68,57 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
+-- -----------------------------------------------------
+-- Table `system_request_log`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `system_request_log` ;
+
+CREATE TABLE `system_request_log` (
+	`id`	INTEGER NOT NULL,
+	`endpoint`	  TEXT,
+	`logdate`	  TEXT,
+	`log_year`	  VARCHAR ( 4 ) NULL DEFAULT NULL,
+	`log_month`	  VARCHAR ( 2 ) NULL DEFAULT NULL,
+	`log_day`	  VARCHAR ( 2 ) NULL DEFAULT NULL,
+	`session_id`  TEXT,
+	`login`	      TEXT,
+	`access_ip`	  TEXT,
+	`class_name`  TEXT,
+	`http_host`	  TEXT,
+	`server_port` TEXT,
+	`request_uri` TEXT,
+	`request_method`  TEXT,
+	`query_string`	  TEXT,
+	`request_headers` TEXT,
+	`request_body`	  TEXT request_duration INT,
+	PRIMARY KEY(`id`)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Table `system_sql_log`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `system_sql_log` ;
+
+CREATE TABLE `system_sql_log` (
+	`id`	INTEGER NOT NULL,
+	`logdate`	timestamp,
+	`login`	    TEXT,
+	`database_name`	TEXT,
+	`sql_command`	TEXT,
+	`statement_type`	TEXT,
+	`access_ip`	 varchar ( 45 ),
+	`transaction_id`	TEXT,
+	`log_trace`	 TEXT,
+	`session_id` TEXT,
+	`class_name` TEXT,
+	`php_sapi`	 TEXT,
+	`request_id` INT,
+	`log_year`	 VARCHAR ( 4 ) NULL DEFAULT NULL,
+	`log_month`	 VARCHAR ( 2 ) NULL DEFAULT NULL,
+	`log_day`	 VARCHAR ( 2 ) NULL DEFAULT NULL,
+	PRIMARY KEY(`id`)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
