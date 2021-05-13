@@ -41,7 +41,6 @@ https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstra
 ### 5.1 - outros temas
 * [theme_formdin](https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstrap_theme_formdin.md)
 * [theme3_h](https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstrap_theme3_h.md)
-* [theme4_h](https://github.com/bjverde/adianti-theme/blob/master/documents/template/material_theme4_v4.md)
 
 ## 6 - Arquivos 
 Todos os arquivos com EOL (end of line) no formato Unix (LF) e arquivos em UTF-8 sem BOM
