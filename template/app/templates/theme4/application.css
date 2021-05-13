@@ -46,6 +46,11 @@ label, input, button, select, textarea
     top: initial !important;
 }
 
+.display-flex
+{
+    display:flex;
+}
+
 /** Jquery Widgets **/
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
 {
@@ -961,7 +966,7 @@ span.tdate-group-addon {
 
 .dtp
 {
-    z-index: 2010 !important;
+    z-index: 4010 !important;
 }
 
 .ui-datepicker-trigger
@@ -973,6 +978,14 @@ span.tdate-group-addon {
 .datetimepicker
 {
     margin-top:90px !important;
+}
+
+/** TQRCodeInputReader **/
+.panel form[type="bootstrap"] .tqrcodeinputreader.input-group-addon
+{
+    box-shadow: initial !important;
+    border-radius:0;
+    border:0;
 }
 
 /** Fullcalendar **/
@@ -1188,6 +1201,13 @@ a.nav-link:not(.active):hover {
     float:left;
     margin-left:44px;
     height:35px;
+}
+
+@media (max-width: 400px) {
+    .login-avatar
+    {
+        margin-left:15px;
+    }
 }
 
 /** footer **/
