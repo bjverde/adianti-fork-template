@@ -144,3 +144,13 @@ ALTER TABLE system_unit add column connection_name TEXT;
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Session dump','SystemSessionDumpView');
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
                                         (select id from system_program where controller='SystemSessionDumpView'));
+
+
+---- update password for Adianti Fork Template 7.3.0.1
+UPDATE system_user 
+set password='$2y$10$E1t1i2dmr2RgsfOqR.I/LOc7ob6t/2j/ewWAwvRAXLUJYeXbEBmpe'
+where login='admin';
+
+UPDATE system_user 
+set password='$2y$10$nENQIUe5Ov7CTUHnq/H/cOL5mkeNmGRRp9lvJwT1QP80z4Fg1UN6i'
+where login='user';
