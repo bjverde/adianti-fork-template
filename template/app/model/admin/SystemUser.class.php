@@ -301,7 +301,7 @@ class SystemUser extends TRecord
     public static function authenticate($login, $password)
     {
         $user = self::newFromLogin($login);
-        if (!hash_equals($user->password, md5($password)))
+        if ( !self::passwordIsValid($password, $user->password) )
         {
             throw new Exception(_t('Wrong password'));
         }
@@ -409,5 +409,31 @@ class SystemUser extends TRecord
             }
         }
         return $collection;
+    }
+    
+    /**
+     *
+     * @param string $passwordEntered
+     * @param string $recordedPassword
+     * @return bolean
+     */
+    public static function passwordIsValid( $passwordEntered, $recordedPassword  )
+    {
+        //$result = hash_equals($recordedPassword, md5($passwordEntered)); //Old Method on Adianti 7.3
+        $result = password_verify($passwordEntered, $recordedPassword);
+        return $result;
+    }
+
+    /**
+     * Receive the password in clear and return the encrypted password 
+     *
+     * @param  string $passwordInClear
+     * @return string
+     */
+    public static function getHashPassword( $passwordInClear )
+    {
+        //$password = md5($passwordInClear); //Old Method on Adianti 7.3
+        $password = password_hash($passwordInClear, PASSWORD_DEFAULT);
+        return $password;
     }
 }
