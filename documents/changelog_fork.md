@@ -1,4 +1,4 @@
-# Changelog do Fork do Template do Adianti 7.2.2
+# Changelog do Fork do Template do Adianti 7.3.0
 
 Informações sobre o Adianti e seu criado veja  [pagina principal](../README.md)
 
