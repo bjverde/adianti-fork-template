@@ -257,10 +257,10 @@ INSERT INTO system_unit VALUES(1,'Unit A','unit_a');
 INSERT INTO system_unit VALUES(2,'Unit B','unit_b');
 
 INSERT INTO system_user (`id`,`login`,`password`                        ,`name`         ,`email`          ,`active`,`frontpage_id`,`system_unit_id`)
-                 VALUES (1   ,'admin','21232f297a57a5a743894a0e4a801fc3','Administrator','admin@admin.net','Y'     ,10            ,null);
+                 VALUES (1   ,'admin','$2y$10$E1t1i2dmr2RgsfOqR.I/LOc7ob6t/2j/ewWAwvRAXLUJYeXbEBmpe','Administrator','admin@admin.net','Y'     ,10            ,null);
 
 INSERT INTO system_user (`id`,`login`,`password`                        ,`name`         ,`email`          ,`active`,`frontpage_id`,`system_unit_id`)
-                 VALUES (2   ,'user' ,'ee11cbb19052e40b07aac0ca060c23ee','User'         ,'user@user.net'  ,'Y'     ,7             ,null);
+                 VALUES (2   ,'user' ,'$2y$10$nENQIUe5Ov7CTUHnq/H/cOL5mkeNmGRRp9lvJwT1QP80z4Fg1UN6i','User'         ,'user@user.net'  ,'Y'     ,7             ,null);
 
 INSERT INTO system_user_group VALUES(1,1,1);
 INSERT INTO system_user_group VALUES(2,2,2);
