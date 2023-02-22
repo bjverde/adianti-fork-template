@@ -43,6 +43,7 @@ class SystemContactsList extends TPage
         $row->layout = ['col-sm-6', 'col-sm-6'];
         
         $this->form->addAction(_t('Find'), new TAction([$this, 'onSearch']), 'fa:search blue');
+        $this->form->addActionLink(_t('Clear'), new TAction([$this, 'clear']), 'fa:eraser red');
 
         // keep the form filled with the search data
         $name->setValue( TSession::getValue( 'SystemUser_filter_name' ) );
@@ -80,4 +81,13 @@ class SystemContactsList extends TPage
     public function Delete($param)
     {
     }
+
+    /**
+    * Clear filters
+    */
+    public function clear()
+    {
+        $this->clearFilters();
+        $this->onReload();
+    }       
 }
