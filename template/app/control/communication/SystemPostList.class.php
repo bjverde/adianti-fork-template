@@ -16,6 +16,9 @@ class SystemPostList extends TStandardList
     protected $datagrid;
     protected $pageNavigation;
 
+    // trait com onReload, onSearch, onDelete...
+    use Adianti\Base\AdiantiStandardListTrait;
+
     /**
      * Class constructor
      * Creates the page, the form and the listing
@@ -61,7 +64,8 @@ class SystemPostList extends TStandardList
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data') );
         
         $btn_onsearch = $this->form->addAction(_t("Search"), new TAction([$this, 'onSearch']), 'fas:search #ffffff');
-        $btn_onsearch->addStyleClass('btn-primary'); 
+        $btn_onsearch->addStyleClass('btn-primary');
+        $this->form->addActionLink(_t('Clear'), new TAction([$this, 'clear']), 'fa:eraser red');
         $btn_onshow = $this->form->addAction(_t("New"), new TAction(['SystemPostForm', 'onEdit']), 'fas:plus #69aa46');
         
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
@@ -179,5 +183,14 @@ class SystemPostList extends TStandardList
 
             new TQuestion(AdiantiCoreTranslator::translate('Do you really want to delete ?'), $action);   
         }
+    }
+
+    /**
+    * Clear filters
+    */
+    public function clear()
+    {
+        $this->clearFilters();
+        $this->onReload();
     }
 }
