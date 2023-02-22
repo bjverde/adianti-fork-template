@@ -1,6 +1,10 @@
-# Changelog do Fork do Template do Adianti 7.3.0
-
+# Sobre Adianti
 Informações sobre o Adianti e seu criado veja  [pagina principal](../README.md)
+
+
+# Changelog do Fork do Template do Adianti 7.5.0
+* template/.gitignore - arquivo diferente do original
+# Changelog do Fork do Template do Adianti 7.3.0
 
 ## 1 - Script para MySQL
 O script sql do banco de permissões foi alterado para o MySQL 
