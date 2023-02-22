@@ -3,6 +3,9 @@ Informações sobre o Adianti e seu criado veja  [pagina principal](../README.md
 
 # Changelog do Fork do Template do Adianti 7.5.1
 * template/.gitignore - arquivo diferente do original
+* :hammer: [#33 - Incluir o botão de limpar pesquisa](https://github.com/bjverde/adianti-fork-template/issues/33)
+* :hammer: [#32 - Update firebase/php-jwt from 6.0](https://github.com/bjverde/adianti-fork-template/issues/32)
+* :hammer: [#31 - Update dompdf from 2.0.2](https://github.com/bjverde/adianti-fork-template/issues/31)
 
 # Changelog do Fork do Template do Adianti 7.5.0
 * template/.gitignore - arquivo diferente do original
