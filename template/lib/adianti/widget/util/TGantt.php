@@ -118,7 +118,7 @@ class TGantt extends TElement
      */
     public static function renderPopover($title, $poptitle, $popcontent)
     {
-        return "<div popover='true' poptitle='{$poptitle}' popcontent='{$popcontent}' style='display:flex;cursor:pointer; padding: 0px 7px'> {$title} </div>";
+        return "<div data-popover='true' poptitle='{$poptitle}' popcontent='{$popcontent}' style='display:flex;cursor:pointer; padding: 0px 7px'> {$title} </div>";
     }
 
     /**
@@ -456,8 +456,8 @@ class TGantt extends TElement
             return call_user_func_array($this->transformTimeTitle, [$start->format('Y-m-d H:i'), $end->format('Y-m-d H:i'), $this->events]);
         }
 
-        $s = substr(AdiantiCoreTranslator::translate($start->format('F')), 0, 3);
-        $e = substr(AdiantiCoreTranslator::translate($end->format('F')), 0, 3);
+        $s = mb_substr(AdiantiCoreTranslator::translate($start->format('F')), 0, 3);
+        $e = mb_substr(AdiantiCoreTranslator::translate($end->format('F')), 0, 3);
 
         $months[$s] = $s;
         $months[$e] = $e;
@@ -769,7 +769,7 @@ class TGantt extends TElement
         {
             $dayLabel = new TElement( 'div' );
             $dayLabel->{'class'} = 'tgantt-weekly-header-day-label';
-            $dayLabel->add( substr($date->format( 'l' ), 0,3 ) );
+            $dayLabel->add( mb_substr(AdiantiCoreTranslator::translate($date->format( 'l' )), 0,3 ) );
 
             $dayNumber = new TElement( 'div' );
             $dayNumber->{'class'} = 'tgantt-weekly-header-day-number-' . $this->size;

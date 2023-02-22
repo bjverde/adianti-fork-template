@@ -480,6 +480,7 @@ function tmultifile_start( input_id, parent_container, service_action, complete_
         if (file_handling) {
             $('#'+input_id).parent().children('input[type=hidden]').each(function(index, input_hidden) {
                 var file = new  MultiFileUploader(input_id, null, service_action, parent_container, complete_action, file_handling, image_gallery, popover, limitSize);
+                file.createStatusRow();
 
                 if ($(input_hidden).val())
                 {

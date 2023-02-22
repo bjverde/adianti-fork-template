@@ -102,6 +102,30 @@ class TMenuItem extends TElement
     }
     
     /**
+     * Returns the menu
+     */
+    public function getMenu()
+    {
+        return $this->menu;
+    }
+    
+    /**
+     * Returns the level
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+    
+    /**
+     * Returns the link
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+    
+    /**
      * Set link class
      */
     public function setLinkClass($class)

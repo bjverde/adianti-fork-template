@@ -108,7 +108,7 @@ class TFilter extends TExpression
             $result = $value;
         }
         // if the value is a session variable
-        else if (strpos($value, '{session.') !== false)
+        else if (strpos((string) $value, '{session.') !== false)
         {
             $session_var = AdiantiStringConversion::getBetween($value, '{session.', '}');
             $result = str_replace("{session.{$session_var}}", TSession::getValue($session_var), $value);

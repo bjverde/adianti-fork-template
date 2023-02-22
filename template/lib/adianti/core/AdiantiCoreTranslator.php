@@ -13,6 +13,7 @@ namespace Adianti\Core;
  */
 class AdiantiCoreTranslator
 {
+    private $messages;
     private static $instance; // singleton instance
     private $lang;            // target language
     
@@ -21,6 +22,7 @@ class AdiantiCoreTranslator
      */
     private function __construct()
     {
+        $this->messages = [];
         $this->messages['en'][] = 'Loading';
         $this->messages['en'][] = 'File not found';
         $this->messages['en'][] = 'Search';

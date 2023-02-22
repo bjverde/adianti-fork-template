@@ -12,7 +12,7 @@
  */
 class SystemContactsList extends TPage
 {
-    private $form, $cards, $pageNavigation;
+    private $form, $cards, $datagrid, $pageNavigation;
     
     use Adianti\Base\AdiantiStandardCollectionTrait;
 

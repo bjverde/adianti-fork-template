@@ -1639,8 +1639,10 @@ function __adianti_process_popover()
     };
 
     var pop_template = '<div class="popover" role="tooltip" style="max-width:800px"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>';
-
-    $('[popover="true"]:not([poptrigger]):not([processed="true"])').popover({
+    
+    $('[popover="true"]').removeAttr('popover').attr('data-popover', 'true');
+    
+    $('[data-popover="true"]:not([poptrigger]):not([data-popover-processed="true"])').popover({
         placement: get_placement,
         trigger: 'hover',
         container: 'body',
@@ -1650,9 +1652,9 @@ function __adianti_process_popover()
         html: true,
         title: get_title,
         sanitizeFn : function(d) { return d },
-    }).attr('processed', true);
-
-    $('[popover="true"][poptrigger="click"]:not([processed="true"])').popover({
+    }).attr('data-popover-processed', true);
+    
+    $('[data-popover="true"][poptrigger="click"]:not([data-popover-processed="true"])').popover({
         placement: get_placement,
         trigger: 'click',
         container: 'body',
@@ -1671,7 +1673,7 @@ function __adianti_process_popover()
                 // popover.$tip.addClass( $(e.target).attr('popside') );
             }, {'static': '0'});
         }
-    }).attr('processed', true);
+    }).attr('data-popover-processed', true);
 }
 
 /**
@@ -1788,7 +1790,7 @@ $( document ).ready(function() {
     $('body').on('click', function (e) {
         $('.tooltip.show').tooltip('hide');
 
-        if (!$(e.target).is('[popover="true"]') && !$(e.target).parents('.popover').length > 0) {
+        if (!$(e.target).parents('.popover').length > 0) {
             // avoid closing dropdowns inside popover (colorpicker, datepicker) when they are outside popover DOM
             if (!$(e.target).parents('.dropdown-menu').length > 0) {
                 $('.popover').popover('hide');

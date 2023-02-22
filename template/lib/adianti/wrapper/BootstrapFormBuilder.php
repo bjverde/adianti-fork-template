@@ -1010,7 +1010,7 @@ class BootstrapFormBuilder implements AdiantiFormInterface
             
             $field_class = $input_class . ' ' . ( isset($field->{'class'}) ? $field->{'class'} : '' );
             
-            if (trim($field_class))
+            if ($field instanceof TField && trim($field_class))
             {
                 $field->{'class'} = $field_class;
             }

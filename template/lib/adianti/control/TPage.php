@@ -17,6 +17,7 @@ use ReflectionClass;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
+#[\AllowDynamicProperties]
 class TPage extends TElement
 {
     private $body;
@@ -32,7 +33,7 @@ class TPage extends TElement
     {
         parent::__construct('div');
         $this->constructed = TRUE;
-
+        
         $this->{'page-name'} = $this->getClassName();
         $this->{'page_name'} = $this->getClassName();
     }

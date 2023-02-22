@@ -236,7 +236,7 @@ class TFullCalendar extends TElement
      */
     public static function renderPopover($title, $poptitle, $popcontent)
     {
-        return "<div popover='true' poptitle='{$poptitle}' popcontent='{$popcontent}' style='display:inline;cursor:pointer'> {$title} </div>";
+        return "<div data-popover='true' poptitle='{$poptitle}' popcontent='{$popcontent}' style='display:inline;cursor:pointer'> {$title} </div>";
     }
     
     /**
