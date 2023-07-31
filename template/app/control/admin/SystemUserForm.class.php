@@ -188,7 +188,7 @@ class SystemUserForm extends TPage
                 if( $object->password !== $param['repassword'] )
                     throw new Exception(_t('The passwords do not match'));
                 
-                $object->password = md5($object->password);
+                $object->password = SystemUser::getHashPassword( $object->password );
 
                 if ($object->id)
                 {

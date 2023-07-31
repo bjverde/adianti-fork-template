@@ -122,7 +122,7 @@ class SystemPasswordResetForm extends TPage
                 {
                     SystemUserOldPassword::validate($user->id, $param['password1']);
                     SystemUserOldPassword::register($user->id, $param['password1']);
-                    $user->password = md5($param['password1']);
+                    $user->password = SystemUser::getHashPassword( $param['password1'] );
                     $user->store();
                     
                     new TMessage('info', _t('The password has been changed'));
