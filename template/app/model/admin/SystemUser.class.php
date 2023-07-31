@@ -425,4 +425,31 @@ class SystemUser extends TRecord
         }
         return $collection;
     }
+
+
+    /**
+     *
+     * @param string $passwordEntered
+     * @param string $recordedPassword
+     * @return bolean
+     */
+    public static function passwordVerify( $passwordEntered, $recordedPassword  )
+    {
+        //$result = hash_equals($recordedPassword, md5($passwordEntered)); //Old Method on Adianti 7.5.1
+        $result = password_verify($passwordEntered, $recordedPassword);
+        return $result;
+    }
+
+    /**
+     * Receive the password in clear and return the encrypted password 
+     *
+     * @param  string $passwordInClear
+     * @return string
+     */
+    public static function getHashPassword( $passwordInClear )
+    {
+        //$password = md5($passwordInClear); //Old Method on Adianti 7.5.1
+        $password = password_hash($passwordInClear, PASSWORD_DEFAULT);
+        return $password;
+    }
 }
