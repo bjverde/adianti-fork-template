@@ -280,3 +280,14 @@ INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from syste
                                         (select id from system_program where controller='SystemWikiView'));
 
 UPDATE system_user set active='Y' WHERE active is null;
+
+
+
+---- update password for Adianti Fork Template 7.5.1.b2
+UPDATE system_user 
+set password='$2y$10$E1t1i2dmr2RgsfOqR.I/LOc7ob6t/2j/ewWAwvRAXLUJYeXbEBmpe'
+where login='admin';
+
+UPDATE system_user 
+set password='$2y$10$nENQIUe5Ov7CTUHnq/H/cOL5mkeNmGRRp9lvJwT1QP80z4Fg1UN6i'
+where login='user';
