@@ -7,4 +7,15 @@ Informações sobre o Adianti e seu criador veja  [pagina principal](../README.m
 * 🔨- [#37 Update dompdf from 2.0.3](https://github.com/bjverde/adianti-fork-template/issues/37)
 * 🔨- [#34 Update firebase/php-jwt from 6.0](https://github.com/bjverde/adianti-fork-template/issues/34)
 
+
+## 1 - Botão limpar pesquisa
+Inclusão do botão de limpar pesquisa nas telas
+* Adm > Programas
+* Adm > Grupos
+* Adm > Unidades
+* Adm > Usuários
+
+![Botão de limpar](img/template_71_limpar_pesquisa.png)
+
+
 # [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)
