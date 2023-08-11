@@ -8,7 +8,14 @@ Informações sobre o Adianti e seu criador veja  [pagina principal](../README.m
 * 🔨- [#34 Update firebase/php-jwt from 6.0](https://github.com/bjverde/adianti-fork-template/issues/34)
 
 
-## 1 - Botão limpar pesquisa
+## 1 - Alterado modo de criptografia da senha
+No Adianti Template 7.5.1 por padrão as senhas dos usuários são gravadas no banco de dados com uma criptografia MD5. Porém essa é uma pratica não recomendada. Para melhorar isso foi alterado para password_hash 
+
+Para voltar para o padrão MD5 altere 
+* SystemUser::passwordVerify descomentando a linhda MD5 e comentando password_verify
+* SystemUser::getHashPassword descomentando a linhda MD5 e comentando password_verify
+
+## 2 - Botão limpar pesquisa
 Inclusão do botão de limpar pesquisa nas telas
 * Adm > Programas
 * Adm > Grupos
@@ -16,6 +23,12 @@ Inclusão do botão de limpar pesquisa nas telas
 * Adm > Usuários
 
 ![Botão de limpar](img/template_71_limpar_pesquisa.png)
+
+## 3 - Coluna com o nome classe do Programa
+Inclusão da coluna com o nome da Classe de controle nas telas
+
+* edição de Usuários
+* edição de Grupos
 
 
 # [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)
