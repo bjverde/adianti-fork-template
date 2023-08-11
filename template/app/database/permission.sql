@@ -134,8 +134,8 @@ INSERT INTO system_program VALUES(59,'System Wiki form', 'SystemWikiForm');
 INSERT INTO system_program VALUES(60,'System Wiki search', 'SystemWikiSearchList');
 INSERT INTO system_program VALUES(61,'System Wiki view', 'SystemWikiView');
 
-INSERT INTO system_user VALUES(1,'Administrator','admin','21232f297a57a5a743894a0e4a801fc3','admin@admin.net','Y','+123 456 789','Admin Street, 123','Administrator','I''m the administrator',NULL,NULL,10,NULL,'Y');
-INSERT INTO system_user VALUES(2,'User','user','ee11cbb19052e40b07aac0ca060c23ee','user@user.net','Y','+123 456 789','User Street, 123','End user','I''m the end user',NULL,NULL,7,NULL,'Y');
+INSERT INTO system_user VALUES(1,'Administrator','admin','$2y$10$E1t1i2dmr2RgsfOqR.I/LOc7ob6t/2j/ewWAwvRAXLUJYeXbEBmpe','admin@admin.net','Y','+123 456 789','Admin Street, 123','Administrator','I''m the administrator',NULL,NULL,10,NULL,'Y');
+INSERT INTO system_user VALUES(2,'User','user','$2y$10$nENQIUe5Ov7CTUHnq/H/cOL5mkeNmGRRp9lvJwT1QP80z4Fg1UN6i','user@user.net','Y','+123 456 789','User Street, 123','End user','I''m the end user',NULL,NULL,7,NULL,'Y');
 
 INSERT INTO system_unit VALUES(1,'Unit A','unit_a');
 INSERT INTO system_unit VALUES(2,'Unit B','unit_b');
