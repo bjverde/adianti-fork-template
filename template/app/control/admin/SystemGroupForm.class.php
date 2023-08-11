@@ -47,9 +47,10 @@ class SystemGroupForm extends TPage
         $this->program_list = new TCheckList('program_list');
         $this->program_list->setIdColumn('id');
         $this->program_list->addColumn('id',    'ID',    'center',  '10%');
-        $col_name    = $this->program_list->addColumn('name', _t('Name'),    'left',   '50%');
-        $col_program = $this->program_list->addColumn('controller', _t('Menu path'),    'left',   '40%');
+        $col_name    = $this->program_list->addColumn('name', _t('Name'),    'left',   '40%');
+        $col_program = $this->program_list->addColumn('controller', _t('Menu path'),    'left',   '30%');
         $col_program->enableAutoHide(500);
+        $this->program_list->addColumn('controller', _t('Controller'), 'left', '20%');
         $this->program_list->setHeight(350);
         $this->program_list->makeScrollable();
         
