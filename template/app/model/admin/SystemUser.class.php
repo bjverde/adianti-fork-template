@@ -316,7 +316,7 @@ class SystemUser extends TRecord
     public static function authenticate($login, $password)
     {
         $user = self::newFromLogin($login);
-        if ( !self::passwordVerify($password, $user->password) );
+        if ( !self::passwordVerify($password, $user->password) )
         {
             throw new Exception(_t('Wrong password'));
         }
