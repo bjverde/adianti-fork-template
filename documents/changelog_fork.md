@@ -26,6 +26,12 @@ Inclusão da coluna com o nome da Classe de controle nas telas
 * edição de Usuários
 * edição de Grupos
 
+### 4 - Temas melhorados 
+Os temas theme3 e theme4 foram substituidos algumas melhorias
+
+* theme3 foi alterado para [theme3_v5, alterações do thema](https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstrap_theme3_v5.md)
+* theme4 foi alterado para [theme4_v5, alterações do thema](https://github.com/bjverde/adianti-theme/blob/master/documents/template/material_theme4_v5.md)
+
 ## ChangeLog por issue
 * template/.gitignore - arquivo diferente do original
 * 🔨- [#40 inclusão da coluna nome da classe](https://github.com/bjverde/adianti-fork-template/issues/40)
