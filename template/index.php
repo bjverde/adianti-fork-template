@@ -18,7 +18,7 @@ if ( TSession::getValue('logged') ){
         $content = str_replace('{MENU}', $menu, $content);
 
         //Novas linhas para Theme3_v5
-        $system_version = $ini['system']['version'];
+        $system_version = $ini['system']['system_version'];
         $head_title  = $ini['system']['head_title'].' - v'.$system_version;
         $content     = str_replace('{head_title}', $head_title, $content);
         $content     = str_replace('{system_version}', $system_version, $content);
@@ -34,7 +34,7 @@ if ( TSession::getValue('logged') ){
         $content = str_replace('{MENU}', $menu, $content);     
 
         //Novas linhas para Theme3_v5
-        $system_version = $ini['system']['version'];
+        $system_version = $ini['system']['system_version'];
         $head_title  = $ini['system']['head_title'].' - v'.$system_version;
         $content     = str_replace('{head_title}', $head_title, $content);
         $content     = str_replace('{system_version}', $system_version, $content);
@@ -45,7 +45,7 @@ if ( TSession::getValue('logged') ){
         $content = file_get_contents("app/templates/{$theme}/login.html");     
 
         //Novas linhas para Theme3_v5
-        $system_version = $ini['system']['version'];
+        $system_version = $ini['system']['system_version'];
         $head_title  = $ini['system']['head_title'].' - v'.$system_version;
         $content     = str_replace('{head_title}', $head_title, $content);
         $content     = str_replace('{login-link}', $ini['system']['login-link'], $content);
