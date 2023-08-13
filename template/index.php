@@ -9,30 +9,22 @@ $public = in_array($class, $ini['permission']['public_classes']);
 new TSession;
 ApplicationTranslator::setLanguage( TSession::getValue('user_language'), true );
 
-if ( TSession::getValue('logged') )
-{
-    if (isset($_REQUEST['template']) AND $_REQUEST['template'] == 'iframe')
-    {
+if ( TSession::getValue('logged') ){
+    if (isset($_REQUEST['template']) AND $_REQUEST['template'] == 'iframe'){
         $content = file_get_contents("app/templates/{$theme}/iframe.html");
-    }
-    else
-    {
+    } else {
         $content = file_get_contents("app/templates/{$theme}/layout.html");
         $menu    = AdiantiMenuBuilder::parse('menu.xml', $theme);
-        $content = str_replace('{MENU}', $menu, $content);
+        $content = str_replace('{MENU}', $menu, $content);      
     }
-}
-else
-{
+} else {
     if (isset($ini['general']['public_view']) && $ini['general']['public_view'] == '1')
     {
         $content = file_get_contents("app/templates/{$theme}/public.html");
         $menu    = AdiantiMenuBuilder::parse('menu-public.xml', $theme);
-        $content = str_replace('{MENU}', $menu, $content);
-    }
-    else
-    {
-        $content = file_get_contents("app/templates/{$theme}/login.html");
+        $content = str_replace('{MENU}', $menu, $content);     
+    } else {
+        $content = file_get_contents("app/templates/{$theme}/login.html");     
     }
 }
 
