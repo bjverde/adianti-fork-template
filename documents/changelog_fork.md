@@ -1,7 +1,7 @@
 # Sobre Adianti
 Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
 
-# Changelog do Fork do Template do Adianti v7.5.1b2
+# Changelog do Fork do Template do Adianti v7.5.1b3
 
 ## Principais alterações
 ### 1 - Alterado modo de criptografia da senha
@@ -34,6 +34,10 @@ Os temas theme3 e theme4 foram substituidos algumas melhorias
 
 ## ChangeLog por issue
 * template/.gitignore - arquivo diferente do original
+* :bug: - [#44 Bug AdiantiFileHashGeneratorService](https://github.com/bjverde/adianti-fork-template/issues/44)
+* 🔨- [#43 update composer](https://github.com/bjverde/adianti-fork-template/issues/43)
+* 🔨- [#42 Atualizar theme4 para theme4_v5](https://github.com/bjverde/adianti-fork-template/issues/42)
+* 🔨- [#41 Atualizar theme3 para theme3_v5](https://github.com/bjverde/adianti-fork-template/issues/41)
 * 🔨- [#40 inclusão da coluna nome da classe](https://github.com/bjverde/adianti-fork-template/issues/40)
 * 🔨- [#39 Alterar modo da senha de MD5 para password_hash](https://github.com/bjverde/adianti-fork-template/issues/39)
 * 🔨- [#38 Incluir o botão de limpar pesquisa](https://github.com/bjverde/adianti-fork-template/issues/38)
