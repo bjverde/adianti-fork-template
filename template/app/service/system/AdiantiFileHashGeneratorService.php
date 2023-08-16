@@ -58,7 +58,10 @@ class AdiantiFileHashGeneratorService
      */
     private static function generateFromFile($path)
     {
-        self::$files[ str_replace(getcwd() . '/', '', $path) ] = self::generateHash($path);
+        $search = getcwd() . DIRECTORY_SEPARATOR;
+        $result = str_replace($search,"", $path);
+        $result = str_replace('\\','/', $result); // Work on Windows
+        self::$files[ $result ] = self::generateHash($path);
     }
 
     /**
