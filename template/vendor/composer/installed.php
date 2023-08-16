@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '3000a7eb11f8e91c01775af235b6fbf71d98422b',
+        'pretty_version' => 'dev-next',
+        'version' => 'dev-next',
+        'reference' => '3a645629d529f0ef04ae8f4af74d49032572fa8f',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '3000a7eb11f8e91c01775af235b6fbf71d98422b',
+            'pretty_version' => 'dev-next',
+            'version' => 'dev-next',
+            'reference' => '3a645629d529f0ef04ae8f4af74d49032572fa8f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -69,27 +69,27 @@
             'dev_requirement' => false,
         ),
         'firebase/php-jwt' => array(
-            'pretty_version' => 'v6.5.0',
-            'version' => '6.5.0.0',
-            'reference' => 'e94e7353302b0c11ec3cfff7180cd0b1743975d2',
+            'pretty_version' => 'v6.8.1',
+            'version' => '6.8.1.0',
+            'reference' => '5dbc8959427416b8ee09a100d7a8588c00fb2e26',
             'type' => 'library',
             'install_path' => __DIR__ . '/../firebase/php-jwt',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'linfo/linfo' => array(
-            'pretty_version' => 'v4.0.7',
-            'version' => '4.0.7.0',
-            'reference' => 'b2719321a34cbbd3f87407649610d5fff3177d3f',
+            'pretty_version' => 'v4.0.8',
+            'version' => '4.0.8.0',
+            'reference' => '69c76c4613932d4a3ca36c36faebb122093522f6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../linfo/linfo',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'masterminds/html5' => array(
-            'pretty_version' => '2.8.0',
-            'version' => '2.8.0.0',
-            'reference' => '3c5d5a56d56f48a1ca08a0670f0f80c1dad368f3',
+            'pretty_version' => '2.8.1',
+            'version' => '2.8.1.0',
+            'reference' => 'f47dcf3c70c584de14f21143c55d9939631bc6cf',
             'type' => 'library',
             'install_path' => __DIR__ . '/../masterminds/html5',
             'aliases' => array(),
@@ -98,7 +98,7 @@
         'pablodalloglio/fpdf' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'e1c7233cdc7c8854aa3b134762e1d349633b602a',
+            'reference' => 'd618db8f2b8549613c3b5b31e6afd9915bda9330',
             'type' => 'library',
             'install_path' => __DIR__ . '/../pablodalloglio/fpdf',
             'aliases' => array(
@@ -109,7 +109,7 @@
         'pablodalloglio/ole' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'ba03f4bd294fe5202b3e18092c1a79e67a8024ec',
+            'reference' => '7f363227708424cdc6ff9ca4764f59895b4b27a8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../pablodalloglio/ole',
             'aliases' => array(
@@ -120,7 +120,7 @@
         'pablodalloglio/spreadsheet_excel_writer' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'c7ad7feeb4fb5586fd3d35ab812ace1f1168e9ef',
+            'reference' => '21022df9029a58f2f812bfcb1879a1f83678d571',
             'type' => 'library',
             'install_path' => __DIR__ . '/../pablodalloglio/spreadsheet_excel_writer',
             'aliases' => array(
@@ -165,9 +165,9 @@
             'dev_requirement' => false,
         ),
         'picqer/php-barcode-generator' => array(
-            'pretty_version' => 'v2.2.4',
-            'version' => '2.2.4.0',
-            'reference' => 'b98f110cc5a79f723688fb17fd90b9325300d844',
+            'pretty_version' => 'v2.3.3',
+            'version' => '2.3.3.0',
+            'reference' => '10d3507e902058c62493fef0b9569d04634b1c8f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../picqer/php-barcode-generator',
             'aliases' => array(),
