@@ -50,7 +50,8 @@ class SystemUser extends TRecord
      */
     public function get_phone_trim()
     {
-        return preg_replace("/[^0-9]/", '', $this->phone );
+        $result = empty($this->phone)?null:preg_replace("/[^0-9]/", '', $this->phone );
+        return $result;
     }
     
     /**
