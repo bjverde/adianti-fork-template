@@ -120,8 +120,8 @@ Template.updateDebugPanel = function() {
 Template.onAfterLoad = function(url, data) {
     Template.updateDebugPanel();
     
-    let view_width     = $( document ).width() >= 800 ? 780 : ($( document ).width());
-    let curtain_offset = $( document ).width() >= 800 ? 20  : 0;
+    let view_width     = $( window ).width() >= 800 ? 780 : ($( window ).width());
+    let curtain_offset = $( window ).width() >= 800 ? 20  : 0;
     
     let url_container = url.match('target_container=([0-z-]*)');
     let dom_container = data.match('adianti_target_container\\s?=\\s?"([0-z-]*)"');
