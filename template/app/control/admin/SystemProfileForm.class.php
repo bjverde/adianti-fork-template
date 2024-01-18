@@ -2,12 +2,12 @@
 /**
  * SystemProfileForm
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemProfileForm extends TPage
 {
@@ -63,6 +63,9 @@ class SystemProfileForm extends TPage
         parent::add($this->form);
     }
     
+    /**
+     * edit
+     */
     public function onEdit($param)
     {
         try
@@ -78,10 +81,15 @@ class SystemProfileForm extends TPage
         }
     }
     
+    /**
+     * save
+     */
     public function onSave($param)
     {
         try
         {
+            $ini  = AdiantiApplicationConfig::get();
+            
             $this->form->validate();
             
             $object = $this->form->getData();
@@ -96,12 +104,17 @@ class SystemProfileForm extends TPage
             
             if( $object->password1 )
             {
+                if (isset($ini['general']['validate_strong_pass']) && $ini['general']['validate_strong_pass'] == '1')
+                {
+                    (new TStrongPasswordValidator)->validate(_t('Password'), $object->password1);
+                }
+                
                 if( $object->password1 != $object->password2 )
                 {
                     throw new Exception(_t('The passwords do not match'));
                 }
                 
-                $user->password = SystemUser::getHashPassword( $object->password1 );
+                $user->password = SystemUser::passwordHash($object->password1);
             }
             else
             {

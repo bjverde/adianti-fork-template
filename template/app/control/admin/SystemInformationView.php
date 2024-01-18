@@ -1,6 +1,17 @@
 <?php
 use Linfo\Linfo;
 
+/**
+ * SystemInformationView
+ *
+ * @version    7.6
+ * @package    control
+ * @subpackage admin
+ * @author     Pablo Dall'Oglio
+ * @author     Artur Comunello
+ * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
+ * @license    https://adiantiframework.com.br/license-template
+ */
 class SystemInformationView extends TPage
 {
     private $info;

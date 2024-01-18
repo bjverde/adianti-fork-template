@@ -8,13 +8,13 @@ use Adianti\Widget\Form\TLabel;
 /**
  * SystemPasswordRenewalForm
  *
- * @version    7.5
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Lucas Tomasi
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemPasswordRenewalForm extends TPage
 {
@@ -77,6 +77,8 @@ class SystemPasswordRenewalForm extends TPage
     {
         try
         {
+            $ini = AdiantiApplicationConfig::get();
+            
             if (empty($param['password1']))
             {
                 throw new Exception('Senha vazia');
@@ -85,6 +87,11 @@ class SystemPasswordRenewalForm extends TPage
             if( $param['password1'] !== $param['password2'] )
             {
                 throw new Exception(_t('The passwords do not match'));
+            }
+            
+            if (isset($ini['general']['validate_strong_pass']) && $ini['general']['validate_strong_pass'] == '1')
+            {
+                (new TStrongPasswordValidator)->validate(_t('Password'), $param['password1']);
             }
             
             if (! TSession::getValue('need_renewal_password'))
@@ -105,7 +112,7 @@ class SystemPasswordRenewalForm extends TPage
                 {
                     SystemUserOldPassword::validate($user->id, $param['password1']);
                     SystemUserOldPassword::register($user->id, $param['password1']);
-                    $user->password = SystemUser::getHashPassword( $param['password1'] );
+                    $user->password = SystemUser::passwordHash($param['password1']);
                     $user->store();
                     
                     TSession::clear();

@@ -2,12 +2,12 @@
 /**
  * SystemGroupForm
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemGroupForm extends TPage
 {
@@ -23,17 +23,20 @@ class SystemGroupForm extends TPage
     {
         parent::__construct();
         
+        parent::setTargetContainer('adianti_right_panel');
+        
         // creates the form
         $this->form = new BootstrapFormBuilder('form_System_group');
         $this->form->setFormTitle( _t('Group') );
-
+        $this->form->enableClientValidation();
+        
         // create the form fields
         $id   = new TEntry('id');
         $name = new TEntry('name');
         
         // define the sizes
         $id->setSize('30%');
-        $name->setSize('70%');
+        $name->setSize('100%');
 
         // validations
         $name->addValidation('name', new TRequiredValidator);
@@ -47,10 +50,9 @@ class SystemGroupForm extends TPage
         $this->program_list = new TCheckList('program_list');
         $this->program_list->setIdColumn('id');
         $this->program_list->addColumn('id',    'ID',    'center',  '10%');
-        $col_name    = $this->program_list->addColumn('name', _t('Name'),    'left',   '40%');
-        $col_program = $this->program_list->addColumn('controller', _t('Menu path'),    'left',   '30%');
+        $col_name    = $this->program_list->addColumn('name', _t('Name'),    'left',   '50%');
+        $col_program = $this->program_list->addColumn('controller', _t('Menu path'),    'left',   '40%');
         $col_program->enableAutoHide(500);
-        $this->program_list->addColumn('controller', _t('Controller'), 'left', '20%');
         $this->program_list->setHeight(350);
         $this->program_list->makeScrollable();
         
@@ -101,11 +103,13 @@ class SystemGroupForm extends TPage
         $btn->class = 'btn btn-sm btn-primary';
         
         $this->form->addActionLink( _t('Clear'), new TAction(array($this, 'onEdit')),  'fa:eraser red' );
-        $this->form->addActionLink( _t('Back'), new TAction(array('SystemGroupList','onReload')),  'far:arrow-alt-circle-left blue' );
+        //$this->form->addActionLink( _t('Back'), new TAction(array('SystemGroupList','onReload')),  'far:arrow-alt-circle-left blue' );
+        
+        $this->form->addHeaderActionLink(_t('Close'), new TAction([$this, 'onClose']), 'fa:times red');
         
         $container = new TVBox;
         $container->style = 'width:100%';
-        $container->add(new TXMLBreadCrumb('menu.xml', 'SystemGroupList'));
+        // $container->add(new TXMLBreadCrumb('menu.xml', 'SystemGroupList'));
         $container->add($this->form);
         
         // add the form to the page
@@ -153,7 +157,9 @@ class SystemGroupForm extends TPage
             TForm::sendData('form_System_group', $data);
             
             TTransaction::close(); // close the transaction
-            new TMessage('info', _t('Record saved')); // shows the success message
+            
+            $pos_action = new TAction(['SystemGroupList', 'onReload']);
+            new TMessage('info', _t('Record saved'), $pos_action); // shows the success message
         }
         catch (Exception $e) // in case of exception
         {
@@ -214,5 +220,13 @@ class SystemGroupForm extends TPage
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }
+    }
+    
+    /**
+     * on close
+     */
+    public static function onClose($param)
+    {
+        TScript::create("Template.closeRightPanel()");
     }
 }

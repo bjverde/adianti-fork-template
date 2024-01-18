@@ -2,12 +2,12 @@
 /**
  * LoginForm
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class LoginForm extends TPage
 {
@@ -153,6 +153,8 @@ class LoginForm extends TPage
         
         try
         {
+            TSession::regenerate();
+            
             $data = (object) $param;
             
             (new TRequiredValidator)->validate( _t('Login'),    $data->login);
@@ -167,51 +169,35 @@ class LoginForm extends TPage
             {
                 throw new Exception(_t('You need read and agree to the terms of use and privacy policy'));
             }
-
-            TSession::regenerate();
-
-            TScript::create("__adianti_clear_tabs()");
-
-            $user = ApplicationAuthenticationService::authenticate( $data->login, $data->password );
-            $term_policy = SystemPreference::findInTransaction('permission', 'term_policy');
-
-            if (!empty($ini['general']['require_terms']) && $ini['general']['require_terms'] == '1' && $user->accepted_term_policy !== 'Y' && !empty($term_policy) && empty($data->accept))
-            {
-                TSession::freeSession();
-                $param['usage_term_policy'] = 'Y';
-                $action = new TAction(['LoginForm', 'onLogin'], $param);
-                $form = new BootstrapFormBuilder('term_policy');
-
-                $content = new TElement('div');
-                $content->style = "max-height: 45vh; overflow: auto; margin-bottom: 10px;";
-                $content->add($term_policy->value);
-
-                $check = new TCheckGroup('accept');
-                $check->addItems(['Y' => _t('I have read and agree to the terms of use and privacy policy')]);
-
-                $form->addContent([$content]);
-                $form->addFields([$check]);
-                $form->addAction( _t('Accept'), $action, 'fas:check');
-
-                return new TInputDialog(_t('Terms of use and privacy policy'), $form);
-            }
             
-            if (!empty($ini['general']['require_terms']) && $ini['general']['require_terms'] == '1' && $user->accepted_term_policy !== 'Y' && !empty($term_policy) && !empty($data->accept))
+            $user = ApplicationAuthenticationService::authenticate( $data->login, $data->password, false );
+            
+            if ($user)
             {
-                TTransaction::open('permission');
-                $user->accepted_term_policy = 'Y';
-                $user->accepted_term_policy_at = date('Y-m-d H:i:s');
-                $user->accepted_term_policy_data = json_encode($_SERVER);
-                $user->store();
-                TTransaction::close();
-            }
-
-            if ($user && TSession::getValue('need_renewal_password'))
-            {
-                AdiantiCoreApplication::gotoPage('SystemPasswordRenewalForm');
-            }
-            else if ($user)
-            {
+                if ( ($form = self::policyTermsVerification($user, $param)) instanceof BootstrapFormBuilder)
+                {
+                    new TInputDialog(_t('Terms of use and privacy policy'), $form);
+                    return;
+                }
+                
+                if ( ($form = self::checkTwoFactor($user, $param)) instanceof BootstrapFormBuilder)
+                {
+                    new TInputDialog(_t('Two factor authentication'), $form);
+                    return;
+                }
+                
+                if (!empty($ini['general']['use_tabs']) && $ini['general']['use_tabs'] == '1')
+                {
+                    TScript::create("__adianti_clear_tabs()");
+                }
+                
+                if (self::checkForPasswordRenew($user))
+                {
+                    AdiantiCoreApplication::gotoPage('SystemPasswordRenewalForm');
+                    return;
+                }
+                
+                ApplicationAuthenticationService::loadSessionVars($user, true);
                 ApplicationAuthenticationService::setUnit( $data->unit_id ?? null );
                 ApplicationAuthenticationService::setLang( $data->lang_id ?? null );
                 SystemAccessLogService::registerLogin();
@@ -240,6 +226,101 @@ class LoginForm extends TPage
             new TMessage('error',$e->getMessage());
             sleep(2);
             TTransaction::rollback();
+        }
+    }
+    
+    /**
+     * Check if password needs to be renewed
+     */
+    public static function checkForPasswordRenew($user)
+    {
+        TTransaction::open('permission');
+        if (SystemUserOldPassword::needRenewal($user->id))
+        {
+            TSession::setValue('login', $user->login);
+            TSession::setValue('userid', $user->id);
+            TSession::setValue('need_renewal_password', true);
+            
+            return true;
+        }
+        TTransaction::close();
+    }
+    
+    /**
+     * Check 2FA
+     */
+    public static function checkTwoFactor($user, $param)
+    {
+        if (!empty($user->otp_secret))
+        {
+            if (!empty($param['two_factor']))
+            {
+                $otp = \OTPHP\TOTP::create($user->otp_secret);
+                if ($otp->verify($param['two_factor']))
+                {
+                    return true;
+                }
+            }
+            
+            $action = new TAction(['LoginForm', 'onLogin'], $param);
+            $form = new BootstrapFormBuilder('two_factor_form');
+            
+            $two_factor = new TPassword('two_factor');
+            $two_factor->style = 'height: 40px;';
+            $two_factor->placeholder = _t('Authentication code');
+            
+            $form->addContent( [ new TLabel(_t('Enter the 6-digit code from your authenticator app')) ] );
+            $form->addFields([$two_factor]);
+            $form->addFields([new TEntry('lock_enter')])->style = 'display:none';;
+            
+            $btn = $form->addAction( _t('Authenticate'), $action, '');
+            $btn->class = 'btn btn-primary';
+            $btn->style = 'height: 40px;width: 90%;display: block;margin: auto;font-size: 17px;';
+            
+            return $form;
+        }
+    }
+    
+    /**
+     * Policy terms verification
+     */
+    private static function policyTermsVerification($user, $param)
+    {
+        $ini  = AdiantiApplicationConfig::get();
+        
+        $term_policy = SystemPreference::findInTransaction('permission', 'term_policy');
+        
+        if (!empty($ini['general']['require_terms']) && $ini['general']['require_terms'] == '1')
+        {
+            if ($user->accepted_term_policy !== 'Y' && !empty($term_policy) && empty($param['accept']))
+            {
+                $param['usage_term_policy'] = 'Y';
+                $action = new TAction(['LoginForm', 'onLogin'], $param);
+                $form = new BootstrapFormBuilder('term_policy');
+    
+                $content = new TElement('div');
+                $content->style = "max-height: 45vh; overflow: auto; margin-bottom: 10px;";
+                $content->add($term_policy->value);
+    
+                $check = new TCheckGroup('accept');
+                $check->addItems(['Y' => _t('I have read and agree to the terms of use and privacy policy')]);
+    
+                $form->addContent([$content]);
+                $form->addFields([$check]);
+                $form->addAction( _t('Accept'), $action, 'fas:check');
+                
+                return $form;
+            }
+            
+            if ($user->accepted_term_policy !== 'Y' && !empty($term_policy) && !empty($param['accept']))
+            {
+                TTransaction::open('permission');
+                $user->accepted_term_policy = 'Y';
+                $user->accepted_term_policy_at = date('Y-m-d H:i:s');
+                $user->accepted_term_policy_data = json_encode($_SERVER);
+                $user->store();
+                TTransaction::close();
+            }
         }
     }
     

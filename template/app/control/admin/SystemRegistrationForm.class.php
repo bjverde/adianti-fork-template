@@ -2,12 +2,12 @@
 /**
  * SystemRegistrationForm
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemRegistrationForm extends TPage
 {
@@ -18,7 +18,7 @@ class SystemRegistrationForm extends TPage
      * Class constructor
      * Creates the page and the registration form
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         
@@ -83,6 +83,7 @@ class SystemRegistrationForm extends TPage
         try
         {
             $ini = AdiantiApplicationConfig::get();
+            
             if ($ini['permission']['user_register'] !== '1')
             {
                 throw new Exception( _t('The user registration is disabled') );
@@ -116,6 +117,11 @@ class SystemRegistrationForm extends TPage
                 throw new Exception(TAdiantiCoreTranslator::translate('The field ^1 is required', _t('Password confirmation')));
             }
             
+            if (isset($ini['general']['validate_strong_pass']) && $ini['general']['validate_strong_pass'] == '1')
+            {
+                (new TStrongPasswordValidator)->validate(_t('Password'), $param['password']);
+            }
+            
             if (SystemUser::newFromLogin($param['login']) instanceof SystemUser)
             {
                 throw new Exception(_t('An user with this login is already registered'));
@@ -134,7 +140,7 @@ class SystemRegistrationForm extends TPage
             $object = new SystemUser;
             $object->active = 'Y';
             $object->fromArray( $param );
-            $object->password = SystemUser::getHashPassword( $object->password );
+            $object->password = SystemUser::passwordHash($object->password);
             $object->frontpage_id = $ini['permission']['default_screen'];
             $object->clearParts();
             $object->store();
