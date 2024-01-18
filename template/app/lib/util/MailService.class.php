@@ -2,11 +2,11 @@
 /**
  * Mail Service
  *
- * @version    7.0
+ * @version    7.6
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class MailService
 {
@@ -24,8 +24,13 @@ class MailService
         $preferences = SystemPreference::getAllPreferences();
         TTransaction::close();
         
+        if (empty($preferences['mail_from']))
+        {
+            throw new Exception('No e-mail sender configured');
+        }
+        
         $mail = new TMail;
-        $mail->setFrom( trim($preferences['mail_from']), APPLICATION_NAME );
+        $mail->setFrom( (string) trim($preferences['mail_from']), APPLICATION_NAME );
         
         if (is_string($tos))
         {
