@@ -2,12 +2,12 @@
 /**
  * SystemDocument
  *
- * @version    1.0
+ * @version    7.6
  * @package    model
  * @subpackage communication
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemDocument extends TRecord
 {

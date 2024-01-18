@@ -2,16 +2,16 @@
 /**
  * SystemUser
  *
- * @version    1.0
+ * @version    7.6
  * @package    model
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemUser extends TRecord
 {
-    const TABLENAME = 'system_user';
+    const TABLENAME = 'system_users';
     const PRIMARYKEY= 'id';
     const IDPOLICY =  'max'; // {max, serial}
     
@@ -19,9 +19,10 @@ class SystemUser extends TRecord
     
     private $frontpage;
     private $unit;
-    private $system_user_groups = array();
-    private $system_user_programs = array();
-    private $system_user_units = array();
+    private $system_user_groups = [];
+    private $system_user_programs = [];
+    private $system_user_units = [];
+    private $system_user_roles = [];
 
     /**
      * Constructor method
@@ -43,6 +44,8 @@ class SystemUser extends TRecord
         parent::addAttribute('accepted_term_policy');
         parent::addAttribute('accepted_term_policy_at');
         parent::addAttribute('accepted_term_policy_data');
+        parent::addAttribute('custom_code');
+        parent::addAttribute('otp_secret');
     }
     
     /**
@@ -50,7 +53,7 @@ class SystemUser extends TRecord
      */
     public function get_phone_trim()
     {
-        return preg_replace("/[^0-9]/", '', $this->phone );
+        return preg_replace("/[^0-9]/", '', (string) $this->phone );
     }
     
     /**
@@ -61,6 +64,7 @@ class SystemUser extends TRecord
         $groups   = $this->getSystemUserGroups();
         $units    = $this->getSystemUserUnits();
         $programs = $this->getSystemUserPrograms();
+        $roles    = $this->getSystemUserRoles();
         
         unset($this->id);
         $this->name .= ' (clone)';
@@ -87,6 +91,14 @@ class SystemUser extends TRecord
             foreach ($programs as $program)
             {
                 $this->addSystemUserProgram( $program );
+            }
+        }
+        
+        if ($roles)
+        {
+            foreach ($roles as $role)
+            {
+                $this->addSystemUserRole( $role );
             }
         }
     }
@@ -155,6 +167,18 @@ class SystemUser extends TRecord
     }
     
     /**
+     * Add a Role to the user
+     * @param $object Instance of SystemRole
+     */
+    public function addSystemUserRole(SystemRole $systemrole)
+    {
+        $object = new SystemUserRole;
+        $object->system_role_id = $systemrole->id;
+        $object->system_user_id = $this->id;
+        $object->store();
+    }
+    
+    /**
      * Return the user' group's
      * @return Collection of SystemGroup
      */
@@ -170,6 +194,15 @@ class SystemUser extends TRecord
     public function getSystemUserUnits()
     {
         return parent::loadAggregate('SystemUnit', 'SystemUserUnit', 'system_user_id', 'system_unit_id', $this->id);
+    }
+    
+    /**
+     * Return the user' role's
+     * @return Collection of SystemRole
+     */
+    public function getSystemUserRoles()
+    {
+        return parent::loadAggregate('SystemRole', 'SystemUserRole', 'system_user_id', 'system_role_id', $this->id);
     }
     
     /**
@@ -217,6 +250,29 @@ class SystemUser extends TRecord
     }
     
     /**
+     * Get user role ids
+     */
+    public function getSystemUserRoleIds( $as_string = false )
+    {
+        $roleids = array();
+        $roles = $this->getSystemUserRoles();
+        if ($roles)
+        {
+            foreach ($roles as $role)
+            {
+                $roleids[] = $role->id;
+            }
+        }
+        
+        if ($as_string)
+        {
+            return implode(',', $roleids);
+        }
+        
+        return $roleids;
+    }
+    
+    /**
      * Get user unit ids
      */
     public function getSystemUserUnitIds( $as_string = false )
@@ -258,6 +314,29 @@ class SystemUser extends TRecord
     }
     
     /**
+     * Get user role codes
+     */
+    public function getSystemUserRoleCodes( $as_string = false )
+    {
+        $roleids = array();
+        $roles = $this->getSystemUserRoles();
+        if ($roles)
+        {
+            foreach ($roles as $role)
+            {
+                $roleids[] = $role->custom_code;
+            }
+        }
+        
+        if ($as_string)
+        {
+            return implode(',', $roleids);
+        }
+        
+        return $roleids;
+    }
+    
+    /**
      * Reset aggregates
      */
     public function clearParts()
@@ -265,6 +344,7 @@ class SystemUser extends TRecord
         SystemUserGroup::where('system_user_id', '=', $this->id)->delete();
         SystemUserUnit::where('system_user_id', '=', $this->id)->delete();
         SystemUserProgram::where('system_user_id', '=', $this->id)->delete();
+        SystemUserRole::where('system_user_id', '=', $this->id)->delete();
     }
     
     /**
@@ -279,6 +359,8 @@ class SystemUser extends TRecord
         SystemUserGroup::where('system_user_id', '=', $id)->delete();
         SystemUserUnit::where('system_user_id', '=', $id)->delete();
         SystemUserProgram::where('system_user_id', '=', $id)->delete();
+        SystemUserRole::where('system_user_id', '=', $id)->delete();
+        SystemUserOldPassword::where('system_user_id', '=', $id)->delete();
         
         // delete the object itself
         parent::delete($id);
@@ -301,27 +383,55 @@ class SystemUser extends TRecord
         }
         else
         {
-            throw new Exception(_t('User not found'));
+            throw new Exception(_t('User not found or wrong password'));
         }
         
         return $user;
     }
     
     /**
+     * Hash the user password
+     */
+    public static function passwordHash($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+    
+    /**
      * Authenticate the user
      * @param $login String with user login
      * @param $password String with user password
-     * @returns TRUE if the password matches, otherwise throw Exception
+     * @returns SystemUser if the password matches, otherwise throw Exception
      */
     public static function authenticate($login, $password)
     {
         $user = self::newFromLogin($login);
-        if ( !self::passwordVerify($password, $user->password) )
+        
+        if (substr($user->password, 0, 1) == "$")
         {
-            throw new Exception(_t('Wrong password'));
+            // password_hash generated
+            if (password_verify($password, $user->password) )
+            {
+                if (password_needs_rehash($user->password, PASSWORD_DEFAULT))
+                {
+                    $user->password = self::passwordHash($password);
+                    $user->store();
+                }
+                return $user;
+            }
+        }
+        else
+        {
+            // OLD MD5 support and conversion
+            if (hash_equals($user->password, md5($password)))
+            {
+                $user->password = self::passwordHash($password);
+                $user->store();
+                return $user;
+            }
         }
         
-        return $user;
+        throw new Exception(_t('User not found or wrong password'));
     }
     
     /**
@@ -343,26 +453,74 @@ class SystemUser extends TRecord
     }
     
     /**
+     * Returns a list of user's SystemProgram collection
+     */
+    public function getAllPrograms()
+    {
+        $programs = [];
+        
+        foreach( $this->getSystemUserGroups() as $group )
+        {
+            foreach( $group->getSystemPrograms() as $program )
+            {
+                $programs[] = $program;
+            }
+        }
+                
+        foreach( $this->getSystemUserPrograms() as $program )
+        {
+            $programs[] = $program;
+        }
+        
+        return $programs;
+    }
+    
+    /**
      * Return the programs the user has permission to run
      */
     public function getPrograms()
     {
-        $programs = array();
+        $programs = $this->getAllPrograms();
+        $filtered_programs = [];
         
-        foreach( $this->getSystemUserGroups() as $group )
+        foreach ($programs as $program)
         {
-            foreach( $group->getSystemPrograms() as $prog )
+            $filtered_programs[$program->controller] = true;
+        }
+        
+        return $filtered_programs;
+    }
+    
+    /**
+     * Return the programs the user has permission to run
+     */
+    public function getMethods()
+    {
+        $user_roles = $this->getSystemUserRoleIds();
+        $programs   = $this->getAllPrograms();
+        $filtered_methods = [];
+        
+        foreach ($programs as $program)
+        {
+            $filtered_methods[$program->controller] = [];
+            
+            $methods = $program->getSystemMethodRoles();
+            
+            foreach ($methods as $method)
             {
-                $programs[$prog->controller] = true;
+                $filtered_methods[$program->controller][$method->method_name] = false;
+            }
+            
+            foreach ($methods as $method)
+            {
+                if (in_array($method->system_role_id, $user_roles)) // check user role
+                {
+                    $filtered_methods[$program->controller][$method->method_name] = true;
+                }
             }
         }
-                
-        foreach( $this->getSystemUserPrograms() as $prog )
-        {
-            $programs[$prog->controller] = true;
-        }
         
-        return $programs;
+        return $filtered_methods;
     }
     
     /**
@@ -424,32 +582,5 @@ class SystemUser extends TRecord
             }
         }
         return $collection;
-    }
-
-
-    /**
-     *
-     * @param string $passwordEntered
-     * @param string $recordedPassword
-     * @return bolean
-     */
-    public static function passwordVerify( $passwordEntered, $recordedPassword  )
-    {
-        //$result = hash_equals($recordedPassword, md5($passwordEntered)); //Old Method on Adianti 7.5.1
-        $result = password_verify($passwordEntered, $recordedPassword);
-        return $result;
-    }
-
-    /**
-     * Receive the password in clear and return the encrypted password 
-     *
-     * @param  string $passwordInClear
-     * @return string
-     */
-    public static function getHashPassword( $passwordInClear )
-    {
-        //$password = md5($passwordInClear); //Old Method on Adianti 7.5.1
-        $password = password_hash($passwordInClear, PASSWORD_DEFAULT);
-        return $password;
     }
 }

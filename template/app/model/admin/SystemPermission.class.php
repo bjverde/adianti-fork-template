@@ -2,24 +2,36 @@
 /**
  * SystemPermission
  *
- * @version    1.0
+ * @version    7.6
  * @package    model
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemPermission
 {
-    public static function checkPermission($action)
+    public static function checkPermission($class, $method = null)
     {
-        $ini    = AdiantiApplicationConfig::get();
+        $ini = AdiantiApplicationConfig::get();
         
-        $programs = TSession::getValue('programs');
         $public_classes = $ini['permission']['public_classes'];
         $public_classes[] = 'LoginForm';
         
-        return ( (isset($programs[$action]) AND $programs[$action]) OR
-                 in_array($action, $public_classes) );
+        $programs = TSession::getValue('programs');
+        $methods  = TSession::getValue('methods');
+        
+        $is_public = in_array($class, $public_classes);
+        $has_program_permission = (isset($programs[$class]) && $programs[$class]);
+        $has_method_restriction = (isset($methods[$class][$method]) && $methods[$class][$method] === false);
+        
+        if (!empty($method))
+        {
+            return ( ($has_program_permission || $is_public) && !$has_method_restriction );
+        }
+        else // just class
+        {
+            return ( $has_program_permission || $is_public );
+        }
     } 
 }

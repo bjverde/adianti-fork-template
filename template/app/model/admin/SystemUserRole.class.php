@@ -1,20 +1,19 @@
 <?php
 /**
- * SystemFolderGroup
+ * SystemUserRole
  *
  * @version    7.6
  * @package    model
- * @subpackage communication
+ * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license-template
  */
-class SystemFolderGroup extends TRecord
+class SystemUserRole extends TRecord
 {
-    const TABLENAME = 'system_folder_group';
+    const TABLENAME = 'system_user_role';
     const PRIMARYKEY= 'id';
     const IDPOLICY =  'max'; // {max, serial}
-    
     
     /**
      * Constructor method
@@ -22,7 +21,7 @@ class SystemFolderGroup extends TRecord
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('system_folder_id');
-        parent::addAttribute('system_group_id');
+        parent::addAttribute('system_user_id');
+        parent::addAttribute('system_role_id');
     }
 }
