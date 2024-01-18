@@ -74,6 +74,7 @@ class AdiantiMenuBuilder
                 return $menu_string;
                 break;
             case 'theme3':
+            case 'theme3_v5':
                 ob_start();
                 $callback = array('SystemPermission', 'checkPermission');
                 $xml = new SimpleXMLElement(file_get_contents($file));
