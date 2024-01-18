@@ -2,12 +2,12 @@
 /**
  * SystemRequestLogList
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage log
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemRequestLogList extends TStandardList
 {
@@ -69,9 +69,10 @@ class SystemRequestLogList extends TStandardList
         $sessionid = $this->datagrid->addQuickColumn('sessionid', 'session_id', 'left');
         $login = $this->datagrid->addQuickColumn(_t('Login'), 'login', 'center');
         $access_ip = $this->datagrid->addQuickColumn('IP', 'access_ip', 'center');
-        $class_name = $this->datagrid->addQuickColumn(_t('Program'), 'class_name', 'center');
+        $class_name = $this->datagrid->addQuickColumn(_t('Program'), '{class_name}{class_method_formatted}', 'center');
         $endpoint = $this->datagrid->addQuickColumn('Endpoint', 'endpoint', 'center');
         $req_method = $this->datagrid->addQuickColumn(_t('Method'), 'request_method', 'center');
+        $duration = $this->datagrid->addQuickColumn(_t('Duration') . ' (ms)', 'request_duration', 'center');
         
         $action1 = new TDataGridAction(['SystemRequestLogView', 'onLoad'],
                                        ['id'=>'{id}',
