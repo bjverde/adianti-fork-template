@@ -8,9 +8,9 @@ class SystemUserCliService
     public static function create( $request )
     {
         TTransaction::open('permission');
-        $response = array();
+        $response = [];
         
-        $request['password'] = md5($request['password']);
+        $request['password'] = SystemUser::passwordHash($request['password']);
         
         $user = new SystemUser;
         $user->fromArray($request);
