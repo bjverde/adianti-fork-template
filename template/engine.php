@@ -2,6 +2,7 @@
 require_once 'init.php';
 
 // AdiantiCoreApplication::setRouter(array('AdiantiRouteTranslator', 'translate'));
+AdiantiCoreApplication::setActionVerification(['SystemPermission', 'checkPermission']);
 
 class TApplication extends AdiantiCoreApplication
 {
@@ -15,14 +16,17 @@ class TApplication extends AdiantiCoreApplication
             $ini = AdiantiApplicationConfig::get();
             
             $class  = isset($_REQUEST['class']) ? $_REQUEST['class'] : '';
+            $method = isset($_REQUEST['method']) ? $_REQUEST['method'] : '';
             $public = in_array($class, $ini['permission']['public_classes']);
             $debug  = is_null($debug)? $ini['general']['debug'] : $debug;
+            
             if (TSession::getValue('logged')) // logged
             {
-                $programs = (array) TSession::getValue('programs'); // programs with permission
-                $programs = array_merge($programs, self::getDefaultPermissions());
-                
-                if( isset($programs[$class]) OR $public )
+                if ( SystemPermission::checkPermission($class, $method) )
+                {
+                    parent::run($debug);
+                }
+                else if (self::hasDefaultPermissions($class))
                 {
                     parent::run($debug);
                 }
@@ -32,7 +36,7 @@ class TApplication extends AdiantiCoreApplication
                     new TMessage('error', _t('Permission denied') );
                 }
             }
-            else if ($class == 'LoginForm' OR $public )
+            else if ($class == 'LoginForm' || $public )
             {
                 parent::run($debug);
             }
@@ -47,19 +51,21 @@ class TApplication extends AdiantiCoreApplication
     /**
      * Return default programs for logged users
      */
-    public static function getDefaultPermissions()
+    public static function hasDefaultPermissions($class)
     {
-        return ['Adianti\Base\TStandardSeek' => TRUE,
-                'LoginForm' => TRUE,
-                'AdiantiMultiSearchService' => TRUE,
-                'AdiantiUploaderService' => TRUE,
-                'AdiantiAutocompleteService' => TRUE,
-                'SystemDocumentUploaderService' => TRUE,
-                'EmptyPage' => TRUE,
-                'MessageList' => TRUE,
-                'NotificationList' => TRUE,
-                'SearchBox' => TRUE,
-                'SearchInputBox' => TRUE];
+        $default_permissions = ['Adianti\Base\TStandardSeek' => TRUE,
+                                'LoginForm' => TRUE,
+                                'AdiantiMultiSearchService' => TRUE,
+                                'AdiantiUploaderService' => TRUE,
+                                'AdiantiAutocompleteService' => TRUE,
+                                'SystemDocumentUploaderService' => TRUE,
+                                'EmptyPage' => TRUE,
+                                'MessageList' => TRUE,
+                                'NotificationList' => TRUE,
+                                'SearchBox' => TRUE,
+                                'SearchInputBox' => TRUE];
+        
+        return (isset($default_permissions[$class]) && $default_permissions[$class]);
     } 
 }
 
