@@ -1,5 +1,5 @@
-# adianti-template
-Fork do Tempalte do Adianti 7.6.0
+# adianti-fork-template
+Adianti Fork Template 7.6.0
 
 
 ## Perguntas frequentes
@@ -7,14 +7,14 @@ Fork do Tempalte do Adianti 7.6.0
 ### Quem criou o Template com Adianti Framework ?
 Foi criado por ***Pablo Dall'Oglio***, esse projeto tem um Fork do template com algumas modificações para melhorar seu uso e devolver para a comunidade.
 
-### Qual é o site da versão oficial ?
-https://www.adianti.com.br/
+## Qual é o site da versão oficial ?
+https://adiantiframework.com.br/
 
-### Qual é a licença do Adianti Framework ?
-https://www.adianti.com.br/framework-license
+## Qual é a licença do Adianti Framework 7.6.0 ?
+[Licença](framework/LICENSE) ou veja no site https://adiantiframework.com.br/license
 
-### Tem um documentação de uso ?
-https://www.adianti.com.br/framework-quickstart
+## Tem um documentação de uso ?
+https://adiantiframework.com.br/guia-rapido
 
 ### O que tem em cada pasta ?
 * template  - é o fork 
