@@ -1,11 +1,11 @@
 # Sobre Adianti
 Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
 
-# Changelog do Fork do Template do Adianti v7.6.0
+# Changelog do Fork do Template do Adianti v7.5.1b3
 
 ## Principais alterações
 ### 1 - Alterado modo de criptografia da senha
-No Adianti Template 7.6.0 por padrão as senhas dos usuários são gravadas no banco de dados com uma criptografia MD5. Porém essa é uma pratica não recomendada. Para melhorar isso foi alterado para password_hash 
+No Adianti Template 7.5.1 por padrão as senhas dos usuários são gravadas no banco de dados com uma criptografia MD5. Porém essa é uma pratica não recomendada. Para melhorar isso foi alterado para password_hash 
 
 Para voltar para o padrão MD5 altere 
 * SystemUser::passwordVerify descomentando a linhda MD5 e comentando password_verify
@@ -44,6 +44,5 @@ Os temas theme3 e theme4 foram substituidos algumas melhorias
 * 🔨- [#37 Update dompdf from 2.0.3](https://github.com/bjverde/adianti-fork-template/issues/37)
 * 🔨- [#34 Update firebase/php-jwt from 6.0](https://github.com/bjverde/adianti-fork-template/issues/34)
 
-# ChangeLog versões antigas
-* [Changelog do Fork do Template do Adianti v7.5.1](changelog_fork_v7.7.1.md)
-* [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)
+
+# [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)
