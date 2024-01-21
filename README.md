@@ -11,7 +11,7 @@ Foi criado por ***Pablo Dall'Oglio***, esse projeto tem um Fork do template com 
 https://adiantiframework.com.br/
 
 ## Qual é a licença do Adianti Framework 7.6.0 ?
-[Licença](framework/LICENSE) ou veja no site https://adiantiframework.com.br/license
+[Licença](template/LICENSE) ou veja no site https://adiantiframework.com.br/license
 
 ## Tem um documentação de uso ?
 https://adiantiframework.com.br/guia-rapido
