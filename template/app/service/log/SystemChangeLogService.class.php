@@ -2,19 +2,19 @@
 /**
  * SystemChangeLogService
  *
- * @version    1.0
+ * @version    7.6
  * @package    service
  * @subpackage log
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemChangeLogService
 {
     /**
      * Register a change log
      */
-    public static function register($activeRecord, $lastState, $currentState)
+    public static function register($activeRecord, $lastState, $currentState, $operation = null)
     {
         $table = $activeRecord->getEntity();
         $pk    = $activeRecord->getPrimaryKey();
@@ -37,7 +37,7 @@ class SystemChangeLogService
         
         foreach ($lastState as $key => $value)
         {
-            if (!in_array($key, array_keys($currentState)) && !in_array($key, [$created_col, $updated_col, $deleted_col]) && ( (string) $value !== ''))
+            if (!in_array($key, array_keys($currentState)) && !in_array($key, [$created_col, $updated_col, $deleted_col]) && ( (string) $value !== '') && ($operation == 'delete'))
             {
                 // deleted
                 $log = new SystemChangeLog;

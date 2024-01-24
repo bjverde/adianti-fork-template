@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" type="image/png" href="app/templates/{template}/img/favicon.png"/>
     <title>{head_title}</title>
-    <link rel="manifest" href="manifest.json?appver=750">
+    <link rel="manifest" href="manifest.json?appver=760">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link rel="apple-touch-icon" sizes="180x180" href="app/images/icon.png">
@@ -15,19 +15,18 @@
     {LIBRARIES}
     {HEAD}
     
-    <script src="app/lib/include/admin-all.min.js?appver=750" type="text/javascript"></script>
-    <link href="app/lib/include/admin.min.css?appver=750" rel="stylesheet" type="text/css" media="screen">
+    <script src="app/lib/include/admin-all.min.js?appver=760" type="text/javascript"></script>
+    <link href="app/lib/include/admin.min.css?appver=760" rel="stylesheet" type="text/css" media="screen">
 
     <link href="app/templates/{template}/css/AdminLTE.min.css" rel="stylesheet" type="text/css" media="screen">
     <link href="app/templates/{template}/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" media="screen">
-    <link href="app/templates/{template}/css/fonts/MaterialIcons/material-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="app/templates/{template}/css/theme3_v5.css" rel="stylesheet">
 
     <script>
         // set name application
         __adianti_set_name('{application}');
-
-        // Init template tabs
-        __adianti_init_tabs({use_tabs}, {store_tabs}, {use_mdi_windows});
 
         function update_messages_menu() {
             $.get('engine.php?class=MessageList&theme=theme3', function(data) {
@@ -114,14 +113,14 @@
                     <img src="app/images/photos/{login}.jpg" onError="this.onerror=null;this.src='app/templates/{template}/img/avatar5.png';" style="border-radius:50%" alt="User" />
                     <p>
                       {username}<br>
-                      <a generator="adianti"  href="index.php?class=SystemProfileView&adianti_open_tab=1&adianti_tab_name=_t{Profile}" style="color:white;font-size:12px">[_t{Profile}]</a>
+                      <a generator="adianti" href="index.php?class=LoginForm&method=reloadPermissions&static=1" style="color:white;font-size:12px">_t{Reload}</a>
                     </p>
                   </li>
                   <!-- Menu Body -->
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a generator="adianti" href="index.php?class=LoginForm&method=reloadPermissions&static=1" class="btn btn-default btn-flat">_t{Reload}</a>
+                      <a generator="adianti" href="index.php?class=SystemProfileView&adianti_open_tab=1&adianti_tab_name=_t{Profile}" class="btn btn-default btn-flat">_t{My profile}</a>
                     </div>
                     <div class="pull-right">
                       <a generator="adianti" href="index.php?class=LoginForm&method=onLogout&static=1" class="btn btn-default btn-flat">_t{Exit}</a>

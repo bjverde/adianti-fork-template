@@ -1,12 +1,13 @@
 <?php
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 class ApplicationAuthenticationService
 {
     /**
      * Authenticate user and load permissions
      */
-    public static function authenticate($login, $password)
+    public static function authenticate($login, $password, $load_session_vars = true)
     {
         $ini  = AdiantiApplicationConfig::get();
         
@@ -29,17 +30,10 @@ class ApplicationAuthenticationService
                 SystemUser::authenticate( $login, $password );
             }
 
-            if (SystemUserOldPassword::needRenewal($user->id))
-            {
-                TSession::setValue('login', $user->login);
-                TSession::setValue('userid', $user->id);
-                TSession::setValue('need_renewal_password', true);
-            }
-            else
+            if ($load_session_vars)
             {
                 self::loadSessionVars($user);
             }
-            
             
             TTransaction::close();
             
@@ -70,6 +64,7 @@ class ApplicationAuthenticationService
             
             TSession::setValue('userunitid',   $unit_id );
             TSession::setValue('userunitname', SystemUnit::findInTransaction('permission', $unit_id)->name);
+            TSession::setValue('userunitcustomcode', SystemUnit::findInTransaction('permission', $unit_id)->custom_code);
             
             if (!empty($ini['general']['multi_database']) and $ini['general']['multi_database'] == '1')
             {
@@ -95,8 +90,13 @@ class ApplicationAuthenticationService
     /**
      * Load user session variables
      */
-    public static function loadSessionVars($user)
+    public static function loadSessionVars($user, $open_transaction = false)
     {
+        if ($open_transaction)
+        {
+            TTransaction::open('permission');
+        }
+        
         $programs = $user->getPrograms();
         $programs['LoginForm'] = TRUE;
         
@@ -106,15 +106,25 @@ class ApplicationAuthenticationService
         TSession::setValue('userid', $user->id);
         TSession::setValue('usergroupids', $user->getSystemUserGroupIds());
         TSession::setValue('userunitids', $user->getSystemUserUnitIds());
+        TSession::setValue('userroleids', $user->getSystemUserRoleIds());
+        TSession::setValue('userroles', $user->getSystemUserRoleCodes());
         TSession::setValue('username', $user->name);
         TSession::setValue('usermail', $user->email);
+        TSession::setValue('usercustomcode', $user->custom_code);
         TSession::setValue('frontpage', '');
         TSession::setValue('programs',$programs);
+        TSession::setValue('methods', $user->getMethods());
         
         if (!empty($user->unit))
         {
             TSession::setValue('userunitid',$user->unit->id);
             TSession::setValue('userunitname', $user->unit->name);
+            TSession::setValue('userunitcustomcode', $user->unit->custom_code);
+        }
+        
+        if ($open_transaction)
+        {
+            TTransaction::close();
         }
     }
     
@@ -131,7 +141,7 @@ class ApplicationAuthenticationService
             throw new Exception('Application seed not defined');
         }
         
-        $token = (array) JWT::decode($token, $key, array('HS256'));
+        $token = (array) JWT::decode($token, new Key($key, 'HS256'));
         
         $login   = $token['user'];
         $userid  = $token['userid'];

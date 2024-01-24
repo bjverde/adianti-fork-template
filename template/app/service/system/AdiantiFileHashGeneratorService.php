@@ -2,12 +2,12 @@
 /**
  * AdiantiFileHashGeneratorService
  *
- * @version    1.0
+ * @version    7.6
  * @package    core
  * @author     Pablo Dall'Oglio
  * @author     Lucas Tomasi
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class AdiantiFileHashGeneratorService
 {
@@ -32,7 +32,7 @@ class AdiantiFileHashGeneratorService
      *
      * @param $dir path for encode
      */
-    private static function generateFromDir($dir)
+    private static function generateFromDir($dir, $original_path = null)
     {
         $files = scandir($dir);
     
@@ -42,11 +42,11 @@ class AdiantiFileHashGeneratorService
             
             if (!is_dir($path))
             {
-                self::generateFromFile($path);
+                self::generateFromFile($path, $original_path ?? $dir);
             }
             else if ($value != "." && $value != "..")
             {
-                self::generateFromDir($path);
+                self::generateFromDir($path, $original_path ?? $dir);
             }
         }
     }
@@ -56,12 +56,19 @@ class AdiantiFileHashGeneratorService
      *
      * @param $path path of file
      */
-    private static function generateFromFile($path)
+    private static function generateFromFile($path, $original_path = null)
     {
-        $search = getcwd() . DIRECTORY_SEPARATOR;
-        $result = str_replace($search,"", $path);
-        $result = str_replace('\\','/', $result); // Work on Windows
-        self::$files[ $result ] = self::generateHash($path);
+        $file_hash = self::generateHash($path);
+        
+        $path = str_replace(getcwd() . '/', '', $path);
+        $path = str_replace('\\', '/', $path);
+        
+        if (!empty($original_path) && (strpos($path, $original_path) !== false))
+        {
+            $path = substr($path, strpos($path, $original_path));
+        }
+        
+        self::$files[ $path ] = $file_hash;
     }
 
     /**

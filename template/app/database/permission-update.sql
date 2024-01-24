@@ -87,7 +87,7 @@ ALTER TABLE system_user add column active char(1);
 UPDATE system_user set active='Y';
 
 CREATE TABLE system_preference (
-    id text,
+    id varchar(256),
     value text
 );
 
@@ -139,7 +139,7 @@ INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_prog
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
                                         (select id from system_program where controller='SystemLogDashboard'));
                                         
-ALTER TABLE system_unit add column connection_name TEXT;
+ALTER TABLE system_unit add column connection_name varchar(256);
                                         
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Session dump','SystemSessionDumpView');
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
@@ -156,20 +156,20 @@ INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from syste
 
 --- new columns of 7.4
 ALTER TABLE system_user add column accepted_term_policy char(1);
-ALTER TABLE system_user add column accepted_term_policy_at TEXT;
+ALTER TABLE system_user add column accepted_term_policy_at varchar(256);
 UPDATE system_user set accepted_term_policy='N';
 
 --- new table/columns of 7.5
-ALTER TABLE system_user add column accepted_term_policy_data TEXT;
-ALTER TABLE system_user add column phone TEXT;
-ALTER TABLE system_user add column address TEXT;
-ALTER TABLE system_user add column about TEXT;
-ALTER TABLE system_user add column function_name TEXT;
+ALTER TABLE system_user add column accepted_term_policy_data text;
+ALTER TABLE system_user add column phone varchar(256);
+ALTER TABLE system_user add column address varchar(256);
+ALTER TABLE system_user add column about varchar(256);
+ALTER TABLE system_user add column function_name varchar(255);
 
 CREATE TABLE system_user_old_password (
     id INTEGER PRIMARY KEY NOT NULL,
     system_user_id int,
-    password TEXT,
+    password varchar(256),
     created_at date,
     FOREIGN KEY(system_user_id) REFERENCES system_user(id));
 
@@ -282,12 +282,64 @@ INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from syste
 UPDATE system_user set active='Y' WHERE active is null;
 
 
+--- changes from 7.6.0
+ALTER TABLE system_unit add column custom_code varchar(256);
+ALTER TABLE system_user add column custom_code varchar(256);
+ALTER TABLE system_user add column otp_secret varchar(256);
 
----- update password for Adianti Fork Template 7.5.1.b2
-UPDATE system_user 
-set password='$2y$10$E1t1i2dmr2RgsfOqR.I/LOc7ob6t/2j/ewWAwvRAXLUJYeXbEBmpe'
-where login='admin';
+CREATE TABLE system_role (
+    id INTEGER PRIMARY KEY NOT NULL,
+    name varchar(256),
+    custom_code varchar(256)
+);
 
-UPDATE system_user 
-set password='$2y$10$nENQIUe5Ov7CTUHnq/H/cOL5mkeNmGRRp9lvJwT1QP80z4Fg1UN6i'
-where login='user';
+CREATE TABLE system_user_role (
+    id INTEGER PRIMARY KEY NOT NULL,
+    system_user_id int,
+    system_role_id int,
+    FOREIGN KEY(system_user_id) REFERENCES system_user(id),
+    FOREIGN KEY(system_role_id) REFERENCES system_role(id)
+);
+
+CREATE TABLE system_program_method_role (
+    id INTEGER PRIMARY KEY NOT NULL,
+    system_program_id int,
+    system_role_id int,
+    method_name varchar(256),
+    FOREIGN KEY(system_program_id) REFERENCES system_program(id),
+    FOREIGN KEY(system_role_id) REFERENCES system_role(id));
+    
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Role List','SystemRoleList');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemRoleList'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Role Form','SystemRoleForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemRoleForm'));
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Profile 2FA Form','SystemProfile2FAForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemProfile2FAForm'));
+
+ALTER TABLE system_user RENAME TO system_users;
+
+CREATE INDEX sys_users_name_idx ON system_users(name);
+CREATE INDEX sys_group_name_idx ON system_group(name);
+CREATE INDEX sys_program_name_idx ON system_program(name);
+CREATE INDEX sys_program_controller_idx ON system_program(controller);
+CREATE INDEX sys_unit_name_idx ON system_unit(name);
+CREATE INDEX sys_role_name_idx ON system_role(name);
+CREATE INDEX sys_preference_id_idx ON system_preference(id);
+CREATE INDEX sys_preference_value_idx ON system_preference(value);
+CREATE INDEX sys_user_unit_user_idx ON system_user_unit(system_user_id);
+CREATE INDEX sys_user_unit_unit_idx ON system_user_unit(system_unit_id);
+CREATE INDEX sys_user_role_user_idx ON system_user_role(system_user_id);
+CREATE INDEX sys_user_role_role_idx ON system_user_role(system_role_id);
+CREATE INDEX sys_user_old_password_user_idx ON system_user_old_password(system_user_id);
+CREATE INDEX sys_program_method_role_program_idx ON system_program_method_role(system_program_id);
+CREATE INDEX sys_program_method_role_role_idx ON system_program_method_role(system_role_id);
+
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'Session vars','SystemSessionVarsView');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemSessionVarsView'));

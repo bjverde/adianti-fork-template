@@ -27,6 +27,15 @@ RewriteRule ^xhr-system-group-edit$ engine.php?class=SystemGroupForm&method=onEd
 RewriteRule ^xhr-system-group-ondelete$ engine.php?class=SystemGroupList&method=onDelete&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-system-group-delete$ engine.php?class=SystemGroupList&method=Delete&%{QUERY_STRING} [NC]
 
+RewriteRule ^system-role-list$ index.php?class=SystemRoleList&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^system-role-edit$ index.php?class=SystemRoleForm&method=onEdit&%{QUERY_STRING} [NC]
+RewriteRule ^system-role-ondelete$ index.php?class=SystemRoleList&method=onDelete&%{QUERY_STRING} [NC]
+RewriteRule ^system-role-delete$ index.php?class=SystemRoleList&method=Delete&%{QUERY_STRING} [NC]
+
+RewriteRule ^xhr-system-role-list$ engine.php?class=SystemRoleList&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-role-edit$ engine.php?class=SystemRoleForm&method=onEdit&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-role-ondelete$ engine.php?class=SystemRoleList&method=onDelete&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-role-delete$ engine.php?class=SystemRoleList&method=Delete&%{QUERY_STRING} [NC]
 
 RewriteRule ^system-unit-list$ index.php?class=SystemUnitList&method=onReload&%{QUERY_STRING} [NC]
 RewriteRule ^system-unit-edit$ index.php?class=SystemUnitForm&method=onEdit&%{QUERY_STRING} [NC]

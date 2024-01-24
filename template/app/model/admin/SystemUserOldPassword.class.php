@@ -1,15 +1,14 @@
 <?php
-
 /**
  * SystemUserOldPassword
  *
- * @version    7.5
+ * @version    7.6
  * @package    model
  * @subpackage admin
  * @author     Lucas Tomasi
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemUserOldPassword extends TRecord
 {
@@ -86,7 +85,7 @@ class SystemUserOldPassword extends TRecord
         $lastPasswords = self::where('system_user_id', '=', $userId)->load();
         $user = SystemUser::find($userId);
 
-        if (md5($newPassword) == $user->password)
+        if (md5($newPassword) == $user->password || (password_verify($newPassword, $user->password) ))
         {
             throw new Exception(_t('You have already registered this password'));
         }

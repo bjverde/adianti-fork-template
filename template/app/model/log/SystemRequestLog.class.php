@@ -1,7 +1,13 @@
 <?php
 /**
- * SystemRequestLog Active Record
- * @author  <your-name-here>
+ * SystemRequestLog
+ *
+ * @version    7.6
+ * @package    model
+ * @subpackage log
+ * @author     Pablo Dall'Oglio
+ * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemRequestLog extends TRecord
 {
@@ -25,6 +31,7 @@ class SystemRequestLog extends TRecord
         parent::addAttribute('login');
         parent::addAttribute('access_ip');
         parent::addAttribute('class_name');
+        parent::addAttribute('class_method');
         parent::addAttribute('http_host');
         parent::addAttribute('server_port');
         parent::addAttribute('request_uri');
@@ -32,6 +39,18 @@ class SystemRequestLog extends TRecord
         parent::addAttribute('query_string');
         parent::addAttribute('request_headers');
         parent::addAttribute('request_body');
+        parent::addAttribute('request_duration');
+    }
+    
+    /**
+     *
+     */
+    public function get_class_method_formatted()
+    {
+        if (!empty($this->class_method))
+        {
+            return '::' . $this->class_method . '()';
+        }
     }
 
 

@@ -5,12 +5,12 @@ use Adianti\Database\TTransaction;
 /**
  * SystemChangeLogTrait
  *
- * @version    1.0
+ * @version    7.6
  * @package    model
  * @subpackage log
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 trait SystemChangeLogTrait
 {
@@ -29,7 +29,7 @@ trait SystemChangeLogTrait
         }
         else
         {
-            SystemChangeLogService::register($this, $object, array());
+            SystemChangeLogService::register($this, $object, [], 'delete');
         }
     }
     
@@ -37,9 +37,15 @@ trait SystemChangeLogTrait
     {
         $pk = $this->getPrimaryKey();
         $this->lastState = array();
-        if (isset($object->$pk) and self::exists($object->$pk))
+        
+        if (!empty($object->$pk))
         {
-            $this->lastState = parent::load($object->$pk, TRUE)->toArray();
+            $object = parent::load($object->$pk, TRUE);
+            
+            if ($object instanceof TRecord)
+            {
+                $this->lastState = $object->toArray();
+            }
         }
     }
     

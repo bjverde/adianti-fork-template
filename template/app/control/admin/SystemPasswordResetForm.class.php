@@ -1,15 +1,16 @@
 <?php
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 /**
  * SystemPasswordResetForm
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemPasswordResetForm extends TPage
 {
@@ -19,11 +20,9 @@ class SystemPasswordResetForm extends TPage
      * Class constructor
      * Creates the page and the registration form
      */
-    function __construct($param)
+    public function __construct($param)
     {
         parent::__construct();
-        
-        $ini  = AdiantiApplicationConfig::get();
         
         $this->style = 'clear:both';
         // creates the form
@@ -92,6 +91,11 @@ class SystemPasswordResetForm extends TPage
                 throw new Exception(_t('The passwords do not match'));
             }
             
+            if (isset($ini['general']['validate_strong_pass']) && $ini['general']['validate_strong_pass'] == '1')
+            {
+                (new TStrongPasswordValidator)->validate(_t('Password'), $param['password1']);
+            }
+            
             if (empty($ini['general']['seed']) OR $ini['general']['seed'] == 's8dkld83kf73kf094')
             {
                 throw new Exception(_t('A new seed is required in the application.ini for security reasons'));
@@ -99,7 +103,7 @@ class SystemPasswordResetForm extends TPage
             
             $key = APPLICATION_NAME . $ini['general']['seed'];
             
-            $token = (array) JWT::decode($param['jwt'], $key, array('HS256'));
+            $token = (array) JWT::decode($param['jwt'], new Key($key, 'HS256'));
             
             $login = $token['user'];
             $expires = $token['expires'];
@@ -122,7 +126,7 @@ class SystemPasswordResetForm extends TPage
                 {
                     SystemUserOldPassword::validate($user->id, $param['password1']);
                     SystemUserOldPassword::register($user->id, $param['password1']);
-                    $user->password = SystemUser::getHashPassword( $param['password1'] );
+                    $user->password = SystemUser::passwordHash($param['password1']);
                     $user->store();
                     
                     new TMessage('info', _t('The password has been changed'));

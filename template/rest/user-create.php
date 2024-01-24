@@ -11,7 +11,7 @@ try
     {
         $body = ['name' => 'Pedro paulo',
                  'login' => 'pedro',
-                 'password' => md5('123'),
+                 'password' => password_hash('123', PASSWORD_DEFAULT),
                  'email' => 'pedro.paulo@teste.com',
                  'active' => '1' ];
         $location = 'http://git/template/users';

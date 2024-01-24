@@ -1,5 +1,6 @@
 <?php
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 class ApplicationAuthenticationRestService
 {
@@ -23,6 +24,6 @@ class ApplicationAuthenticationRestService
             "expires" => strtotime("+ 3 hours")
         );
         
-        return JWT::encode($token, $key);
+        return JWT::encode($token, $key, 'HS256');
     }
 }

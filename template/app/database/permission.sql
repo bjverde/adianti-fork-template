@@ -1,52 +1,69 @@
 CREATE TABLE system_group (
     id INTEGER PRIMARY KEY NOT NULL,
-    name varchar(100));
+    name varchar(256));
 
 CREATE TABLE system_program (
     id INTEGER PRIMARY KEY NOT NULL,
-    name varchar(100),
-    controller varchar(100));
+    name varchar(256),
+    controller varchar(256));
 
 CREATE TABLE system_unit (
     id INTEGER PRIMARY KEY NOT NULL,
-    name varchar(100),
-    connection_name varchar(100));
+    name varchar(256),
+    connection_name varchar(256),
+    custom_code varchar(256));
+
+CREATE TABLE system_role (
+    id INTEGER PRIMARY KEY NOT NULL,
+    name varchar(256),
+    custom_code varchar(256));
 
 CREATE TABLE system_preference (
-    id text,
+    id varchar(256),
     value text
 );
 
-CREATE TABLE system_user (
+CREATE TABLE system_users (
     id INTEGER PRIMARY KEY NOT NULL,
-    name varchar(100),
-    login varchar(100),
-    password varchar(255),
-    email varchar(100),
+    name varchar(256),
+    login varchar(256),
+    password varchar(256),
+    email varchar(256),
     accepted_term_policy char(1),
-    phone TEXT,
-    address TEXT,
-    function_name TEXT,
-    about TEXT,
-    accepted_term_policy_at TEXT,
-    accepted_term_policy_data TEXT,
-    frontpage_id int, system_unit_id int references system_unit(id), active char(1),
+    phone varchar(256),
+    address varchar(256),
+    function_name varchar(256),
+    about varchar(4096),
+    accepted_term_policy_at varchar(256),
+    accepted_term_policy_data text,
+    frontpage_id int,
+    system_unit_id int references system_unit(id),
+    active char(1),
+    custom_code varchar(256),
+    otp_secret varchar(256),
     FOREIGN KEY(frontpage_id) REFERENCES system_program(id));
     
 CREATE TABLE system_user_unit (
     id INTEGER PRIMARY KEY NOT NULL,
     system_user_id int,
     system_unit_id int,
-    FOREIGN KEY(system_user_id) REFERENCES system_user(id),
+    FOREIGN KEY(system_user_id) REFERENCES system_users(id),
     FOREIGN KEY(system_unit_id) REFERENCES system_unit(id));
 
 CREATE TABLE system_user_group (
     id INTEGER PRIMARY KEY NOT NULL,
     system_user_id int,
     system_group_id int,
-    FOREIGN KEY(system_user_id) REFERENCES system_user(id),
+    FOREIGN KEY(system_user_id) REFERENCES system_users(id),
     FOREIGN KEY(system_group_id) REFERENCES system_group(id));
-    
+
+CREATE TABLE system_user_role (
+    id INTEGER PRIMARY KEY NOT NULL,
+    system_user_id int,
+    system_role_id int,
+    FOREIGN KEY(system_user_id) REFERENCES system_users(id),
+    FOREIGN KEY(system_role_id) REFERENCES system_role(id));
+        
 CREATE TABLE system_group_program (
     id INTEGER PRIMARY KEY NOT NULL,
     system_group_id int,
@@ -58,15 +75,23 @@ CREATE TABLE system_user_program (
     id INTEGER PRIMARY KEY NOT NULL,
     system_user_id int,
     system_program_id int,
-    FOREIGN KEY(system_user_id) REFERENCES system_user(id),
+    FOREIGN KEY(system_user_id) REFERENCES system_users(id),
     FOREIGN KEY(system_program_id) REFERENCES system_program(id));
         
 CREATE TABLE system_user_old_password (
     id INTEGER PRIMARY KEY NOT NULL,
     system_user_id int,
-    password TEXT,
+    password varchar(256),
     created_at timestamp,
-    FOREIGN KEY(system_user_id) REFERENCES system_user(id));
+    FOREIGN KEY(system_user_id) REFERENCES system_users(id));
+
+CREATE TABLE system_program_method_role (
+    id INTEGER PRIMARY KEY NOT NULL,
+    system_program_id int,
+    system_role_id int,
+    method_name varchar(256),
+    FOREIGN KEY(system_program_id) REFERENCES system_program(id),
+    FOREIGN KEY(system_role_id) REFERENCES system_role(id));
 
 INSERT INTO system_group VALUES(1,'Admin');
 INSERT INTO system_group VALUES(2,'Standard');
@@ -110,7 +135,7 @@ INSERT INTO system_program VALUES(36,'System Request Log','SystemRequestLogList'
 INSERT INTO system_program VALUES(37,'System Request Log View','SystemRequestLogView');
 INSERT INTO system_program VALUES(38,'System Administration Dashboard','SystemAdministrationDashboard');
 INSERT INTO system_program VALUES(39,'System Log Dashboard','SystemLogDashboard');
-INSERT INTO system_program VALUES(40,'System Session dump','SystemSessionDumpView');
+INSERT INTO system_program VALUES(40,'System Session vars','SystemSessionVarsView');
 INSERT INTO system_program VALUES(41,'System Information','SystemInformationView');
 INSERT INTO system_program VALUES(42,'System files diff','SystemFilesDiff');
 INSERT INTO system_program VALUES(43,'System Documents','SystemDriveList');
@@ -133,12 +158,18 @@ INSERT INTO system_program VALUES(58,'System Wiki list', 'SystemWikiList');
 INSERT INTO system_program VALUES(59,'System Wiki form', 'SystemWikiForm');
 INSERT INTO system_program VALUES(60,'System Wiki search', 'SystemWikiSearchList');
 INSERT INTO system_program VALUES(61,'System Wiki view', 'SystemWikiView');
+INSERT INTO system_program VALUES(62,'System Role List', 'SystemRoleList');
+INSERT INTO system_program VALUES(63,'System Role Form', 'SystemRoleForm');
+INSERT INTO system_program VALUES(64,'System Profile 2FA Form', 'SystemProfile2FAForm');
 
-INSERT INTO system_user VALUES(1,'Administrator','admin','$2y$10$E1t1i2dmr2RgsfOqR.I/LOc7ob6t/2j/ewWAwvRAXLUJYeXbEBmpe','admin@admin.net','Y','+123 456 789','Admin Street, 123','Administrator','I''m the administrator',NULL,NULL,10,NULL,'Y');
-INSERT INTO system_user VALUES(2,'User','user','$2y$10$nENQIUe5Ov7CTUHnq/H/cOL5mkeNmGRRp9lvJwT1QP80z4Fg1UN6i','user@user.net','Y','+123 456 789','User Street, 123','End user','I''m the end user',NULL,NULL,7,NULL,'Y');
+INSERT INTO system_users VALUES(1,'Administrator','admin','$2y$10$xuR3XEc3J6tpv7myC9gPj.Ab5GacSeHSZoYUTYtOg.cEc22G.iBwa','admin@admin.net','Y','+123 456 789','Admin Street, 123','Administrator','I''m the administrator',NULL,NULL,10,NULL,'Y',NULL, NULL);
+INSERT INTO system_users VALUES(2,'User','user','$2y$10$MUYN29LOSHrCSGhrzvYG8O/PtAjbWvCubaUSTJGhVTJhm69WNFJs.','user@user.net','Y','+123 456 789','User Street, 123','End user','I''m the end user',NULL,NULL,7,NULL,'Y',NULL, NULL);
 
-INSERT INTO system_unit VALUES(1,'Unit A','unit_a');
-INSERT INTO system_unit VALUES(2,'Unit B','unit_b');
+INSERT INTO system_unit VALUES(1,'Unit A','unit_a','');
+INSERT INTO system_unit VALUES(2,'Unit B','unit_b','');
+
+INSERT INTO system_role VALUES(1,'Role A', '');
+INSERT INTO system_role VALUES(2,'Role B', '');
 
 INSERT INTO system_user_group VALUES(1,1,1);
 INSERT INTO system_user_group VALUES(2,2,2);
@@ -224,13 +255,33 @@ INSERT INTO system_group_program VALUES(70,2,49);
 INSERT INTO system_group_program VALUES(71,2,55);
 INSERT INTO system_group_program VALUES(72,2,56);
 INSERT INTO system_group_program VALUES(73,2,61);
+
+INSERT INTO system_group_program VALUES(74,1,62);
+INSERT INTO system_group_program VALUES(75,1,63);
+INSERT INTO system_group_program VALUES(76,2,64);
                                         
 INSERT INTO system_user_program VALUES(1,2,7);
 
-CREATE INDEX sys_user_program_idx ON system_user(frontpage_id);
+CREATE INDEX sys_user_program_idx ON system_users(frontpage_id);
 CREATE INDEX sys_user_group_group_idx ON system_user_group(system_group_id);
 CREATE INDEX sys_user_group_user_idx ON system_user_group(system_user_id);
 CREATE INDEX sys_group_program_program_idx ON system_group_program(system_program_id);
 CREATE INDEX sys_group_program_group_idx ON system_group_program(system_group_id);
 CREATE INDEX sys_user_program_program_idx ON system_user_program(system_program_id);
 CREATE INDEX sys_user_program_user_idx ON system_user_program(system_user_id);
+
+CREATE INDEX sys_users_name_idx ON system_users(name);
+CREATE INDEX sys_group_name_idx ON system_group(name);
+CREATE INDEX sys_program_name_idx ON system_program(name);
+CREATE INDEX sys_program_controller_idx ON system_program(controller);
+CREATE INDEX sys_unit_name_idx ON system_unit(name);
+CREATE INDEX sys_role_name_idx ON system_role(name);
+CREATE INDEX sys_preference_id_idx ON system_preference(id);
+CREATE INDEX sys_preference_value_idx ON system_preference(value);
+CREATE INDEX sys_user_unit_user_idx ON system_user_unit(system_user_id);
+CREATE INDEX sys_user_unit_unit_idx ON system_user_unit(system_unit_id);
+CREATE INDEX sys_user_role_user_idx ON system_user_role(system_user_id);
+CREATE INDEX sys_user_role_role_idx ON system_user_role(system_role_id);
+CREATE INDEX sys_user_old_password_user_idx ON system_user_old_password(system_user_id);
+CREATE INDEX sys_program_method_role_program_idx ON system_program_method_role(system_program_id);
+CREATE INDEX sys_program_method_role_role_idx ON system_program_method_role(system_role_id);

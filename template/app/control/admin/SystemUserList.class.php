@@ -2,12 +2,12 @@
 /**
  * SystemUserList
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemUserList extends TStandardList
 {
@@ -18,9 +18,6 @@ class SystemUserList extends TStandardList
     protected $deleteButton;
     protected $transformCallback;
     
-    // trait com onReload, onSearch, onDelete...
-    use Adianti\Base\AdiantiStandardListTrait;
-
     /**
      * Page constructor
      */
@@ -37,12 +34,14 @@ class SystemUserList extends TStandardList
         parent::addFilterField('name', 'like', 'name'); // filterField, operator, formField
         parent::addFilterField('email', 'like', 'email'); // filterField, operator, formField
         parent::addFilterField('active', '=', 'active'); // filterField, operator, formField
+        parent::setLimit(TSession::getValue(__CLASS__ . '_limit') ?? 10);
+        
+        parent::setAfterSearchCallback( [$this, 'onAfterSearch' ] );
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_SystemUser');
         $this->form->setFormTitle(_t('Users'));
         
-
         // create the form fields
         $id = new TEntry('id');
         $name = new TEntry('name');
@@ -58,9 +57,9 @@ class SystemUserList extends TStandardList
         $this->form->addFields( [new TLabel(_t('Active'))], [$active] );
         
         $id->setSize('30%');
-        $name->setSize('70%');
-        $email->setSize('70%');
-        $active->setSize('70%');
+        $name->setSize('100%');
+        $email->setSize('100%');
+        $active->setSize('100%');
         
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue('SystemUser_filter_data') );
@@ -68,8 +67,6 @@ class SystemUserList extends TStandardList
         // add the search form actions
         $btn = $this->form->addAction(_t('Find'), new TAction(array($this, 'onSearch')), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
-        $column_email = new TDataGridColumn('email', _t('Email'), 'left');
-        $this->form->addAction(_t('New'),  new TAction(array('SystemUserForm', 'onEdit')), 'fa:plus green');
         
         // creates a DataGrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
@@ -77,13 +74,13 @@ class SystemUserList extends TStandardList
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
         
-
         // creates the datagrid columns
         $column_id = new TDataGridColumn('id', 'Id', 'center', 50);
         $column_name = new TDataGridColumn('name', _t('Name'), 'left');
         $column_login = new TDataGridColumn('login', _t('Login'), 'left');
         $column_email = new TDataGridColumn('email', _t('Email'), 'left');
         $column_active = new TDataGridColumn('active', _t('Active'), 'center');
+        $column_2fa = new TDataGridColumn('otp_secret', '2FA', 'center');
         $column_term_policy = new TDataGridColumn('accepted_term_policy', _t('Terms of use and privacy policy'), 'center');
         
         $column_login->enableAutoHide(500);
@@ -95,12 +92,23 @@ class SystemUserList extends TStandardList
         $this->datagrid->addColumn($column_name);
         $this->datagrid->addColumn($column_login);
         $this->datagrid->addColumn($column_email);
+        $this->datagrid->addColumn($column_2fa);
         $this->datagrid->addColumn($column_active);
         
         if (!empty($ini['general']['require_terms']) && $ini['general']['require_terms'] == '1')
         {
             $this->datagrid->addColumn($column_term_policy);
         }
+        
+        $column_2fa->setTransformer( function($value, $object, $row) {
+            $class = (empty($value)) ? 'danger' : 'success';
+            $label = (empty($value)) ? _t('No') : _t('Yes');
+            $div = new TElement('span');
+            $div->class="label label-{$class}";
+            $div->style="text-shadow:none; font-size:10pt;";
+            $div->add($label);
+            return $div;
+        });
         
         $column_active->setTransformer( function($value, $object, $row) {
             $class = ($value=='N') ? 'danger' : 'success';
@@ -112,7 +120,8 @@ class SystemUserList extends TStandardList
             return $div;
         });
         
-        $column_term_policy->setTransformer( function($value, $object, $row) {
+        $column_term_policy->setTransformer( function($value, $object, $row, $cell) {
+            $cell->href = '#';
             $class = (empty($value) || $value=='N') ? 'danger' : 'success';
             $label = (empty($value) || $value=='N') ? _t('No') : _t('Yes');
             $div = new TElement('span');
@@ -165,7 +174,7 @@ class SystemUserList extends TStandardList
         $column_email->setAction($order_email);
         
         // create EDIT action
-        $action_edit = new TDataGridAction(array('SystemUserForm', 'onEdit'));
+        $action_edit = new TDataGridAction(array('SystemUserForm', 'onEdit'), ['register_state' => 'false'] );
         $action_edit->setButtonClass('btn btn-default');
         $action_edit->setLabel(_t('Edit'));
         $action_edit->setImage('far:edit blue');
@@ -206,7 +215,6 @@ class SystemUserList extends TStandardList
         
         // create the datagrid model
         $this->datagrid->createModel();
-        $this->datagrid->disableDefaultClick();
         
         // create the page navigation
         $this->pageNavigation = new TPageNavigation;
@@ -218,8 +226,22 @@ class SystemUserList extends TStandardList
         $panel->add($this->datagrid)->style = 'overflow-x:auto';
         $panel->addFooter($this->pageNavigation);
         
+        $btnf = TButton::create('find', [$this, 'onSearch'], '', 'fa:search');
+        $btnf->style= 'height: 37px; margin-right:4px;';
+        
+        $form_search = new TForm('form_search_name');
+        $form_search->style = 'float:left;display:flex';
+        $form_search->add($name, true);
+        $form_search->add($btnf, true);
+        
+        $panel->addHeaderWidget($form_search);
+        
+        $panel->addHeaderActionLink('', new TAction(['SystemUserForm', 'onEdit'], ['register_state' => 'false']), 'fa:plus');
+        $this->filter_label = $panel->addHeaderActionLink('Filtros', new TAction([$this, 'onShowCurtainFilters']), 'fa:filter');
+        
         // header actions
         $dropdown = new TDropDown(_t('Export'), 'fa:list');
+        $dropdown->style = 'height:37px';
         $dropdown->setPullSide('right');
         $dropdown->setButtonClass('btn btn-default waves-effect dropdown-toggle');
         $dropdown->addAction( _t('Save as CSV'), new TAction([$this, 'onExportCSV'], ['register_state' => 'false', 'static'=>'1']), 'fa:table fa-fw blue' );
@@ -227,14 +249,98 @@ class SystemUserList extends TStandardList
         $dropdown->addAction( _t('Save as XML'), new TAction([$this, 'onExportXML'], ['register_state' => 'false', 'static'=>'1']), 'fa:code fa-fw green' );
         $panel->addHeaderWidget( $dropdown );
         
+        // header actions
+        $dropdown = new TDropDown( TSession::getValue(__CLASS__ . '_limit') ?? '10', '');
+        $dropdown->style = 'height:37px';
+        $dropdown->setPullSide('right');
+        $dropdown->setButtonClass('btn btn-default waves-effect dropdown-toggle');
+        $dropdown->addAction( 10,   new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '10']) );
+        $dropdown->addAction( 20,   new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '20']) );
+        $dropdown->addAction( 50,   new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '50']) );
+        $dropdown->addAction( 100,  new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '100']) );
+        $dropdown->addAction( 1000, new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '1000']) );
+        $panel->addHeaderWidget( $dropdown );
+        
+        if (TSession::getValue(get_class($this).'_filter_counter') > 0)
+        {
+            $this->filter_label->class = 'btn btn-primary';
+            $this->filter_label->setLabel('Filtros ('. TSession::getValue(get_class($this).'_filter_counter').')');
+        }
+        
         // vertical box container
         $container = new TVBox;
         $container->style = 'width: 100%';
         $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
-        $container->add($this->form);
+        //$container->add($this->form);
         $container->add($panel);
         
         parent::add($container);
+    }
+    
+    /**
+     *
+     */
+    public function onAfterSearch($datagrid, $options)
+    {
+        if (TSession::getValue(get_class($this).'_filter_counter') > 0)
+        {
+            $this->filter_label->class = 'btn btn-primary';
+            $this->filter_label->setLabel('Filtros ('. TSession::getValue(get_class($this).'_filter_counter').')');
+        }
+        else
+        {
+            $this->filter_label->class = 'btn btn-default';
+            $this->filter_label->setLabel('Filtros');
+        }
+        
+        if (!empty(TSession::getValue(get_class($this).'_filter_data')))
+        {
+            $obj = new stdClass;
+            $obj->name = TSession::getValue(get_class($this).'_filter_data')->name;
+            TForm::sendData('form_search_name', $obj);
+        }
+    }
+    
+    /**
+     *
+     */
+    public static function onChangeLimit($param)
+    {
+        TSession::setValue(__CLASS__ . '_limit', $param['limit'] );
+        AdiantiCoreApplication::loadPage(__CLASS__, 'onReload');
+    }
+    
+    /**
+     *
+     */
+    public static function onShowCurtainFilters($param = null)
+    {
+        try
+        {
+            // create empty page for right panel
+            $page = new TPage;
+            $page->setTargetContainer('adianti_right_panel');
+            $page->setProperty('override', 'true');
+            $page->setPageName(__CLASS__);
+            
+            $btn_close = new TButton('closeCurtain');
+            $btn_close->onClick = "Template.closeRightPanel();";
+            $btn_close->setLabel("Fechar");
+            $btn_close->setImage('fas:times');
+            
+            // instantiate self class, populate filters in construct 
+            $embed = new self;
+            $embed->form->addHeaderWidget($btn_close);
+            
+            // embed form inside curtain
+            $page->add($embed->form);
+            $page->setIsWrapped(true);
+            $page->show();
+        }
+        catch (Exception $e) 
+        {
+            new TMessage('error', $e->getMessage());    
+        }
     }
     
     /**
@@ -306,14 +412,5 @@ class SystemUserList extends TStandardList
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
         }
-    }
-
-    /**
-    * Clear filters
-    */
-    public function clear()
-    {
-        $this->clearFilters();
-        $this->onReload();
     }
 }

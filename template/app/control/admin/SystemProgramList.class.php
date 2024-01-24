@@ -2,12 +2,12 @@
 /**
  * SystemProgramList
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemProgramList extends TStandardList
 {
@@ -18,9 +18,6 @@ class SystemProgramList extends TStandardList
     protected $deleteButton;
     protected $transformCallback;
     
-    // trait com onReload, onSearch, onDelete...
-    use Adianti\Base\AdiantiStandardListTrait;
-
     /**
      * Page constructor
      */
@@ -31,17 +28,18 @@ class SystemProgramList extends TStandardList
         parent::setDatabase('permission');            // defines the database
         parent::setActiveRecord('SystemProgram');   // defines the active record
         parent::setDefaultOrder('id', 'asc');         // defines the default order
-        // parent::setCriteria($criteria) // define a standard filter
-
         parent::addFilterField('id', '=', 'id'); // filterField, operator, formField
         parent::addFilterField('name', 'like', 'name'); // filterField, operator, formField
         parent::addFilterField('controller', 'like', 'controller'); // filterField, operator, formField
+        
+        parent::setLimit(TSession::getValue(__CLASS__ . '_limit') ?? 10);
+        
+        parent::setAfterSearchCallback( [$this, 'onAfterSearch' ] );
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_SystemProgram');
         $this->form->setFormTitle(_t('Programs'));
         
-
         // create the form fields
         $name = new TEntry('name');
         $controller = new TEntry('controller');
@@ -49,7 +47,7 @@ class SystemProgramList extends TStandardList
         // add the fields
         $this->form->addFields( [new TLabel(_t('Name'))], [$name] );
         $this->form->addFields( [new TLabel(_t('Controller'))], [$controller] );
-        $name->setSize('70%');
+        $name->setSize('100%');
         $controller->setSize('70%');
         
         // keep the form filled during navigation with session data
@@ -58,8 +56,6 @@ class SystemProgramList extends TStandardList
         // add the search form actions
         $btn = $this->form->addAction(_t('Find'), new TAction(array($this, 'onSearch')), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
-        $this->form->addActionLink(_t('Clear'), new TAction([$this, 'clear']), 'fa:eraser red');        
-        $this->form->addAction(_t('New'),  new TAction(array('SystemProgramForm', 'onEdit')), 'fa:plus green');
         
         // creates a DataGrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
@@ -107,7 +103,7 @@ class SystemProgramList extends TStandardList
         $column_controller->setAction($order_controller);
         
         // create EDIT action
-        $action_edit = new TDataGridAction(array('SystemProgramForm', 'onEdit'));
+        $action_edit = new TDataGridAction(array('SystemProgramForm', 'onEdit'), ['register_state' => 'false']);
         $action_edit->setButtonClass('btn btn-default');
         $action_edit->setLabel(_t('Edit'));
         $action_edit->setImage('far:edit blue ');
@@ -143,8 +139,22 @@ class SystemProgramList extends TStandardList
         $panel->add($this->datagrid)->style='overflow-x:auto';
         $panel->addFooter($this->pageNavigation);
         
+        $btnf = TButton::create('find', [$this, 'onSearch'], '', 'fa:search');
+        $btnf->style= 'height: 37px; margin-right:4px;';
+        
+        $form_search = new TForm('form_search_name');
+        $form_search->style = 'float:left;display:flex';
+        $form_search->add($name, true);
+        $form_search->add($btnf, true);
+        
+        $panel->addHeaderWidget($form_search);
+        
+        $panel->addHeaderActionLink('', new TAction(['SystemProgramForm', 'onEdit'], ['register_state' => 'false']), 'fa:plus');
+        $this->filter_label = $panel->addHeaderActionLink('Filtros', new TAction([$this, 'onShowCurtainFilters']), 'fa:filter');
+        
         // header actions
         $dropdown = new TDropDown(_t('Export'), 'fa:list');
+        $dropdown->style = 'height:37px';
         $dropdown->setPullSide('right');
         $dropdown->setButtonClass('btn btn-default waves-effect dropdown-toggle');
         $dropdown->addAction( _t('Save as CSV'), new TAction([$this, 'onExportCSV'], ['register_state' => 'false', 'static'=>'1']), 'fa:table fa-fw blue' );
@@ -152,16 +162,100 @@ class SystemProgramList extends TStandardList
         $dropdown->addAction( _t('Save as XML'), new TAction([$this, 'onExportXML'], ['register_state' => 'false', 'static'=>'1']), 'fa:code fa-fw green' );
         $panel->addHeaderWidget( $dropdown );
         
+        // header actions
+        $dropdown = new TDropDown( TSession::getValue(__CLASS__ . '_limit') ?? '10', '');
+        $dropdown->style = 'height:37px';
+        $dropdown->setPullSide('right');
+        $dropdown->setButtonClass('btn btn-default waves-effect dropdown-toggle');
+        $dropdown->addAction( 10,   new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '10']) );
+        $dropdown->addAction( 20,   new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '20']) );
+        $dropdown->addAction( 50,   new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '50']) );
+        $dropdown->addAction( 100,  new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '100']) );
+        $dropdown->addAction( 1000, new TAction([$this, 'onChangeLimit'], ['register_state' => 'false', 'static'=>'1', 'limit' => '1000']) );
+        $panel->addHeaderWidget( $dropdown );
+        
+        if (TSession::getValue(get_class($this).'_filter_counter') > 0)
+        {
+            $this->filter_label->class = 'btn btn-primary';
+            $this->filter_label->setLabel('Filtros ('. TSession::getValue(get_class($this).'_filter_counter').')');
+        }
+        
         // vertical box container
         $container = new TVBox;
         $container->style = 'width: 100%';
         $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
-        $container->add($this->form);
+        //$container->add($this->form);
         $container->add($panel);
         
         parent::add($container);
     }
     
+    /**
+     *
+     */
+    public function onAfterSearch($datagrid, $options)
+    {
+        if (TSession::getValue(get_class($this).'_filter_counter') > 0)
+        {
+            $this->filter_label->class = 'btn btn-primary';
+            $this->filter_label->setLabel('Filtros ('. TSession::getValue(get_class($this).'_filter_counter').')');
+        }
+        else
+        {
+            $this->filter_label->class = 'btn btn-default';
+            $this->filter_label->setLabel('Filtros');
+        }
+        
+        if (!empty(TSession::getValue(get_class($this).'_filter_data')))
+        {
+            $obj = new stdClass;
+            $obj->name = TSession::getValue(get_class($this).'_filter_data')->name;
+            TForm::sendData('form_search_name', $obj);
+        }
+    }
+    
+    /**
+     *
+     */
+    public static function onChangeLimit($param)
+    {
+        TSession::setValue(__CLASS__ . '_limit', $param['limit'] );
+        AdiantiCoreApplication::loadPage(__CLASS__, 'onReload');
+    }
+    
+    /**
+     *
+     */
+    public static function onShowCurtainFilters($param = null)
+    {
+        try
+        {
+            // create empty page for right panel
+            $page = new TPage;
+            $page->setTargetContainer('adianti_right_panel');
+            $page->setProperty('override', 'true');
+            $page->setPageName(__CLASS__);
+            
+            $btn_close = new TButton('closeCurtain');
+            $btn_close->onClick = "Template.closeRightPanel();";
+            $btn_close->setLabel("Fechar");
+            $btn_close->setImage('fas:times');
+            
+            // instantiate self class, populate filters in construct 
+            $embed = new self;
+            $embed->form->addHeaderWidget($btn_close);
+            
+            // embed form inside curtain
+            $page->add($embed->form);
+            $page->setIsWrapped(true);
+            $page->show();
+        }
+        catch (Exception $e) 
+        {
+            new TMessage('error', $e->getMessage());    
+        }
+    }
+
     /**
      * Open controller
      */
@@ -169,21 +263,4 @@ class SystemProgramList extends TStandardList
     {
         AdiantiCoreApplication::loadPage($param['controller']);
     }
-    
-    /**
-     * Display condition
-     */
-    public function displayBuilderActions($object)
-    {
-        return ( (strpos($object->controller, 'System') === false) and !in_array($object->controller, ['CommonPage', 'WelcomeView']));
-    }
-
-    /**
-     * Clear filters
-     */
-    public function clear()
-    {
-        $this->clearFilters();
-        $this->onReload();
-    }    
 }

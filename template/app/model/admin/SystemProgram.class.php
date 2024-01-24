@@ -2,12 +2,12 @@
 /**
  * SystemProgram
  *
- * @version    1.0
+ * @version    7.6
  * @package    model
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemProgram extends TRecord
 {
@@ -52,6 +52,19 @@ class SystemProgram extends TRecord
     }
     
     /**
+     * Add a SystemGroup to the SystemProgram
+     * @param $object Instance of SystemGroup
+     */
+    public function addSystemMethodRole($method_name, SystemRole $systemrole)
+    {
+        $object = new SystemProgramMethodRole;
+        $object->system_program_id = $this->id;
+        $object->system_role_id = $systemrole->id;
+        $object->method_name = $method_name;
+        $object->store();
+    }
+    
+    /**
      * Return the SystemGroup's
      * @return Collection of SystemGroup
      */
@@ -72,7 +85,16 @@ class SystemProgram extends TRecord
         
         return $system_groups;
     }
-
+    
+    /**
+     * Return the program's methods
+     * @return Collection of SystemProgramMethodRole
+     */
+    public function getSystemMethodRoles()
+    {
+        return SystemProgramMethodRole::where('system_program_id', '=', $this->id)->load();
+    }
+    
     /**
      * Reset aggregates
      */
@@ -80,6 +102,7 @@ class SystemProgram extends TRecord
     {
         // delete the related objects
         SystemGroupProgram::where('system_program_id', '=', $this->id)->delete();
+        SystemProgramMethodRole::where('system_program_id', '=', $this->id)->delete();
     }
     
     /**
@@ -93,6 +116,7 @@ class SystemProgram extends TRecord
         
         SystemGroupProgram::where('system_program_id', '=', $id)->delete();
         SystemUserProgram::where('system_program_id', '=', $id)->delete();
+        SystemProgramMethodRole::where('system_program_id', '=', $id)->delete();
         
         // delete the object itself
         parent::delete($id);

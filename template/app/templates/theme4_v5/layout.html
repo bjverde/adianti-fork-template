@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="app/templates/{template}/img/favicon.png"/>
     <title>{head_title}</title>
-    <link rel="manifest" href="manifest.json?appver=750">
+    <link rel="manifest" href="manifest.json?appver=760">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link rel="apple-touch-icon" sizes="180x180" href="app/images/icon.png">
@@ -14,8 +14,8 @@
     {LIBRARIES}
     {HEAD}
     
-    <script src="app/lib/include/admin-all.js?appver=750" type="text/javascript"></script>
-    <link href="app/lib/include/admin.min.css?appver=750" rel="stylesheet" type="text/css" media="screen">
+    <script src="app/lib/include/admin-all.js?appver=760" type="text/javascript"></script>
+    <link href="app/lib/include/admin.min.css?appver=760" rel="stylesheet" type="text/css" media="screen">
     
     <link href="app/templates/{template}/plugins/node-waves/waves.css" rel="stylesheet" />
     <link href="app/templates/{template}/plugins/animate-css/animate.css" rel="stylesheet" />
@@ -30,9 +30,6 @@
     <script>
     // set name application
     __adianti_set_name('{application}');
-
-    // Init template tabs
-    __adianti_init_tabs({use_tabs}, {store_tabs}, {use_mdi_windows});
 
     $(function() {
         update_notifications_menu();
@@ -143,7 +140,7 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a generator="adianti" href="index.php?class=SystemProfileView&adianti_open_tab=1&adianti_tab_name=_t{Profile}"><i class="material-icons">person</i>_t{Profile}</a></li>
+                            <li><a generator="adianti" href="index.php?class=SystemProfileView&adianti_open_tab=1&adianti_tab_name=_t{Profile}"><i class="material-icons">person</i>_t{My profile}</a></li>
                             <li role="seperator" class="divider"></li>
                             <li><a generator="adianti" href="index.php?class=SystemMessageList&method=filterInbox&adianti_open_tab=1&adianti_tab_name=_t{Messages}"><i class="material-icons">email</i>_t{Messages}</a></li>
                             <li><a generator="adianti" href="index.php?class=SystemNotificationList&adianti_open_tab=1&adianti_tab_name=_t{Notifications}"><i class="material-icons">notifications</i>_t{Notifications}</a></li>
@@ -165,8 +162,9 @@
                 <div class="copyright">
                     {system_version} - {userunitid} - {userunitname}
                     <!--[IFADMIN]-->
-                    <a style="cursor:pointer; color: teal !important" generator="adianti" href="index.php?class=SystemModulesCheckView&adianti_open_tab=1&adianti_tab_name=PHP%20Modules"> <i class="fa fa-code" aria-hidden="true"></i> PHP Modules </a> &nbsp;&nbsp;
-                    <span style="cursor:pointer; color: teal !important" onclick="Adianti.showDebugPanel()"> <i class="fa fa-window-maximize" aria-hidden="true"></i> Debug Console </span>
+                    <a style="cursor:pointer; color: teal !important" generator="adianti" href="index.php?class=SystemModulesCheckView&adianti_open_tab=1&adianti_tab_name=PHP%20Modules"> <i class="fa fa-code" aria-hidden="true"></i> Modules </a> &nbsp;&nbsp;
+                    <span style="cursor:pointer; color: teal !important" onclick="Adianti.showDebugPanel()"> <i class="fa fa-window-maximize" aria-hidden="true"></i> Console </span>
+                    &nbsp;v7.6
                     <!--[/IFADMIN]-->
                 </div>
             </div>

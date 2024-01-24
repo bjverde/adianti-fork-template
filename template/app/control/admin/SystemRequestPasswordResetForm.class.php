@@ -1,15 +1,16 @@
 <?php
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 /**
  * SystemRequestPasswordResetForm
  *
- * @version    1.0
+ * @version    7.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class SystemRequestPasswordResetForm extends TPage
 {
@@ -92,7 +93,7 @@ class SystemRequestPasswordResetForm extends TPage
                         "expires" => strtotime("+ 3 hours")
                     );
                     
-                    $jwt = JWT::encode($token, $key);
+                    $jwt = JWT::encode($token, $key, 'HS256');
                     
                     $referer = $_SERVER['HTTP_REFERER'];
                     $url = substr($referer, 0, strpos($referer, 'index.php'));

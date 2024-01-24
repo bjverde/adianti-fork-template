@@ -18,6 +18,10 @@
                   <icon>fas:university fa-fw</icon>
                   <action>SystemUnitList</action>
               </menuitem>
+              <menuitem label='_t{Roles}'>
+                  <icon>fas:user-tag fa-fw</icon>
+                  <action>SystemRoleList</action>
+              </menuitem>
               <menuitem label='_t{Users}'>
                   <icon>fas:user fa-fw</icon>
                   <action>SystemUserList</action>
@@ -126,9 +130,9 @@
                   <icon>fas:exclamation-triangle fa-fw</icon>
                   <action>SystemPHPErrorLogView</action>
               </menuitem>
-              <menuitem label='Session dump'>
+              <menuitem label='Session vars'>
                   <icon>fas:code fa-fw</icon>
-                  <action>SystemSessionDumpView</action>
+                  <action>SystemSessionVarsView</action>
               </menuitem>
         </menu>
     </menuitem>

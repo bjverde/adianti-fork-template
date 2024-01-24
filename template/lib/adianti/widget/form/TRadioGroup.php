@@ -16,12 +16,12 @@ use Exception;
 /**
  * A group of RadioButton's
  *
- * @version    7.5
+ * @version    7.6
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license
  */
 class TRadioGroup extends TField implements AdiantiWidgetInterface
 {
@@ -351,11 +351,11 @@ class TRadioGroup extends TField implements AdiantiWidgetInterface
             
             if (strpos( (string) $this->getSize(), '%') !== FALSE)
             {
-                echo '<div class="btn-group" style="clear:both;float:left;width:100%;display:table" role="group">';
+                echo '<div class="btn-group" style="clear:both;float:left;width:100%;" role="group">';
             }
             else
             {
-                echo '<div class="btn-group" style="clear:both;float:left;display:table" role="group">';
+                echo '<div class="btn-group" style="clear:both;float:left;" role="group">';
             }
         }
         else
@@ -456,7 +456,7 @@ class TRadioGroup extends TField implements AdiantiWidgetInterface
                     if ($this->useButton)
                     {
                        echo '</div>';
-                       echo '<div class="btn-group" style="clear:both;float:left;display:table">';
+                       echo '<div class="btn-group" style="clear:both;float:left;">';
                     }
                     else
                     {

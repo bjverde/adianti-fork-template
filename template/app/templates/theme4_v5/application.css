@@ -3,8 +3,7 @@ html, body
 {
     height: 95.5%;
     margin: 0px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.42857143;
     color: #333;
 }
@@ -27,16 +26,26 @@ a
     text-decoration: none;
 }
 
+label, input, button, select, textarea
+{
+    font-weight: normal;
+    line-height: 20px;
+}
+
+label
+{
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 600;
+}
+
+input+label
+{
+    font-weight: normal;
+}
+
 label:not(.tcheckgroup_label)
 {
     margin-bottom: 5px;
-}
-
-label, input, button, select, textarea
-{
-    font-size: 16px;
-    font-weight: normal;
-    line-height: 20px;
 }
 
 .btn:not(.btn-link):not(.btn-circle) i
@@ -113,7 +122,7 @@ ul.navbar-top-links .open>a, ul.navbar-top-links .open>a:hover, ul.navbar-top-li
 .dropdown-menu li a {
     display: block;
     text-decoration: unset;
-    padding: 8px 12px;
+    padding: 5px 10px;
     white-space: nowrap;
 }
 
@@ -162,7 +171,7 @@ ul.navbar-top-links .open>a, ul.navbar-top-links .open>a:hover, ul.navbar-top-li
 }
 
 .panel-heading:first-child {
-    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+    border-radius: calc(.5rem - 1px) calc(.5rem - 1px) 0 0;
 }
 
 .panel-body{
@@ -299,6 +308,11 @@ input.form-control.tfield_disabled[widget="tfile"], input.form-control.tfield_di
 
 .header-actions .btn {
     /* margin-bottom: 2px; */
+}
+
+.header-actions .btn-group button, .header-actions form input
+{
+    height: 100%;
 }
 
 .fb-field-container:after {
@@ -712,6 +726,11 @@ label
     color: #555;
 }
 
+label, input, button, select, textarea
+{
+    font-size: 14px;
+}
+
 div.tab-pane
 {
     border: 0 !important;
@@ -796,9 +815,14 @@ section.content
     }
 }
 
+.sidebar .menu .list .ml-menu li a
+{
+    padding-left: 40px !important;
+}
+
 .sidebar .menu .list a span, .sidebar .menu .list .ml-menu span
 {
-    font-size: 16px !important;
+    font-size: 15px !important;
 }
 
 .sidebar-menu .treeview li, .sidebar-menu .treeview ul
@@ -892,13 +916,13 @@ nav ul.navbar-nav .label-count {
 .sweet-alert p
 {
     overflow:auto;
-    font-size: 16px !important;
+    font-size: 15px !important;
 }
 
 /** Dropdowns **/
 .btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover
 {
-    font-size: 16px;
+    font-size: 15px;
 }
 .dropdown-menu li a span{
     color: #464646;
@@ -917,7 +941,7 @@ nav ul.navbar-nav .label-count {
     border-radius: 3px;
     cursor: pointer;
     white-space: nowrap;
-    font-size: 16px !important;
+    font-size: 15px !important;
 }
 
 .btn-default {
@@ -1056,7 +1080,7 @@ form .tfield, form .tfield_disabled, form .tcombo
 {
     display: inline-block;
     padding: 4px;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 20px;
     color: #555555;
     border: 0;
@@ -1555,7 +1579,7 @@ a.nav-link:not(.active):hover {
 	color: #555;
 	border-bottom: 1px solid #f4f4f4;
 	padding: 10px;
-	font-size: 16px;
+	font-size: 15px;
 	line-height: 1.1;
 }
 
@@ -2121,4 +2145,11 @@ div#adianti_tab_content:empty {
 
 .system-wiki-tags {
     float: right;
+}
+
+.likert-wrapper [type="radio"] + label:before, .likert-wrapper  [type="radio"] + label:after {
+    content:none;
+    width: 0;
+    height: 0;
+    border: 0;
 }
