@@ -359,7 +359,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
         if ($this->useButton)
         {
             echo "<div tcheckgroup=\"{$this->name}\" class=\"toggle-wrapper {$editable_class}\" ".$this->getPropertiesAsString('aria').' data-toggle="buttons">';
-            echo '<div class="btn-group" style="clear:both;float:left;">';
+            echo '<div class="btn-group" style="clear:both;float:left;display:table">';
         }
         else
         {
@@ -454,7 +454,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
                     if ($this->useButton)
                     {
                        echo '</div>';
-                       echo '<div class="btn-group" style="clear:both;float:left;">';
+                       echo '<div class="btn-group" style="clear:both;float:left;display:table">';
                     }
                     else
                     {
