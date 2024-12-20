@@ -1,0 +1,325 @@
+.badge-notify
+{
+   background: #E16D6D;
+   position:relative;
+   top: -12px;
+   left: -12px;
+}
+
+.json-value
+{
+   color: cyan;
+   font-weight: bold;
+}
+
+.json-string
+{
+    color: #e8b108;
+    font-weight: bold;
+}
+
+
+@media screen and (max-width: 500px)
+{
+    .left-mailbox, .system-drive.menu, .system-calendar.menu
+    { 
+        float: none !important;
+        width: 100% !important;
+        margin-right:0 !important;
+    }
+    
+    .system-calendar, .system-drive
+    {
+        height: unset !important;
+    }
+    
+    .folder-box
+    {
+        max-width: unset !important;
+    }
+    
+    .folder-box-name
+    {
+        width: calc(100vw - 150px) !important;
+    }
+    
+    .fc-toolbar-title
+    {
+        font-size: var(--ad-font-size-mini) !important;
+    }
+    
+    .fc-toolbar-chunk button
+    {
+       font-size: var(--ad-font-size-mini) !important;
+    }
+    
+    .fc-today-button
+    {
+        display:none;
+    }
+}
+
+@media only screen and (min-width: 501px)
+{
+    #search-box, #word-search-box
+    {
+        display:inline !important;
+        float:left;
+    }
+}
+
+@media only screen and (max-width: 500px)
+{
+    #search-box, #word-search-box
+    {
+        display:none !important;
+    }
+    
+    ol.tbreadcrumb li 
+    {
+        padding: 0;
+    }
+    
+    .tbreadcrumb li span
+    {
+        font-size: var(--ad-font-size-less);
+    }
+    
+    #div_breadcrumbs > ol > li:nth-child(1)
+    {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 550px)
+{
+    .pagination>li>a, .pagination>li>span
+    {
+        padding: 6px;
+    }
+}
+
+  
+/** sourcecode **/
+.sourcecodewrapper
+{
+    background: #262722;
+    border-radius: var(--bs-border-radius);
+    padding:8px;
+    box-shadow: var(--bs-box-shadow);
+    margin-bottom: 10px;
+    overflow-x: auto;
+}
+
+pre
+{
+    font-family: "Droid Sans Mono", "monospace", monospace;
+    border-radius: 0;
+}
+
+.file-response-icon
+{
+    position: absolute;
+    padding-left: 3px;
+    padding-top: 3px;
+    z-index: 90;
+}
+
+.input-fuse-search
+{
+    margin-top: -6px;
+}
+
+.input-data-search
+{
+    box-shadow:none;
+    border-radius: 0;
+    border: 1px solid #afafaf;
+}
+
+.input-data-search:focus
+{
+    border: 1px solid #8C8CF9;
+}
+
+.fc-scroller
+{
+    overflow-x: visible !important;
+}
+
+.right-panel
+{
+    right: 0;
+    position: fixed;
+    top: 0;
+    border-right: 1px solid var(--bs-border-color);
+    width: 800px;
+    height: 100%;
+    float: right;
+    z-index: 1030;
+    display: none;
+    overflow: auto;
+    opacity: 1;
+    overflow-x: hidden;
+    background: var(--bs-body-bg);
+    /* box-shadow: -25px 10px 50px 0px rgba(50, 50, 50, 0.34); */
+    box-shadow: -15px 10px 30px 0px rgba(50, 50, 50, 0.24);
+}
+
+.right-panel .container-part
+{
+    position: absolute;
+    width: 800px;
+    height: 100%;
+    top: 0;
+    display: block;
+    border-left: 1px solid var(--bs-border-color);
+    box-shadow: -25px 10px 50px 0px rgba(50, 50, 50, 0.34);
+    background: var(--bs-body-bg);
+    z-index: 1; /** otherwise, check in checklist and other widgets like selected page in datagrid pagination will be renderer over **/
+}
+
+@media screen and (max-width: 800px) 
+{
+    .right-panel
+    {
+        width: 100%;
+    }
+    
+    .right-panel .container-part
+    {
+        width: 100%;
+    }
+}
+
+.debug-panel
+{
+    color: white;
+}
+
+.debug-panel .debug-block
+{
+    white-space: pre;
+    margin: 10px;
+    width: calc(50% - 40px);
+    display: block;
+    height: calc(100% - 40px);
+    position: relative;
+    float: left;
+    overflow-y: auto;
+    background: #2f2f2f;
+    border-radius: 3px;
+    padding: 3px;
+    font-family: Andale mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Lucida Console, Monaco, Consolas, Droid Sans monospace, Monospace;
+    font-size: var(--ad-font-size-less);
+}
+
+.debug-panel .debug-title
+{
+    display: block;
+    width: calc(50% - 20px);
+    text-align: center;
+    float:left;
+    font-weight: bold;
+    color: #87a7f5;
+}
+
+.debug-panel > i
+{
+    float:right;
+    margin:10px;
+    cursor:pointer;
+}
+
+.float-button
+{
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 60px;
+    right: 20px;
+    background-color: var(--bs-orange);
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 2008;
+    font-size: 170%;
+    color: white;
+    cursor: pointer;
+}
+
+.float-button.blue
+{
+    background-color: #83A3FF;
+}
+
+.float-button.disabled
+{
+    background-color: gray;
+}
+
+.float-button:hover, .float-button:focus
+{
+    color: white;
+}
+
+.internal-float-button
+{
+    margin-top: 17px;
+    font-weight: bold;
+}
+
+.little-float-button
+{
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    bottom: 40px;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 2008;
+    font-size: 100%;
+    color: white;
+    right: 10px;
+}
+
+.little-float-button.disabled
+{
+    background-color: gray;
+}
+
+.little-float-button:hover, .little-float-button:focus
+{
+    color: white;
+}
+
+.little-float-button .internal-float-button
+{
+    margin-top: 8px;
+}
+
+
+.black
+{
+    color: black;
+}
+
+pre {
+    padding: 9.5px;
+    margin: 0 0 10px;
+    line-height: 1.42857143;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: var(--bs-body-bg);
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color)
+}
+
+/** menu editor **/
+#menu-editor span.select2 {
+    border: 1px solid #a0a0a0;
+}

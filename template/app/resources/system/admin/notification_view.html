@@ -1,0 +1,20 @@
+<!--[main]-->
+<div style="padding:20px">
+    <b> _t{Date} </b> <br>
+    <span> {$dt_message} </span> <br>
+    <br>
+    <b> _t{Subject} </b> <br>
+    <span> {$subject} </span> <br>
+    <br>
+    <b> _t{Message} </b> <br>
+    <span> {$message} </span> <br>
+    
+    <!--[check]-->
+    <br>
+    <button generator="adianti" href="index.php?class=SystemNotificationFormView&method=onExecuteAction&id={$id}&static=1&register_state=false" class="btn btn-sm btn-primary">
+        <i class="{$icon}" style="padding-right:4px"></i>
+        {$action_label}
+    </button>
+    <!--[/check]-->
+</div>
+<!--[/main]-->

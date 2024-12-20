@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="notranslate" translate="no" data-bs-theme="light" data-menu-theme="dark">
+<head>
+    <title>{title}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="manifest" href="manifest.json?appver=800">
+    <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="apple-touch-icon" sizes="180x180" href="app/images/icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    {LIBRARIES}
+    {HEAD}
+    
+    <script src="app/lib/include/admin.js?appver=800" type="text/javascript"></script>
+    <link href="app/lib/include/admin.css?appver=800" rel="stylesheet" type="text/css" media="screen">
+    
+    <script src="app/templates/{template}/js/theme.js?appver=800"></script>
+    <link rel="stylesheet" href="app/templates/{template}/theme.css?appver=800">
+    
+    <script>
+        $(function() {
+            // Start framework.
+            Adianti.configure({adianti_options});
+            Adianti.start();
+            
+            // Start template.
+            Template.configure({template_options});
+            Template.start();
+        });
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <aside id="sidebar" class="js-sidebar thin-scroll">
+            <!-- Content For Sidebar -->
+            <div class="h-100">
+                <span class="sidebar-system-name border-bottom">
+                    <span class="sidebar-logo" style="margin-left: 0;">
+                        <img style="width:75%;margin-top:-5px" src="favicon.png">
+                    </span>
+                    <span class="name">
+                        {title}
+                    </span>
+                </span>
+                
+                <span class="sidebar-menu-title">
+                    <span class="name">MENU</span>
+                    <div id="has_menu_mode_switch" class="form-check form-switch" title="_t{Dark mode}" style="display: inline;position: absolute;right: 0;margin-right: 15px; display:none">
+                        <input class="form-check-input" type="checkbox" role="switch" id="menu_theme_switch" checked="" style="cursor:pointer" onclick="Template.toggleMenuTheme(this)">
+                        <i class="fa-solid fa-circle-half-stroke"></i>
+                    </div>
+                </span>
+                
+                {MENU}
+                
+            </div>
+        </aside>
+        
+        <div class="main">
+            <nav class="navbar navbar-expand px-3 border-bottom">
+                <button class="btn superlight" id="sidebar-toggle" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse navbar">
+                    <ul id="navbar-wrapper" class="navbar-nav" style="margin-right:10px">
+                    </ul>
+                    <div class="nav-item">
+                        {MENUTOP}
+                    </div>
+                </div>
+            </nav>
+            <main class="content px-3 py-2">
+                <div class="container-fluid">
+                    <div id="adianti_div_content"></div>
+                </div>
+                
+                <div id="adianti_online_content"></div>
+                
+                <div id="adianti_right_panel" class="right-panel"></div>
+            </main>
+            
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row text-muted">
+                    
+                        <div class="col-12 text-start">
+                            <div style="text-align:right">
+                                {MENUBOTTOM}
+                                <div id="has_main_mode_switch" class="form-check form-switch" title="_t{Dark mode}" style="margin-left: 10px;padding-top:5px;display:none">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="global_theme_switch" checked="" style="cursor:pointer" onclick="Template.toggleGlobalTheme(this)">
+                                    <i class="fa-solid fa-circle-half-stroke"></i>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

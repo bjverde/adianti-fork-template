@@ -1,0 +1,83 @@
+<!--[main]-->
+<div class="card panel system-drive menu">
+    <div class="card-header panel-heading" style="justify-content: space-between;">
+        <div class="panel-title card-title" style="padding: 9px;">Menu</div>
+    </div>
+    <div class="card-body panel-body" style="padding: 5px">
+        <div class="system-drive-menu">
+            <a class="btn btn-success w-100" href="index.php?class=SystemDriveDocumentUploadForm&method=onNew&path={$path}" generator="adianti" style="cursor: pointer">
+                <i class="fa fa-upload" style="padding: 4px"></i>
+                <span>_t{Upload file}</span>
+            </a>
+            
+            <div class="dropdown">
+              <button class="btn btn-default w-100 mt-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-plus" style="padding: 4px"></i>
+                <span>_t{Create text file}</span> 
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" generator="adianti" href="index.php?class=SystemDriveDocumentCreateForm&method=onNew&content_type=text&path={$path}">_t{Text file}</a></li>
+                <li><a class="dropdown-item" generator="adianti" href="index.php?class=SystemDriveDocumentCreateForm&method=onNew&content_type=html&path={$path}">_t{HTML file}</a></li>
+              </ul>
+            </div>
+            
+            <ul class="list-group">
+                <a class="list-group-item list-group-item-action {$active_my}" generator="adianti" href="index.php?class=SystemDriveList&method=onLoad&path=&filter=my">
+                    <i class="fas fa-archive fa-fw"></i>
+                    _t{My documents}
+                </a>
+                
+                <a class="list-group-item list-group-item-action {$active_shared}" generator="adianti" href="index.php?class=SystemDriveList&method=onLoad&path=&filter=shared">
+                    <i class="fas fa-share-alt fa-fw"></i>
+                    _t{Shared with me}
+                </a>
+                <a class="list-group-item list-group-item-action {$active_bookmark}" generator="adianti" href="index.php?class=SystemDriveList&method=onLoad&path=&filter=bookmark">
+                    <i class="fas fa-star fa-fw"></i>
+                    _t{Bookmarks}
+                </a>
+                <a class="list-group-item list-group-item-action {$active_trash}" generator="adianti" href="index.php?class=SystemDriveList&method=onLoad&path=&filter=trash">
+                    <i class="fas fa-trash-alt fa-fw"></i>
+                    _t{Trash}
+                </a>
+            </ul>
+        </div>
+     </div>
+</div>
+
+<div class="system-drive card panel" style="position:initial">
+    <div class="card-header panel-heading" style="justify-content: space-between;">
+        <div class="panel-title card-title" style="padding: 9px;">_t{Documents}</div>
+        <div style="width: 100%;">{$form}</div>
+    </div>
+    <div class="card-body panel-body" style="padding: 5px">
+        <div class="system-drive-container">
+            <div class="system-drive-content">
+                <div>{$breadcrumb}</div>
+                <div>{$list}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".item-ellipsis").on("click", function(event) {
+        $(".popover").popover("hide");
+        $(".dropdown-iconview").hide();
+        var context_menu = $(this).closest("li").next("ul");
+        context_menu.css("left", ticonview_mouseX(event));
+        context_menu.css("top", ticonview_mouseY(event));
+        context_menu.show();
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    });
+
+    $('[name="global"]').on('keydown', function(evt){
+        if (evt.keyCode == 13) {
+            $(this).blur();
+        }
+    });
+
+    __adianti_input_fuse_search('[name="fuse"]', 'data-title', '.ticonview li.iconview-item')
+</script>
+<!--[/main]-->

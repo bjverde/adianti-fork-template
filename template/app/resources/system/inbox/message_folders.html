@@ -1,0 +1,33 @@
+<!--[main]-->
+<div class="card panel">
+    <div class="card-header panel-heading">
+      <div class="card-title" style="padding:9px">_t{Folders}</div>
+    </div>
+    <div class="card-body">
+        <a class="btn btn-success w-100 mb-2" generator="adianti" href="index.php?class=SystemMessageForm&method=onClear&register_state=false">
+            <i class="fas fa-plus"></i> _t{Compose}</a>
+        </a>
+        <a class="btn btn-default w-100 mb-2" generator="adianti" href="index.php?class=SystemContactsList&register_state=false">
+            <i class="far fa-address-card"></i> _t{Contacts}</a>
+        </a>
+        
+        <ul class="list-group">
+            <a class="list-group-item list-group-item-action {$class_inbox}" generator="adianti" href="index.php?class=SystemMessageList&method=filterInbox">
+                <i class="fa fa-inbox"></i> _t{Inbox}</a>
+            </a>
+            
+            <a class="list-group-item list-group-item-action {$class_sent}" generator="adianti" href="index.php?class=SystemMessageList&method=filterSent">
+                <i class="far fa-envelope"></i> _t{Sent}</a>
+            </a>
+            
+            <a class="list-group-item list-group-item-action {$class_archived}" generator="adianti" href="index.php?class=SystemMessageList&method=filterArchived">
+                <i class="fa fa-archive"></i> _t{Archived}</a>
+            </a>
+            
+            <a class="list-group-item list-group-item-action {$class_trash}" generator="adianti" href="index.php?class=SystemMessageList&method=filterTrash">
+                <i class="fa fa-trash-alt"></i> _t{Trash}</a>
+            </a>
+        </ul>
+    </div>
+</div>
+<!--[/main]-->

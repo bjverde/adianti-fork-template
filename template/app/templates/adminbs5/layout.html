@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="notranslate" translate="no" data-bs-theme="light" data-menu-theme="dark">
+<head>
+    <title>{title}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="manifest" href="manifest.json?appver=800">
+    <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="apple-touch-icon" sizes="180x180" href="app/images/icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    {LIBRARIES}
+    {HEAD}
+    
+    <script src="app/lib/include/admin.js?appver=800" type="text/javascript"></script>
+    <link href="app/lib/include/admin.css?appver=800" rel="stylesheet" type="text/css" media="screen">
+    
+    <script src="app/templates/{template}/js/theme.js?appver=800"></script>
+    <link rel="stylesheet" href="app/templates/{template}/theme.css?appver=800">
+    <link rel="stylesheet" href="app/templates/{template}/custom.css?appver={buildid}">
+    
+    <script>
+        $(function() {
+            // Start framework.
+            Adianti.configure({adianti_options});
+            Adianti.start();
+            
+            // Start template.
+            Template.configure({template_options});
+            Template.updateMessageDropdown();
+            Template.updateNotificationDropdown();
+            Template.start();
+        });
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <aside id="sidebar" class="js-sidebar thin-scroll">
+            <!-- Content For Sidebar -->
+            <div class="h-100">
+                <span class="sidebar-system-name border-bottom">
+                    <span class="sidebar-logo" style="margin-left: 0;">
+                        <img style="width:75%;margin-top:-5px" src="favicon.png">
+                    </span>
+                    <span class="name">
+                        {title}
+                    </span>
+                </span>
+                
+                <span class="sidebar-menu-title">
+                    <span class="name">MENU</span>
+                    <div id="has_menu_mode_switch" class="form-check form-switch" title="_t{Dark mode}" style="display: inline;position: absolute;right: 0;margin-right: 15px; display:none">
+                        <input class="form-check-input" type="checkbox" role="switch" id="menu_theme_switch" checked="" style="cursor:pointer" onclick="Template.toggleMenuTheme(this)">
+                        <i class="fa-solid fa-circle-half-stroke"></i>
+                    </div>
+                </span>
+                
+                {MENU}
+                
+            </div>
+        </aside>
+        <div class="main">
+            <nav class="navbar navbar-expand px-3 border-bottom">
+                <button class="btn superlight" id="sidebar-toggle" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse navbar">
+                    <div class="nav-item" style="float:left">
+                        {MENUTOP}
+                    </div>
+                    
+                    <ul id="navbar-wrapper" class="navbar-nav hide-mobile" style="margin-right:10px">
+                    </ul>
+                    
+                    <div class="nav-item">
+                        <div class="btn-group" id="has_notifications" style="display:none">
+                            <button type="button" data-bs-toggle="dropdown" title="_t{Notifications}" class="dropdown-toggle btn superlight" style="padding:5px;font-size:1rem">
+                                <i class="fa-regular fa-bell" style="color:gray;font-size:1.2rem;float: left;margin-top: 3px;"></i>
+                                <span id="alert_notifications" class="position-absolute top-0 start-100 translate-middle p-2 bg-warning border border-light rounded-circle" style="padding: 5px !important;display:none"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" id="envelope_notifications">
+                                <li></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group dropdown-center hide-mobile" id="has_messages" style="display:none">
+                            <button type="button" data-bs-toggle="dropdown" title="_t{Messages}" class="dropdown-toggle btn superlight" style="padding:5px;font-size:1rem">
+                                <i class="fa-regular fa-envelope" style="color:gray;font-size:1.2rem;float: left;margin-top: 3px;"></i>
+                                <span id="alert_messages" class="position-absolute top-0 start-100 translate-middle p-2 bg-warning border border-light rounded-circle" style="padding: 5px !important;display:none"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" id="envelope_messages">
+                                <li></li>
+                            </ul>
+                        </div>
+                        <a id="has_docs" class="btn superlight hide-mobile" style="padding:5px;font-size:1rem;display:none" title="_t{Documents}" generator="adianti" href="index.php?class=SystemDriveList&method=onLoad&filter=my">
+                            <i class="far fa-folder" style="color:gray;font-size:1.2rem;float: left;margin-top: 3px;"></i>
+                        </a>
+                        <a id="has_contacts" class="btn superlight hide-mobile" style="padding:5px;font-size:1rem;display:none" title="_t{Contacts}" generator="adianti" href="index.php?class=SystemContactsList&register_state=false">
+                            <i class="far fa-address-card" style="color:gray;font-size:1.2rem;float: left;margin-top: 3px;"></i>
+                        </a>
+                        <div class="btn-group">
+                            <button type="button" data-bs-toggle="dropdown" class="dropdown-toggle btn superlight" style="padding:5px;font-size:1rem">
+                                <i class="far fa-circle-user" style="color:gray;font-size:1.2rem;float: left;margin-top: 3px;"></i>
+                                <span style="float: left;margin-left: 5px;">{username}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header">{usermail}</h6></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a generator="adianti" href="index.php?class=SystemProfileView&register_state=false" class="dropdown-item">_t{Profile}</a></li>
+                                <li><a generator="adianti" href="index.php?class=LoginForm&method=reloadPermissions&static=1" class="dropdown-item">_t{Reload}</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a generator="adianti" href="index.php?class=LoginForm&method=onLogout&static=1" class="dropdown-item">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <main class="content px-3 py-2">
+                <div class="container-fluid">
+                    <div id="adianti_div_content"></div>
+                </div>
+                
+                <div id="adianti_online_content"></div>
+                
+                <div id="adianti_right_panel" class="right-panel"></div>
+            </main>
+            
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row text-muted">
+                        <div class="col-12 text-start">
+                            
+                            <span class="hide-mobile" style="font-weight:bold;display: block;padding: 5px;float: left;">{userunitname}</span>
+                            
+                            <div style="text-align:right">
+                                {MENUBOTTOM}
+                                
+                                <!--[ISCREATOR]-->
+                                <a class="btn superlight hide-mobile" generator="adianti" href="index.php?class=SystemUpdateList&method=fetchProject&static=1&register_state=false">
+                                    <i class="fa fa-circle-down" aria-hidden="true"></i>
+                                    _t{Update}
+                                </a>
+                                <!--[/ISCREATOR]-->
+                                
+                                <!--[IFADMIN]-->
+                                <button class="btn superlight hide-mobile" type="button" data-bs-toggle="offcanvas" data-bs-target="#debug-panel" aria-controls="debug-panel">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    Trace
+                                </button>
+                                <a class="btn superlight hide-mobile" generator="adianti" href="index.php?class=SystemDatabaseExplorer">
+                                    <i class="fa-solid fa-database"></i>
+                                    DB
+                                </a>
+                                <a class="btn superlight hide-mobile" generator="adianti" href="index.php?class=SystemModulesCheckView&register_state=false">
+                                    <i class="fab fa-php" aria-hidden="true"></i>
+                                    PHP
+                                </a>
+                                <a class="btn superlight hide-mobile" generator="adianti" href="index.php?class=SystemFilesDiff&register_state=false">
+                                    <i class="fa fa-sitemap" aria-hidden="true"></i>
+                                    Framework
+                                </a>
+                                <a class="btn superlight hide-mobile" generator="adianti" href="index.php?class=SystemInformationView&register_state=false">
+                                    <i class="fa fa-microchip" aria-hidden="true"></i>
+                                    _t{System}
+                                </a>
+                                <!--[/IFADMIN]-->
+                                <a id="has_news" class="btn superlight" generator="adianti" href="index.php?class=SystemPostFeedView" style="display:none;padding:5px">
+                                    <i class="fa fa-rss"></i>
+                                    _t{News}
+                                </a>
+                                <a id="has_wiki" class="btn superlight" generator="adianti" href="index.php?class=SystemWikiSearchList" style="display:none;padding:5px">
+                                    <i class="fab fa-wikipedia-w"></i>
+                                    _t{Manuals}
+                                </a>
+                                <a id="has_support_form" class="btn superlight" generator="adianti" href="index.php?class=SystemSupportForm&register_state=false" style="display:none;padding:5px">
+                                    <i class="far fa-life-ring"></i>
+                                    _t{Open ticket}
+                                </a>
+                                
+                                <div id="has_main_mode_switch" class="form-check form-switch" title="_t{Dark mode}" style="margin-left: 10px;padding-top:5px;display:none">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="global_theme_switch" checked="" style="cursor:pointer" onclick="Template.toggleGlobalTheme(this)">
+                                    <i class="fa-solid fa-circle-half-stroke"></i>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            
+            <div class="offcanvas offcanvas-bottom debug-panel" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="debug-panel" aria-labelledby="offcanvasScrollingLabel">
+              <div class="offcanvas-header">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                  <span class="debug-title"> Request URL </span>
+                  <span class="debug-title"> Request Data </span>
+                  <div class="debug-block" id="request_url_panel"> </div>
+                  <div class="debug-block" id="request_data_panel"> </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

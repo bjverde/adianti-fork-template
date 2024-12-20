@@ -1,0 +1,203 @@
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #333;
+	background-color: #fff
+}
+
+.row {
+    margin-top: 0;
+    width:100%;
+    position: relative;
+    clear:both;
+    display:block;
+}
+
+.row>* {
+    max-width: 100%;
+    margin-top: 0;
+}
+.col-sm-12 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+col-sm-11 {
+    flex: 0 0 auto;
+    width: 91.66666667%;
+}
+.col-sm-10 {
+    flex: 0 0 auto;
+    width: 83.33333333%;
+}
+.col-sm-9 {
+    width: 71%;
+    float: left;
+}
+.col-sm-8 {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+}
+.col-sm-7 {
+    flex: 0 0 auto;
+    width: 58.33333333%;
+}
+.col-sm-6 {
+    flex: 0 0 auto;
+    width: 49.9%;
+}
+.col-sm-5 {
+    flex: 0 0 auto;
+    width: 41.66666667%;
+}
+.col-sm-4 {
+    flex: 0 0 auto;
+    width: 33.195%;
+}
+.col-sm-3 {
+    flex: 0 0 auto;
+    width: 24.86%;
+}
+.col-sm-2 {
+    flex: 0 0 auto;
+    width: 16.5%;
+}
+.col-sm-1 {
+    flex: 0 0 auto;
+    width: 8.33333333%;
+}
+.table>thead>tr>th
+{
+    border-bottom: 0;
+}
+.header-actions {
+    display:none;
+}
+
+.tdatagrid_cell.action * {
+    display:none;
+}
+
+.control-label {
+    text-align:right;
+}
+
+.panel {
+    border-radius: initial;
+    min-height: 50px;
+    border: 1px solid silver;
+    border-radius: 2px;
+    margin-bottom: 4px;
+}
+
+.panel-title {
+    font-size: 16px;
+}
+
+.panel-heading{
+    background-color: whitesmoke;
+    border-bottom: 1px solid silver;
+}
+
+.panel-footer, .card-footer {
+    background-color: rgba(0,0,0,.03);
+}
+
+.label {
+    display:inline-block;
+}
+
+.tdatagrid_cell
+{
+    text-decoration:none;
+    color:#212529;
+}
+
+input{
+    display:none !important;
+}
+
+label {
+    display: inline-block;
+}
+
+
+.col-sm-1,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9 {
+	position: relative;
+    float:left;
+    border:1px solid #e3e3e3;
+    border-radius:10px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.col-sm-1 > *,
+.col-sm-10 > *,
+.col-sm-11 > *,
+.col-sm-12 > *,
+.col-sm-2 > *,
+.col-sm-3 > *,
+.col-sm-4 > *,
+.col-sm-5 > *,
+.col-sm-6 > *,
+.col-sm-7 > *,
+.col-sm-8 > *,
+.col-sm-9 > * {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.table {
+    border-collapse: collapse;
+    width: 98%;
+    max-width: 100%;
+    margin-bottom: 20px
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd
+}
+
+.table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd
+}
+
+.table>thead:first-child>tr:first-child>td,
+.table>thead:first-child>tr:first-child>th {
+    border-top: 0
+}
+
+.table>tbody+tbody {
+    border-top: 2px solid #ddd
+}
+
+.table .table {
+    background-color: #fff
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #f9f9f9
+}

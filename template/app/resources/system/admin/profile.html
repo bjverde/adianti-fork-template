@@ -1,0 +1,64 @@
+<!--[main]-->
+<div class="card panel" style="width: 100%;border:0;box-shadow:none">
+    <div class="card-header panel-heading" style="display:block">
+        <div class="panel-title card-title"> _t{Profile}
+            <div class="header-actions" style="float:right">
+                <a class="btn btn-sm btn-default" onclick="Template.closeRightPanel()"><i class="fa fa-times red"></i> _t{Close}</a>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal" enctype="multipart/form-data" name="form_search_SystemProgram" id="form_search_SystemProgram" method="post" type="bootstrap">
+        <div class="card-body panel-body" style="width: 100%">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" style="padding:10px; margin-top: -1px;" id="tab_0">
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-12 fb-field-container">
+                            <img src="app/images/photos/{$login}.jpg?rand={$rand}" onError="this.onerror=null;this.src='app/images/stub.png';" style="border-radius:50%;margin: auto;display: block;border: 4px solid var(--bs-secondary-border-subtle);"/>
+                        </div>
+                    </div>                    
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-6 fb-field-container control-label" style="min-height:26px"><label><b>_t{Name}</b></label></div>
+                        <div class="col-sm-6 fb-field-container " style="min-height:26px;"> {$name} </div>
+                    </div>
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-6 fb-field-container control-label" style="min-height:26px"><label><b>_t{Email}</b></label></div>
+                        <div class="col-sm-6 fb-field-container " style="min-height:26px;"> {$email} </div>
+                    </div>
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-6 fb-field-container control-label" style="min-height:26px"><label><b>_t{Phone}</b></label></div>
+                        <div class="col-sm-6 fb-field-container " style="min-height:26px;"> {$phone} </div>
+                    </div>
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-6 fb-field-container control-label" style="min-height:26px"><label><b>_t{Address}</b></label></div>
+                        <div class="col-sm-6 fb-field-container " style="min-height:26px;"> {$address} </div>
+                    </div>
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-6 fb-field-container control-label" style="min-height:26px"><label><b>_t{Function}</b></label></div>
+                        <div class="col-sm-6 fb-field-container " style="min-height:26px;"> {$function_name} </div>
+                    </div>
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-6 fb-field-container control-label" style="min-height:26px"><label><b>_t{About}</b></label></div>
+                        <div class="col-sm-6 fb-field-container " style="min-height:26px;"> {$about} </div>
+                    </div>
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-6 fb-field-container control-label" style="min-height:26px"><label><b>_t{Groups}</b></label></div>
+                        <div class="col-sm-6 fb-field-container " style="min-height:26px;"> {$groupnames} </div>
+                    </div>
+                    <div class="form-group tformrow row my-3">
+                        <div class="col-sm-6 fb-field-container control-label" style="min-height:26px"><label><b>_t{Front page}</b></label></div>
+                        <div class="col-sm-6 fb-field-container " style="min-height:26px;"> {$frontpage} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer panel-footer" style="width: 100%">
+            <a href="index.php?class=SystemProfileForm&method=onEdit&register_state=false" generator="adianti" class="btn btn-sm btn-primary">
+                <span><i class="fa fa-edit" style="padding-right:4px"></i>_t{Edit}</span>
+            </a>
+            <a href="index.php?class=SystemProfile2FAForm&method=onLoad&register_state=false" generator="adianti" class="btn btn-sm btn-default">
+                <span><i class="fa fa-shield-alt" style="padding-right:4px"></i>_t{Two factor authentication}</span>
+            </a>
+        </div>
+    </form>
+</div>
+<!--[/main]-->

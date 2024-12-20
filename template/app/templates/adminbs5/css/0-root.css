@@ -1,0 +1,62 @@
+/****************************** CUSTOMS **************************************/
+:root {
+    --bs-dark: rgb(48 51 55);
+    --bs-light: white;
+    --bs-border-radius-sm: 6px;
+    --ad-font-size: 0.95rem;
+    --ad-font-size-plus: 1.05rem;
+    --ad-font-size-less: 0.8rem;
+    --ad-font-size-mini: 0.6rem;
+    --ad-font-size-menu: 1rem;
+    --ad-font-size-super: 1.25rem;
+    --ad-menu-item-color: #4d93ff;
+    --ad-menu-size: 300px;
+    /* outras que podem ser personalizadas
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    */
+}
+
+[data-bs-theme=light] {
+    --bs-dark-bg-subtle: #f4f6f9;
+}
+
+iframe
+{
+   background:white;
+   border-radius: var(--bs-border-radius);
+}
+
+.thin-scroll::-webkit-scrollbar
+{
+    width: 8px;
+}
+
+.thin-scroll::-webkit-scrollbar-track
+{
+    background-color: var(--bs-secondary-border-subtle);
+}
+
+.thin-scroll::-webkit-scrollbar-thumb
+{
+    background-color: var(--bs-secondary-bg-subtle);
+    border: 1px solid var(--bs-secondary-bg);
+    border-radius: 0;
+}
+
+* {
+    scrollbar-width:auto;
+    scrollbar-color:#888888 #ffffff
+}
+
+*::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+*::-webkit-scrollbar-thumb
+{
+    background-color: #bfbfbf;
+    border-radius: 12px;
+    border: 2px solid #ffffff;
+}

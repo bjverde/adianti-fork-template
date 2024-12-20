@@ -1,0 +1,31 @@
+<div class="contact-card">
+    <div class="contact-card-header"><span class="badge bg-green">{function_name}</span></div>
+    <div class="contact-card-body">
+        <div class="contact-card-line">
+            <div class="contact-card-description">
+                <div class="contact-name">{name}</div>
+                <div data-content="{about}" class="contact-about"><b>_t{About}:</b>{about}</div>
+                <div data-content="{email}" class="contact-email"><a title="_t{Send}" href="mailto: {email}"><i style="width: 40px; text-align: center;" class="fas fa-envelope red"></i></a>{email}</div>
+                <div data-content="{address}" class="contact-address"><i style="width: 40px; text-align: center;" class="fas fa-building grey"></i>{address}</div>
+                <div data-content="{phone}" class="contact-phone">
+                    <div>
+                        <a title="_t{Call}" href="tel: {phone_trim}"><i class="fas fa-phone blue"></i></a>
+                        <a href="https://web.whatsapp.com/send?phone={phone_trim}"><i title="_t{Open} whatsapp" class="fab fa-whatsapp green"></i></a>
+                    </div>
+                    {phone}
+                </div>
+            </div>
+            <div class="contact-card-image">
+                <img src="app/images/photos/{login}.jpg" alt="User" onerror="this.onerror=null;this.src='app/images/stub.png';" class="card-contacts-image">
+            </div>
+        </div>
+    </div>
+    <div class="contact-card-footer">
+        <div>
+            <a href="index.php?class=SystemMessageForm&method=onLoad&system_user_to_id={id}&register_state=false" generator="adianti" class="btn btn-primary btn-sm">
+                <i class="fas fa-envelope"></i>
+                _t{Send message}
+            </a>
+        </div>
+    </div>
+</div>
