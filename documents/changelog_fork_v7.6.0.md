@@ -1,7 +1,9 @@
 # Sobre Adianti
 Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
 
-# Changelog do Adianti Fork Template v7.6.0.1
+# Changelog do Adianti Fork Template v7.6.0.4
+
+[Para baixr a versão v7.6.0.4](https://github.com/bjverde/adianti-fork-template/releases/tag/v7.6.0.4)
 
 ## Principais alterações
 

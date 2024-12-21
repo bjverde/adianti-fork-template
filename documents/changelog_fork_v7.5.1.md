@@ -3,6 +3,8 @@ Informações sobre o Adianti e seu criador veja  [pagina principal](../README.m
 
 # Changelog do Fork do Template do Adianti v7.5.1b3
 
+[Para baixr a versão v7.6.0.4](https://github.com/bjverde/adianti-fork-template/releases/tag/v7.6.0.4)
+
 ## Principais alterações
 ### 1 - Alterado modo de criptografia da senha
 No Adianti Template 7.5.1 por padrão as senhas dos usuários são gravadas no banco de dados com uma criptografia MD5. Porém essa é uma pratica não recomendada. Para melhorar isso foi alterado para password_hash 
