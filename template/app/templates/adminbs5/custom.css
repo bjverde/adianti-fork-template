@@ -1,0 +1,4 @@
+[data-bs-theme=light] .table-hover > tbody > tr:hover > * {
+    --bs-table-color-state: var(--bs-table-hover-color);
+    --bs-table-bg-state: rgb(255, 249, 153);
+}
