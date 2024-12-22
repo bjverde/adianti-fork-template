@@ -55,8 +55,8 @@ return [
         'string' => '#FFC472',
     ],
     'login' => [
-        'logo' => '',
-        'background' => ''
+        'logo' => 'app/images/icon.png',
+        'background' => 'app/images/thumb-1920-698137.jpg'
     ],
     'template' => [
         'navbar' => [
