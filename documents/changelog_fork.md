@@ -10,8 +10,10 @@ Informações sobre o Adianti e seu criador veja  [pagina principal](../README.m
 
 ### 2 - Inclusão do link para o Login
 
-## ChangeLog por issue
+### 3 - Habilitando Toggle Visibility do campo senha
 
+## ChangeLog por issue
+* :hammer: [#61 - v 8.0.0.1 - Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/61)
 
 # ChangeLog versões antigas
 * [Changelog do Fork do Template do Adianti v7.6.0](changelog_fork_v7.6.0.md)
