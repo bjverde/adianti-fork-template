@@ -11,6 +11,16 @@ Informações sobre o Adianti e seu criador veja  [pagina principal](../README.m
 ### 2 - Inclusão do link para o Login
 
 ### 3 - Habilitando Toggle Visibility do campo senha
+Tela normal de login
+
+![Botão de login](img/template_80_login_normal.png)
+
+Tela fork de login
+* label sobre o campo
+* desativando placeholder
+* habilitanto Toggle Visibility
+
+![Botão de login](img/template_80_login_fork.png)
 
 ## ChangeLog por issue
 * :hammer: [#61 - v 8.0.0.1 - Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/61)
