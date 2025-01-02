@@ -1,9 +1,0 @@
-/***************************** DROPDOWN **********************************/
-.dropdown-menu[widget="tdropdown"] .dropdown-item, .dropdown-iconview .dropdown-item
-{
-    font-size: var(--ad-font-size);
-}
-
-.dropdown-menu {
-    --bs-dropdown-font-size: var(--ad-font-size);
-}
