@@ -58,6 +58,9 @@ return [
         'logo' => 'app/images/icon.png',
         'background' => 'app/images/thumb-1920-698137.jpg'
     ],
+    'system' => [
+        'system_version' => '2.0.0'
+    ],    
     'template' => [
         'navbar' => [
             'has_program_search' => '1',
