@@ -35,7 +35,9 @@ Tela fork cria conta normal
 ![criar conta fork](img/template_800_criar_conta_fork.png)
 
 ## ChangeLog por issue
-* :hammer: [#61 - v 8.0.0.1 - Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/61)
+* :hammer: [#59 - Melhorias telas logs](https://github.com/bjverde/adianti-fork-template/issues/59)
+* :hammer: [#60 - Instalar FormDin5](https://github.com/bjverde/adianti-fork-template/issues/60)
+* :hammer: [#61 - Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/61)
 
 # ChangeLog versões antigas
 * [Changelog do Fork do Template do Adianti v7.6.0](changelog_fork_v7.6.0.md)
