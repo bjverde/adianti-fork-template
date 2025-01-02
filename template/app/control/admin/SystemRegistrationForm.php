@@ -55,9 +55,9 @@ class SystemRegistrationForm extends TPage
         $repassword->setSize('100%');
         $email->setSize('100%');
         
-        $this->form->addRowField( _t('Login'), $login, true );
         $this->form->addRowField( _t('Name'), $name, true );
         $this->form->addRowField( _t('Email'), $email, true );
+        $this->form->addRowField( _t('Login'), $login, true );
         $this->form->addRowField( _t('Password'), $password, true );
         $this->form->addRowField( _t('Password confirmation'), $repassword, true );
         
