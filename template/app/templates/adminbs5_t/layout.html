@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/png" href="favicon.png"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link rel="apple-touch-icon" sizes="180x180" href="app/images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     
@@ -38,35 +38,36 @@
 </head>
 
 <body>
-    <header>
-        <div id="app_header_logo">
-            <img src="app/templates/{template}/img/formdin_logo_small.png">
+
+    <div id="app_header">
+        <div id="app_header_left">
+            <img src="favicon.png" id="img_header_logo" alt="{Logo}">
         </div>
-        <div id="app_header_title">
-            <div id="app_header_title_main">
-              {head_title}
+        <div id="app_header_center">
+            <div id="app_header_button">
+                <button class="btn superlight" id="sidebar-toggle" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
             </div>
-            <div id="app_header_subtitle">
-                APPEV1
+            <div id="app_header_title">
+                <div id="app_header_title_main">
+                {title}
+                </div>
+                <div id="app_header_subtitle">
+                {system_name_sub}
+                </div>
             </div>
         </div>
-        <div id="app_header_login">
-            Olá, FormDin 5.0.0-alpha2<br>
+        <div id="app_header_right">
+            {login}<br>
         </div>
-    </header>
+    </div>
+
     <div class="wrapper">
         <aside id="sidebar" class="js-sidebar thin-scroll">
             <!-- Content For Sidebar -->
             <div class="h-100">
-                <span class="sidebar-system-name border-bottom">
-                    <span class="sidebar-logo" style="margin-left: 0;">
-                        <img style="width:75%;margin-top:-5px" src="favicon.png">
-                    </span>
-                    <span class="name">
-                        {title}
-                    </span>
-                </span>
-                
+
                 <span class="sidebar-menu-title">
                     <span class="name">MENU</span>
                     <div id="has_menu_mode_switch" class="form-check form-switch" title="_t{Dark mode}" style="display: inline;position: absolute;right: 0;margin-right: 15px; display:none">
@@ -81,9 +82,6 @@
         </aside>
         <div class="main">
             <nav class="navbar navbar-expand px-3 border-bottom">
-                <button class="btn superlight" id="sidebar-toggle" type="button">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="navbar-collapse navbar">
                     <div class="nav-item" style="float:left">
                         {MENUTOP}
