@@ -6,7 +6,7 @@ use Adianti\Control\TAction;
 /**
  * Represents a group of Actions for datagrids
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio

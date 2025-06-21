@@ -2,7 +2,7 @@
 /**
  * SystemDriveDocumentUploadForm
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
@@ -38,6 +38,8 @@ class SystemDriveDocumentUploadForm extends TWindow
         $title = new TEntry('title');
         $file  = new TFile('filename');
         $description = new TText('description');
+        
+        $file->setService('SystemDocumentUploaderService');
         
         $this->form->addFields([$id]);
         $this->form->addFields([$folder_path]);

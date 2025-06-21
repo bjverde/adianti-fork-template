@@ -16,7 +16,7 @@ use Exception;
 /**
  * Database Multisearch Widget
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage wrapper
  * @author     Pablo Dall'Oglio

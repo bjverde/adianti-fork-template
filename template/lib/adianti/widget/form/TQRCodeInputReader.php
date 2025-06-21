@@ -10,7 +10,7 @@ use Adianti\Control\TAction;
 /**
  * QR Code Input Reader
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage form
  * @author     Lucas Tomasi

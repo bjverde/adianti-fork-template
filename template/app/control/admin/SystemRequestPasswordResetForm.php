@@ -5,7 +5,7 @@ use \Firebase\JWT\Key;
 /**
  * SystemRequestPasswordResetForm
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio

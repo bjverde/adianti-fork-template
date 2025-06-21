@@ -10,7 +10,7 @@ use Adianti\Control\TAction;
 /**
  * BarCode Widget
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage form
  * @author     Lucas Tomasi

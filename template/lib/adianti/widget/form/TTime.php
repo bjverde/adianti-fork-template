@@ -12,7 +12,7 @@ use Exception;
 /**
  * TimePicker Widget
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

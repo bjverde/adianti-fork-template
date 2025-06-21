@@ -2,7 +2,7 @@
 /**
  * Date validation
  *
- * @version    8.0
+ * @version    8.1
  * @package    validator
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006-2012 Adianti Solutions Ltd. (http://www.adianti.com.br)

@@ -4,7 +4,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * AdiantiTemplateTranslator
  *
- * @version    8.0
+ * @version    8.1
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -1698,7 +1698,11 @@ class AdiantiTemplateTranslator
         $this->messages['en'][] = 'Update';
         $this->messages['pt'][] = 'Atualizar';
         $this->messages['es'][] = 'Actualizar';
-
+        
+        $this->messages['en'][] = 'Updater';
+        $this->messages['pt'][] = 'Atualizador';
+        $this->messages['es'][] = 'Actualizador';
+        
         $this->messages['en'][] = 'Current';
         $this->messages['pt'][] = 'Atual';
         $this->messages['es'][] = 'Actual';
@@ -1738,6 +1742,158 @@ class AdiantiTemplateTranslator
         $this->messages['en'][] = 'Invalid captcha';
         $this->messages['pt'][] = 'Captcha inválido';
         $this->messages['es'][] = 'Captcha inválido';
+        
+        $this->messages['en'][] = 'Data added successfully';
+        $this->messages['pt'][] = 'Dados adicionados com sucesso';
+        $this->messages['es'][] = 'Datos añadidos con éxito';
+        
+        $this->messages['en'][] = 'Data removed successfully';
+        $this->messages['pt'][] = 'Dados removidos com sucesso';
+        $this->messages['es'][] = 'Datos eliminados con éxito';
+        
+        $this->messages['en'][] = 'Composition not found between ^1 and ^2';
+        $this->messages['pt'][] = 'Composição não encontrada entre ^1 e ^2';
+        $this->messages['es'][] = 'Composición no encontrada entre ^1 y ^2';
+        
+        $this->messages['en'][] = 'Association not found between ^1 and ^2';
+        $this->messages['pt'][] = 'Associação não encontrada entre ^1 e ^2';
+        $this->messages['es'][] = 'Asociación no encontrada entre ^1 y ^2';
+        
+        $this->messages['en'][] = 'Aggregation not found between ^1 and ^2';
+        $this->messages['pt'][] = 'Agregação não encontrada entre ^1 e ^2';
+        $this->messages['es'][] = 'Agregación no encontrada entre ^1 y ^2';
+        
+        $this->messages['en'][] = 'Review the relationships between classes';
+        $this->messages['pt'][] = 'Reveja os relacionamentos entre as classes';
+        $this->messages['es'][] = 'Revisar las relaciones entre clases';
+        
+        $this->messages['en'][] = 'Model (stage)';
+        $this->messages['pt'][] = 'Modelo (etapa)';
+        $this->messages['es'][] = 'Modelo (etapa)';
+        
+        $this->messages['en'][] = 'Title (stage)';
+        $this->messages['pt'][] = 'Título (etapa)';
+        $this->messages['es'][] = 'Título (etapa)';
+        
+        $this->messages['en'][] = 'Order (stage)';
+        $this->messages['pt'][] = 'Ordem (etapa)';
+        $this->messages['es'][] = 'Ordem (etapa)';
+  
+        $this->messages['en'][] = 'Start column';
+        $this->messages['pt'][] = 'Coluna de início';
+        $this->messages['es'][] = 'Columna de inicio';
+        
+        $this->messages['en'][] = 'End column';
+        $this->messages['pt'][] = 'Coluna de fim';
+        $this->messages['es'][] = 'Columna final';
+        
+        $this->messages['en'][] = 'Color column';
+        $this->messages['pt'][] = 'Coluna de cor';
+        $this->messages['es'][] = 'Columna de color';
+        
+        $this->messages['en'][] = 'Title column';
+        $this->messages['pt'][] = 'Coluna de título';
+        $this->messages['es'][] = 'Columna de título';
+        
+        $this->messages['en'][] = 'Connector';
+        $this->messages['pt'][] = 'Conector';
+        $this->messages['es'][] = 'Conector';
+        
+        $this->messages['en'][] = 'Identification field';
+        $this->messages['pt'][] = 'Campo de identificação';
+        $this->messages['es'][] = 'Campo de identificación';
+        
+        $this->messages['en'][] = 'Display field';
+        $this->messages['pt'][] = 'Campo de apresentação';
+        $this->messages['es'][] = 'Campo de presentación';
+        
+        $this->messages['en'][] = 'Required properties';
+        $this->messages['pt'][] = 'Propriedades necessárias';
+        $this->messages['es'][] = 'Propiedades requeridas';
+        
+        $this->messages['en'][] = 'shown just for administrator';
+        $this->messages['pt'][] = 'exibido apenas para administrador';
+        $this->messages['es'][] = 'se muestra solo para administrador';
+        
+        $this->messages['en'][] = 'The datagrid has no valid columns';
+        $this->messages['pt'][] = 'A datagrid não tem colunas válidas';
+        $this->messages['es'][] = 'La Datagrid no tiene columnas válidas';
+        
+        $this->messages['en'][] = 'Session Closed';
+        $this->messages['pt'][] = 'Sessão Encerrada';
+        $this->messages['es'][] = 'Sesión cerrada';
+        
+        $this->messages['en'][] = 'We have verified that your account was accessed in another session. Since our application does not allow concurrent logins, you were automatically logged out of this session. Please log in again to continue using our services';
+        $this->messages['pt'][] = 'Notamos que sua conta foi acessada em outra sessão. Como nossa aplicação não permite logins concorrentes, você foi desconectado automaticamente desta sessão. Por favor, efetue o login novamente para continuar utilizando nossos serviços';
+        $this->messages['es'][] = 'Hemos verificado que se accedió a su cuenta en otra sesión. Dado que nuestra aplicación no permite inicios de sesión simultáneos, se cerró automáticamente su sesión en esta. Inicie sesión nuevamente para continuar utilizando nuestros servicios';
+        
+        $this->messages['en'][] = 'Select files and folders to be updated';
+        $this->messages['pt'][] = 'Selecione os arquivos e pastas a serem atualizados';
+        $this->messages['es'][] = 'Seleccionar archivos y carpetas que se actualizarán';
+        
+        $this->messages['en'][] = 'Apply updates';
+        $this->messages['pt'][] = 'Aplicar atualizações';
+        $this->messages['es'][] = 'Aplicar actualizaciones';
+        
+        $this->messages['en'][] = 'Local version (in use)';
+        $this->messages['pt'][] = 'Versão local (em uso)';
+        $this->messages['es'][] = 'Versión local (en uso)';
+        
+        $this->messages['en'][] = 'Updated version (new)';
+        $this->messages['pt'][] = 'Versão atualizada (nova)';
+        $this->messages['es'][] = 'Versión actualizada (nueva)';
+        
+        $this->messages['en'][] = 'Duplicated';
+        $this->messages['pt'][] = 'Duplicado';
+        $this->messages['es'][] = 'Duplicado';
+        
+        $this->messages['en'][] = 'File tree';
+        $this->messages['pt'][] = 'Árvore de arquivos';
+        $this->messages['es'][] = 'Árbol de archivos';
+        
+        $this->messages['en'][] = 'Problems found';
+        $this->messages['pt'][] = 'Problemas encontrados';
+        $this->messages['es'][] = 'Problemas encontrados';
+        
+        $this->messages['en'][] = 'No duplicates found';
+        $this->messages['pt'][] = 'Não encontrou duplicados';
+        $this->messages['es'][] = 'No se encontraron duplicados';
+        
+        $this->messages['en'][] = 'Last backups from applied patches';
+        $this->messages['pt'][] = 'Últimos backups de patches aplicados';
+        $this->messages['es'][] = 'Últimas copias de seguridad a partir de parches aplicados';
+        
+        $this->messages['en'][] = 'Duplicate files cause conflicts in the class loader. You should not repeat the file name and class name';
+        $this->messages['pt'][] = 'Arquivos duplicados causam conflitos no class loader. Você não deve repetir o nome do arquivo e o nome da classe';
+        $this->messages['es'][] = 'Los archivos duplicados provocan conflictos en el cargador de clases. No debe repetir el nombre del archivo y el nombre de la clase';
+        
+        $this->messages['en'][] = 'There must be a /backups folder with write permissions to apply the patch';
+        $this->messages['pt'][] = 'Deve existir uma pasta /backups com permissão de escrita para poder aplicar o patch';
+        $this->messages['es'][] = 'Debe haber una carpeta /backups con permisos de escritura para aplicar el parche';
+        
+        $this->messages['en'][] = 'To enable scheduling, add the following line to crontab (Linux)';
+        $this->messages['pt'][] = 'Para habilitar os agendamentos, adicione a seguinte linha na crontab (Linux)';
+        $this->messages['es'][] = 'Para habilitar la programación, agregue la siguiente línea a crontab (Linux)';
+        
+        $this->messages['en'][] = 'Execute';
+        $this->messages['pt'][] = 'Executar';
+        $this->messages['es'][] = 'Ejecutar';
+		
+        $this->messages['en'][] = 'Records imported successfully';
+        $this->messages['pt'][] = 'Registros importados com sucesso';
+        $this->messages['es'][] = 'Registros importados exitosamente';
+        
+        $this->messages['en'][] = 'Import SQL';
+        $this->messages['pt'][] = 'Importar SQL';
+        $this->messages['es'][] = 'Importar SQL';
+        
+        $this->messages['en'][] = 'Download as CSV';
+        $this->messages['pt'][] = 'Baixar como CSV';
+        $this->messages['es'][] = 'Descargar como CSV';
+        
+        $this->messages['en'][] = 'Download as SQL';
+        $this->messages['pt'][] = 'Baixar como SQL';
+        $this->messages['es'][] = 'Descargar como SQL';
         
         foreach ($this->messages as $lang => $messages)
         {

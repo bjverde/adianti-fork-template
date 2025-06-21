@@ -1,16 +1,15 @@
 <?php
-namespace Adianti\Log;
+namespace Adianti\Control;
 
 /**
- * Log Interface
+ * AdiantiController
  *
  * @version    8.1
- * @package    log
+ * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license
  */
-interface AdiantiLoggerInterface
+interface AdiantiController
 {
-    function write($message);
 }

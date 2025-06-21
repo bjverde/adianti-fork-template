@@ -3,7 +3,7 @@
 /**
  * SystemAccessNotificationLogService
  *
- * @version    8.0
+ * @version    8.1
  * @package    service
  * @subpackage log
  * @author     Pablo Dall'Oglio

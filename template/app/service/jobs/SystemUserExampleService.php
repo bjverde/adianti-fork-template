@@ -1,5 +1,5 @@
 <?php
-class SystemUserExampleService
+class SystemUserExampleService implements AdiantiJob
 {
     public static function run()
     {

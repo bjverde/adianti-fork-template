@@ -2,7 +2,7 @@
 /**
  * SystemPostCommentForm
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio

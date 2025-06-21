@@ -11,7 +11,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * Bootstrap native panel for Adianti Framework
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio

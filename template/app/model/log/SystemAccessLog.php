@@ -2,7 +2,7 @@
 /**
  * SystemAccessLog
  *
- * @version    8.0
+ * @version    8.1
  * @package    model
  * @subpackage log
  * @author     Pablo Dall'Oglio

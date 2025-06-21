@@ -23,7 +23,7 @@ use DomDocument;
 /**
  * Standard Collection Trait
  *
- * @version    8.0
+ * @version    8.1
  * @package    base
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

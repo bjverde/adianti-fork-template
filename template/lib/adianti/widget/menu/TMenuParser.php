@@ -11,7 +11,7 @@ use DomElement;
 /**
  * Menu Parser
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage menu
  * @author     Pablo Dall'Oglio
