@@ -81,5 +81,11 @@ return [
             'menu_mode'  => 'dark',
             'main_mode'  => 'light'
         ]
-    ]
+    ],
+    'system' =>  [
+        'system_version' => '1.0.0',
+        'system_name_sub'=> 'Fork do Adianti FrameWork',
+        'adianti_min_version'=> '8.0.0',
+        'formdin_min_version'=> '5.4.0',
+    ],    
 ];
