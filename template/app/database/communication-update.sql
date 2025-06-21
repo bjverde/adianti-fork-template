@@ -183,3 +183,17 @@ CREATE TABLE system_message_tag (
 );
 
 ALTER TABLE system_wiki_page ADD COLUMN updated_by int;
+
+--- Create system_schedule table
+CREATE TABLE system_schedule (
+    id int PRIMARY KEY NOT NULL,
+    schedule_type char(1),
+    title varchar(256),
+    class_name varchar(256),
+    method varchar(256),
+    monthday char(2),
+    weekday char(1),
+    hour char(2),
+    minute char(2),
+    active char(1)
+);

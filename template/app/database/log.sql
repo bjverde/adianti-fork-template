@@ -99,6 +99,15 @@ CREATE TABLE system_schedule_log (
     message text
 );
 
+-- Create system_sql_changes
+CREATE TABLE system_sql_changes (
+    id int PRIMARY KEY NOT NULL,
+    db_name varchar(200),
+    sql_date varchar(20),
+    sql_hash varchar(32),
+    sql_command text
+);
+
 --- Create indexes
 CREATE INDEX sys_change_log_login_idx ON system_change_log(login);
 CREATE INDEX sys_change_log_date_idx ON system_change_log(logdate);
@@ -133,3 +142,8 @@ CREATE INDEX sys_access_notification_log_login_idx ON system_access_notification
 
 CREATE INDEX sys_schedule_log_class_idx ON system_schedule_log(class_name);
 CREATE INDEX sys_schedule_log_method_idx ON system_schedule_log(method);
+
+CREATE INDEX sys_sqlchanges_dbname_idx  ON system_sql_changes (db_name);
+CREATE INDEX sys_sqlchanges_sqldate_idx ON system_sql_changes (sql_date);
+CREATE INDEX sys_sqlchanges_sqlhash_idx ON system_sql_changes (sql_hash);
+
