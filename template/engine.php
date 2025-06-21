@@ -33,7 +33,6 @@ class TApplication extends AdiantiCoreApplication
                 }
                 else
                 {
-                    http_response_code(401);
                     new TMessage('error', _t('Permission denied') );
                 }
             }
@@ -43,8 +42,7 @@ class TApplication extends AdiantiCoreApplication
             }
             else
             {
-                http_response_code(401);
-                new TMessage('error', _t('Permission denied'), new TAction(array('LoginForm','onLogout')) );
+                new TMessage('error', _t('Permission denied') );
             }
         }
     }

@@ -1,7 +1,7 @@
 <?php
-if (version_compare(PHP_VERSION, '8.0.0') == -1)
+if (version_compare(PHP_VERSION, '8.2.0') == -1)
 {
-    die ('The minimum version required for PHP is 8.0.0');
+    die ('The minimum version required for PHP is 8.2.0');
 }
 
 // define the autoloader

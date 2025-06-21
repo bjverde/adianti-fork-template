@@ -112,9 +112,6 @@ RewriteRule ^xhr-system-menu-editor$ engine.php?class=SystemMenuEditor&%{QUERY_S
 RewriteRule ^system-request-log-list$ index.php?class=SystemRequestLogList&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-system-request-log-list$ engine.php?class=SystemRequestLogList&%{QUERY_STRING} [NC]
 
-RewriteRule ^system-dump-view$ index.php?class=SystemSessionDumpView&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-system-dump-view$ engine.php?class=SystemSessionDumpView&%{QUERY_STRING} [NC]
-
 RewriteRule ^system-message-form-view$ index.php?class=SystemMessageFormView&method=onView&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-system-message-form-view$ engine.php?class=SystemMessageFormView&method=onView&%{QUERY_STRING} [NC]
 

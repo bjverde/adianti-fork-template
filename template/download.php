@@ -4,12 +4,15 @@ new TSession;
 
 if (isset($_GET['file']) AND TSession::getValue('logged') )
 {
-    $file      = $_GET['file'];
-    $info      = pathinfo($file);
-    $extension = $info['extension'];
+    $file = $_GET['file'];
     
     // must be inside the application
     if (strpos(realpath($file), __DIR__) === false)
+    {
+        return;
+    }
+    
+    if (!file_exists($file))
     {
         return;
     }
@@ -19,6 +22,9 @@ if (isset($_GET['file']) AND TSession::getValue('logged') )
     {
         return;
     }
+    
+    $info      = pathinfo($file);
+    $extension = $info['extension'];
     
     $content_type_list = array();
     $content_type_list['txt']  = 'text/plain';

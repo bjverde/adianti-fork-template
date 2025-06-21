@@ -38,11 +38,12 @@
   pointer-events: none;
 }
 .diff-wrapper.diff thead th {
-  background: #eaeaea;
+  background: var(--bs-body-bg);
   border-bottom: 1px solid black;
   padding: 4px;
   text-align: center;
   font-family: 'Open Sans';
+  color: var(--bs-body-color);
 }
 .diff-wrapper.diff tbody.skipped {
   border-top: 1px solid black;
@@ -57,6 +58,9 @@
   text-align: right;
   vertical-align: top;
   width: 4em;
+  background: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+  padding-right: 4px;
 }
 .diff-wrapper.diff tbody th.sign {
   background: #fff;
