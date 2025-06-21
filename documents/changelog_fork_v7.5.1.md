@@ -1,9 +1,10 @@
 # Sobre Adianti
-Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
+* Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
+* [Lista de todas as mudanças](changelog_fork.md)
 
 # Changelog do Fork do Template do Adianti v7.5.1b3
 
-[Para baixr a versão v7.6.0.4](https://github.com/bjverde/adianti-fork-template/releases/tag/v7.6.0.4)
+[Para baixar a versão v7.6.0.4](https://github.com/bjverde/adianti-fork-template/releases/tag/v7.6.0.4)
 
 ## Principais alterações
 ### 1 - Alterado modo de criptografia da senha

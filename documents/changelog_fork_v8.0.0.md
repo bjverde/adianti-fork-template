@@ -2,9 +2,9 @@
 * Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
 * [Lista de todas as mudanças](changelog_fork.md)
 
-# Changelog do Adianti Fork Template v7.6.0.4
+# Changelog do Adianti Fork Template v8.0.0.1
 
-[Para baixar a versão v7.6.0.4](https://github.com/bjverde/adianti-fork-template/releases/tag/v7.6.0.4)
+[Para baixar a versão v8.0.0.1](https://github.com/bjverde/adianti-fork-template/releases/tag/v8.0.0.1)
 
 ## Principais alterações
 
@@ -20,12 +20,12 @@ Nas telas de criar conta e redefiniar senha não tinha um link para voltar para 
 ![Botão de login](img/template_71_senha.png)
 
 ## ChangeLog por issue
-* template/.gitignore - arquivo diferente do original
-* 🔨- [#53 Update framework_hashes para Adianti Fork Template 7.6.](https://github.com/bjverde/adianti-fork-template/issues/53)
-* 🔨- [#52 Atualizar theme3 para theme3_v5 com Adianti 7.6.0](https://github.com/bjverde/adianti-fork-template/issues/52)
-* 🔨- [#51 update adianti template 7.6.0](https://github.com/bjverde/adianti-fork-template/issues/51)
+* :hammer: [#59 - Melhorias telas logs](https://github.com/bjverde/adianti-fork-template/issues/59)
+* :hammer: [#60 - Instalar FormDin5](https://github.com/bjverde/adianti-fork-template/issues/60)
+* :hammer: [#61 - Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/61)
 
 # ChangeLog versões antigas
+* [Changelog do Fork do Template do Adianti v8.0.0](changelog_fork_v8.0.0.md)
 * [Changelog do Fork do Template do Adianti v7.6.0](changelog_fork_v7.6.0.md)
 * [Changelog do Fork do Template do Adianti v7.5.1](changelog_fork_v7.5.1.md)
 * [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)

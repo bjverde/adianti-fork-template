@@ -1,5 +1,5 @@
 # adianti-fork-template
-Adianti Fork Template 8.0.0
+Adianti Fork Template 8.1.0
 
 
 ## Perguntas frequentes
@@ -10,7 +10,7 @@ Foi criado por ***Pablo Dall'Oglio***, esse projeto tem um Fork do template com 
 ## Qual é o site da versão oficial ?
 https://adiantiframework.com.br/
 
-## Qual é a licença do Adianti Framework 8.0.0 ?
+## Qual é a licença do Adianti Framework 8.0.0 ou superior ?
 [Licença](template/LICENSE) ou veja no site https://adiantiframework.com.br/license
 
 ## Tem um documentação de uso ?
