@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '625872ced042b1e910c3ecafcf24570e359eec00',
+    'reference' => 'ea7d77cbd9771d2853c8d75b9401b9f0793e1014',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,17 +18,34 @@
       'aliases' => 
       array (
       ),
-      'reference' => '625872ced042b1e910c3ecafcf24570e359eec00',
+      'reference' => 'ea7d77cbd9771d2853c8d75b9401b9f0793e1014',
+    ),
+    'adianti/barcode-document' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a251ae15583fc99137d8bbd2284541319af742d2',
+    ),
+    'adianti/html-document' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '76c5af4c4515724d6e22f968ba22a49b83711bd1',
     ),
     'adianti/pdfdesigner' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
       'aliases' => 
       array (
-        0 => '9999999-dev',
       ),
-      'reference' => 'dc2c9312e319fa76a1cfe20a7df11b87cd500073',
+      'reference' => 'd145c44530af6a5f285ec00d7fffd5d6d8085bbb',
     ),
     'adianti/plugins' => 
     array (
@@ -39,6 +56,24 @@
         0 => '9999999-dev',
       ),
       'reference' => '53e2704203635915f3375dbdb66a97af52c56e6c',
+    ),
+    'adianti/studio-forms' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '1fd4b7de085d33ecb5860fca992ee100b1cc70f2',
+    ),
+    'adianti/table-writers' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b6a8bdae279fd4059ee27d480e77c0685524fbd8',
     ),
     'bacon/bacon-qr-code' => 
     array (
@@ -60,21 +95,21 @@
     ),
     'dompdf/dompdf' => 
     array (
-      'pretty_version' => 'v3.0.0',
-      'version' => '3.0.0.0',
+      'pretty_version' => 'v3.1.0',
+      'version' => '3.1.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'fbc7c5ee5d94f7a910b78b43feb7931b7f971b59',
+      'reference' => 'a51bd7a063a65499446919286fb18b518177155a',
     ),
     'dompdf/php-font-lib' => 
     array (
-      'pretty_version' => '1.0.0',
-      'version' => '1.0.0.0',
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '991d6a954f6bbd7e41022198f00586b230731441',
+      'reference' => '6137b7d4232b7f16c882c75e4ca3991dbcf6fe2d',
     ),
     'dompdf/php-svg-lib' => 
     array (
@@ -87,12 +122,12 @@
     ),
     'firebase/php-jwt' => 
     array (
-      'pretty_version' => 'v6.10.1',
-      'version' => '6.10.1.0',
+      'pretty_version' => 'v6.11.0',
+      'version' => '6.11.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '500501c2ce893c824c801da135d02661199f60c5',
+      'reference' => '8f718f4dfc9c5d5f0c994cdfd103921b43592712',
     ),
     'jfcherng/php-color-output' => 
     array (
@@ -137,7 +172,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '69c76c4613932d4a3ca36c36faebb122093522f6',
+      'reference' => 'cddc6963dc507342bc3b6bf828cf87fe2aa55a2e',
     ),
     'masterminds/html5' => 
     array (
@@ -199,12 +234,12 @@
     ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v6.9.2',
-      'version' => '6.9.2.0',
+      'pretty_version' => 'v6.9.3',
+      'version' => '6.9.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a7b17b42fa4887c92146243f3d2f4ccb962af17c',
+      'reference' => '2f5c94fe7493efc213f643c23b1b1c249d40f47e',
     ),
     'picqer/php-barcode-generator' => 
     array (
@@ -226,12 +261,12 @@
     ),
     'sabberworm/php-css-parser' => 
     array (
-      'pretty_version' => 'v8.7.0',
-      'version' => '8.7.0.0',
+      'pretty_version' => 'v8.8.0',
+      'version' => '8.8.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f414ff953002a9b18e3a116f5e462c56f21237cf',
+      'reference' => '3de493bdddfd1f051249af725c7e0d2c38fed740',
     ),
     'spomky-labs/otphp' => 
     array (
@@ -244,12 +279,12 @@
     ),
     'symfony/deprecation-contracts' => 
     array (
-      'pretty_version' => 'v3.5.0',
-      'version' => '3.5.0.0',
+      'pretty_version' => 'v3.5.1',
+      'version' => '3.5.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0e0d29ce1f20deffb4ab1b016a7257c4f1e789a1',
+      'reference' => '74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6',
     ),
     'tburry/pquery' => 
     array (

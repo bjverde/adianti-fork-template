@@ -136,9 +136,49 @@ class ComposerStaticInit4074d5b77a855dbfd71e43da22fa21e2
     public static $prefixesPsr0 = array (
         'T' => 
         array (
+            'TUIBuilder' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/studio-forms',
+            ),
+            'TTableWriterXLS' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
+            'TTableWriterRTF' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
+            'TTableWriterPDF' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
+            'TTableWriterHTML' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
             'TPDFDesigner' => 
             array (
                 0 => __DIR__ . '/..' . '/adianti/pdfdesigner',
+            ),
+            'TAdiantiTableRow' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
+            'TAdiantiTableCell' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
+            'TAdiantiTable' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
+            'TAdiantiStyle' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
+            'TAdiantiElement' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
             ),
         ),
         'S' => 
@@ -162,6 +202,13 @@ class ComposerStaticInit4074d5b77a855dbfd71e43da22fa21e2
                 0 => __DIR__ . '/..' . '/pablodalloglio/ole',
             ),
         ),
+        'I' => 
+        array (
+            'ITableWriter' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/table-writers',
+            ),
+        ),
         'F' => 
         array (
             'FPDF' => 
@@ -171,9 +218,21 @@ class ComposerStaticInit4074d5b77a855dbfd71e43da22fa21e2
         ),
         'A' => 
         array (
+            'AdiantiUIBuilder' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/studio-forms',
+            ),
             'AdiantiPDFDesigner' => 
             array (
                 0 => __DIR__ . '/..' . '/adianti/pdfdesigner',
+            ),
+            'AdiantiHTMLDocumentParser' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/html-document',
+            ),
+            'AdiantiBarcodeDocumentGenerator' => 
+            array (
+                0 => __DIR__ . '/..' . '/adianti/barcode-document',
             ),
         ),
     );
