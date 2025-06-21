@@ -8,5 +8,5 @@
 
 .tselect_disabled
 {
-    background-color : #eeeeee;
+    background-color : var(--bs-secondary-bg) !important;
 }

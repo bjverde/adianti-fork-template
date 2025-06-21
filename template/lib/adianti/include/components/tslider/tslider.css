@@ -5,6 +5,7 @@
 .tslidercontainer .label {
     display: block;
     text-align: center;
+    color: var(--bs-body-color);
 }
 
 .tslidercontainer input[type="range"].tfield_disabled {

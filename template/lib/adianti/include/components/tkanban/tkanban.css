@@ -55,7 +55,6 @@
     background: var(--bs-body-bg);
     border-radius: var(--bs-border-radius);
     border: var(--bs-border-width) solid var(--bs-border-color);
-    box-shadow: var(--bs-box-shadow-sm);
 }
 
 .kanban-item:hover

@@ -32,7 +32,7 @@ ol.tbreadcrumb li a {
 
 ol.tbreadcrumb li a:after {
     content: "\f105";
-    font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-style: normal;
     font-weight: 600;
     color: #b1b1b1;

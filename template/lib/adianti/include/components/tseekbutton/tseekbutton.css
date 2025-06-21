@@ -41,7 +41,7 @@
 
 .tseek-group
 {
-    display:inline-table;
+    display:flex;
     border-spacing:0;
     width: 100%;
 }

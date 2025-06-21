@@ -22,7 +22,7 @@ form[type="bootstrap"] .ttd {
 }
 
 .fb-inline-field-container > .panel, .panel-body .panel {
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 @media (min-width: 576px) {

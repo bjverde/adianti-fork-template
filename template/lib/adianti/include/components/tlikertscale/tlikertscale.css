@@ -1,4 +1,4 @@
-form ul.likert {
+ul.likert {
     list-style: none;
     width: 100%;
     margin: 0;
@@ -7,11 +7,11 @@ form ul.likert {
     border-bottom: 2px solid #efefef;
 }
 
-form ul.likert:last-of-type {
+ul.likert:last-of-type {
     border-bottom: 0;
 }
 
-form ul.likert:before {
+ul.likert:before {
     content: '';
     position: relative;
     top: 11px;
@@ -22,19 +22,19 @@ form ul.likert:before {
     width: 78%;
 }
 
-form ul.likert.full:before {
+ul.likert.full:before {
     left: 0;
     width: 100%;
 }
 
-form ul.likert li {
+ul.likert li {
     display: inline-block;
     width: 19%;
     text-align: center;
     vertical-align: top;
 }
 
-form ul.likert li input[type=radio] {
+ul.likert li input[type=radio] {
     display: block;
     position: relative;
     top: 0;
@@ -42,7 +42,7 @@ form ul.likert li input[type=radio] {
     margin-left: -6px;
 }
 
-form ul.likert li label {
+ul.likert li label {
     width: 100%;
     cursor: pointer;
 }
