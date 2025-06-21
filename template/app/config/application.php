@@ -4,14 +4,15 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'template',
-        'title' => 'Adianti Fork Template 8.0',
-        'theme' => 'adminbs5_v2',
+        'title' => 'Adianti Fork Template 8.1',
+        'theme' => 'adminbs5',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
         'multiunit' => '1',
         'public_view' => '0',
         'public_entry' => '',
         'debug' => '1',
+        'strict_request' => '0',
         'multi_lang' => '1',
         'require_terms' => '0',
         'concurrent_sessions' => '1',
@@ -40,6 +41,7 @@ return [
           'SystemPasswordResetForm',
           'SystemRegistrationForm',
           'SystemPasswordRenewalForm',
+          'SystemConcurrentAccessView'
         ],
         'user_register' => '1',
         'reset_password' => '1',
@@ -57,9 +59,6 @@ return [
     'login' => [
         'logo' => 'app/images/icon.png',
         'background' => 'app/images/thumb-1920-698137.jpg'
-    ],
-    'system' => [
-        'system_version' => '2.0.0'
     ],    
     'template' => [
         'navbar' => [
