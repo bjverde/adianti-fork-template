@@ -59,7 +59,8 @@ function __adianti_process_popover()
         }
         else if ($(this).attr("popaction")) {
             __adianti_get_page($(this).attr('popaction'), function(result) {
-                __adianti_show_popover(element, pop_title, result, 'auto', custom_options)
+                __adianti_clear_click_popovers();
+                __adianti_show_popover(element, pop_title, result, 'auto', custom_options);
             }, {'static': '0'});
         }
     }).attr('data-popover-processed', true);
@@ -90,17 +91,29 @@ function __adianti_show_popover(element, title, message, placement, custom_optio
     var old_title = $(element).data('original-title');
     
     // troca o title temporariamente, por que a popover dá prioridade para o title do dom, no lugar do title passado nas options
-    $(element).attr('title', title);
-    $(element).attr('data-original-title', title);
+    if (typeof title !== 'undefined') {
+        $(element).attr('title', title);
+        $(element).attr('data-original-title', title);
+    }
     
     if ($(element).length>0 && $(element).css("visibility") == "visible") {
         $(element).popover(options).popover("show");
     }
     
+    // extract and execute the nested scripts inside popover
+    let popover_id = $(element).attr('aria-describedby');
+    let scripts = $('#' + popover_id).clone().find('script').map(function() { return $(this).html(); }).get().join(';');
+    
+    if (scripts.length> 0) {
+        new Function(scripts)();
+    }
+    
     // restaura o title
     setTimeout( function() {
-        $(element).attr('title', old_title);
-        $(element).attr('data-original-title', old_title);
+        if (typeof old_title !== 'undefined') {
+            $(element).attr('title', old_title);
+            $(element).attr('data-original-title', old_title);
+        }
     },100);
 }
 

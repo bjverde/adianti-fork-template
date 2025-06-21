@@ -837,9 +837,10 @@
                 }
 
                 selOpts.push(
-                    $.trim( select.find('option[value="'+ instance._escapeSelector( selectVals[ key ] ) +'"]').text() )
+                    //$.trim( select.find('option[value="'+ instance._escapeSelector( selectVals[ key ] ) +'"]').text() )
+                    $.trim( select.find('option[value="'+ instance._escapeSelector( selectVals[ key ] ) +'"]').text().replace(/<\/?[^>]+(>|$)/g, ""))
                 );
-
+                
                 if( selOpts.length >= instance.options.maxPlaceholderOpts ) {
                     break;
                 }
@@ -877,11 +878,11 @@
 
             var thisOption = $('<label/>', {
                 for : 'ms-opt-'+ msOptCounter
-            }).text( optionNameText );
+            });//.text( optionNameText ); // comentar aquip
 
             var thisCheckbox = $('<input>', {
                 type : 'checkbox',
-                title: optionNameText,
+                // title: optionNameText,
                 id   : 'ms-opt-'+ msOptCounter,
                 value: option.value
             });
@@ -897,7 +898,8 @@
             }
 
             thisOption.prepend( thisCheckbox );
-
+            thisOption.append( option.name ); // novo aquip
+            
             var searchTerm = '';
             if( instance.options.searchOptions.searchText ) {
                 searchTerm += ' ' + optionNameText.toLowerCase();

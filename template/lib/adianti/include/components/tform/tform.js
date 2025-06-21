@@ -219,7 +219,7 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                         if (value) {
                             var values = JSON.parse(value);
                             $(array_field).find("option").prop('selected', false);
-                            if (array_field.attr('widget') == 'tselect' && array_field.length == 1) // single select[]
+                            if ( ['tselect', 'tmulticombo', 'tdbmulticombo'].includes(array_field.attr('widget'))  && array_field.length == 1) // single select[]
                             {
                                 $.each(values, function(key, checkvalue) {
                                     $(array_field).find("option").filter('[value="'+checkvalue+'"]').prop('selected', true);
@@ -234,6 +234,11 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                                 
                                 // cancel fire events because it will be fired one by one inside the previous loop
                                 fire_events = false;
+                            }
+                            
+                            if (['tmulticombo', 'tdbmulticombo'].includes($(array_field).attr('widget'))) {
+                                $(array_field).multiselect('reload');
+                                $(array_field).next('.ms-options-wrap').width($(array_field).data('size'));
                             }
                         }
                     }
@@ -380,8 +385,108 @@ function tform_show_field(form, field, speed) {
 function tform_disable_field(form_name, field) {
     try {
         let selector = tfield_get_selector(form_name, field);
+        
         if ($(selector).attr('widget') == 'tentry') {
             tfield_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tpassword') {
+            tfield_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'ttext') {
+            tfield_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tbarcodeinputreader') {
+            tfield_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tqrcodeinputreader') {
+            tfield_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tcolor') {
+            tcolor_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'ticon') {
+            ticon_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tfile') {
+            tfile_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tdate') {
+            tdate_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tdatetime') {
+            tdate_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'ttime') {
+            tdate_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tseekbutton') {
+            tseekbutton_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tbutton') {
+            tbutton_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tchecklist') {
+            tchecklist_disable_field(name);
+        }
+        else if ($(selector).attr('widget') == 'tradiobutton') {
+            tradiogroup_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tspinner') {
+            tspinner_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tdbuniquesearch') {
+            tmultisearch_disable_field(form_name, field, '');
+        }
+        else if ($(selector).attr('widget') == 'tlikertscale') {
+            tlikertscale_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'thtmleditor') {
+            thtmleditor_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tcombo') {
+            tcombo_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tslider') {
+            tslider_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tfieldlist') {
+            tfieldlist_disable_field(name);
+        }
+        else if ($(selector).attr('widget') == 'tsortlist') {
+            tsortlist_disable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tarrowstep') {
+            tarrowstep_disable_field(name);
+        }
+        else if ($('form[name='+form_name+'] [checkgroup='+field+']').length > 0)
+        {
+            tcheckgroup_disable_field(form_name, field);
+        }
+        
+        let selector2 = tfield_get_selector(form_name, field+'[]');
+        console.log(selector2);
+        if ($(selector2).attr('widget') == 'tselect') {
+            tselect_disable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tmulticombo') {
+            tmulticombo_disable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tdbmulticombo') {
+            tmulticombo_disable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tdbmultisearch') {
+            tmultisearch_disable_field(form_name, field, '');
+        }
+        else if ($(selector2).attr('widget') == 'tmultisearch') {
+            tmultisearch_disable_field(form_name, field, '');
+        }
+        else if ($(selector2).attr('widget') == 'tdbmultisearch') {
+            tmultisearch_disable_field(form_name, field, '');
+        }
+        
+        let selector3 = tfield_get_selector(form_name, 'file_'+field+'[]');
+        if ($(selector3).attr('widget') == 'tmultifile') {
+            tmultifile_disable_field(form_name, field);
         }
     } catch (e) {
         console.log(e);
@@ -391,8 +496,111 @@ function tform_disable_field(form_name, field) {
 function tform_enable_field(form_name, field) {
     try {
         let selector = tfield_get_selector(form_name, field);
+        
         if ($(selector).attr('widget') == 'tentry') {
             tfield_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tpassword') {
+            tfield_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'ttext') {
+            tfield_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tbarcodeinputreader') {
+            tfield_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tqrcodeinputreader') {
+            tfield_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tcolor') {
+            tcolor_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'ticon') {
+            ticon_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tfile') {
+            tfile_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tdate') {
+            tdate_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tdatetime') {
+            tdate_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'ttime') {
+            tdate_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tseekbutton') {
+            tseekbutton_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tbutton') {
+            tbutton_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tchecklist') {
+            tchecklist_enable_field(name);
+        }
+        else if ($(selector).attr('widget') == 'tradiobutton') {
+            tradiogroup_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tspinner') {
+            tspinner_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tdbuniquesearch') {
+            tmultisearch_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tlikertscale') {
+            tlikertscale_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'thtmleditor') {
+            thtmleditor_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tcombo') {
+            tcombo_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tslider') {
+            tslider_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tfieldlist') {
+            tfieldlist_enable_field(name);
+        }
+        else if ($(selector).attr('widget') == 'tsortlist') {
+            tsortlist_enable_field(form_name, field);
+        }
+        else if ($(selector).attr('widget') == 'tarrowstep') {
+            tarrowstep_enable_field(name);
+        }
+        else if ($('form[name='+form_name+'] [checkgroup='+field+']').length > 0)
+        {
+            tcheckgroup_enable_field(form_name, field);
+        }
+        
+        let selector2 = tfield_get_selector(form_name, field+'[]');
+        
+        if ($(selector2).attr('widget') == 'tselect') {
+            tselect_enable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tmulticombo') {
+            tmulticombo_enable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tdbmulticombo') {
+            tmulticombo_enable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tmultisearch') {
+            tmultisearch_enable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tmultisearch') {
+            tmultisearch_enable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tdbmultisearch') {
+            tmultisearch_enable_field(form_name, field);
+        }
+        else if ($(selector2).attr('widget') == 'tmultifile') {
+            tmultifile_enable_field(form_name, field);
+        }
+        
+        let selector3 = tfield_get_selector(form_name, 'file_'+field+'[]');
+        if ($(selector3).attr('widget') == 'tmultifile') {
+            tmultifile_enable_field(form_name, field);
         }
     } catch (e) {
         console.log(e);

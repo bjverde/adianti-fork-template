@@ -55,6 +55,9 @@ function tmultisearch_start( id, minlen, maxsize, placeholder, multiple, width, 
         $('#'+id).parent().find('.select2-selection').find('.select2-selection__rendered').height(height);
         $('#'+id).parent().find('.select2-selection').find('.select2-selection__rendered').css('overflow-y', 'auto');
     }
+    
+    $('#'+id).data('select2-options', options);
+    $('#'+id).addClass('byselect2');
 }
 
 function tmultisearch_clear_field(form_name, field) {

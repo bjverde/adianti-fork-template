@@ -41,7 +41,9 @@ function __adianti_post_data(form, action, run_events, options)
     
     if (typeof options.wrapper_variable !== "undefined") {
         var data = {};
+        data = __adianti_query_to_json(action);
         data[options.wrapper_variable] = __adianti_query_to_json( $('#'+form).serialize() );
+        url = __adianti_filter_url(url, action, ['class', 'method', 'static', 'register_state']);
     }
     else
     {
@@ -209,4 +211,23 @@ function __adianti_post_page_lookup(form, action, field, callback) {
       }).fail(function(jqxhr, textStatus, exception) {
          __adianti_failure_request(jqxhr, textStatus, exception);
       });
+}
+
+function __adianti_filter_url(url, action, keep_variables)
+{
+    var query_object = __adianti_query_to_json(action);
+    var keep_list = {};
+    
+    for (var variable of keep_variables) {
+        if (typeof query_object[variable] !== 'undefined') {
+            keep_list[variable] = query_object[variable];
+        }
+    }
+    
+    if (action.substring(0,4) !== 'xhr-') {
+        url = url.replace(action, '');
+        url = url + $.param(keep_list);
+    }
+    
+    return url;
 }

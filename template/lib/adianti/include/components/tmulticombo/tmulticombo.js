@@ -1,3 +1,25 @@
+function tmulticombo_enable_field(form_name, field) {
+    let selector = tfield_get_selector(form_name, field+'[]');
+    $(function () {
+        try {
+            $(selector).multiselect( 'disable', false );
+        } catch (e) {
+            console.log(e);
+        }
+    });
+} 
+
+function tmulticombo_disable_field(form_name, field) {
+    let selector = tfield_get_selector(form_name, field+'[]');
+    $(function () {
+        try {
+            $(selector).multiselect( 'disable', true );
+        } catch (e) {
+            console.log(e);
+        }
+    });
+}
+
 function tmulticombo_start(element_id, size, labels)
 {
     $(function () {

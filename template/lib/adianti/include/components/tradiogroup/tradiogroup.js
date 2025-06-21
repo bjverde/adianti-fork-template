@@ -21,7 +21,7 @@ function tradiogroup_disable_field(form_name, field) {
 function tradiogroup_clear_field(form_name, field) {
     var selector = tfield_get_selector(form_name, field);
     
-    setTimeout(function(){ $(selector).attr('checked', false) },1);    
+    setTimeout(function(){ $(selector).prop('checked', false) },1);    
 }
 
 function tradiogroup_reload(form_name, field, content) {

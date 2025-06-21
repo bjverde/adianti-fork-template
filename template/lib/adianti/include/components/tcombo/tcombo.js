@@ -91,7 +91,7 @@ function tcombo_enable_search(field, placeholder)
 {
     $(field).removeAttr('onchange');
     
-    $(field).select2({
+    var options = {
         allowClear: true,
         placeholder: placeholder,
         templateResult: function (d) {
@@ -110,7 +110,12 @@ function tcombo_enable_search(field, placeholder)
                 return d.text;
             }
         }
-    }).on('change', function (e) {
+    };
+    
+    $(field).select2(options).on('change', function (e) {
         new Function( $( field ).attr('changeaction'))();
     });
+    
+    $(field).data('select2-options', options);
+    $(field).addClass('byselect2');
 }

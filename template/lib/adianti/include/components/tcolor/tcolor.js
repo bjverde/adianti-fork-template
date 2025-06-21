@@ -5,10 +5,14 @@ function tcolor_enable_field(form_name, field) {
         setTimeout(function(){
             $(selector).trigger('enable');
             $(selector).removeClass('tfield_disabled');
+            $(selector).css('pointer-events', 'auto');
         },1);
     } catch (e) {
         console.log(e);
     }
+    setTimeout(function() {
+        $(selector).next('.pickr').show();
+    },1);
 }
 
 function tcolor_disable_field(form_name, field) {
@@ -18,10 +22,14 @@ function tcolor_disable_field(form_name, field) {
         setTimeout(function(){
             $(selector).trigger('disable');
             $(selector).addClass('tfield_disabled');
+            $(selector).css('pointer-events', 'none');
         },1);
     } catch (e) {
         console.log(e);
     }
+    setTimeout(function(){
+        $(selector).next('.pickr').hide();
+    },1);
 }
 
 function tcolor_start(id, size, theme, change_function, options) {
@@ -32,8 +40,7 @@ function tcolor_start(id, size, theme, change_function, options) {
     };
 
     var tcolor = $(`#${id}`);
-    tcolor.css('width', `calc( ${size} - 30px )`);
-
+    
     options.el = `#${id}+.tcolor`;
     options.theme = theme;
     options.default = tcolor.val() ? tcolor.val() : null;

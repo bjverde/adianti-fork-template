@@ -5,7 +5,8 @@ function __adianti_load_html(content, afterCallback, url)
 {
     var url_container = url.match('target_container=([0-z-]*)');
     var dom_container = content.match('adianti_target_container\\s?=\\s?"([0-z-]*)"');
-
+    var page_name = content.match('page-name\\s?=\\s?"([0-z-]*)"');
+    
     if (content.indexOf('widget="TWindow"') > 0)
     {
         __adianti_load_window_content(content);
@@ -18,6 +19,12 @@ function __adianti_load_html(content, afterCallback, url)
     else if (url_container !== null)
     {
         var target_container = url_container[1];
+        __adianti_load_container(target_container, content, url);
+    }
+    // found a page wrapper in dom with the requested page inside
+    else if (page_name !== null && $('[widget="tpagewrapper"]>div[page-name="'+page_name[1]+'"]').length > 0)
+    {
+        var target_container = $('[widget="tpagewrapper"]>div[page-name="'+page_name[1]+'"]').parent().attr('id');
         __adianti_load_container(target_container, content, url);
     }
     else
@@ -42,7 +49,7 @@ function __adianti_load_html(content, afterCallback, url)
 /**
  * Parse returning HTML
  */
-function __adianti_parse_html(content, callback, url)
+function __adianti_parse_html(content, callback, url = '')
 {
     tmp = content;
     tmp = new String(tmp.replace(/window\.opener\./g, ''));
@@ -71,8 +78,13 @@ function __adianti_parse_html(content, callback, url)
                     $('#'+target_container).replaceWith(domstring.find('#'+page_fragment[1]));
                 }
                 else {
-                    $('#'+target_container).empty();
-                    $('#'+target_container).html(tmp);
+                    if ( (url.indexOf('&static=1') > 0) || (url.indexOf('?static=1') > 0) ) {
+                        $('#'+target_container).append(tmp);
+                    }
+                    else {
+                        $('#'+target_container).empty();
+                        $('#'+target_container).html(tmp);
+                    }
                 }
             }
         }

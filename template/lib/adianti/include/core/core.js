@@ -27,9 +27,14 @@ Adianti.start = function() {
 }
 
 Adianti.configure = function(options) {
+    Adianti.options = options;
     Adianti.setLanguage(options['language']);
     Adianti.setAppName(options['application']);
     Adianti.setDebug(options['debug']);
+}
+
+Adianti.getConfigureOptions = function() {
+    return Adianti.options;
 }
 
 /**
@@ -103,7 +108,7 @@ function __adianti_bind_popover_release()
             // avoid closing dropdowns inside popover (colorpicker, datepicker) when they are outside popover DOM
             if ( (!$(e.target).parents('.dropdown-menu').length > 0) && (!$(e.target).parents('.select2-dropdown').length > 0) ) {
                 //$('.popover').popover().hide();
-                $('.popover').remove();
+                $('.popover:not(.note-popover)').remove();
             }
         }
     });

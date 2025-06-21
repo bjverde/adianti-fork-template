@@ -27,9 +27,14 @@ Adianti.start = function() {
 }
 
 Adianti.configure = function(options) {
+    Adianti.options = options;
     Adianti.setLanguage(options['language']);
     Adianti.setAppName(options['application']);
     Adianti.setDebug(options['debug']);
+}
+
+Adianti.getConfigureOptions = function() {
+    return Adianti.options;
 }
 
 /**
@@ -103,7 +108,7 @@ function __adianti_bind_popover_release()
             // avoid closing dropdowns inside popover (colorpicker, datepicker) when they are outside popover DOM
             if ( (!$(e.target).parents('.dropdown-menu').length > 0) && (!$(e.target).parents('.select2-dropdown').length > 0) ) {
                 //$('.popover').popover().hide();
-                $('.popover').remove();
+                $('.popover:not(.note-popover)').remove();
             }
         }
     });
@@ -349,7 +354,8 @@ function __adianti_process_popover()
         }
         else if ($(this).attr("popaction")) {
             __adianti_get_page($(this).attr('popaction'), function(result) {
-                __adianti_show_popover(element, pop_title, result, 'auto', custom_options)
+                __adianti_clear_click_popovers();
+                __adianti_show_popover(element, pop_title, result, 'auto', custom_options);
             }, {'static': '0'});
         }
     }).attr('data-popover-processed', true);
@@ -380,17 +386,29 @@ function __adianti_show_popover(element, title, message, placement, custom_optio
     var old_title = $(element).data('original-title');
     
     // troca o title temporariamente, por que a popover dá prioridade para o title do dom, no lugar do title passado nas options
-    $(element).attr('title', title);
-    $(element).attr('data-original-title', title);
+    if (typeof title !== 'undefined') {
+        $(element).attr('title', title);
+        $(element).attr('data-original-title', title);
+    }
     
     if ($(element).length>0 && $(element).css("visibility") == "visible") {
         $(element).popover(options).popover("show");
     }
     
+    // extract and execute the nested scripts inside popover
+    let popover_id = $(element).attr('aria-describedby');
+    let scripts = $('#' + popover_id).clone().find('script').map(function() { return $(this).html(); }).get().join(';');
+    
+    if (scripts.length> 0) {
+        new Function(scripts)();
+    }
+    
     // restaura o title
     setTimeout( function() {
-        $(element).attr('title', old_title);
-        $(element).attr('data-original-title', old_title);
+        if (typeof old_title !== 'undefined') {
+            $(element).attr('title', old_title);
+            $(element).attr('data-original-title', old_title);
+        }
     },100);
 }
 
@@ -403,13 +421,16 @@ function __adianti_clear_click_popovers()
 }function __adianti_process_tooltips()
 {
     $("[title]").each(function(k,v) {
-        tippy(v, {
-          content: $(v).attr('title'),
-          allowHTML: true,
-          theme: 'light-border',
-          arrow: true
-        });
-        $(v).removeAttr('title');
+        if ($(v).attr('title').length > 0 ) {
+            tippy(v, {
+              content: $(v).attr('title'),
+              allowHTML: true,
+              theme: 'light-border',
+              arrow: true
+            });
+            $(v).attr('data-original-title', $(v).attr('title'));
+            $(v).removeAttr('title');
+        }
     });
 }/**
  * Ajax lookup
@@ -515,7 +536,8 @@ function __adianti_load_html(content, afterCallback, url)
 {
     var url_container = url.match('target_container=([0-z-]*)');
     var dom_container = content.match('adianti_target_container\\s?=\\s?"([0-z-]*)"');
-
+    var page_name = content.match('page-name\\s?=\\s?"([0-z-]*)"');
+    
     if (content.indexOf('widget="TWindow"') > 0)
     {
         __adianti_load_window_content(content);
@@ -528,6 +550,12 @@ function __adianti_load_html(content, afterCallback, url)
     else if (url_container !== null)
     {
         var target_container = url_container[1];
+        __adianti_load_container(target_container, content, url);
+    }
+    // found a page wrapper in dom with the requested page inside
+    else if (page_name !== null && $('[widget="tpagewrapper"]>div[page-name="'+page_name[1]+'"]').length > 0)
+    {
+        var target_container = $('[widget="tpagewrapper"]>div[page-name="'+page_name[1]+'"]').parent().attr('id');
         __adianti_load_container(target_container, content, url);
     }
     else
@@ -552,7 +580,7 @@ function __adianti_load_html(content, afterCallback, url)
 /**
  * Parse returning HTML
  */
-function __adianti_parse_html(content, callback, url)
+function __adianti_parse_html(content, callback, url = '')
 {
     tmp = content;
     tmp = new String(tmp.replace(/window\.opener\./g, ''));
@@ -581,8 +609,13 @@ function __adianti_parse_html(content, callback, url)
                     $('#'+target_container).replaceWith(domstring.find('#'+page_fragment[1]));
                 }
                 else {
-                    $('#'+target_container).empty();
-                    $('#'+target_container).html(tmp);
+                    if ( (url.indexOf('&static=1') > 0) || (url.indexOf('?static=1') > 0) ) {
+                        $('#'+target_container).append(tmp);
+                    }
+                    else {
+                        $('#'+target_container).empty();
+                        $('#'+target_container).html(tmp);
+                    }
                 }
             }
         }
@@ -868,7 +901,9 @@ function __adianti_post_data(form, action, run_events, options)
     
     if (typeof options.wrapper_variable !== "undefined") {
         var data = {};
+        data = __adianti_query_to_json(action);
         data[options.wrapper_variable] = __adianti_query_to_json( $('#'+form).serialize() );
+        url = __adianti_filter_url(url, action, ['class', 'method', 'static', 'register_state']);
     }
     else
     {
@@ -1036,6 +1071,25 @@ function __adianti_post_page_lookup(form, action, field, callback) {
       }).fail(function(jqxhr, textStatus, exception) {
          __adianti_failure_request(jqxhr, textStatus, exception);
       });
+}
+
+function __adianti_filter_url(url, action, keep_variables)
+{
+    var query_object = __adianti_query_to_json(action);
+    var keep_list = {};
+    
+    for (var variable of keep_variables) {
+        if (typeof query_object[variable] !== 'undefined') {
+            keep_list[variable] = query_object[variable];
+        }
+    }
+    
+    if (action.substring(0,4) !== 'xhr-') {
+        url = url.replace(action, '');
+        url = url + $.param(keep_list);
+    }
+    
+    return url;
 }/**
  * Start blockUI dialog
  */

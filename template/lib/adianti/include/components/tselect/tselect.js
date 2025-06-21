@@ -1,16 +1,23 @@
 function tselect_enable_field(form_name, field) {
+    let selector = tfield_get_selector(form_name, field+'[]');
+    
     try {
-        $('form[name='+form_name+'] [name="'+field+'[]"]').attr('disabled', false);
-        $('form[name='+form_name+'] [name="'+field+'[]"]').removeClass('tcombo_disabled').addClass('tcombo');
+        $(selector).css('pointer-events', 'auto');
+        $(selector).css('user-select', 'auto');
+        $(selector).removeClass('tselect_disabled');
     } catch (e) {
         console.log(e);
     }
 }
 
 function tselect_disable_field(form_name, field) {
+    let selector = tfield_get_selector(form_name, field+'[]');
+    
     try {
-        $('form[name='+form_name+'] [name="'+field+'[]"]').attr('disabled', true);
-        $('form[name='+form_name+'] [name="'+field+'[]"]').removeClass('tcombo').addClass('tcombo_disabled');
+        $(selector).attr('tabindex', '-1');
+        $(selector).css('pointer-events', 'none');
+        $(selector).css('user-select', 'none');
+        $(selector).addClass('tselect_disabled');
     } catch (e) {
         console.log(e);
     }
