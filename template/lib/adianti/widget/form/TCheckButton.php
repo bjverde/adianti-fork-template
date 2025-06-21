@@ -9,7 +9,7 @@ use Adianti\Widget\Form\TLabel;
 /**
  * CheckButton widget
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -32,6 +32,7 @@ class TCheckButton extends TField implements AdiantiWidgetInterface
         parent::__construct($name);
         $this->id = 'tcheckbutton_' . mt_rand(1000000000, 1999999999);
         $this->tag->{'class'} = '';
+        $this->tag->{'widget'} = 'tcheckbutton';
         $this->useSwitch  = FALSE;
     }
     

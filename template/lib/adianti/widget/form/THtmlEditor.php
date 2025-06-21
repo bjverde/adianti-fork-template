@@ -11,7 +11,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * Html Editor
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -27,6 +27,7 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
     protected $customButtons;
     protected $completion;
     protected $options;
+    protected $xssProtection;
     private   $height;
     
     /**
@@ -40,6 +41,8 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
         $this->toolbar = true;
         $this->options = [];
         $this->customButtons = [];
+        $this->xssProtection = true;
+        
         // creates a tag
         $this->tag = new TElement('textarea');
         $this->tag->{'widget'} = 'thtmleditor';
@@ -121,9 +124,17 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
      * Define options for completion
      * @param $options array of options for completion
      */
-    function setCompletion($options)
+    public function setCompletion($options)
     {
         $this->completion = $options;
+    }
+    
+    /**
+     * Disable XSS protection
+     */
+    public function disableXssProtection()
+    {
+        $this->xssProtection = false;
     }
     
     /**
@@ -206,7 +217,8 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
         // add the content to the textarea
         $this->tag->add(htmlspecialchars( (string) $this->value));
         
-        $this->tag->style = 'width:1px;height:1px;position: absolute;left: 10px;top: 10px;';
+        $this->tag->{'style'} = 'width:1px;height:1px;position: absolute;left: 10px;top: 10px; padding:0; border:0';
+        
         // show the tag
         $div = new TElement('div');
         $div->{'style'} = 'display: none';
@@ -221,6 +233,12 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
         if (!empty($this->completion))
         {
             $options[ 'completion'] = $this->completion;
+        }
+        
+        if (!$this->xssProtection)
+        {
+            $options['codeviewFilter'] = false;
+            $options['codeviewIframeFilter'] = false;
         }
         
         $options_json = json_encode( $options );

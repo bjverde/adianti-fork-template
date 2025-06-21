@@ -8,7 +8,7 @@ use Exception;
 /**
  * Singleton manager for database connections
  *
- * @version    8.0
+ * @version    8.1
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -161,7 +161,7 @@ class TConnection
                 }
                 break;
             case 'mssql':
-                if (OS == 'WIN')
+                if (defined('OS') && constant('OS') == 'WIN')
                 {
                     if ($port)
                     {

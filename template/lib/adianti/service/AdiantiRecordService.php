@@ -9,13 +9,13 @@ use Adianti\Database\TFilter;
 /**
  * Record rest service
  *
- * @version    8.0
+ * @version    8.1
  * @package    service
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license
  */
-class AdiantiRecordService
+class AdiantiRecordService implements AdiantiRestService
 {
     /**
      * Find a Active Record and returns it
@@ -108,6 +108,10 @@ class AdiantiRecordService
         {
             foreach ($param['filters'] as $filter)
             {
+                if (in_array(strtolower($filter[1]), ['is', 'is not']) && empty($filter[2]))
+                {
+                    $filter[2] = null;
+                }
                 $criteria->add(new TFilter($filter[0], $filter[1], $filter[2]));
             }
         }

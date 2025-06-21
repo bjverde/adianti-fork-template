@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Class map
  *
- * @version    8.0
+ * @version    8.1
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -83,6 +83,8 @@ class AdiantiClassMap
         $classPath['TTableCell']                      = 'lib/adianti/widget/container/TTableCell.php';
         $classPath['TTableRow']                       = 'lib/adianti/widget/container/TTableRow.php';
         $classPath['TVBox']                           = 'lib/adianti/widget/container/TVBox.php';
+        $classPath['TPageFrame']                      = 'lib/adianti/widget/container/TPageFrame.php';
+        $classPath['TPageWrapper']                    = 'lib/adianti/widget/container/TPageWrapper.php';
         $classPath['TDataGrid']                       = 'lib/adianti/widget/datagrid/TDataGrid.php';
         $classPath['TDataGridAction']                 = 'lib/adianti/widget/datagrid/TDataGridAction.php';
         $classPath['TDataGridActionGroup']            = 'lib/adianti/widget/datagrid/TDataGridActionGroup.php';
@@ -185,7 +187,9 @@ class AdiantiClassMap
         $classPath['AdiantiTemplateHandler']          = 'lib/adianti/util/AdiantiTemplateHandler.php';
         $classPath['AdiantiStringConversion']         = 'lib/adianti/util/AdiantiStringConversion.php';
         $classPath['AdiantiHttpClient']               = 'lib/adianti/http/AdiantiHttpClient.php';
-        $classPath['AdiantiPageBuilder']              = 'lib/adianti/wrapper/AdiantiPageBuilder.php';
+        $classPath['AdiantiController']               = 'lib/adianti/control/AdiantiController.php';
+        $classPath['AdiantiRestService']              = 'lib/adianti/service/AdiantiRestService.php';
+        $classPath['AdiantiJob']                      = 'lib/adianti/service/AdiantiJob.php';
         
         return $classPath;
     }
@@ -213,7 +217,6 @@ class AdiantiClassMap
     {
         $classAlias = array();
         $classAlias['TAdiantiCoreTranslator'] = 'AdiantiCoreTranslator';
-        $classAlias['TUIBuilder']             = 'AdiantiUIBuilder';
         return $classAlias;
     }
 }

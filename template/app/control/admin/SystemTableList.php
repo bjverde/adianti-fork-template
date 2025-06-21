@@ -2,7 +2,7 @@
 /**
  * SystemTableList
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -53,8 +53,8 @@ class SystemTableList extends TPage
         $this->cards->addAction($action1, _t('Open'), 'fa:search');
         
         $actions = [];
-        $actions[] = ['CSV', $action2, 'fa:file-csv'];
-        $actions[] = ['SQL', $action3, 'fa:file-code'];
+        $actions[] = ['CSV', $action2, 'fa:table'];
+        $actions[] = ['SQL', $action3, 'fa:code'];
         $this->cards->addActionGroup(_t('Download'), $actions, 'fa:download');
         $this->cards->addAction($action4, _t('SQL Panel'), 'fa:code');
         

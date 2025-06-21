@@ -7,8 +7,8 @@ use ReflectionClass;
 /**
  * AdiantiPageControlTrait
  *
- * @version    8.0
- * @package    base
+ * @version    8.1
+ * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license
@@ -76,5 +76,16 @@ trait AdiantiPageControlTrait
     {
         parent::__set($name, $value);
         $this->$name = $value;
+    }
+    
+    /**
+     * Call method only if exists
+     */
+    public function callIfExists($method, $param)
+    {
+        if (method_exists($this, $method))
+        {
+            $this->$method($param);
+        }
     }
 }

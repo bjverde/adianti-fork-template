@@ -10,7 +10,7 @@ use Exception;
 /**
  * MultiCombo Widget
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -35,6 +35,38 @@ class TMultiCombo extends TSelect implements AdiantiWidgetInterface
         $this->tag->{'widget'} = 'tmulticombo';
         
         parent::setDefaultOption(false);
+        parent::disableTitles();
+    }
+    
+    /**
+     * Enable the field
+     * @param $form_name Form name
+     * @param $field Field name
+     */
+    public static function enableField($form_name, $field)
+    {
+        TScript::create( " tmulticombo_enable_field('{$form_name}', '{$field}'); " );
+    }
+    
+    /**
+     * Disable the field
+     * @param $form_name Form name
+     * @param $field Field name
+     */
+    public static function disableField($form_name, $field)
+    {
+        TScript::create( " tmulticombo_disable_field('{$form_name}', '{$field}'); " );
+    }
+    
+    /**
+     * Clear the field
+     * @param $form_name Form name
+     * @param $field Field name
+     */
+    public static function clearField($form_name, $field)
+    {
+        parent::clearField($form_name, $field);
+        TScript::create("tmulticombo_reload('{$form_name}', '{$field}')", true, 100);
     }
     
     /**
@@ -68,5 +100,10 @@ class TMultiCombo extends TSelect implements AdiantiWidgetInterface
         ];
         $labels_json = json_encode($labels);
         TScript::create("tmulticombo_start('{$this->id}', '{$this->size}', $labels_json);");
+        
+        if (!parent::getEditable())
+        {
+            TScript::create( " tmulticombo_disable_field( '{$this->formName}', '{$this->id}' ); " );
+        }
     }
 }

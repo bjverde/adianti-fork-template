@@ -4,12 +4,13 @@ namespace Adianti\Core;
 use Adianti\Core\AdiantiCoreTranslator;
 use Adianti\Control\TPage;
 use Adianti\Registry\TSession;
+use Adianti\Util\AdiantiStringConversion;
 use Exception;
 
 /**
  * Template parser
  *
- * @version    8.0
+ * @version    8.1
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -53,7 +54,7 @@ class AdiantiTemplateParser
         
         if (file_exists('buildid'))
         {
-            $content   = str_replace('{buildid}', file_get_contents('buildid'), $content);
+            $content   = str_replace('{buildid}', AdiantiStringConversion::slug(file_get_contents('buildid')), $content);
         }
         
         if (empty($ini['general']['creator_url']))

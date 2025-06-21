@@ -2,7 +2,7 @@
 /**
  * SystemDatabaseExplorer
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -41,18 +41,26 @@ class SystemDatabaseExplorer extends TPage
         $action2->setParameter('register_state', 'false');
         $action2->setImage('fa:download');
         $action2->setField('database');
-        $action2->setLabel('CSV');
+        $action2->setLabel(_t('Download as CSV'));
         
         $action3 = new TDataGridAction(array($this, 'onExportSQL'));
         $action3->setParameter('register_state', 'false');
-        $action3->setImage('fa:code');
+        $action3->setImage('fa:download');
         $action3->setField('database');
-        $action3->setLabel('SQL');
+        $action3->setLabel(_t('Download as SQL'));
+        
+        $action4 = new TDataGridAction(array($this, 'onReimportSQL'));
+        $action4->setParameter('register_state', 'false');
+        $action4->setImage('fa:cloud-arrow-up');
+        $action4->setField('database');
+        $action4->setLabel(_t('Import SQL'));
+        $action4->setDisplayCondition([$this, 'onDisplayReimport']);
         
         $agroup = new TDataGridActionGroup( null, 'fa:list');
         $agroup->addAction($action1);
         $agroup->addAction($action2);
         $agroup->addAction($action3);
+        $agroup->addAction($action4);
         
         $this->datagrid->addActionGroup($agroup);
         
@@ -96,6 +104,14 @@ class SystemDatabaseExplorer extends TPage
         // fix height
         //TScript::create("$('#database_browser_container .panel-body').height( (($(window).height()-260)/2)-100);");
         parent::add($vbox);
+    }
+    
+    /**
+     * Display condition for reimport options
+     */
+    public function onDisplayReimport($object)
+    {
+        return $object->type == 'sqlite';
     }
     
     /**
@@ -263,6 +279,79 @@ class SystemDatabaseExplorer extends TPage
         catch (Exception $e)
         {
             new TMessage('error', $e->getMessage());
+        }
+    }
+    
+    /**
+     * RE Import SQL File
+     */
+    public static function onReimportSQL($param)
+    {
+        $form = new BootstrapFormBuilder('import_sql');
+
+        $db = new THidden('database');
+        $file = new TFile('file');
+        $file->setAllowedExtensions(['zip']);
+        $db->setValue($param['database']);
+
+        $form->addFields( [$db]);
+        $form->addFields( [$file]);
+
+        $form->addAction(_t('Import SQL'), new TAction([__CLASS__, 'onConfirmImport']), 'fa:check');
+
+        // show the input dialog
+        new TInputDialog(_t('Import SQL'), $form);
+    }
+    
+    /**
+     * Import SQL instructions from uploaded file
+     */
+    public static function onConfirmImport($param)
+    {
+        try
+        {
+            $file = 'tmp/'.$param['file'];
+            if (file_exists($file))
+            {
+                $dbinfo = TConnection::getDatabaseInfo($param['database']);
+                $dbinfo['fkey'] = '0';
+                $conn = TTransaction::open(null, $dbinfo);
+                $conn-> query ('PRAGMA foreign_keys = OFF');
+
+                $zip = new ZipArchive();
+
+                if ($zip->open($file) === TRUE)
+                {
+                    for ($i = 0; $i < $zip->numFiles; $i++)
+                    {
+                        $table    = $zip->getNameIndex($i);
+                        $commands = array_filter(explode(";\n", $zip->getFromIndex($i)));
+
+                        if ($commands)
+                        {
+                            foreach ($commands as $command)
+                            {
+                                $result = $conn->query($command);
+                                if (!$result)
+                                {
+                                    throw new Exception('error', _t('Error') . ' ' . $command);
+                                }
+                            }
+                        }
+                    }
+                    $zip->close();
+                }
+                else
+                {
+                    throw new Exception('error', _t('Permission denied') . ': ' . $file);
+                }
+                TTransaction::close();
+                new TMessage('info', _t('Records imported successfully'));
+            }
+        }
+        catch (Exception $e)
+        {
+            new TMessage('error', $e->getMessage() . ' in <b>' . $table . '</b>');
         }
     }
 }

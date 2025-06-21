@@ -7,7 +7,7 @@ use Adianti\Database\TTransaction;
 /**
  * Provides an Interface to create UPDATE statements
  *
- * @version    8.0
+ * @version    8.1
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -154,7 +154,7 @@ class TSqlUpdate extends TSqlStatement
         if ($this->criteria)
         {
             // "column values" prepared vars + "where" prepared vars
-            return array_merge($this->preparedVars, $this->criteria->getPreparedVars());
+            return array_merge($this->preparedVars, (array) $this->criteria->getPreparedVars());
         }
         else
         {
@@ -181,6 +181,12 @@ class TSqlUpdate extends TSqlStatement
                 $set[] = "{$column} = {$value}";
             }
         }
+        
+        if (empty($set))
+        {
+            return;
+        }
+        
         $this->sql .= ' SET ' . implode(', ', $set);
         
         // concatenates the criteria (WHERE)
@@ -192,7 +198,11 @@ class TSqlUpdate extends TSqlStatement
                 $this->criteria->setCaseInsensitive(TRUE);
             }
 
-            $this->sql .= ' WHERE ' . $this->criteria->dump( $prepared );
+            $where = $this->criteria->dump( $prepared );
+            if (!empty($where))
+            {
+                $this->sql .= ' WHERE ' . $where;
+            }
         }
         
         // returns the SQL statement

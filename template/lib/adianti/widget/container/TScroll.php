@@ -8,7 +8,7 @@ use Adianti\Widget\Util\TSourceCode;
 /**
  * Scrolled Window: Allows to add another containers inside, creating scrollbars when its content is bigger than its visual area
  * 
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio
@@ -71,7 +71,6 @@ class TScroll extends TElement
             $this->{'style'} .= ';border: var(--bs-border-width) solid var(--bs-border-color)';
             $this->{'style'} .= ';background: var(--bs-body-bg)';
             $this->{'style'} .= ';border-radius: var(--bs-border-radius)';
-            $this->{'style'} .= ';box-shadow: var(--bs-box-shadow)';
         }
         $this->{'style'} .= ";padding: {$this->margin}px";
         

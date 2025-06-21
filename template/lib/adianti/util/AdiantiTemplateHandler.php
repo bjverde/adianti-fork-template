@@ -8,7 +8,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * Template manipulation
  *
- * @version    8.0
+ * @version    8.1
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -48,17 +48,36 @@ class AdiantiTemplateHandler
                 
                 if (strpos($property, '->') !== FALSE)
                 {
+                    $optional = false;
                     $parts = explode('->', $property);
                     $container = $object;
+                    
                     foreach ($parts as $part)
                     {
+                        if (substr($part,-1) == '?')
+                        {
+                            $optional = true;
+                            $part = str_replace('?', '', $part);
+                        }
+                        
                         if (is_object($container))
                         {
-                            $result = $container->$part;
-                            $container = $result;
+                            try
+                            {
+                                $result = $container->$part;
+                                $container = $result;
+                            }
+                            catch (Exception $e)
+                            {
+                                return '';
+                            }
                         }
                         else
                         {
+                            if ($optional)
+                            {
+                                return '';
+                            }
                             throw new Exception(AdiantiCoreTranslator::translate('Trying to access a non-existent property (^1)', $property));
                         }
                     }

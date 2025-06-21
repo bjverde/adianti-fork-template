@@ -10,7 +10,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * TDropDown Widget
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -231,8 +231,8 @@ class TDropDown extends TElement
     public function addActionGroup($title, $actions, $icon)
     {
         $li = new TElement('li');
-        $li->{'class'} = "dropdown-submenu";
         $link = new TElement('a');
+        $link->{'class'} = "dropdown-item";
         $span = new TElement('span');
         
         if ($icon)
@@ -247,7 +247,7 @@ class TDropDown extends TElement
         $li->add($link);
         
         $ul = new TElement('ul');
-        $ul->{'class'} = "dropdown-menu";
+        $ul->{'class'} = "dropdown-menu dropdown-submenu";
         $li->add($ul);
         if ($actions)
         {
@@ -257,6 +257,10 @@ class TDropDown extends TElement
             }
         }
         
+        $chevron = new TElement('i');
+        $chevron->{'class'} = 'fa-solid fa-angle-right';
+        $chevron->{'style'} = 'position: absolute;right: 0;padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);'; 
+        $link->add($chevron);
         $this->elements->add($li);
     }
     

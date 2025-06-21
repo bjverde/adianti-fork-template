@@ -8,6 +8,7 @@ use Adianti\Database\TRepository;
 use Adianti\Database\TCriteria;
 use Adianti\Database\TFilter;
 use Adianti\Database\TExpression;
+use Adianti\Control\AdiantiController;
 
 use StdClass;
 use Exception;
@@ -15,14 +16,14 @@ use Exception;
 /**
  * MultiSearch backend
  *
- * @version    8.0
+ * @version    8.1
  * @package    service
  * @author     Pablo Dall'Oglio
  * @author     Matheus Agnes Dias
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license
  */
-class AdiantiMultiSearchService
+class AdiantiMultiSearchService implements AdiantiController
 {
     /**
      * Search by the given word inside a model
@@ -49,7 +50,7 @@ class AdiantiMultiSearchService
                 $criteria = new TCriteria;
                 if ($param['criteria'])
                 {
-                    $criteria = unserialize( base64_decode(str_replace(array('-', '_'), array('+', '/'), $param['criteria'])) );
+                    $criteria = unserialize( base64_decode(str_replace(array('-', '_'), array('+', '/'), $param['criteria'])), ['allowed_classes' => [TCriteria::class, TExpression::class, TFilter::class]] );
                 }
     
                 $columns = explode(',', $param['column']);

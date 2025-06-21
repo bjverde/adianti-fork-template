@@ -2,7 +2,7 @@
 /**
  * SystemProgramForm
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -199,6 +199,8 @@ class SystemProgramForm extends TStandardForm
     {
         try
         {
+            $ini = AdiantiApplicationConfig::get();
+            
             TTransaction::open('permission');
             $registered_programs = SystemProgram::getIndexedArray('id', 'controller');
             TTransaction::close();
@@ -215,10 +217,11 @@ class SystemProgramForm extends TStandardForm
                     $name = $arquivo->getFileName();
                     $pieces = explode('.', $name);
                     $class = (string) $pieces[0];
+                    $public = in_array($class, !empty($ini['permission']['public_classes']) ? $ini['permission']['public_classes'] : []);
                     
                     if ($just_new_programs)
                     {
-                        if (!in_array($class, $registered_programs) AND !TApplication::hasDefaultPermissions($class) AND substr($class,0,6) !== 'System')
+                        if (!in_array($class, $registered_programs) && !TApplication::hasDefaultPermissions($class) && !$public)
                         {
                             $entries[$class] = $class;
                         } 

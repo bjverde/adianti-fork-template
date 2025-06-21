@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * File Link
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -33,7 +33,7 @@ class THyperLink extends TTextDisplay
         parent::__construct($value, $color, $size, $decoration);
         parent::setName('a');
         
-        if (file_exists($value))
+        if (file_exists($location))
         {
             $this->{'href'} = 'download.php?file='.$location;
         }

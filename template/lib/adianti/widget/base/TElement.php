@@ -4,7 +4,7 @@ namespace Adianti\Widget\Base;
 /**
  * Base class for all HTML Elements
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage base
  * @author     Pablo Dall'Oglio
@@ -18,6 +18,7 @@ class TElement
     private $wrapped;
     private $useLineBreaks;
     private $useSingleQuotes;
+    private $beforeElement;
     private $afterElement;
     protected $children;
     private static $voidelements;
@@ -95,11 +96,27 @@ class TElement
     }
     
     /**
+     * Insert element before
+     */
+    public function before($element)
+    {
+        $this->beforeElement = $element;
+    }
+    
+    /**
      * Insert element after
      */
     public function after($element)
     {
         $this->afterElement = $element;
+    }
+    
+    /**
+     * Return the before element
+     */
+    public function getBeforeElement()
+    {
+        return $this->beforeElement;
     }
     
     /**
@@ -452,6 +469,11 @@ class TElement
         if ($this->hidden)
         {
             return;
+        }
+        
+        if (!empty($this->beforeElement))
+        {
+            $this->beforeElement->show();
         }
         
         // open the tag

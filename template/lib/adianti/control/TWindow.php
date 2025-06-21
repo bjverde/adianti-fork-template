@@ -13,14 +13,14 @@ use Exception;
 /**
  * Window Container (JQueryDialog wrapper)
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license
  */
 #[\AllowDynamicProperties]
-class TWindow extends TElement
+class TWindow extends TElement implements AdiantiController
 {
     private $wrapper;
     

@@ -15,7 +15,7 @@ use Exception;
 /**
  * Button Widget
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -48,7 +48,8 @@ class TButton extends TField implements AdiantiWidgetInterface
      */
     public function addStyleClass($class)
     {
-        $classes = ['btn-primary', 'btn-secondary', 'btn-success', 'btn-danger', 'btn-warning', 'btn-info', 'btn-light', 'btn-dark', 'btn-link', 'btn-default'];
+        $classes = ['btn-primary', 'btn-secondary', 'btn-success', 'btn-danger', 'btn-warning', 'btn-info', 'btn-light', 'btn-dark', 'btn-link', 'btn-default',
+                    'btn-outline-primary', 'btn-outline-secondary', 'btn-outline-success', 'btn-outline-danger', 'btn-outline-warning', 'btn-outline-info', 'btn-outline-light', 'btn-outline-dark'];
         $found   = false;
         
         foreach ($classes as $btnClass)

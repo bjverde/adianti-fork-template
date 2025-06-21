@@ -1,5 +1,5 @@
 <?php
-class SystemUserCliService
+class SystemUserCliService implements AdiantiRestService
 {
     /**
      * @param $request HTTP request
@@ -7,7 +7,6 @@ class SystemUserCliService
     public static function create( $request )
     {
         /*
-        
         TTransaction::open('permission');
         $response = [];
         
@@ -18,7 +17,6 @@ class SystemUserCliService
         $user->store();
         TTransaction::close();
         return $user;
-        
         */
     }
 }

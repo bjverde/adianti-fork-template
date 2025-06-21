@@ -33,7 +33,7 @@ use Exception;
 /**
  * Bootstrap form builder for Adianti Framework
  *
- * @version    8.0
+ * @version    8.1
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -401,8 +401,8 @@ class BootstrapFormBuilder implements AdiantiFormInterface
         
         // object that represents a row
         $row = new stdClass;
-        $row->{'content'} = $args;
-        $row->{'type'}    = 'fields';
+        $row->content = $args;
+        $row->type    = 'fields';
         
         if ($args)
         {
@@ -449,8 +449,8 @@ class BootstrapFormBuilder implements AdiantiFormInterface
         
         // object that represents a row
         $row = new stdClass;
-        $row->{'content'} = $args;
-        $row->{'type'}    = 'content';
+        $row->content = $args;
+        $row->type    = 'content';
         
         if ($args)
         {
@@ -797,14 +797,14 @@ class BootstrapFormBuilder implements AdiantiFormInterface
                     $aria_label  = null;
                     $aria_id     = null;
                     
-                    $slots = $row->{'content'};
-                    $type  = $row->{'type'};
+                    $slots = $row->content;
+                    $type  = $row->type;
                     
                     // get additional properties (Ex. addFields(...)->id = 'x';
                     $raw_row = clone $row;
-                    unset($raw_row->{'content'});
-                    unset($raw_row->{'type'});
-                    unset($raw_row->{'layout'});
+                    unset($raw_row->content);
+                    unset($raw_row->type);
+                    unset($raw_row->layout);
                     
                     $form_group = new TElement('div');
                     

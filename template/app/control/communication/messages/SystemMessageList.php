@@ -2,7 +2,7 @@
 /**
  * SystemMessageList
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
@@ -67,7 +67,7 @@ class SystemMessageList extends TPage
         $this->datagrid->style = 'width: 100%';
 
         // creates the datagrid columns
-        $column_from    = new TDataGridColumn('user_mixed?->name', _t('User'), 'left', '140');
+        $column_from    = new TDataGridColumn('{user_mixed?->name}', _t('User'), 'left', '140');
         $column_message = new TDataGridColumn('message', _t('Message'), 'left');
         $column_date    = new TDataGridColumn('dt_message', _t('Date'), 'center', '100');
         $column_from->enableAutoHide(500);

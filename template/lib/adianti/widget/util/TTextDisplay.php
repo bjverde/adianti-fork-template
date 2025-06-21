@@ -7,7 +7,7 @@ use Adianti\Widget\Base\TScript;
 /**
  * Text Display
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -84,6 +84,7 @@ class TTextDisplay extends TElement
     public function setSize($width)
     {
         $this->size = $width;
+        $this->inlineStyle['width'] = $width;
     }
     
     /**
@@ -93,7 +94,26 @@ class TTextDisplay extends TElement
     {
         return $this->size;
     }
-
+    
+    /**
+     * Define the text align
+     * @param $align Text Align
+     */
+    public function setTextAlign($align)
+    {
+        $this->inlineStyle['text-align'] = $align;
+    }
+    
+    /**
+     * Change some inline style property
+     * @param $property Style property
+     * @param $value Style value
+     */
+    public function setStyleProperty($property, $value)
+    {
+        $this->inlineStyle[$property] = $value;
+    }
+    
     /**
      * Enable toggle visible
      */

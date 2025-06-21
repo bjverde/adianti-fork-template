@@ -11,6 +11,7 @@ use Adianti\Widget\Form\TField;
 use Adianti\Widget\Form\THidden;
 use Adianti\Widget\Util\TImage;
 use Adianti\Util\AdiantiTemplateHandler;
+use Adianti\Util\AdiantiStringConversion;
 
 use Math\Parser;
 use Exception;
@@ -18,7 +19,7 @@ use Exception;
 /**
  * DataGrid Widget: Allows to create datagrids with rows, columns and actions
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio
@@ -61,10 +62,12 @@ class TDataGrid extends TTable
     protected $actionSide;
     protected $mutationAction;
     protected $forPrinting;
-    protected $searchForm;
     protected $popovers;
     protected $pageSize;
     protected $pageOrientation;
+    protected $searchForm;
+    protected $editForm;
+    protected $metadata;
     
     /**
      * Class Constructor
@@ -630,6 +633,8 @@ class TDataGrid extends TTable
         parent::add($this->tbody);
         
         $this->modelCreated = TRUE;
+        
+        return $this->modelCreated;
     }
     
     /**
@@ -928,39 +933,8 @@ class TDataGrid extends TTable
                     $function = $column->getTransformer();
                     $props    = $column->getDataProperties();
                     
-                    // calculated column
-                    if (substr($name,0,1) == '=')
-                    {
-                        $content = AdiantiTemplateHandler::replace($name, $object, 'float');
-                        $content = AdiantiTemplateHandler::evaluateExpression(substr($content,1));
-                        $object->$name = $content;
-                    }
-                    else
-                    {
-                        try
-                        {
-                            @$content  = $object->$name; // fire magic methods
-                            
-                            if (is_null($content))
-                            {
-                                $content = AdiantiTemplateHandler::replace($name, $object);
-                                
-                                if ($content === $name)
-                                {
-                                    $content = '';
-                                }
-                            }
-                        }
-                        catch (Exception $e)
-                        {
-                            $content = AdiantiTemplateHandler::replace($name, $object);
-                            
-                            if (empty(trim($content)) OR $content === $name)
-                            {
-                                $content = $e->getMessage();
-                            }
-                        }
-                    }
+                    $content = self::getColumnContent($object, $name);
+                    $name = self::normalizeColumnName($name);
                     
                     if (isset($this->columnValues[$name]))
                     {
@@ -970,7 +944,7 @@ class TDataGrid extends TTable
                     {
                         $this->columnValues[$name] = [$content];
                     }
-
+                    
                     if (isset($this->columnValuesGroup[$this->groupContent][$name]))
                     {
                         $this->columnValuesGroup[$this->groupContent][$name][] = $content;
@@ -1026,7 +1000,7 @@ class TDataGrid extends TTable
                         
                         if ($this->hiddenFields AND !isset($used_hidden[$name]))
                         {
-                            $hidden = new THidden($this->id . '_' . $name.'[]');
+                            $hidden = new THidden($this->id . '_' . AdiantiStringConversion::slug($name, '_').'[]');
                             $hidden->{'data-hidden-field'} = 'true';
                             $hidden->setValue($raw_data);
                             $cell->add($hidden);
@@ -1094,6 +1068,62 @@ class TDataGrid extends TTable
         {
             throw new Exception(AdiantiCoreTranslator::translate('You must call ^1 before ^2', 'createModel', __METHOD__ ) );
         }
+    }
+    
+    /**
+     * Process the column content
+     * @param $object Object
+     * @param $name Attribute name
+     */
+    public static function getColumnContent($object, $name)
+    {
+        // calculated column
+        if (substr($name,0,1) == '=' || (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*=[.]*/', $name, $matches)))
+        {
+            $content = AdiantiTemplateHandler::replace($name, $object, 'float');
+            $name    = self::normalizeColumnName($name);
+            
+            $pieces = explode('=', $content);
+            if ( (count($pieces) == 2) && !empty($pieces[0]) )
+            {
+                $formula = $pieces[1];
+            }
+            else
+            {
+                $formula = substr($content,1);
+            }
+            
+            $content = AdiantiTemplateHandler::evaluateExpression($formula);
+            $object->$name = $content;
+        }
+        else
+        {
+            try
+            {
+                @$content  = $object->$name; // fire magic methods
+                
+                if (is_null($content))
+                {
+                    $content = AdiantiTemplateHandler::replace($name, $object);
+                    
+                    if ($content === $name)
+                    {
+                        $content = '';
+                    }
+                }
+            }
+            catch (Exception $e)
+            {
+                $content = AdiantiTemplateHandler::replace($name, $object);
+                
+                if ( (empty(trim($content)) || $content === $name) && strpos($name, '?') === false)
+                {
+                    $content = $e->getMessage();
+                }
+            }
+        }
+        
+        return $content;
     }
     
     /**
@@ -1204,6 +1234,8 @@ class TDataGrid extends TTable
                 $align         = $column->getAlign();
                 $width         = $column->getWidth();
                 $props         = $column->getDataProperties();
+                $name          = self::normalizeColumnName($name);
+                
                 $cell->{'style'} = "text-align:$align";
                 
                 if ($width)
@@ -1322,6 +1354,8 @@ class TDataGrid extends TTable
                 $align         = $column->getAlign();
                 $width         = $column->getWidth();
                 $props         = $column->getDataProperties();
+                $name          = self::normalizeColumnName($name);
+                
                 $cell->{'style'} = "text-align:$align";
                 
                 if ($width)
@@ -1458,12 +1492,46 @@ class TDataGrid extends TTable
     }
     
     /**
+     * Assign a TForm object
+     * @param $editForm object
+     */
+    public function setEditForm($editForm)
+    {
+        $this->editForm = $editForm;
+    }
+    
+    /**
      * Return the assigned Search form object
      * @return TForm object
      */
     public function getSearchForm()
     {
         return $this->searchForm;
+    }
+    
+    /**
+     * Return the assigned Edit form object
+     * @return TForm object
+     */
+    public function getEditForm()
+    {
+        return $this->editForm;
+    }
+    
+    /**
+     * Set metadata
+     */
+    public function setMetadata($metadata, $value)
+    {
+        $this->metadata[$metadata] = $value;
+    }
+    
+    /**
+     * Get metadata
+     */
+    public function getMetadata($metadata)
+    {
+        return $this->metadata[$metadata] ?? null;
     }
     
     /**
@@ -1503,6 +1571,25 @@ class TDataGrid extends TTable
             $dom_att_string = implode(',', $dom_search_atts);
             TScript::create("__adianti_input_fuse_search('#{$input_id}', '{$dom_att_string}', '#{$datagrid_id} tr')");
         }
+    }
+    
+    /**
+     * Normalize column name when using formulas 
+     */
+    private static function normalizeColumnName($name)
+    {
+        $pieces = explode('=', $name);
+        
+        if ( (count($pieces) == 2) && !empty($pieces[0]) )
+        {
+            $name = $pieces[0];
+        }
+        else
+        {
+            $name = AdiantiStringConversion::slug($name, '_');
+        }
+        
+        return $name;
     }
     
     /**

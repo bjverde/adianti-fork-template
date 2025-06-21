@@ -2,14 +2,14 @@
 /**
  * AdiantiFileHashGeneratorService
  *
- * @version    8.0
+ * @version    8.1
  * @package    core
  * @author     Pablo Dall'Oglio
  * @author     Lucas Tomasi
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license-template
  */
-class AdiantiFileHashGeneratorService
+class AdiantiFileHashGeneratorService implements AdiantiJob
 {
     const FILE_HASHES = 'app/config/framework_hashes.php';
 

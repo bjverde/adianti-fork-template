@@ -1,8 +1,11 @@
 <?php
+
+use Adianti\Service\AdiantiRestService;
+
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
-class ApplicationAuthenticationRestService
+class ApplicationAuthenticationRestService implements AdiantiRestService
 {
     public static function getToken($param)
     {

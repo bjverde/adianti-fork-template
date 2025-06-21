@@ -18,7 +18,7 @@ use ApplicationTranslator;
 /**
  * Card
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -51,6 +51,7 @@ class TCardView extends TElement
     protected $forPrinting;
     protected $pageSize;
     protected $pageOrientation;
+    protected $metadata;
     
     /**
      * Class Constructor
@@ -624,6 +625,22 @@ class TCardView extends TElement
     public function getPageOrientation()
     {
         return $this->pageOrientation;
+    }
+    
+    /**
+     * Set metadata
+     */
+    public function setMetadata($metadata, $value)
+    {
+        $this->metadata[$metadata] = $value;
+    }
+    
+    /**
+     * Get metadata
+     */
+    public function getMetadata($metadata)
+    {
+        return $this->metadata[$metadata] ?? null;
     }
     
     /**

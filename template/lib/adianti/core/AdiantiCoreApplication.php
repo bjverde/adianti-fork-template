@@ -15,7 +15,7 @@ use Adianti\Widget\Util\TExceptionView;
 /**
  * Basic structure to run a web application
  *
- * @version    8.0
+ * @version    8.1
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -52,6 +52,9 @@ class AdiantiCoreApplication
         self::filterInput();
         
         $rc = new ReflectionClass($class); 
+        
+        // check strict mode
+        self::checkStrictRequest($rc, 'web');
         
         if (in_array(strtolower($class), array_map('strtolower', AdiantiClassMap::getInternalClasses()) ))
         {
@@ -164,6 +167,9 @@ class AdiantiCoreApplication
         {
             $rc = new ReflectionClass($class);
             
+            // check strict mode
+            self::checkStrictRequest($rc, $endpoint);
+            
             if (in_array(strtolower($class), array_map('strtolower', AdiantiClassMap::getInternalClasses()) ))
             {
                 throw new Exception(AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', $class ));
@@ -199,12 +205,45 @@ class AdiantiCoreApplication
             }
             else
             {
-                throw new Exception(AdiantiCoreTranslator::translate('Method ^1 not found', "$class::$method"));
+                throw new Exception(AdiantiCoreTranslator::translate('Method ^1 not found', $class.'::'.$method));
             }
         }
         else
         {
             throw new Exception(AdiantiCoreTranslator::translate('Class ^1 not found', $class));
+        }
+    }
+    
+    /**
+     * Check request when in strict mode
+     */
+    private static function checkStrictRequest($rc, $endpoint)
+    {
+        $ini = AdiantiApplicationConfig::get();
+        
+        if (!empty($ini['general']['strict_request']))
+        {
+            if ($endpoint == 'web')
+            {
+                if (!$rc->implementsInterface('AdiantiController'))
+                {
+                    throw new Exception('Not implemented AdiantiController');
+                }
+            }
+            else if ($endpoint == 'rest')
+            {
+                if (!$rc->implementsInterface('AdiantiRestService'))
+                {
+                    throw new Exception('Not implemented AdiantiRestService');
+                }
+            }
+            else if ($endpoint == 'cli')
+            {
+                if (!$rc->implementsInterface('AdiantiJob'))
+                {
+                    throw new Exception('Not implemented AdiantiJob');
+                }
+            }
         }
     }
     
@@ -326,11 +365,26 @@ class AdiantiCoreApplication
      * @param $method method name
      * @param $parameters array of parameters
      */
-    public static function loadPage($class, $method = NULL, $parameters = NULL)
+    public static function loadPage($class, $method = NULL, $parameters = NULL, $timeout = 1)
     {
         $query = self::buildHttpQuery($class, $method, $parameters);
         
-        TScript::create("__adianti_load_page('{$query}');", true, 1);
+        TScript::create("__adianti_load_page('{$query}');", true, $timeout);
+    }
+    
+    /**
+     * Load a page via post
+     *
+     * @param $class class name
+     * @param $method method name
+     * @param $parameters array of parameters
+     */
+    public static function postExec($class, $method = NULL, $parameters = NULL, $timeout = 1)
+    {
+        $query = self::buildHttpQuery($class, $method, []);
+        $query = str_replace('index.php?', '', $query);
+        $payload = json_encode($parameters);
+        TScript::create("__adianti_post_exec('{$query}', {$payload}, null, undefined, true);", true, $timeout);
     }
     
     /**

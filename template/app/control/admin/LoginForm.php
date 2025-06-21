@@ -2,7 +2,7 @@
 /**
  * LoginForm
  *
- * @version    8.0
+ * @version    8.1
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -45,13 +45,17 @@ class LoginForm extends TPage
         $password->disableAutoComplete();
         $login->setSize('100%');
         $password->setSize('100%');
-        //$login->placeholder = _t('User');
-        //$password->placeholder = _t('Password');
-        //$password->disableToggleVisibility();
+        $login->placeholder = _t('User');
+        $password->placeholder = _t('Password');
+        $password->disableToggleVisibility();
         $login->autofocus = 'autofocus';
         
-        $this->form->addRowField(_t('Login'), $login, false );
-        $this->form->addRowField(_t('Password'), $password, false );
+        $this->form->addRowField(_t('Login'), $login, true );
+        $this->form->addRowField(_t('Password'), $password, true );
+        
+        $this->form->addRowContent( $previous_class );
+        $this->form->addRowContent( $previous_method );
+        $this->form->addRowContent( $previous_parameters );
         
         if (!empty($ini['general']['multiunit']) and $ini['general']['multiunit'] == '1')
         {
@@ -88,7 +92,7 @@ class LoginForm extends TPage
                 $previous_method->setValue($param['previous_method']);
             }
             
-            $previous_parameters->setValue(serialize($param));
+            $previous_parameters->setValue(base64_encode(json_encode($param)));
         }
         
         $this->form->addAction(_t('Log in'), new TAction([$this, 'onLogin']), '' );
@@ -203,7 +207,7 @@ class LoginForm extends TPage
                 $frontpage = $user->frontpage;
                 if (!empty($param['previous_class']) && $param['previous_class'] !== 'LoginForm')
                 {
-                    AdiantiCoreApplication::gotoPage($param['previous_class'], $param['previous_method'], unserialize($param['previous_parameters'])); // reload
+                    AdiantiCoreApplication::gotoPage($param['previous_class'], $param['previous_method'], json_decode(base64_decode($param['previous_parameters']), true)); // reload
                 }
                 else if ($frontpage instanceof SystemProgram and $frontpage->controller)
                 {

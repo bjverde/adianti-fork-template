@@ -8,7 +8,7 @@ use Adianti\Widget\Form\TEntry;
 /**
  * Representes a DataGrid column
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio
@@ -101,6 +101,7 @@ class TDataGridColumn
         $this->inputSearch = new TEntry($name);
         $this->inputSearch->setId($name);
         $this->inputSearch->{'placeholder'} = AdiantiCoreTranslator::translate('Search');
+        $this->inputSearch->{'style'} .= ';display:inline;margin-left:5px';
         $this->inputSearch->setSize('50%');
     }
     

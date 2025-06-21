@@ -10,7 +10,7 @@ use Exception;
 /**
  * Barcode Display
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -78,6 +78,7 @@ class TBarcodeDisplay extends TElement
         if (!empty($this->value))
         {
             $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+            $generator->useGd();
             
             $types = [];
             $types['ean13'] = $generator::TYPE_EAN_13;

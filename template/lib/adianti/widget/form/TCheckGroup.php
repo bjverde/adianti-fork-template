@@ -16,7 +16,7 @@ use Exception;
 /**
  * A group of CheckButton's
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -264,7 +264,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
      * @param $items array with items
      * @param $options array of options [layout, size, breakItems, useButton, valueSeparator, value, changeAction, changeFunction, checkAll]
      */
-    public static function reload($formname, $name, $items, $options)
+    public static function reload($formname, $name, $items, $options = [])
     {
         $field = new self($name);
         $field->addItems($items);

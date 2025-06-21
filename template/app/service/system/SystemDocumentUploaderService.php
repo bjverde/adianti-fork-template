@@ -2,9 +2,8 @@
 /**
  * Document uploader listener
  *
- * @version    8.0
+ * @version    8.1
  * @package    service
- * @author     Nataniel Rabaioli
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006-2014 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license-template
@@ -84,6 +83,7 @@ class SystemDocumentUploaderService
         if (isset($_FILES['fileName']))
         {
             $file = $_FILES['fileName'];
+            
             if( $file['error'] === 0 && $file['size'] > 0 )
             {
                 $path = $folder.$file['name'];
@@ -128,10 +128,76 @@ class SystemDocumentUploaderService
                 else
                 {
                     $response['type'] = 'error';
-                    $response['msg'] = "Permission denied: {$path}";
+                    $response['msg']  = AdiantiCoreTranslator::translate('Permission denied') . ": {$path}";
                 }
                 echo json_encode($response);
             }
+            else
+            {
+                $response['type'] = 'error';
+                $response['msg']  = AdiantiCoreTranslator::translate('Server has received no file') . '. ' . AdiantiCoreTranslator::translate('Check the server limits') .  '. ' . AdiantiCoreTranslator::translate('The current limit is') . ' ' . self::getMaximumFileUploadSizeFormatted();
+                echo json_encode($response);
+            }
         }
+        else
+        {
+            $response['type'] = 'error';
+            $response['msg']  = AdiantiCoreTranslator::translate('Server has received no file') . '. ' . AdiantiCoreTranslator::translate('Check the server limits') .  '. ' . AdiantiCoreTranslator::translate('The current limit is') . ' ' . self::getMaximumFileUploadSizeFormatted();
+            echo json_encode($response);
+        }
+    }
+    
+    /**
+     *
+     */
+    public static function getMaximumFileUploadSizeFormatted()  
+    {  
+        $post_max_size = self::convertSizeToBytes(ini_get('post_max_size'));
+        $upld_max_size = self::convertSizeToBytes(ini_get('upload_max_filesize'));  
+        
+        if ($post_max_size < $upld_max_size)
+        {
+            return 'post_max_size: ' . ini_get('post_max_size');
+        }
+        
+        return 'upload_max_filesize: ' .ini_get('upload_max_filesize');
+    }
+    
+    /**
+     *
+     */
+    public static function getMaximumFileUploadSize()  
+    {  
+        return min(self::convertSizeToBytes(ini_get('post_max_size')), self::convertSizeToBytes(ini_get('upload_max_filesize')));  
+    }  
+    
+    /**
+     *
+     */
+    public static function convertSizeToBytes($size)
+    {
+        $suffix = strtoupper(substr($size, -1));
+        if (!in_array($suffix,array('P','T','G','M','K'))){
+            return (int)$size;  
+        } 
+        $value = substr($size, 0, -1);
+        switch ($suffix) {
+            case 'P':
+                $value *= 1024;
+                // intended
+            case 'T':
+                $value *= 1024;
+                // intended
+            case 'G':
+                $value *= 1024;
+                // intended
+            case 'M':
+                $value *= 1024;
+                // intended
+            case 'K':
+                $value *= 1024;
+                break;
+        }
+        return (int)$value;
     }
 }

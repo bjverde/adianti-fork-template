@@ -202,7 +202,7 @@ class ApplicationAuthenticationService
                 SystemAccessLogService::registerLogout();
                 TSession::freeSession();
                 
-                $class = 'LoginForm';
+                $class = 'SystemConcurrentAccessView';
                 AdiantiCoreApplication::gotoPage($class, 'onLoad');
                 return;
             }

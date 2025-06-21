@@ -16,7 +16,7 @@ use Exception;
 /**
  * Input Dialog
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage dialog
  * @author     Pablo Dall'Oglio
@@ -42,7 +42,7 @@ class TInputDialog
         $modal_wrapper = new TElement('div');
         $modal_wrapper->{'class'} = 'modal tinputdialog';
         $modal_wrapper->{'id'}    = $this->id;
-        $modal_wrapper->{'style'} = 'padding-top: 10%; z-index:2000';
+        $modal_wrapper->{'style'} = 'padding-top: 5%; z-index:2000';
         $modal_wrapper->{'tabindex'} = '-1';
         $modal_wrapper->{'data-bs-backdrop'} = 'true';
         
@@ -60,7 +60,7 @@ class TInputDialog
         $close->{'class'} = 'btn-close';
         $close->{'data-dismiss'} = 'modal';
         $close->{'data-bs-dismiss'} = 'modal';
-        $close->{'aria-hidden'} = 'true';
+        //$close->{'aria-hidden'} = 'true';
         
         $title = new TElement('h5');
         $title->{'class'} = 'modal-title';

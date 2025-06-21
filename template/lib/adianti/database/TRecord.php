@@ -24,7 +24,7 @@ use Traversable;
 /**
  * Base class for Active Records
  *
- * @version    8.0
+ * @version    8.1
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -172,17 +172,10 @@ abstract class TRecord implements IteratorAggregate
         {
             if (strpos($property, '->') !== FALSE)
             {
-                $optional = false;
                 $parts = explode('->', $property);
                 $container = $this;
                 foreach ($parts as $key => $part)
                 {
-                    if (substr($part,-1) == '?')
-                    {
-                        $optional = true;
-                        $part = str_replace('?', '', $part);
-                    }
-                    
                     if (is_object($container))
                     {
                         $result = $container->$part;
@@ -190,10 +183,6 @@ abstract class TRecord implements IteratorAggregate
                     }
                     else
                     {
-                        if ($optional)
-                        {
-                            return '';
-                        }
                         throw new Exception(AdiantiCoreTranslator::translate('Trying to access a non-existent property (^1)', $property));
                     }
                 }
@@ -373,14 +362,20 @@ abstract class TRecord implements IteratorAggregate
      * Returns the name of the deleted at column
      * @return A String containing the deleted at column
      */
-    public static function getDeletedAtColumn()
+    public static function getDeletedAtColumn( $with_prefix = false )
     {
         // get the Active Record class name
         $class = get_called_class();
+        $table = constant("{$class}::TABLENAME");
         
         if(defined("{$class}::DELETEDAT"))
         {
             // returns the DELETEDAT Active Record class constant
+            if ($with_prefix)
+            {
+                return $table . '.' . constant("{$class}::DELETEDAT");
+            }
+            
             return constant("{$class}::DELETEDAT");
         }
 
@@ -692,6 +687,7 @@ abstract class TRecord implements IteratorAggregate
     public function store()
     {
         $conn = TTransaction::get();
+        $result = null;
         
         if (!$conn)
         {
@@ -863,8 +859,11 @@ abstract class TRecord implements IteratorAggregate
                 $command .= ";SELECT SCOPE_IDENTITY() as 'last_inserted_id'";
             }
             
-            $result = $conn-> prepare ( $command , array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-            $result-> execute ( $sql->getPreparedVars() );
+            if ($command)
+            {
+                $result = $conn-> prepare ( $command , array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                $result-> execute ( $sql->getPreparedVars() );
+            }
         }
         else
         {
@@ -880,7 +879,10 @@ abstract class TRecord implements IteratorAggregate
             }
             
             // execute the query
-            $result = $conn-> query($command);
+            if ($command)
+            {
+                $result = $conn-> query($command);
+            }
         }
         
         if ((defined("{$class}::IDPOLICY")) AND (constant("{$class}::IDPOLICY") == 'serial'))
@@ -1538,9 +1540,9 @@ abstract class TRecord implements IteratorAggregate
     
     /**
      * Returns the association informatation for some class
-     * @param $class Active Record Class name
+     * @param $search Association property to search
      */
-    public function findAssociationFor($class)
+    public function findAssociationFor($search, $property = 'model')
     {
         if (method_exists($this, 'get_relationships'))
         {
@@ -1550,7 +1552,7 @@ abstract class TRecord implements IteratorAggregate
             {
                 foreach ($relationships['associations'] as $association)
                 {
-                    if ($association['model'] == $class)
+                    if ($association[$property] == $search)
                     {
                         return $association;
                     }
@@ -1826,8 +1828,13 @@ abstract class TRecord implements IteratorAggregate
      * Creates an indexed array
      * @returns the TRepository object with a filter
      */
-    public static function getIndexedArray($indexColumn, $valueColumn, $criteria = NULL, $withTrashed = FALSE)
+    public static function getIndexedArray($indexColumn, $valueColumn = NULL, $criteria = NULL, $withTrashed = FALSE)
     {
+        if (is_null($valueColumn))
+        {
+            $valueColumn = $indexColumn;
+        }
+        
         $sort_array = false;
         
         if (empty($criteria))

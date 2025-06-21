@@ -7,7 +7,7 @@ use Adianti\Util\AdiantiStringConversion;
 /**
  * SourceCode View
  *
- * @version    8.0
+ * @version    8.1
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -113,7 +113,7 @@ class TSourceCode
      */
     public function show()
     {
-        $raw_content = $this->content;
+        $raw_content = (string) $this->content;
         if (isset($this->strip_tags) && $this->strip_tags)
         {
             $raw_content = str_replace("<?php\n", '', $raw_content);

@@ -11,7 +11,7 @@ use Exception;
 /**
  * Application loader
  *
- * @version    8.0
+ * @version    8.1
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -69,15 +69,15 @@ class AdiantiApplicationLoader
         
         foreach ($folders as $folder)
         {
-            if (file_exists("{$folder}/{$class}.class.php"))
-            {
-                require_once "{$folder}/{$class}.class.php";
-                self::$loadedClasses[$class] = true;
-                return TRUE;
-            }
             if (file_exists("{$folder}/{$class}.php"))
             {
                 require_once "{$folder}/{$class}.php";
+                self::$loadedClasses[$class] = true;
+                return TRUE;
+            }
+            else if (file_exists("{$folder}/{$class}.class.php"))
+            {
+                require_once "{$folder}/{$class}.class.php";
                 self::$loadedClasses[$class] = true;
                 return TRUE;
             }
@@ -98,15 +98,15 @@ class AdiantiApplicationLoader
                         {
                             if (is_dir($entry))
                             {
-                                if (file_exists("{$entry}/{$class}.class.php"))
+                                if (file_exists("{$entry}/{$class}.php"))
                                 {
-                                    require_once "{$entry}/{$class}.class.php";
+                                    require_once "{$entry}/{$class}.php";
                                     self::$loadedClasses[$class] = true;
                                     return TRUE;
                                 }
-                                else if (file_exists("{$entry}/{$class}.php"))
+                                else if (file_exists("{$entry}/{$class}.class.php"))
                                 {
-                                    require_once "{$entry}/{$class}.php";
+                                    require_once "{$entry}/{$class}.class.php";
                                     self::$loadedClasses[$class] = true;
                                     return TRUE;
                                 }
