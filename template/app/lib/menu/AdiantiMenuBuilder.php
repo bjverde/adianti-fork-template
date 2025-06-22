@@ -21,7 +21,7 @@ class AdiantiMenuBuilder
         switch ($theme)
         {
             case 'adminbs5':
-            case 'adminbs5_v2':
+            case 'adminbs5_v3':
             case 'adminbs5_t':
                 $xml  = new SimpleXMLElement(file_get_contents($file));
                 $menu = new TMenu($xml, self::CHECK_PERMISSION, 1, 'sidebar-dropdown list-unstyled collapse', 'sidebar-item', 'sidebar-link collapsed');
