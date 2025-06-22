@@ -12,19 +12,12 @@ new TSession;
 ApplicationAuthenticationService::checkMultiSession();
 ApplicationTranslator::setLanguage( TSession::getValue('user_language'), true );
 
-$system_version = $ini['system']['system_version'];
-$title       = $ini['general']['title'];
-$head_title  = $title.' - v'.$system_version;
 
 if ( TSession::getValue('logged') )
 {
     if (isset($_REQUEST['template']) AND $_REQUEST['template'] == 'iframe')
     {
         $content = file_get_contents("app/templates/{$theme}/iframe.html");
-
-        $content = str_replace('{head_title}', $head_title, $content);
-        $content = str_replace('{title}', $title, $content);
-        $content = str_replace('{system_version}', $system_version, $content);
     }
     else
     {
@@ -33,10 +26,6 @@ if ( TSession::getValue('logged') )
         $content = str_replace('{MENU}', $menu, $content);
         $content = str_replace('{MENUTOP}', AdiantiMenuBuilder::parseNavBar('menu-top.xml', $theme), $content);
         $content = str_replace('{MENUBOTTOM}', AdiantiMenuBuilder::parseNavBar('menu-bottom.xml', $theme), $content);
-
-        $content = str_replace('{head_title}', $head_title, $content);
-        $content = str_replace('{title}', $title, $content);
-        $content = str_replace('{system_version}', $system_version, $content);
     }
 }
 else
@@ -48,20 +37,21 @@ else
         $content = str_replace('{MENU}', $menu, $content);
         $content = str_replace('{MENUTOP}', AdiantiMenuBuilder::parseNavBar('menu-top-public.xml', $theme), $content);
         $content = str_replace('{MENUBOTTOM}', AdiantiMenuBuilder::parseNavBar('menu-bottom-public.xml', $theme), $content);
-
-        $content = str_replace('{head_title}', $head_title, $content);
-        $content = str_replace('{title}', $title, $content);
-        $content = str_replace('{system_version}', $system_version, $content);
     }
     else
     {
         $content = file_get_contents("app/templates/{$theme}/login.html");
-
-        $content = str_replace('{head_title}', $head_title, $content);
-        $content = str_replace('{title}', $title, $content);
-        $content = str_replace('{system_version}', $system_version, $content);
     }
 }
+//--- START: FORMDIN 5  ---------------------------------------------------------
+$system_version = $ini['system']['system_version'];
+$title       = $ini['general']['title'];
+$head_title  = $title.' - v'.$system_version;
+
+$content = str_replace('{head_title}', $head_title, $content);
+$content = str_replace('{title}', $title, $content);
+$content = str_replace('{system_version}', $system_version, $content);
+//--- END: FORMDIN 5 ------------------------------------------------------------
 
 $content = ApplicationTranslator::translateTemplate($content);
 $content = AdiantiTemplateParser::parse($content);
