@@ -43,7 +43,7 @@ else
         $content = file_get_contents("app/templates/{$theme}/login.html");
     }
 }
-//--- START: FORMDIN 5  ---------------------------------------------------------
+//--- START: TEMA ADMINBS5_V3  ---------------------------------------------------------
 $system_version = $ini['system']['system_version'];
 $title       = $ini['general']['title'];
 $head_title  = $title.' - v'.$system_version;
@@ -51,7 +51,7 @@ $head_title  = $title.' - v'.$system_version;
 $content = str_replace('{head_title}', $head_title, $content);
 $content = str_replace('{title}', $title, $content);
 $content = str_replace('{system_version}', $system_version, $content);
-//--- END: FORMDIN 5 ------------------------------------------------------------
+//--- END: TEMA ADMINBS5_V3 ------------------------------------------------------------
 
 $content = ApplicationTranslator::translateTemplate($content);
 $content = AdiantiTemplateParser::parse($content);
