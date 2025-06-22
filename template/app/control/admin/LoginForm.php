@@ -45,8 +45,8 @@ class LoginForm extends TPage
         $password->disableAutoComplete();
         $login->setSize('100%');
         $password->setSize('100%');
-        $login->placeholder = _t('User');
-        $password->placeholder = _t('Password');
+        //$login->placeholder = _t('User');
+        //$password->placeholder = _t('Password');
         //$password->disableToggleVisibility();
         $login->autofocus = 'autofocus';
         
