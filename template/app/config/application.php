@@ -4,7 +4,7 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'template',
-        'title' => 'Adianti Fork Template 8.1',
+        'title' => 'Adianti Fork Template',
         'theme' => 'adminbs5_v3',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
