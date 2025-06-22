@@ -58,19 +58,21 @@ class SqlHelper
 	const SQL_CONNECTOR_AND = ' AND ';
 	const SQL_CONNECTOR_OR  = ' OR ';
 	
-	private static $dbms;	
+	private static $dbms;
 	
-	public static function setDbms($dbms)
-	{
-	    self::$dbms = $dbms;	    
+	public static function setDbms($dbms){
+	    self::$dbms = $dbms;
 	}
-	public static function getDbms()	
-    {
+	public static function getDbms(){
         $dbms =  null;
         if ( !empty(self::$dbms) ){
             $dbms = self::$dbms;
         } else {
-            $dbms = BANCO;
+            if (defined(BANCO)) {
+                $dbms = BANCO;
+            }else{
+                $dbms = TFormDinPdoConnection::DBMS_SQLSERVER;
+            }
         }
         return $dbms;
     }
@@ -167,7 +169,7 @@ class SqlHelper
                          || ($dbms == TFormDinPdoConnection::DBMS_POSTGRES)
                          || ($dbms == TFormDinPdoConnection::DBMS_SQLITE)
                          || ($dbms == TFormDinPdoConnection::DBMS_SQLSERVER);
-        if ( $dataBaseWithLike ) {
+        if ( $dataBaseWithLike && !empty($string) ) {
             $string = trim($string);
             $string = preg_replace('/\s/', '%', $string);
         }

@@ -99,9 +99,9 @@ class TFormDinNumericField extends TFormDinGenericField
                                )
     {
         $this->setThousandSeparator($boolFormatInteger);
+        $thousandSeparator = $this->getThousandSeparator();
         $this->setDecimalsSeparator($decimalsSeparator);
         $decimalsSeparator = $this->getDecimalsSeparator();
-        $thousandSeparator = $this->getThousandSeparator();
 
         $adiantiObj = new TNumeric($id, $decimalPlaces, $decimalsSeparator, $thousandSeparator, $replaceOnPost);
         parent::__construct($adiantiObj,$id,$label,$boolRequired,$value,$placeholder);
@@ -136,7 +136,7 @@ class TFormDinNumericField extends TFormDinGenericField
     }
 
     public function setThousandSeparator($thousandSeparator){
-        $separator = null;
+        $separator = '';
         if($thousandSeparator === true){
             $separator = self::DOT;
         }elseif($thousandSeparator == self::DOT){

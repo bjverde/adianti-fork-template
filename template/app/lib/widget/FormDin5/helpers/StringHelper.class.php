@@ -130,6 +130,47 @@ class StringHelper
         return $limpo;
     }
 
+
+    /**
+     * Recebe uma string e verifica se é um CPF válido
+     *
+     * @param string $value
+     * @return boolean
+     */
+	public static function validarCpf($value){
+		$dv 		= false;
+		$cpf 		= self::limpaCnpjCpf($value);
+		if($cpf=='') {
+			return false;
+		}
+
+		$cpf_dv 	= substr($cpf,-2);
+		$controle 	= '';
+		// evitar sequencias de número. Ex:11111111111
+		for ( $i = 0; $i < 10; $i++ ) {
+			if( $cpf == str_repeat($i,11)){
+				$cpf_dv = '99'; // causar erro de validação
+				break;
+			}
+		}
+
+        $digito = null;
+		for ( $i = 0; $i < 2; $i++ ) {
+			$soma = 0;
+			for ( $j = 0; $j < 9; $j++ )
+			$soma += substr($cpf,$j,1)*(10+$i-$j);
+			if ( $i == 1 ) $soma += $digito * 2;
+			$digito = ($soma * 10) % 11;
+			if ( $digito == 10 ) $digito = 0;
+			$controle .= $digito;
+		}
+
+		if ( $controle != $cpf_dv ){
+		    return false;
+		}
+		return true;
+	}
+
     /**
      * Recebe uma string e formata o numero telefone em dos 4 formatos, conforme o tamanho da string
      * (61) 91234-5678

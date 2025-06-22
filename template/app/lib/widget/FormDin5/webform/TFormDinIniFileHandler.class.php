@@ -62,21 +62,23 @@
 class TFormDinIniFileHandler {
     private $filePath;
     private $iniData;
+    private $scannerMode;
 
-    public function __construct($filePath = null){
+    public function __construct($filePath=null, $scannerMode=INI_SCANNER_NORMAL){
         if( !empty($filePath) ){
             $this->setfilePath($filePath);
         }
+        $this->scannerMode = $scannerMode;
     }
 
     private function load() {
         if (!file_exists($this->filePath)) {
-            throw new Exception("Arquivo INI não encontrado: " . $this->filePath);
+            throw new InvalidArgumentException("Arquivo INI não encontrado: " . $this->filePath);
         }
-
-        $this->iniData = parse_ini_file($this->filePath, true);
+        $scannerMode = empty($this->scannerMode)?INI_SCANNER_NORMAL:$this->scannerMode;
+        $this->iniData = parse_ini_file($this->filePath, true,$scannerMode);
         if ($this->iniData === false) {
-            throw new Exception("Falha ao ler o arquivo INI: " . $this->filePath);
+            throw new LogicException("Falha ao ler o arquivo INI: " . $this->filePath);
         }
     }
 
@@ -89,18 +91,41 @@ class TFormDinIniFileHandler {
     }
 
     /**
+     * Setando o valor IniData, usando quando deseja forcar
+     * um array como parametro
+     *
+     * @param array $iniData array multidimensional
+     */
+    public function setIniData(array $iniData){
+        $this->iniData = $iniData;
+    }
+
+    /**
+     * Recupera o valor de uma seção
+     *
+     * @param string $section 01 - nome da seção
+     * @return string
+     */
+    public function getSection($section) {
+        if (!isset($this->iniData[$section])) {
+            throw new LogicException("Seção '$section' não encontrada no arquivo INI.");
+        }
+        return $this->iniData[$section];
+    }
+
+    /**
      * Recupera o valor de uma chave em uma seção
      *
      * @param string $section 01 - nome da seção
      * @param string $key     02 - nome da chave
      * @return string
      */
-    public function getValue($section, $key) {
+    public function getKeyInSection($section, $key) {
         if (!isset($this->iniData[$section])) {
-            throw new Exception("Seção '$section' não encontrada no arquivo INI.");
+            throw new LogicException("Seção '$section' não encontrada no arquivo INI.");
         }
         if (!isset($this->iniData[$section][$key])) {
-            throw new Exception("Chave '$key' não encontrada na seção '$section'.");
+            throw new LogicException("Chave '$key' não encontrada na seção '$section'.");
         }
         return $this->iniData[$section][$key];
     }
@@ -112,8 +137,8 @@ class TFormDinIniFileHandler {
      * @param string $key     02 - nome da chave
      * @return bolean
      */    
-    public function getValueWithBolean($section, $key) {
-        $valor = $this->getValue($section, $key);
+    public function getKeyWithBolean($section, $key) {
+        $valor = $this->getKeyInSection($section, $key);
         return $this->testBolean($valor);
     }
 
