@@ -83,9 +83,9 @@ return [
         ]
     ],
     'system' =>  [
-        'system_version' => '1.0.0',
+        'system_version' => '8.1.0.1',
         'system_name_sub'=> 'Fork do Adianti FrameWork',
-        'adianti_min_version'=> '8.0.0',
-        'formdin_min_version'=> '5.4.0',
-    ],    
+        'adianti_min_version'=> '8.1.0',
+        'formdin_min_version'=> '5.4.3',
+    ],
 ];
