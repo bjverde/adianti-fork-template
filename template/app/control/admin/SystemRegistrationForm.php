@@ -36,8 +36,8 @@ class SystemRegistrationForm extends TPage
         $login->placeholder = _t('User');
         $name->placeholder = _t('Name');
         $email->placeholder = _t('Email');
-        $password->placeholder = _t('Password');
-        $repassword->placeholder = _t('Password confirmation');
+        //$password->placeholder = _t('Password');
+        //$repassword->placeholder = _t('Password confirmation');
         
         //$password->disableToggleVisibility();
         //$repassword->disableToggleVisibility();
