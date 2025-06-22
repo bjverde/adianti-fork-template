@@ -50,8 +50,8 @@ class LoginForm extends TPage
         //$password->disableToggleVisibility();
         $login->autofocus = 'autofocus';
         
-        $this->form->addRowField(_t('Login'), $login, true );
-        $this->form->addRowField(_t('Password'), $password, true );
+        $this->form->addRowField(_t('Login'), $login, false );
+        $this->form->addRowField(_t('Password'), $password, false );
         
         $this->form->addRowContent( $previous_class );
         $this->form->addRowContent( $previous_method );
