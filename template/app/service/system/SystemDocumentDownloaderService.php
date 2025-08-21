@@ -2,7 +2,7 @@
 /**
  * Document downloader service
  *
- * @version    8.1
+ * @version    8.2
  * @package    service
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006-2014 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -10,7 +10,7 @@
  */
 class SystemDocumentDownloaderService
 {
-    public static function download($file)
+    public static function download($file, $disposition = 'attachment')
     {
         $content_type_list = [];
         $content_type_list['txt']  = 'text/plain';
@@ -55,7 +55,7 @@ class SystemDocumentDownloaderService
             }
             
             header("Content-Length: {$filesize}");
-            header("Content-disposition: attachment; filename=\"{$basename}\"");
+            header("Content-disposition: {$disposition}; filename=\"{$basename}\"");
             header("Content-Transfer-Encoding: binary");
             
             flush();

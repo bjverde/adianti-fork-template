@@ -2,13 +2,13 @@
 /**
  * Document uploader listener
  *
- * @version    8.1
+ * @version    8.2
  * @package    service
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006-2014 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license-template
  */
-class SystemDocumentUploaderService
+class SystemDocumentUploaderService implements AdiantiController
 {
     public static function getFontAwesomeIcon($file_path)
     {

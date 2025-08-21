@@ -2,14 +2,14 @@
 /**
  * SystemScheduleService
  *
- * @version    8.1
+ * @version    8.2
  * @package    service
  * @subpackage cli
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license-template
  */
-class SystemScheduleService
+class SystemScheduleService implements AdiantiJob
 {
     public static function run($request)
     {
