@@ -5,7 +5,7 @@ return [
         'language' => 'pt',
         'application' => 'template',
         'title' => 'Adianti Fork Template',
-        'theme' => 'adminbs5_v3',
+        'theme' => 'adminbs5_v4',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
         'multiunit' => '1',
@@ -59,7 +59,7 @@ return [
     'login' => [
         'logo' => 'app/images/icon.png',
         'background' => 'app/images/thumb-1920-698137.jpg'
-    ],    
+    ],
     'template' => [
         'navbar' => [
             'has_program_search' => '1',
@@ -71,13 +71,16 @@ return [
             'has_wiki' => '1',
             'has_news' => '1',
             'has_menu_mode_switch' => '1',
-            'has_main_mode_switch' => '1'
+            'has_main_mode_switch' => '1',
+            'has_master_menu' => '1',
+            'always_collapse' => '0',
+            'allow_page_tabs' => '0'
         ],
         'dialogs' => [
             'use_swal' => '1'
         ],
         'theme' => [
-            'menu_dark_color' => 'rgb(29 45 83)',
+            /*'menu_dark_color' => 'rgb(29 45 83)',*/
             'menu_mode'  => 'dark',
             'main_mode'  => 'light'
         ]
