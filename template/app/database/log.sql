@@ -1,4 +1,4 @@
---- Create system_change_log table
+--  Create system_change_log table
 CREATE TABLE system_change_log (
     id int PRIMARY KEY NOT NULL,
     logdate varchar(20),
@@ -21,7 +21,7 @@ CREATE TABLE system_change_log (
     log_day varchar(2)
 );
 
---- Create system_sql_log table
+--  Create system_sql_log table
 CREATE TABLE system_sql_log (
     id int PRIMARY KEY NOT NULL,
     logdate varchar(20),
@@ -41,7 +41,7 @@ CREATE TABLE system_sql_log (
     log_day varchar(2)
 );
 
---- Create system_access_log table
+--  Create system_access_log table
 CREATE TABLE system_access_log (
     id int PRIMARY KEY NOT NULL,
     sessionid varchar(256),
@@ -56,7 +56,7 @@ CREATE TABLE system_access_log (
     impersonated_by varchar(200)
 );
 
---- Create system_request_log table
+--  Create system_request_log table
 CREATE TABLE system_request_log (
     id int PRIMARY KEY NOT NULL,
     endpoint text,
@@ -79,7 +79,7 @@ CREATE TABLE system_request_log (
     request_duration int
 );
 
---- Create system_access_notification_log table
+--  Create system_access_notification_log table
 CREATE TABLE system_access_notification_log (
     id int PRIMARY KEY NOT NULL,
     login varchar(256),
@@ -88,7 +88,7 @@ CREATE TABLE system_access_notification_log (
     login_time varchar(256)
 );
 
---- Create system_schedule_log table
+--  Create system_schedule_log table
 CREATE TABLE system_schedule_log (
     id int PRIMARY KEY NOT NULL,
     logdate varchar(19),
@@ -108,7 +108,7 @@ CREATE TABLE system_sql_changes (
     sql_command text
 );
 
---- Create indexes
+--  Create indexes
 CREATE INDEX sys_change_log_login_idx ON system_change_log(login);
 CREATE INDEX sys_change_log_date_idx ON system_change_log(logdate);
 CREATE INDEX sys_change_log_year_idx ON system_change_log(log_year);
