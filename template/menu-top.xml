@@ -3,11 +3,17 @@
         <icon>fas:bolt fa-fw</icon>
         <mobile>N</mobile>
         <menu>
-            <menuitem label="Dashboard">
-              <icon>fas:tachometer-alt fa-fw</icon>
-              <action>SystemAdministrationDashboard</action>
-              <title>Dashboard</title>
+            <menuitem label="Submenu">
+              <icon>fas:bars fa-fw</icon>
               <mobile>N</mobile>
+              <menu>
+                  <menuitem label="Dashboard">
+                    <icon>fas:tachometer-alt fa-fw</icon>
+                    <action>SystemAdministrationDashboard</action>
+                    <title>Dashboard</title>
+                    <mobile>N</mobile>
+                  </menuitem>
+              </menu>
             </menuitem>
         </menu>
     </menuitem>
