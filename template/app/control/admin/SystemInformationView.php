@@ -4,7 +4,7 @@ use Linfo\Linfo;
 /**
  * SystemInformationView
  *
- * @version    8.1
+ * @version    8.2
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio

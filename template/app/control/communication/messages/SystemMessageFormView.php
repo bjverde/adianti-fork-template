@@ -2,7 +2,7 @@
 /**
  * SystemMessageFormView
  *
- * @version    8.1
+ * @version    8.2
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
@@ -48,7 +48,7 @@ class SystemMessageFormView extends TPage
                     {
                         // create one array with the customer data
                         $array_object = $object->toArray();
-                        $array_object['message64'] = base64_encode($array_object['message']??'');
+                        $array_object['message64'] = base64_encode('<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>'.($array_object['message']??'').'</body></html>');
                         
                         TTransaction::open('permission');
                         $user = SystemUser::find($array_object['system_user_id']);

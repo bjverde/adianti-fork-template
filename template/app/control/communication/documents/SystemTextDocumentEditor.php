@@ -2,7 +2,7 @@
 /**
  * SystemTextDocumentEditor
  *
- * @version    8.1
+ * @version    8.2
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio

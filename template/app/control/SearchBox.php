@@ -2,7 +2,7 @@
 /**
  * SearchBox
  *
- * @version    8.1
+ * @version    8.2
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -22,10 +22,11 @@ class SearchBox extends TPage
         $this->form = new TForm('search_box');
         
         $input = new TMultiSearch('input');
-        $input->setSize(240,28);
+        $input->setSize('calc(100% - 20px)',28);
         $input->addItems( $this->getPrograms() );
         $input->setMinLength(1);
         $input->setMaxSize(1);
+        $input->setOption('dropdownParent', '#sidebar');
         $input->setChangeAction(new TAction(array('SearchBox', 'loadProgram')));
         
         $this->form->add($input);
@@ -75,6 +76,7 @@ class SearchBox extends TPage
             if ($program)
             {
                 TApplication::loadPage($program);
+                TScript::create('Template.findQueryStringMenuItem(true)', true, 300);
             }
         }
     }
