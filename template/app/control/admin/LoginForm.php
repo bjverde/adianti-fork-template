@@ -2,7 +2,7 @@
 /**
  * LoginForm
  *
- * @version    8.1
+ * @version    8.2
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -45,13 +45,13 @@ class LoginForm extends TPage
         $password->disableAutoComplete();
         $login->setSize('100%');
         $password->setSize('100%');
-        //$login->placeholder = _t('User');
-        //$password->placeholder = _t('Password');
-        //$password->disableToggleVisibility();
+        $login->placeholder = _t('User');
+        $password->placeholder = _t('Password');
+        $password->disableToggleVisibility();
         $login->autofocus = 'autofocus';
         
-        $this->form->addRowField(_t('Login'), $login, false );
-        $this->form->addRowField(_t('Password'), $password, false );
+        $this->form->addRowField(_t('Login'), $login, true );
+        $this->form->addRowField(_t('Password'), $password, true );
         
         $this->form->addRowContent( $previous_class );
         $this->form->addRowContent( $previous_method );

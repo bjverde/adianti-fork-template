@@ -111,6 +111,10 @@ col-sm-11 {
     display:inline-block;
 }
 
+label, .ttd {
+    max-width: calc(100% - 30px);
+}
+
 .tdatagrid_cell
 {
     text-decoration:none;

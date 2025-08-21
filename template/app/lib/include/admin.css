@@ -59,22 +59,8 @@
     }
 }
 
-@media only screen and (min-width: 501px)
-{
-    #search-box, #word-search-box
-    {
-        display:inline !important;
-        float:left;
-    }
-}
-
 @media only screen and (max-width: 500px)
 {
-    #search-box, #word-search-box
-    {
-        display:none !important;
-    }
-    
     ol.tbreadcrumb li 
     {
         padding: 0;
@@ -200,8 +186,8 @@ pre
 .debug-panel .debug-block
 {
     white-space: pre;
-    margin: 10px;
-    width: calc(50% - 40px);
+    margin-top: 3px;
+    width: 100%;
     display: block;
     height: calc(100% - 40px);
     position: relative;
@@ -212,16 +198,6 @@ pre
     padding: 3px;
     font-family: Andale mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Lucida Console, Monaco, Consolas, Droid Sans monospace, Monospace;
     font-size: var(--ad-font-size-less);
-}
-
-.debug-panel .debug-title
-{
-    display: block;
-    width: calc(50% - 20px);
-    text-align: center;
-    float:left;
-    font-weight: bold;
-    color: #87a7f5;
 }
 
 .debug-panel > i

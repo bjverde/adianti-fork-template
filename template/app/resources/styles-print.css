@@ -68,6 +68,10 @@ body {
     display:inline-block;
 }
 
+label {
+    max-width: calc(100% - 20px);
+}
+
 .tdatagrid_cell
 {
     text-decoration:none;
