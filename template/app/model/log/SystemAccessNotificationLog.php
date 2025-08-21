@@ -2,7 +2,7 @@
 /**
  * SystemAccessNotificationLog
  *
- * @version    8.1
+ * @version    8.2
  * @package    model
  * @subpackage log
  * @author     Pablo Dall'Oglio

@@ -2,7 +2,7 @@
 /**
  * SystemUser
  *
- * @version    8.1
+ * @version    8.2
  * @package    model
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -441,6 +441,15 @@ class SystemUser extends TRecord
     static public function newFromLogin($login)
     {
         return SystemUser::where('login', '=', $login)->first();
+    }
+    
+    /**
+     * Returns a SystemUser object based on its custom_code
+     * @param $login String with user custom_code
+     */
+    static public function newFromCustomCode($custom_code)
+    {
+        return SystemUser::where('custom_code', '=', $custom_code)->first();
     }
     
     /**

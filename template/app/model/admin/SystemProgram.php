@@ -2,7 +2,7 @@
 /**
  * SystemProgram
  *
- * @version    8.1
+ * @version    8.2
  * @package    model
  * @subpackage admin
  * @author     Pablo Dall'Oglio
