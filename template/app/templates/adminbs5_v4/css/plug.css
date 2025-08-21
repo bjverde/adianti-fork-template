@@ -1,0 +1,36 @@
+.right-panel .card-form {
+    border: none;
+}
+
+.right-panel .edit-form {
+    border: none;
+}
+
+.right-panel .search-form {
+    border: none;
+}
+
+.ui-dialog .card-form {
+    border: none;
+}
+
+.ui-dialog .edit-form {
+    border: none;
+}
+
+.ui-dialog .search-form {
+    border: none;
+}
+
+.popover .card.card-form {
+    border: none;
+}
+
+.popover .card.edit-form {
+    border: none;
+}
+
+.plugin_comment.timeline > li > .timeline-item > .timeline-footer
+{
+    padding: 0;
+}
