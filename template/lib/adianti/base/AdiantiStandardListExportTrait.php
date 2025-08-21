@@ -13,7 +13,7 @@ use Exception;
 /**
  * List Export Trait
  *
- * @version    8.1
+ * @version    8.2
  * @package    base
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -310,7 +310,8 @@ trait AdiantiStandardListExportTrait
             
             // string with HTML contents
             $html = clone $this->datagrid;
-            $contents = '<style>' . file_get_contents('app/resources/styles-print-bundle.css') . '</style>';
+            $contents = '<meta charset="UTF-8">';
+            $contents .= '<style>' . file_get_contents('app/resources/styles-print-bundle.css') . '</style>';
             $contents .= $html->getContents();
             
             $options = new \Dompdf\Options();

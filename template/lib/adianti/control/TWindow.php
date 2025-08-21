@@ -13,7 +13,7 @@ use Exception;
 /**
  * Window Container (JQueryDialog wrapper)
  *
- * @version    8.1
+ * @version    8.2
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -57,6 +57,13 @@ class TWindow extends TElement implements AdiantiController
         throw new Exception( AdiantiCoreTranslator::translate('Use of target containers along with windows is not allowed') );
     }
     
+    /**
+     * Enable full screen in mobile
+     */
+    public function enableMobileFullScreen()
+    {
+        $this->wrapper->enableMobileFullScreen();
+    }
     
     /**
      * Returns ID
@@ -166,6 +173,24 @@ class TWindow extends TElement implements AdiantiController
     }
     
     /**
+     * Define the window's width
+     * @param  $width  Window's width
+     */
+    public function setWidth($width)
+    {
+        $this->wrapper->setWidth($width);
+    }
+    
+    /**
+     * Define the window's height
+     * @param  $width  Window's height
+     */
+    public function setHeight($height)
+    {
+        $this->wrapper->setHeight($height);
+    }
+    
+    /**
      * Define the window's min width between percent and absolute
      * @param  $percent width
      * @param  $absolute width
@@ -173,6 +198,26 @@ class TWindow extends TElement implements AdiantiController
     public function setMinWidth($percent, $absolute)
     {
         $this->wrapper->setMinWidth($percent, $absolute);
+    }
+    
+    /**
+     * Define the window's max width between percent and absolute
+     * @param  $percent width
+     * @param  $absolute width
+     */
+    public function setMaxWidth($percent, $absolute)
+    {
+        $this->wrapper->setMaxWidth($percent, $absolute);
+    }
+    
+    /**
+     * Define the window's max height between percent and absolute
+     * @param  $percent width
+     * @param  $absolute width
+     */
+    public function setMaxHeight($percent, $absolute)
+    {
+        $this->wrapper->setMaxHeight($percent, $absolute);
     }
     
     /**

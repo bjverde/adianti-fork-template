@@ -18,7 +18,7 @@ use ApplicationTranslator;
 /**
  * Card
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -481,7 +481,7 @@ class TCardView extends TElement
                         
                         $button->{'popaction'} = $item_action->prepare($object)->serialize(false);
                         $button->{'poptrigger'} = 'click';
-                        $button->{'popover'} = 'true';
+                        $button->{'data-popover'} = 'true';
                     }
                     
                     $div->add($button);
@@ -501,7 +501,7 @@ class TCardView extends TElement
                         
                         $icon->{'popaction'} = $item_action->prepare($object)->serialize(false);
                         $icon->{'poptrigger'} = 'click';
-                        $icon->{'popover'} = 'true';
+                        $icon->{'data-popover'} = 'true';
                     }
                     
                     $div->add($icon);

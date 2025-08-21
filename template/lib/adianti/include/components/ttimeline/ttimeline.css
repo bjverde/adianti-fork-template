@@ -67,6 +67,11 @@
     padding: 10px;
 }
 
+.timeline .timeline-body p
+{
+    margin-bottom: 0;
+}
+
 .timeline > li > .fa,.timeline > li > .far,.timeline > li > .fas,.timeline > li > .ion {
     width: 30px;
     height: 30px;

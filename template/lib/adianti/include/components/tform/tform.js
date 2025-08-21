@@ -1,5 +1,7 @@
 function tform_send_data(form_name, field, value, fire_events, timeout)
 {
+    form_name = tform_parse_name(form_name);
+    
     if (parseInt(timeout) > 0)
     {
         setTimeout( function() {
@@ -266,10 +268,33 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
 
 function tform_send_data_by_id(form_name, field, value, fire_events, timeout)
 {
+    form_name = tform_parse_name(form_name);
+    
     if ($('form[name='+form_name+'] [id='+field+']').length > 0)
     {
         tform_send_data(form_name, '#'+field, value, fire_events, timeout)
     }   
+}
+
+function tform_parse_name(form_name)
+{
+    if (form_name == 'form:last') {
+        form_name = $('form').last().attr('name');
+    }
+    
+    if (form_name == 'form:before-last') {
+        form_name = $('form').eq(-2).attr('name');
+    }
+    
+    if (form_name == 'form:first') {
+        form_name = $('form').first().attr('name');
+    }
+    
+    if (form_name == 'form:under') {
+        form_name = $('div[page-name]').eq(-2).find('form').attr('name');
+    }
+    
+    return form_name;
 }
 
 function tform_events_hang_exec( string_callback )

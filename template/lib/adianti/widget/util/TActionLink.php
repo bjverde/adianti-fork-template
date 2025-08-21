@@ -7,7 +7,7 @@ use Adianti\Control\TAction;
 /**
  * Action Link
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -67,7 +67,7 @@ class TActionLink extends TTextDisplay
             
             $this->{'popaction'} = $action->serialize(false);
             $this->{'poptrigger'} = 'click';
-            $this->{'popover'} = 'true';
+            $this->{'data-popover'} = 'true';
         }
     }
     

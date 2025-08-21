@@ -14,7 +14,7 @@ use ApplicationTranslator;
 /**
  * Timeline
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage util
  * @author     Artur Comunello

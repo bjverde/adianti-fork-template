@@ -4,7 +4,7 @@ namespace Adianti\Widget\Base;
 /**
  * Base class for all HTML Elements
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage base
  * @author     Pablo Dall'Oglio
@@ -39,6 +39,8 @@ class TElement
         $this->hidden = FALSE;
         $this->properties = [];
         $this->isVoidElement = FALSE;
+        $this->children = [];
+        
         if (empty(self::$voidelements))
         {
             self::$voidelements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',

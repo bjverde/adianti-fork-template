@@ -9,7 +9,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * MenuItem Widget
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage menu
  * @author     Pablo Dall'Oglio
@@ -29,6 +29,7 @@ class TMenuItem extends TElement
     private $menu_transformer;
     private $tagLabel;
     private $classIcon;
+    private $rightWidget;
     
     /**
      * Class constructor
@@ -168,6 +169,14 @@ class TMenuItem extends TElement
     }
     
     /**
+     * Define a widget to be inserted at action's right
+     */
+    public function setRightWidget($widget)
+    {
+        $this->rightWidget = $widget;
+    }
+    
+    /**
      * Shows the widget at the screen
      */
     public function show()
@@ -231,6 +240,11 @@ class TMenuItem extends TElement
         {
             $this->link->add($label);
             $this->add($this->link);
+        }
+        
+        if (!empty($this->rightWidget))
+        {
+            $this->link->add($this->rightWidget);
         }
         
         if ($this->itemClass)

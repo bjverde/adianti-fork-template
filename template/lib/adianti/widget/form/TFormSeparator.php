@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Form separator
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

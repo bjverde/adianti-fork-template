@@ -4,7 +4,7 @@ namespace Adianti\Log;
 use Adianti\Log\TLogger;
 
 /**
- * Register LOG in Standard Output
+ * Register LOG for Template Debugger
  *
  * @version    8.2
  * @package    log
@@ -12,7 +12,7 @@ use Adianti\Log\TLogger;
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license
  */
-class TLoggerSTD extends TLogger
+class TLoggerTPL extends TLogger
 {
     /**
      * Writes an message in the LOG file
@@ -20,12 +20,6 @@ class TLoggerSTD extends TLogger
      */
     public function write($message)
     {
-        $level = 'Debug';
-        
-        $time = date("Y-m-d H:i:s");
-        $eol = PHP_SAPI == 'cli' ? "\n" : '<br>';
-        
-        // define the LOG content
-        print "$level: $time - $message" . $eol;
+        a_dump($message);
     }
 }

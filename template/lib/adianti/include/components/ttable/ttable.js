@@ -107,3 +107,15 @@ function ttable_replace_row_by_id(table_id, id, row)
         $('#' + table_id + ' tbody').append(base64_decode(row));
     }
 }
+
+function table_selected_row_by_key(id)
+{
+    $('tr[data-key="'+id+'"]').addClass('selected');
+    $('tr[data-key="'+id+'"]').find('i.fa-square').removeClass('fa-square').addClass('fa-square-check');
+}
+
+function table_unselected_row_by_key(id)
+{
+    $('tr[data-key="'+id+'"]').removeClass('selected');
+    $('tr[data-key="'+id+'"]').find('i.fa-square-check').removeClass('fa-square-check').addClass('fa-square');
+}

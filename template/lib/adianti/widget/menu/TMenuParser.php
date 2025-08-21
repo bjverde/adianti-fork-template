@@ -11,7 +11,7 @@ use DomElement;
 /**
  * Menu Parser
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage menu
  * @author     Pablo Dall'Oglio
@@ -111,7 +111,7 @@ class TMenuParser
         $programs = [];
         foreach ($this->paths as $action => $path)
         {
-            $programs[$action] = array_pop($path);
+            $programs[$action] = implode(' > ', array_slice($path, -2));
         }
         return $programs;
     }

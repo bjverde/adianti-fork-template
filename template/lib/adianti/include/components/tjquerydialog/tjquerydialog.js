@@ -1,4 +1,4 @@
-function tjquerydialog_start( id, modal, draggable, resizable, width, height, top, left, zIndex, actions, close_action, close_escape, dialog_class) {
+function tjquerydialog_start( id, modal, draggable, resizable, width, height, top, left, zIndex, actions, close_action, close_escape, dialog_class, mobile_full) {
 	if ($( id ).parent().attr('role') == 'window-wrapper') {
 	    var window_container = '#' + $( id ).parent().attr('id');
 	}
@@ -10,6 +10,19 @@ function tjquerydialog_start( id, modal, draggable, resizable, width, height, to
 	if (typeof Application.translation !== 'undefined' && typeof Application.translation[Adianti.language]['close'] !== 'undefined') {
 	    closeText = Application.translation[Adianti.language]['close'];
 	}
+	
+	if (mobile_full && $(window).width() < 800) {
+	    width = 1;
+	    height = 1;
+	}
+	
+	var fullscreen = false;
+	if (width == 1 && height == 1) {
+	    fullscreen = true;
+	}
+	
+	width = width <= 1 ? $(window).width() * width : width;
+	height = height <= 1 ? $(window).height() * height : height;
 	
 	$( id ).dialog({
 		modal: modal,
@@ -40,6 +53,10 @@ function tjquerydialog_start( id, modal, draggable, resizable, width, height, to
 	});
 	
 	$('.ui-dialog').last().focus();
+	
+	if (fullscreen) {
+	    $('.ui-dialog').last().css('border-radius', 0);
+	}
 	
 	$( id ).closest('.ui-dialog').css({ zIndex: zIndex });
 	

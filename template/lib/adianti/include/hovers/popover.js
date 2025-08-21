@@ -59,8 +59,21 @@ function __adianti_process_popover()
         }
         else if ($(this).attr("popaction")) {
             __adianti_get_page($(this).attr('popaction'), function(result) {
-                __adianti_clear_click_popovers();
-                __adianti_show_popover(element, pop_title, result, 'auto', custom_options);
+                // keep parent popover (ex. edit detail inside popover)
+                if ($(element).parents('.popover').length == 0) {
+                    __adianti_clear_click_popovers();
+                }
+                
+                var query = __adianti_query_to_json($(element).attr('popaction'));
+                
+                // remove popovers for the same class+method
+                //$('.popover[data-class="'+query['class']+'"][data-method="'+query['method']+'"]').remove();
+                
+                // create the new popover
+                var popover = __adianti_show_popover(element, pop_title, result, 'auto', custom_options);
+                $(popover).attr('data-class', query['class'] || '' );
+                $(popover).attr('data-method', query['method'] || '' );
+                
             }, {'static': '0'});
         }
     }).attr('data-popover-processed', true);
@@ -115,6 +128,8 @@ function __adianti_show_popover(element, title, message, placement, custom_optio
             $(element).attr('data-original-title', old_title);
         }
     },100);
+    
+    return $('#' + popover_id);
 }
 
 /**

@@ -53,6 +53,7 @@ div.color-div span.tcolor
 div.color-div
 {
     display: table;
+    border-spacing: 0;
 }
 
 div.color-div .tfield

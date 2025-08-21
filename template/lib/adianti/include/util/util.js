@@ -44,6 +44,27 @@ function __adianti_toggle_fullscreen()
     }
 }
 
+function __adianti_string_get_between(context_string, needle_start, needle_end, only_content = true)
+{
+    var pos_ini = context_string.indexOf(needle_start);
+    if (pos_ini < 0)
+    {
+        return '';
+    }
+    
+    var start = pos_ini + (only_content ? needle_start.length : 0);
+    
+    var pos_fim = context_string.indexOf(needle_end);//, $start);
+    if (pos_fim < 0)
+    {
+        return '';
+    }
+    
+    var end = (only_content ? pos_fim : pos_fim + needle_end.length);
+    
+    return context_string.substring(start, end);
+}
+
 $.fn.mycenter = function () {
     this.css("position","absolute");
     this.css("top", ( $(window).height() - this.outerHeight() ) / 2+$(window).scrollTop() + "px");

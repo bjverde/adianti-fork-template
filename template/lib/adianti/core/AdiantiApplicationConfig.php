@@ -6,7 +6,7 @@ use Adianti\Util\AdiantiStringConversion;
 /**
  * Application config
  *
- * @version    8.1
+ * @version    8.2
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -21,6 +21,8 @@ class AdiantiApplicationConfig
      */
     public static function start()
     {
+        self::validateExtensions();
+        
         if (file_exists('app/config/application.ini'))
         {
             $ini = parse_ini_file('app/config/application.ini', true);
@@ -48,6 +50,23 @@ class AdiantiApplicationConfig
         
         self::load($ini);
         self::apply();
+        
+        \AdiantiHelpers::register();
+    }
+    
+    /**
+     *
+     */
+    public static function validateExtensions()
+    {
+        $core_extensions = ['mbstring', 'xml', 'SimpleXML'];
+        foreach ($core_extensions as $extension)
+        {
+            if (!extension_loaded($extension))
+            {
+                die('Extension not loaded: '.$extension);
+            }
+        }
     }
     
     /**

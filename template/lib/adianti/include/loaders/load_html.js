@@ -7,6 +7,10 @@ function __adianti_load_html(content, afterCallback, url)
     var dom_container = content.match('adianti_target_container\\s?=\\s?"([0-z-]*)"');
     var page_name = content.match('page-name\\s?=\\s?"([0-z-]*)"');
     
+    if (typeof Template.onBeforeLoadContent == "function") {
+        content = Template.onBeforeLoadContent(content);
+    }
+    
     if (content.indexOf('widget="TWindow"') > 0)
     {
         __adianti_load_window_content(content);
@@ -51,11 +55,15 @@ function __adianti_load_html(content, afterCallback, url)
  */
 function __adianti_parse_html(content, callback, url = '')
 {
+    if (typeof Template.onBeforeLoadContent == "function") {
+        content = Template.onBeforeLoadContent(content, true);
+    }
+    
     tmp = content;
     tmp = new String(tmp.replace(/window\.opener\./g, ''));
     tmp = new String(tmp.replace(/window\.close\(\)\;/g, ''));
     tmp = new String(tmp.replace(/^\s+|\s+$/g,""));
-
+    
     try {
         // permite código estático também escolher o target
         var url_container = url.match('target_container=([0-z-]*)');
@@ -106,4 +114,3 @@ function __adianti_parse_html(content, callback, url = '')
         }
     }
 }
-

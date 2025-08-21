@@ -21,7 +21,7 @@ use Exception;
 /**
  * Create quick forms for input data with a standard container for elements
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage wrapper
  * @author     Pablo Dall'Oglio

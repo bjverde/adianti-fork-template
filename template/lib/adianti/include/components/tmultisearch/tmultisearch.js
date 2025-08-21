@@ -1,12 +1,15 @@
-function tmultisearch_start( id, minlen, maxsize, placeholder, multiple, width, height, allowclear, allowsearch, callback, with_titles ) {
+function tmultisearch_start( id, custom_options_json, callback ) {
+    
+    var custom_options = JSON.parse( custom_options_json );
+    
     var options = {
-        minimumInputLength: minlen,
-        maximumSelectionLength: maxsize,
-        selectionTitleAttribute: with_titles,
-        allowClear: allowclear,
-        placeholder: placeholder,
-        multiple: multiple,
-        minimumResultsForSearch: allowsearch,
+        minimumInputLength: custom_options['minlen'],
+        maximumSelectionLength: custom_options['maxsize'],
+        selectionTitleAttribute: custom_options['with_titles'],
+        allowClear: custom_options['allowclear'],
+        placeholder: custom_options['placeholder'],
+        multiple: custom_options['multiple'],
+        minimumResultsForSearch: custom_options['allowsearch'],
         id: function(e) { return e.id + "::" + e.text; },
         templateResult: function (d) {
             if (/<[a-z][\s\S]*>/i.test(d.text)) {
@@ -26,7 +29,11 @@ function tmultisearch_start( id, minlen, maxsize, placeholder, multiple, width, 
         },
     };
     
-    if (multiple !== '1')
+    if (typeof custom_options['dropdownParent'] !== 'undefined') {
+        options['dropdownParent'] = custom_options['dropdownParent'];
+    }
+    
+    if (custom_options['multiple'] !== '1')
     {
         delete options.maximumSelectionLength;
     }
@@ -49,10 +56,10 @@ function tmultisearch_start( id, minlen, maxsize, placeholder, multiple, width, 
         });
     }
     
-    if (parseInt(maxsize) !== 1)
+    if (parseInt(custom_options['maxsize']) !== 1)
     {
-        $('#'+id).parent().find('.select2-selection').height(height);
-        $('#'+id).parent().find('.select2-selection').find('.select2-selection__rendered').height(height);
+        $('#'+id).parent().find('.select2-selection').height(custom_options['height']);
+        $('#'+id).parent().find('.select2-selection').find('.select2-selection__rendered').height(custom_options['height']);
         $('#'+id).parent().find('.select2-selection').find('.select2-selection__rendered').css('overflow-y', 'auto');
     }
     

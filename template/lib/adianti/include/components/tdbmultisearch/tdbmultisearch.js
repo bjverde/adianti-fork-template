@@ -1,12 +1,16 @@
-function tdbmultisearch_start( id, minlen, maxsize, placeholder, multiple, service, width, height, hash, callback, with_titles ) {
+function tdbmultisearch_start( id, custom_options_json, callback ) {
+    
+    var custom_options = JSON.parse( custom_options_json );
+    
     var options = {
-        minimumInputLength: minlen,
-        maximumSelectionLength: maxsize,
+        minimumInputLength: custom_options['minlen'],
+        maximumSelectionLength: custom_options['maxsize'],
         allowClear: true,
-        selectionTitleAttribute: with_titles,
-        placeholder: placeholder,
-        multiple: multiple,
-        hash: hash,
+        selectionTitleAttribute: custom_options['with_titles'],
+        allowClear: custom_options['allowclear'],
+        placeholder: custom_options['placeholder'],
+        multiple: custom_options['multiple'],
+        hash: custom_options['hash'],
         id: function(e) { return e.id+"::"+e.text; },
         templateResult: function (d) {
             if (/<[a-z][\s\S]*>/i.test(d.text)) {
@@ -25,7 +29,7 @@ function tdbmultisearch_start( id, minlen, maxsize, placeholder, multiple, servi
             }
         },
         ajax: {
-            url: service,
+            url: custom_options['url'],
             dataType: 'json',
             delay: 250,
             
@@ -33,7 +37,7 @@ function tdbmultisearch_start( id, minlen, maxsize, placeholder, multiple, servi
             data: function(value, page) {
                 return {
                     value: value.term,
-                    hash: hash
+                    hash: custom_options['hash']
                 };
             },
             
@@ -56,7 +60,11 @@ function tdbmultisearch_start( id, minlen, maxsize, placeholder, multiple, servi
         },             
     };
     
-    if (multiple !== '1')
+    if (typeof custom_options['dropdownParent'] !== 'undefined') {
+        options['dropdownParent'] = custom_options['dropdownParent'];
+    }
+    
+    if (custom_options['multiple'] !== '1')
     {
         delete options.maximumSelectionLength;
     }
@@ -79,10 +87,10 @@ function tdbmultisearch_start( id, minlen, maxsize, placeholder, multiple, servi
         });
     }
     
-    if (parseInt(maxsize) !== 1)
+    if (parseInt(custom_options['maxsize']) !== 1)
     {
-        $('#'+id).parent().find('.select2-selection').height(height);
-        $('#'+id).parent().find('.select2-selection').find('.select2-selection__rendered').height(height);
+        $('#'+id).parent().find('.select2-selection').height(custom_options['height']);
+        $('#'+id).parent().find('.select2-selection').find('.select2-selection__rendered').height(custom_options['height']);
         $('#'+id).parent().find('.select2-selection').find('.select2-selection__rendered').css('overflow-y', 'auto');
     }
     
@@ -102,9 +110,16 @@ function tdbmultisearch_set_value( form_name, field, value, callback )
             var select = $('form[name='+form_name+'] [name="'+field+'[]"]');
         }
 
-        var hash   = select.data('select2').options.options.hash;
-        var url    = select.data('select2').options.options.ajax.url + "&hash=" + hash + "&value=" + value + '&operator_idsearch=in&onlyidsearch=1&jsonvalue=1';
-
+        var hash = select.data('select2').options.options.hash;
+        
+        if (Array.isArray(value))
+        {
+            var url = select.data('select2').options.options.ajax.url + "&hash=" + hash + "&values=" + JSON.stringify(value) + '&operator_idsearch=in&onlyidsearch=1&jsonvalue=1';
+        }
+        else {
+            var url = select.data('select2').options.options.ajax.url + "&hash=" + hash + "&value=" + value + '&operator_idsearch=in&onlyidsearch=1&jsonvalue=1';
+        }
+        
         $.ajax({
           url: url,
           dataType: "json",

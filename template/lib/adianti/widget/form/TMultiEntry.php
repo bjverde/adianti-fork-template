@@ -13,11 +13,11 @@ use Exception;
 /**
  * Multi Entry Widget
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage form
- * @author     Matheus Agnes Dias
  * @author     Pablo Dall'Oglio
+ * @author     Matheus Agnes Dias (up to version 7.5)
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license
  */

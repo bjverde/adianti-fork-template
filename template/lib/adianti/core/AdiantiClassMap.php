@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Class map
  *
- * @version    8.1
+ * @version    8.2
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -29,6 +29,7 @@ class AdiantiClassMap
         $classPath['AdiantiCoreLoader']               = 'lib/adianti/core/AdiantiCoreLoader.php';
         $classPath['AdiantiCoreTranslator']           = 'lib/adianti/core/AdiantiCoreTranslator.php';
         $classPath['AdiantiTemplateParser']           = 'lib/adianti/core/AdiantiTemplateParser.php';
+        $classPath['AdiantiHelpers']                  = 'lib/adianti/core/AdiantiHelpers.php';
         $classPath['TConnection']                     = 'lib/adianti/database/TConnection.php';
         $classPath['TCriteria']                       = 'lib/adianti/database/TCriteria.php';
         $classPath['TExpression']                     = 'lib/adianti/database/TExpression.php';
@@ -46,6 +47,7 @@ class AdiantiClassMap
         $classPath['TLogger']                         = 'lib/adianti/log/TLogger.php';
         $classPath['TLoggerHTML']                     = 'lib/adianti/log/TLoggerHTML.php';
         $classPath['TLoggerSTD']                      = 'lib/adianti/log/TLoggerSTD.php';
+        $classPath['TLoggerTPL']                      = 'lib/adianti/log/TLoggerTPL.php';
         $classPath['TLoggerTXT']                      = 'lib/adianti/log/TLoggerTXT.php';
         $classPath['TLoggerXML']                      = 'lib/adianti/log/TLoggerXML.php';
         $classPath['AdiantiRegistryInterface']        = 'lib/adianti/registry/AdiantiRegistryInterface.php';

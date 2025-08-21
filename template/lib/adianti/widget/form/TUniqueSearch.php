@@ -7,7 +7,7 @@ use Adianti\Widget\Form\AdiantiWidgetInterface;
 /**
  * Unique Search Widget
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

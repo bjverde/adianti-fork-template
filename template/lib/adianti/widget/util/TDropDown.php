@@ -10,7 +10,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * TDropDown Widget
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -284,6 +284,14 @@ class TDropDown extends TElement
         $li = new TElement('li');
         $li->{'class'} = 'dropdown-divider';
         $this->elements->add($li);
+    }
+    
+    /**
+     * Add a generic item
+     */
+    public function addItem($item)
+    {
+        $this->elements->add($item);
     }
     
     /**

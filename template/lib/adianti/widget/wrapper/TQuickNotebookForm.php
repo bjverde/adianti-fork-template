@@ -11,7 +11,7 @@ use Adianti\Control\TAction;
 /**
  * Create quick forms with a notebook wrapper
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage wrapper
  * @author     Pablo Dall'Oglio

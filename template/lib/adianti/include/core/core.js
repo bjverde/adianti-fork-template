@@ -104,12 +104,17 @@ function __adianti_bind_popover_release()
      */
     $('body').on('click', function (e) {
         $('.tooltip.show').tooltip('hide');
-        if (!($(e.target).parents('.popover').length > 0) && !($(e.target).attr('poptrigger') == "click")) {
+        
+        if ( $(e.target).parents('.popover').length == 0 && $(e.target).attr('poptrigger') !== "click" ) {
             // avoid closing dropdowns inside popover (colorpicker, datepicker) when they are outside popover DOM
             if ( (!$(e.target).parents('.dropdown-menu').length > 0) && (!$(e.target).parents('.select2-dropdown').length > 0) ) {
                 //$('.popover').popover().hide();
                 $('.popover:not(.note-popover)').remove();
             }
+        }
+        // click popover inside popover, remove the next one
+        else if ( $(e.target).parents('.popover').length > 0 ) {
+            $(e.target).parents('.popover').nextAll('.popover').remove();
         }
     });
 }

@@ -17,7 +17,7 @@ use Exception;
 /**
  * Kanban
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage util
  * @author     Artur Comunello
@@ -508,6 +508,22 @@ class TKanban extends TElement
                     $action->{'type'}      = 'button';
                     $action->{'generator'} = 'adianti';
                     $action->{'href'}      = $url;
+                    
+                    if (!empty($actionTemplate->title))
+                    {
+                        $action->{'title'} = $actionTemplate->title;
+                    }
+                    
+                    if ($actionTemplate->action->isPopover())
+                    {
+                        unset($action->{'href'});
+                        unset($action->{'generator'});
+                        
+                        $action->{'popaction'} = $itemAction->serialize(false);
+                        $action->{'poptrigger'} = 'click';
+                        $action->{'data-popover'} = 'true';
+                    }
+                    
                     $action->add($icon);
                     $action->add(TElement::tag('span', $actionTemplate->label));
                     

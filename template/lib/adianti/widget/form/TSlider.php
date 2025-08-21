@@ -9,7 +9,7 @@ use Adianti\Widget\Form\TField;
 /**
  * Slider Widget
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

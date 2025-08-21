@@ -13,7 +13,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * Image uploader with cropper
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage form
  * @author     Lucas Tomasi

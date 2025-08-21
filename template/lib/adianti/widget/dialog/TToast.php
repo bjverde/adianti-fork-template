@@ -11,7 +11,7 @@ use Exception;
 /**
  * Toast
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage dialog
  * @author     Pablo Dall'Oglio

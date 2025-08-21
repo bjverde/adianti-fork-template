@@ -126,6 +126,13 @@ function __adianti_post_exec(action, data, callback, static_call, automatic_outp
       data: data,
       }).done(function( result ) {
         if (automatic_output) {
+            Adianti.requestURL  = uri;
+            try {
+                Adianti.requestData = new URLSearchParams(data).toString();
+            }
+            catch (error) {
+                console.log(error);
+            }
             __adianti_parse_html(result, callback, uri);
             __adianti_run_after_loads(uri, result);
         }
@@ -157,19 +164,27 @@ function __adianti_post_lookup(form, action, field, callback) {
         var uri = 'xhr-' + action + ( (action.indexOf('?') == -1) ? '?' : '&') + 'static=1';
     }
 
+    formdata.push({name: 'key',         value: field_obj.val()}); // for BC
+    formdata.push({name: 'ajax_lookup', value: 1});
     formdata.push({name: '_field_id',   value: field_obj.attr('id')});
     formdata.push({name: '_field_name', value: field_obj.attr('name')});
     formdata.push({name: '_form_name',  value: form});
+    var formdata_scalar = [...formdata];
     formdata.push({name: '_field_data', value: $.param(field_obj.data(), true)});
     formdata.push({name: '_field_data_json', value: JSON.stringify(__adianti_query_to_json($.param(field_obj.data(), true)))});
-    formdata.push({name: 'key',         value: field_obj.val()}); // for BC
-    formdata.push({name: 'ajax_lookup', value: 1});
-
+    
     $.ajax({
       type: 'POST',
       url: uri,
       data: formdata
       }).done(function( result ) {
+          Adianti.requestURL  = uri;
+          try {
+              Adianti.requestData = new URLSearchParams(Object.fromEntries(formdata_scalar.map(({ name, value }) => [name, value]))).toString();
+          }
+          catch (error) {
+              console.log(error);
+          }
           __adianti_parse_html(result, callback, uri);
       }).fail(function(jqxhr, textStatus, exception) {
          __adianti_failure_request(jqxhr, textStatus, exception);

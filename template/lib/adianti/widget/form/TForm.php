@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Wrapper class to deal with forms
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -417,7 +417,7 @@ class TForm implements AdiantiFormInterface
                             $value = [];
                             foreach ($field->getValue() as $field_value)
                             {
-                                if ($field_value)
+                                if ($field_value && isset($items[$field_value]))
                                 {
                                     $value[] = $items[$field_value];
                                 }

@@ -10,7 +10,7 @@ use Adianti\Widget\Base\TScript;
 /**
  * Label Widget
  *
- * @version    8.1
+ * @version    8.2
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -141,6 +141,16 @@ class TLabel extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Define the style property
+     * @param $property Style property
+     * @param $value Style value
+     */
+    public function setStyleProperty($property, $value)
+    {
+        $this->embedStyle->$property = $value;
+    }
+    
+    /**
      * Add a content inside the label
      * @param $content
      */
@@ -182,7 +192,8 @@ class TLabel extends TField implements AdiantiWidgetInterface
         // if the embed style has any content
         if ($this->embedStyle->hasContent())
         {
-            $this->setProperty('style', $this->embedStyle->getInline() . $this->getProperty('style'), TRUE);
+            $style = $this->getProperty('style');
+            $this->setProperty('style', $this->embedStyle->getInline() . $style, TRUE);
         }
         
         $this->tag->{'id'} = $this->id;

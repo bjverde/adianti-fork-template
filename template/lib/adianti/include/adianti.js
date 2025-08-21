@@ -104,12 +104,17 @@ function __adianti_bind_popover_release()
      */
     $('body').on('click', function (e) {
         $('.tooltip.show').tooltip('hide');
-        if (!($(e.target).parents('.popover').length > 0) && !($(e.target).attr('poptrigger') == "click")) {
+        
+        if ( $(e.target).parents('.popover').length == 0 && $(e.target).attr('poptrigger') !== "click" ) {
             // avoid closing dropdowns inside popover (colorpicker, datepicker) when they are outside popover DOM
             if ( (!$(e.target).parents('.dropdown-menu').length > 0) && (!$(e.target).parents('.select2-dropdown').length > 0) ) {
                 //$('.popover').popover().hide();
                 $('.popover:not(.note-popover)').remove();
             }
+        }
+        // click popover inside popover, remove the next one
+        else if ( $(e.target).parents('.popover').length > 0 ) {
+            $(e.target).parents('.popover').nextAll('.popover').remove();
         }
     });
 }/**
@@ -354,8 +359,21 @@ function __adianti_process_popover()
         }
         else if ($(this).attr("popaction")) {
             __adianti_get_page($(this).attr('popaction'), function(result) {
-                __adianti_clear_click_popovers();
-                __adianti_show_popover(element, pop_title, result, 'auto', custom_options);
+                // keep parent popover (ex. edit detail inside popover)
+                if ($(element).parents('.popover').length == 0) {
+                    __adianti_clear_click_popovers();
+                }
+                
+                var query = __adianti_query_to_json($(element).attr('popaction'));
+                
+                // remove popovers for the same class+method
+                //$('.popover[data-class="'+query['class']+'"][data-method="'+query['method']+'"]').remove();
+                
+                // create the new popover
+                var popover = __adianti_show_popover(element, pop_title, result, 'auto', custom_options);
+                $(popover).attr('data-class', query['class'] || '' );
+                $(popover).attr('data-method', query['method'] || '' );
+                
             }, {'static': '0'});
         }
     }).attr('data-popover-processed', true);
@@ -410,6 +428,8 @@ function __adianti_show_popover(element, title, message, placement, custom_optio
             $(element).attr('data-original-title', old_title);
         }
     },100);
+    
+    return $('#' + popover_id);
 }
 
 /**
@@ -538,6 +558,10 @@ function __adianti_load_html(content, afterCallback, url)
     var dom_container = content.match('adianti_target_container\\s?=\\s?"([0-z-]*)"');
     var page_name = content.match('page-name\\s?=\\s?"([0-z-]*)"');
     
+    if (typeof Template.onBeforeLoadContent == "function") {
+        content = Template.onBeforeLoadContent(content);
+    }
+    
     if (content.indexOf('widget="TWindow"') > 0)
     {
         __adianti_load_window_content(content);
@@ -582,11 +606,15 @@ function __adianti_load_html(content, afterCallback, url)
  */
 function __adianti_parse_html(content, callback, url = '')
 {
+    if (typeof Template.onBeforeLoadContent == "function") {
+        content = Template.onBeforeLoadContent(content, true);
+    }
+    
     tmp = content;
     tmp = new String(tmp.replace(/window\.opener\./g, ''));
     tmp = new String(tmp.replace(/window\.close\(\)\;/g, ''));
     tmp = new String(tmp.replace(/^\s+|\s+$/g,""));
-
+    
     try {
         // permite código estático também escolher o target
         var url_container = url.match('target_container=([0-z-]*)');
@@ -636,9 +664,7 @@ function __adianti_parse_html(content, callback, url = '')
             $('<div />').html(e.message + ': ' + tmp).dialog({modal: true, title: 'Error', width : '80%', height : 'auto', resizable: true, closeOnEscape:true, focus:true});
         }
     }
-}
-
-/**
+}/**
  * Open a page using ajax
  */
 function __adianti_load_page(page, callback, run_events)
@@ -986,6 +1012,13 @@ function __adianti_post_exec(action, data, callback, static_call, automatic_outp
       data: data,
       }).done(function( result ) {
         if (automatic_output) {
+            Adianti.requestURL  = uri;
+            try {
+                Adianti.requestData = new URLSearchParams(data).toString();
+            }
+            catch (error) {
+                console.log(error);
+            }
             __adianti_parse_html(result, callback, uri);
             __adianti_run_after_loads(uri, result);
         }
@@ -1017,19 +1050,27 @@ function __adianti_post_lookup(form, action, field, callback) {
         var uri = 'xhr-' + action + ( (action.indexOf('?') == -1) ? '?' : '&') + 'static=1';
     }
 
+    formdata.push({name: 'key',         value: field_obj.val()}); // for BC
+    formdata.push({name: 'ajax_lookup', value: 1});
     formdata.push({name: '_field_id',   value: field_obj.attr('id')});
     formdata.push({name: '_field_name', value: field_obj.attr('name')});
     formdata.push({name: '_form_name',  value: form});
+    var formdata_scalar = [...formdata];
     formdata.push({name: '_field_data', value: $.param(field_obj.data(), true)});
     formdata.push({name: '_field_data_json', value: JSON.stringify(__adianti_query_to_json($.param(field_obj.data(), true)))});
-    formdata.push({name: 'key',         value: field_obj.val()}); // for BC
-    formdata.push({name: 'ajax_lookup', value: 1});
-
+    
     $.ajax({
       type: 'POST',
       url: uri,
       data: formdata
       }).done(function( result ) {
+          Adianti.requestURL  = uri;
+          try {
+              Adianti.requestData = new URLSearchParams(Object.fromEntries(formdata_scalar.map(({ name, value }) => [name, value]))).toString();
+          }
+          catch (error) {
+              console.log(error);
+          }
           __adianti_parse_html(result, callback, uri);
       }).fail(function(jqxhr, textStatus, exception) {
          __adianti_failure_request(jqxhr, textStatus, exception);
@@ -1425,6 +1466,27 @@ function __adianti_toggle_fullscreen()
     } else if (document.exitFullscreen) {
         document.exitFullscreen();
     }
+}
+
+function __adianti_string_get_between(context_string, needle_start, needle_end, only_content = true)
+{
+    var pos_ini = context_string.indexOf(needle_start);
+    if (pos_ini < 0)
+    {
+        return '';
+    }
+    
+    var start = pos_ini + (only_content ? needle_start.length : 0);
+    
+    var pos_fim = context_string.indexOf(needle_end);//, $start);
+    if (pos_fim < 0)
+    {
+        return '';
+    }
+    
+    var end = (only_content ? pos_fim : pos_fim + needle_end.length);
+    
+    return context_string.substring(start, end);
 }
 
 $.fn.mycenter = function () {

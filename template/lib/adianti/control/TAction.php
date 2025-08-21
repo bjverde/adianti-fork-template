@@ -9,7 +9,7 @@ use ReflectionMethod;
 /**
  * Structure to encapsulate an action
  *
- * @version    8.1
+ * @version    8.2
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -316,6 +316,11 @@ class TAction
             if ($this->isStatic())
             {
                 $url['static'] = '1';
+            }
+            
+            if ($this->isPopover())
+            {
+                $url['inside_popover'] = '1';
             }
         }
         // otherwise the callback is a function

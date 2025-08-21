@@ -58,7 +58,7 @@ select.tmulticombo, select.tdbmulticombo
     width: 100%;
     margin-bottom: 20px;
     background: var(--bs-body-bg);
-    z-index: 2;
+    z-index: 3;
     border: 1px solid var(--bs-border-color);
     overflow: auto;
     visibility: hidden;

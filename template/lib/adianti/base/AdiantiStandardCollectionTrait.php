@@ -23,7 +23,7 @@ use DomDocument;
 /**
  * Standard Collection Trait
  *
- * @version    8.1
+ * @version    8.2
  * @package    base
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -203,6 +203,7 @@ trait AdiantiStandardCollectionTrait #depends:AdiantiStandardControlTrait
                     // creates a filter using what the user has typed
                     if (stristr($operator, 'like'))
                     {
+                        $fieldData = str_replace(' ', '%', $fieldData);
                         $filter = new TFilter($filterField, $operator, "%{$fieldData}%");
                     }
                     else
