@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 /**
  * TMail
  *
- * @version    8.1
+ * @version    8.2
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

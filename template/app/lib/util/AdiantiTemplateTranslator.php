@@ -4,7 +4,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * AdiantiTemplateTranslator
  *
- * @version    8.1
+ * @version    8.2
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -286,7 +286,11 @@ class AdiantiTemplateTranslator
         $this->messages['en'][] = 'Date';
         $this->messages['pt'][] = 'Data';
         $this->messages['es'][] = 'Fecha';
-
+        
+        $this->messages['en'][] = 'Columns';
+        $this->messages['pt'][] = 'Colunas';
+        $this->messages['es'][] = 'Columnas';
+        
         $this->messages['en'][] = 'Column';
         $this->messages['pt'][] = 'Coluna';
         $this->messages['es'][] = 'Columna';
@@ -1402,7 +1406,11 @@ class AdiantiTemplateTranslator
         $this->messages['en'][] = 'Filters';
         $this->messages['pt'][] = 'Filtros';
         $this->messages['es'][] = 'Filtros';
-
+        
+        $this->messages['en'][] = 'Filter';
+        $this->messages['pt'][] = 'Filtro';
+        $this->messages['es'][] = 'Filtro';
+        
         $this->messages['en'][] = 'Informations and files';
         $this->messages['pt'][] = 'Informações e arquivos';
         $this->messages['es'][] = 'Información y archivos';
@@ -1763,6 +1771,10 @@ class AdiantiTemplateTranslator
         $this->messages['pt'][] = 'Agregação não encontrada entre ^1 e ^2';
         $this->messages['es'][] = 'Agregación no encontrada entre ^1 y ^2';
         
+        $this->messages['en'][] = 'Relationship (composition, dependency) not found between ^1 and ^2';
+        $this->messages['pt'][] = 'Relacionamento (composição, dependência) não encontrado entre ^1 e ^2';
+        $this->messages['es'][] = 'Relación (composición, dependencia) no encontrado entre ^1 y ^2';
+        
         $this->messages['en'][] = 'Review the relationships between classes';
         $this->messages['pt'][] = 'Reveja os relacionamentos entre as classes';
         $this->messages['es'][] = 'Revisar las relaciones entre clases';
@@ -1894,6 +1906,194 @@ class AdiantiTemplateTranslator
         $this->messages['en'][] = 'Download as SQL';
         $this->messages['pt'][] = 'Baixar como SQL';
         $this->messages['es'][] = 'Descargar como SQL';
+        
+        $this->messages['en'][] = 'Open in new tab';
+        $this->messages['pt'][] = 'Abrir em nova aba';
+        $this->messages['es'][] = 'Abrir en nueva pestaña';
+        
+        $this->messages['en'][] = 'Close page';
+        $this->messages['pt'][] = 'Fechar página';
+        $this->messages['es'][] = 'Cerrar página';
+
+        $this->messages['en'][] = 'Field not found';
+        $this->messages['pt'][] = 'Campo não encontrado';
+        $this->messages['es'][] = 'Campo no encontrado';
+        
+        $this->messages['en'][] = 'More options';
+        $this->messages['pt'][] = 'Mais opções';
+        $this->messages['es'][] = 'Más opciones';
+        
+        $this->messages['en'][] = 'Width';
+        $this->messages['pt'][] = 'Largura';
+        $this->messages['es'][] = 'Ancho';
+        
+        $this->messages['en'][] = 'Align';
+        $this->messages['pt'][] = 'Alinhamento';
+        $this->messages['es'][] = 'Alineación';
+        
+        $this->messages['en'][] = 'Visible';
+        $this->messages['pt'][] = 'Visível';
+        $this->messages['es'][] = 'Visible';
+        
+        $this->messages['en'][] = 'Left';
+        $this->messages['pt'][] = 'Esquerda';
+        $this->messages['es'][] = 'Izquierda';
+        
+        $this->messages['en'][] = 'Right';
+        $this->messages['pt'][] = 'Direita';
+        $this->messages['es'][] = 'Derecha';
+        
+        $this->messages['en'][] = 'Center';
+        $this->messages['pt'][] = 'Centro';
+        $this->messages['es'][] = 'Centro';
+        
+        $this->messages['en'][] = 'Small';
+        $this->messages['pt'][] = 'Pequeno';
+        $this->messages['es'][] = 'Pequeño';
+        
+        $this->messages['en'][] = 'Medium';
+        $this->messages['pt'][] = 'Médio';
+        $this->messages['es'][] = 'Medio';
+        
+        $this->messages['en'][] = 'Large';
+        $this->messages['pt'][] = 'Grande';
+        $this->messages['es'][] = 'Grande';
+        
+        $this->messages['en'][] = 'Very small';
+        $this->messages['pt'][] = 'Muito pequena';
+        $this->messages['es'][] = 'Muy pequeña';
+        
+        $this->messages['en'][] = 'Very large';
+        $this->messages['pt'][] = 'Muito grande';
+        $this->messages['es'][] = 'Muy grande';
+        
+        $this->messages['en'][] = 'Configure columns';
+        $this->messages['pt'][] = 'Configurar colunas';
+        $this->messages['es'][] = 'Configurar columnas';
+        
+        $this->messages['en'][] = 'There must be at least one visible column';
+        $this->messages['pt'][] = 'Deve haver pelo menos uma coluna visível';
+        $this->messages['es'][] = 'Debe haber al menos una columna visible';
+        
+        $this->messages['en'][] = 'Apply and close';
+        $this->messages['pt'][] = 'Aplicar e fechar';
+        $this->messages['es'][] = 'Aplicar y cerrar';
+        
+        $this->messages['en'][] = 'More filters';
+        $this->messages['pt'][] = 'Mais filtros';
+        $this->messages['es'][] = 'Más filtros';
+        
+        $this->messages['en'][] = 'Custom filters';
+        $this->messages['pt'][] = 'Filtros personalizados';
+        $this->messages['es'][] = 'Filtros personalizados';
+        
+        $this->messages['en'][] = 'Operator';
+        $this->messages['pt'][] = 'Operador';
+        $this->messages['es'][] = 'Operador';
+        
+        $this->messages['en'][] = 'Is contained by';
+        $this->messages['pt'][] = 'Está contido em';
+        $this->messages['es'][] = 'Está contenido por';
+        
+        $this->messages['en'][] = 'Is not contained by';
+        $this->messages['pt'][] = 'Não está contido em';
+        $this->messages['es'][] = 'No está contenido por';
+        
+        $this->messages['en'][] = 'Contains the expression';
+        $this->messages['pt'][] = 'Contém a expressão';
+        $this->messages['es'][] = 'Contiene la expresión';
+        
+        $this->messages['en'][] = 'Contains';
+        $this->messages['pt'][] = 'Contém';
+        $this->messages['es'][] = 'Contiene';
+        
+        $this->messages['en'][] = 'Does not contains the expression';
+        $this->messages['pt'][] = 'Não contém a expressão';
+        $this->messages['es'][] = 'No contiene la expresión';
+        
+        $this->messages['en'][] = 'Your browser does not support displaying this content';
+        $this->messages['pt'][] = 'O navegador não suporta a exibição deste conteúdo';
+        $this->messages['es'][] = 'Su navegador no admite la visualización de este contenido';
+        
+        $this->messages['en'][] = 'Plugin not found';
+        $this->messages['pt'][] = 'Plugin não encontrado';
+        $this->messages['es'][] = 'Plugin no encontrado';
+        
+        $this->messages['en'][] = 'Empty plugin name';
+        $this->messages['pt'][] = 'Nome do plugin vazio';
+        $this->messages['es'][] = 'Nombre de plugin vacío';
+        
+        $this->messages['en'][] = 'Plugin already registered with this name';
+        $this->messages['pt'][] = 'Plugin já registrado com este nome';
+        $this->messages['es'][] = 'Plugin ya registrado con este nombre';
+        
+        $this->messages['en'][] = 'Content field';
+        $this->messages['pt'][] = 'Campo de conteúdo';
+        $this->messages['es'][] = 'Campo de contenido';
+        
+        $this->messages['en'][] = 'Created at field';
+        $this->messages['pt'][] = 'Campo criado em';
+        $this->messages['es'][] = 'Campo creado en';
+        
+        $this->messages['en'][] = 'Created by field';
+        $this->messages['pt'][] = 'Campo criado por';
+        $this->messages['es'][] = 'Campo creado por';
+        
+        $this->messages['en'][] = 'Recording model';
+        $this->messages['pt'][] = 'Modelo de gravação';
+        $this->messages['es'][] = 'Modelo de grabación';
+        
+        $this->messages['en'][] = 'File field';
+        $this->messages['pt'][] = 'Campo de arquivo';
+        $this->messages['es'][] = 'Campo de archivo';
+        
+        $this->messages['en'][] = 'New comment';
+        $this->messages['pt'][] = 'Novo comentário';
+        $this->messages['es'][] = 'Nuevo comentario';
+        
+        $this->messages['en'][] = 'Attach file';
+        $this->messages['pt'][] = 'Anexar arquivo';
+        $this->messages['es'][] = 'Adjuntar archivo';
+        
+        $this->messages['en'][] = 'Description field';
+        $this->messages['pt'][] = 'Campo de descrição';
+        $this->messages['es'][] = 'Campo de descripción';
+        
+        $this->messages['en'][] = 'Minutes field';
+        $this->messages['pt'][] = 'Campo para minutos';
+        $this->messages['es'][] = 'Campo para minutos';
+        
+        $this->messages['en'][] = 'Register time';
+        $this->messages['pt'][] = 'Registrar tempo';
+        $this->messages['es'][] = 'Registrar el tiempo';
+        
+        $this->messages['en'][] = 'New item';
+        $this->messages['pt'][] = 'Novo item';
+        $this->messages['es'][] = 'Nuevo artículo';
+        
+        $this->messages['en'][] = 'Checked field';
+        $this->messages['pt'][] = 'Campo marcado';
+        $this->messages['es'][] = 'Campo marcado';
+        
+        $this->messages['en'][] = 'Save method';
+        $this->messages['pt'][] = 'Método de gravação';
+        $this->messages['es'][] = 'Método de grabación';
+        
+        $this->messages['en'][] = 'Delete method';
+        $this->messages['pt'][] = 'Método de exclusão';
+        $this->messages['es'][] = 'Método de eliminación';
+        
+        $this->messages['en'][] = 'Update method';
+        $this->messages['pt'][] = 'Método de alteração';
+        $this->messages['es'][] = 'Método de actualización';
+        
+        $this->messages['en'][] = 'Theme not supported';
+        $this->messages['pt'][] = 'Tema não suportado';
+        $this->messages['es'][] = 'Tema no compatible';
+        
+        $this->messages['en'][] = 'There are important updates in the following folders that have been pre-selected for update';
+        $this->messages['pt'][] = 'Existem atualizações importantes nas seguintes pastas que foram pré-selecionadas para atualização';
+        $this->messages['es'][] = 'Hay actualizaciones importantes en las siguientes carpetas que han sido preseleccionadas para actualizar';
         
         foreach ($this->messages as $lang => $messages)
         {

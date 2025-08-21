@@ -4,7 +4,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * ApplicationTranslator
  *
- * @version    8.1
+ * @version    8.2
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -34,6 +34,8 @@ class ApplicationTranslator
         $this->messages['en'][] = 'City';
         $this->messages['pt'][] = 'Cidade';
         $this->messages['es'][] = 'Ciudad';
+        
+        //<entry-point>
         
         foreach ($this->messages as $lang => $messages)
         {
