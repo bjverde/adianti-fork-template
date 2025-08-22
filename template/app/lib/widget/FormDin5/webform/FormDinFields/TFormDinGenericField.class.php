@@ -164,6 +164,9 @@ class TFormDinGenericField
     //---------------------------------------------------------------
     public function setId($id){
         $adiantiObj = $this->getAdiantiObj();
+        if (is_null($adiantiObj)) {
+            throw new \RuntimeException("Objeto Adianti não foi inicializado antes de setId()");
+        }        
         if($adiantiObj instanceof TElement){
             $adiantiObj->id = $id;
         } elseif($adiantiObj instanceof TText){

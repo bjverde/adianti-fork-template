@@ -158,5 +158,43 @@ class ServerHelper
         return $type;
     }
 
+    /**
+     * Verifica se a conexão é HTTPS
+     *
+     * @param bool $testFrontEnd
+     * @param bool $testPort
+     * @return bool
+     */
+    public static function isHTTPS(bool $testFrontEnd = false, bool $testPort = false): bool {
+        // 1. Verificação padrão para $_SERVER['HTTPS'].
+        // É o método mais comum e confiável em configurações de servidor simples.
+        if (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
+            return true;
+        }
+
+        // 2. Verificação para cabeçalho X-Forwarded-Proto, comum em proxies.
+        // Essencial para ambientes de nuvem e balanceadores de carga.
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            return true;
+        }
+
+        if($testFrontEnd==true){
+            // 3. Verificação alternativa para outros tipos de cabeçalhos de proxy.
+            $front = ArrayHelper::get($_SERVER,'HTTP_FRONT_END_HTTPS');
+            if (isset($front) && strtolower($front) !== 'off') {
+                return true;
+            }
+        }
+        
+        if($testPort==true){
+            // 4. Fallback: verificar a porta do servidor. A porta 443 é a padrão para HTTPS.
+            // É menos comum, mas pode ser um último recurso útil.
+            $port = ArrayHelper::get($_SERVER,'SERVER_PORT');
+            if (isset($port) && (int)$port === 443) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 ?>

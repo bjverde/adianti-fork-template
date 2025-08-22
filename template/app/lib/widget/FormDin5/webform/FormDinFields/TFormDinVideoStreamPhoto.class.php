@@ -139,15 +139,25 @@ class TFormDinVideoStreamPhoto extends TFormDinGenericField
         $divWebCam = new TElement('div');
         $divWebCam->class = 'fd5DivVideo';
         $divWebCam->setProperty('id',$idDivWebCam);
-        $divWebCam->add($adiantiObjHiden);
-        $divWebCam->add($adiantiObjWebCam);
-        $divWebCam->add($adiantiObjVideoCanvas);
-        $divWebCam->add($adiantiObjVideoCanvasUpload);
-        $divWebCam->add($scriptJswebCam);
-        $divWebCam->add($divButton);
+
+        if( ServerHelper::isHTTPS(false,false) ){
+            $divWebCam->add($adiantiObjHiden);
+            $divWebCam->add($adiantiObjWebCam);
+            $divWebCam->add($adiantiObjVideoCanvas);
+            $divWebCam->add($adiantiObjVideoCanvasUpload);
+            $divWebCam->add($scriptJswebCam);
+            $divWebCam->add($divButton);
+        }else{
+            $strValue = '<b>Para usar o recurso de captura de foto da câmera,';
+            $strValue = $strValue.' é necessário que a página esteja sendo acessada via HTTPS.';
+            $formField = new TFormDinHtmlField('idAvisoVideoStream',$strValue);
+            $objField = $formField->getAdiantiObj();
+            $divWebCam->add($objField);
+        }
 
         $adiantiObj = $divWebCam;
         parent::__construct($adiantiObj,$idDivWebCam,$label,false,null,null);
+        $this->setLabel($label,$boolRequired);
         return $this->getAdiantiObj();
     }
 
