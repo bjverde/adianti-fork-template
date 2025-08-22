@@ -1,17 +1,17 @@
--- Create system_group table
+--- Create system_group table
 CREATE TABLE system_group (
     id int PRIMARY KEY NOT NULL,
     name varchar(256)
 );
 
--- Create system_program table
+--- Create system_program table
 CREATE TABLE system_program (
     id int PRIMARY KEY NOT NULL,
     name varchar(256),
     controller varchar(256)
 );
 
--- Create system_unit table
+--- Create system_unit table
 CREATE TABLE system_unit (
     id int PRIMARY KEY NOT NULL,
     name varchar(256),
@@ -19,20 +19,20 @@ CREATE TABLE system_unit (
     custom_code varchar(256)
 );
 
--- Create system_role table
+--- Create system_role table
 CREATE TABLE system_role (
     id int PRIMARY KEY NOT NULL,
     name varchar(256),
     custom_code varchar(256)
 );
 
--- Create system_preference table
+--- Create system_preference table
 CREATE TABLE system_preference (
     id varchar(256),
     value text
 );
 
--- Create system_users table
+--- Create system_users table
 CREATE TABLE system_users (
     id int PRIMARY KEY NOT NULL,
     name varchar(256),
@@ -54,7 +54,7 @@ CREATE TABLE system_users (
     FOREIGN KEY(frontpage_id) REFERENCES system_program(id)
 );
 
--- Create system_user_unit table
+--- Create system_user_unit table
 CREATE TABLE system_user_unit (
     id int PRIMARY KEY NOT NULL,
     system_user_id int,
@@ -63,7 +63,7 @@ CREATE TABLE system_user_unit (
     FOREIGN KEY(system_unit_id) REFERENCES system_unit(id)
 );
 
--- Create system_user_group table
+--- Create system_user_group table
 CREATE TABLE system_user_group (
     id int PRIMARY KEY NOT NULL,
     system_user_id int,
@@ -72,7 +72,7 @@ CREATE TABLE system_user_group (
     FOREIGN KEY(system_group_id) REFERENCES system_group(id)
 );
 
--- Create system_user_role table
+--- Create system_user_role table
 CREATE TABLE system_user_role (
     id int PRIMARY KEY NOT NULL,
     system_user_id int,
@@ -81,7 +81,7 @@ CREATE TABLE system_user_role (
     FOREIGN KEY(system_role_id) REFERENCES system_role(id)
 );
 
--- Create system_group_program table
+--- Create system_group_program table
 CREATE TABLE system_group_program (
     id int PRIMARY KEY NOT NULL,
     system_group_id int,
@@ -90,7 +90,7 @@ CREATE TABLE system_group_program (
     FOREIGN KEY(system_program_id) REFERENCES system_program(id)
 );
 
--- Create system_user_program table
+--- Create system_user_program table
 CREATE TABLE system_user_program (
     id int PRIMARY KEY NOT NULL,
     system_user_id int,
@@ -99,7 +99,7 @@ CREATE TABLE system_user_program (
     FOREIGN KEY(system_program_id) REFERENCES system_program(id)
 );
     
--- Create system_user_old_password table
+--- Create system_user_old_password table
 CREATE TABLE system_user_old_password (
     id int PRIMARY KEY NOT NULL,
     system_user_id int,
@@ -108,7 +108,7 @@ CREATE TABLE system_user_old_password (
     FOREIGN KEY(system_user_id) REFERENCES system_users(id)
 );
 
--- Create system_program_method_role table
+--- Create system_program_method_role table
 CREATE TABLE system_program_method_role (
     id int PRIMARY KEY NOT NULL,
     system_program_id int,
@@ -119,13 +119,13 @@ CREATE TABLE system_program_method_role (
 );
 
 
--- Insert groups
+--- Insert groups
 INSERT INTO system_group values (1, 'Template - Admin');
 INSERT INTO system_group values (2, 'Template - Users');
 INSERT INTO system_group values (3, 'Application - Programs');
 
 
--- Insert programs
+--- Insert programs
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Administration Dashboard', 'SystemAdministrationDashboard');
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Program Form', 'SystemProgramForm');
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Program List', 'SystemProgramList');
@@ -168,7 +168,7 @@ INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(i
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Profile 2FA Form', 'SystemProfile2FAForm');
 
 
--- Insert users
+--- Insert users
 INSERT INTO system_users (id,
                           name,
                           login,
@@ -221,30 +221,30 @@ INSERT INTO system_users (id,
                          (select id from system_program where controller='WelcomeView')
                  );
 
--- Insert units
+--- Insert units
 INSERT INTO system_unit (id, name, connection_name) values ( (SELECT coalesce(max(id),0)+1 FROM system_unit b), 'Unit A', 'unit_a');
 INSERT INTO system_unit (id, name, connection_name) values ( (SELECT coalesce(max(id),0)+1 FROM system_unit b), 'Unit B', 'unit_b');
 
--- Insert roles
+--- Insert roles
 INSERT INTO system_role (id, name, custom_code) values ( (SELECT coalesce(max(id),0)+1 FROM system_role b), 'Role A', '');
 INSERT INTO system_role (id, name, custom_code) values ( (SELECT coalesce(max(id),0)+1 FROM system_role b), 'Role B', '');
 
 
--- Insert users in groups
+--- Insert users in groups
 INSERT INTO system_user_group (id, system_user_id, system_group_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_user_group b), (select id from system_users where login='admin'), 1);
 INSERT INTO system_user_group (id, system_user_id, system_group_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_user_group b), (select id from system_users where login='admin'), 2);
 INSERT INTO system_user_group (id, system_user_id, system_group_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_user_group b), (select id from system_users where login='admin'), 3);
 INSERT INTO system_user_group (id, system_user_id, system_group_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_user_group b), (select id from system_users where login='user'),  2);
 
 
--- Insert users in units
+--- Insert users in units
 INSERT INTO system_user_unit VALUES ( (SELECT coalesce(max(id),0)+1 FROM system_user_unit b), (select id from system_users where login='admin'), 1);
 INSERT INTO system_user_unit VALUES ( (SELECT coalesce(max(id),0)+1 FROM system_user_unit b), (select id from system_users where login='admin'), 2);
 INSERT INTO system_user_unit VALUES ( (SELECT coalesce(max(id),0)+1 FROM system_user_unit b), (select id from system_users where login='user'), 1);
 INSERT INTO system_user_unit VALUES ( (SELECT coalesce(max(id),0)+1 FROM system_user_unit b), (select id from system_users where login='user'), 2);
 
 
--- Insert programs in groups
+--- Insert programs in groups
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 1, (select id from system_program where controller='SystemAdministrationDashboard'));
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 1, (select id from system_program where controller='SystemProgramForm'));
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 1, (select id from system_program where controller='SystemProgramList'));
@@ -287,10 +287,10 @@ INSERT INTO system_group_program (id, system_group_id, system_program_id) values
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 2, (select id from system_program where controller='SystemProfile2FAForm'));
 
 
--- ------------------------- COMMUNICATION ----------------------------------------------
+----------------------------- COMMUNICATION ----------------------------------------------
 
 
--- Insert programs
+--- Insert programs
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Wiki list', 'SystemWikiList');
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Wiki form', 'SystemWikiForm');
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Wiki page picker', 'SystemWikiPagePicker');
@@ -320,7 +320,7 @@ INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(i
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'Text document editor', 'SystemTextDocumentEditor');
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System document create form', 'SystemDriveDocumentCreateForm');
 
--- Insert programs in groups
+--- Insert programs in groups
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 1, (select id from system_program where controller='SystemWikiList'));
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 1, (select id from system_program where controller='SystemWikiForm'));
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 1, (select id from system_program where controller='SystemWikiPagePicker'));
@@ -350,7 +350,7 @@ INSERT INTO system_group_program (id, system_group_id, system_program_id) values
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 2, (select id from system_program where controller='SystemTextDocumentEditor'));
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 2, (select id from system_program where controller='SystemDriveDocumentCreateForm'));
 
--- Create indexes
+--- Create indexes
 CREATE INDEX sys_user_program_idx ON system_users(frontpage_id);
 CREATE INDEX sys_user_group_group_idx ON system_user_group(system_group_id);
 CREATE INDEX sys_user_group_user_idx ON system_user_group(system_user_id);

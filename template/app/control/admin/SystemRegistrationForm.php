@@ -36,15 +36,15 @@ class SystemRegistrationForm extends TPage
         $login->placeholder = _t('User');
         $name->placeholder = _t('Name');
         $email->placeholder = _t('Email');
-        //$password->placeholder = _t('Password');
-        //$repassword->placeholder = _t('Password confirmation');
+        $password->placeholder = _t('Password');
+        $repassword->placeholder = _t('Password confirmation');
         
-        //$password->disableToggleVisibility();
-        //$repassword->disableToggleVisibility();
+        $password->disableToggleVisibility();
+        $repassword->disableToggleVisibility();
         
+        $login->addValidation( _t('Login'), new TRequiredValidator);
         $name->addValidation( _t('Name'), new TRequiredValidator);
         $email->addValidation( _t('Email'), new TRequiredValidator);
-        $login->addValidation( _t('Login'), new TRequiredValidator);
         $password->addValidation( _t('Password'), new TRequiredValidator);
         $repassword->addValidation( _t('Password confirmation'), new TRequiredValidator);
         
@@ -58,8 +58,8 @@ class SystemRegistrationForm extends TPage
         $this->form->addRowField( _t('Login'), $login, true );
         $this->form->addRowField( _t('Name'), $name, true );
         $this->form->addRowField( _t('Email'), $email, true );
-        $this->form->addRowField( _t('Password'), $password, false );
-        $this->form->addRowField( _t('Password confirmation'), $repassword, false );
+        $this->form->addRowField( _t('Password'), $password, true );
+        $this->form->addRowField( _t('Password confirmation'), $repassword, true );
         
         $this->form->addAction( _t('Save'),  new TAction([$this, 'onSave']), '');
         

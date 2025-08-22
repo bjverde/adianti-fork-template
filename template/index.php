@@ -12,7 +12,6 @@ new TSession;
 ApplicationAuthenticationService::checkMultiSession();
 ApplicationTranslator::setLanguage( TSession::getValue('user_language'), true );
 
-
 if ( TSession::getValue('logged') )
 {
     if (isset($_REQUEST['template']) AND $_REQUEST['template'] == 'iframe')
@@ -22,8 +21,7 @@ if ( TSession::getValue('logged') )
     else
     {
         $content = file_get_contents("app/templates/{$theme}/layout.html");
-        $menu    = AdiantiMenuBuilder::parse('menu.xml', $theme);
-        $content = str_replace('{MENU}', $menu, $content);
+        $content = str_replace('{MENU}', AdiantiMenuBuilder::parse('menu.xml', $theme), $content);
         $content = str_replace('{MENUTOP}', AdiantiMenuBuilder::parseNavBar('menu-top.xml', $theme), $content);
         $content = str_replace('{MENUBOTTOM}', AdiantiMenuBuilder::parseNavBar('menu-bottom.xml', $theme), $content);
     }
@@ -43,15 +41,6 @@ else
         $content = file_get_contents("app/templates/{$theme}/login.html");
     }
 }
-//--- START: TEMA ADMINBS5_V3  ---------------------------------------------------------
-$system_version = $ini['system']['system_version'];
-$title       = $ini['general']['title'];
-$head_title  = $title.' - v'.$system_version;
-
-$content = str_replace('{head_title}', $head_title, $content);
-$content = str_replace('{title}', $title, $content);
-$content = str_replace('{system_version}', $system_version, $content);
-//--- END: TEMA ADMINBS5_V3 ------------------------------------------------------------
 
 $content = ApplicationTranslator::translateTemplate($content);
 $content = AdiantiTemplateParser::parse($content);
