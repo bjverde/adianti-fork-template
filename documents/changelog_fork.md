@@ -42,6 +42,8 @@ Tela fork cria conta normal
 * :hammer: [Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/69)
 * :hammer: [Atualizar adminbs5 para adminbs5_v4](https://github.com/bjverde/adianti-fork-template/issues/70)
 * :hammer: [Instalar o FormDin v5.4.4](https://github.com/bjverde/adianti-fork-template/issues/71)
+* :hammer: [Alterar caminho hash para o tema v4](https://github.com/bjverde/adianti-fork-template/issues/72)
+* :bug: [Aplicativo do Google Authenticator não lê QrCode 2FA](https://github.com/bjverde/adianti-fork-template/issues/73)
 
 # ChangeLog versões antigas
 * [Changelog do Fork do Template do Adianti v8.1.0](changelog_fork_v8.1.0.md)
