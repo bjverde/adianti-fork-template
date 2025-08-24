@@ -1,5 +1,6 @@
 # Sobre Adianti
 Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
+* [Lista de todas as mudanças](changelog_fork.md)
 
 # Changelog do Adianti Fork Template v8.1.0
 
