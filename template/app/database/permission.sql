@@ -287,7 +287,7 @@ INSERT INTO system_group_program (id, system_group_id, system_program_id) values
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 2, (select id from system_program where controller='SystemProfile2FAForm'));
 
 
--------------------- COMMUNICATION -------------------------------
+-- ------------------ COMMUNICATION -------------------------------
 
 
 -- Insert programs
