@@ -2,7 +2,7 @@
 /**
  * SystemDriveList
  *
- * @version    8.2
+ * @version    8.3
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
@@ -540,7 +540,7 @@ class SystemDriveList extends TPage
         $panel->class = 'card noborder';
         $btn_close = new TButton('closeCurtain');
         $btn_close->onClick = "Template.closeRightPanel();";
-        $btn_close->setLabel("Fechar");
+        $btn_close->setLabel(_t('Close'));
         $btn_close->setImage('fas:times red');
         
         if ($object->system_user_id == TSession::getValue('userid'))

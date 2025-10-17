@@ -2,7 +2,7 @@
 /**
  * SystemMessageList
  *
- * @version    8.2
+ * @version    8.3
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
