@@ -2,7 +2,7 @@
 /**
  * SystemAccessLogList
  *
- * @version    8.2
+ * @version    8.3
  * @package    control
  * @subpackage log
  * @author     Pablo Dall'Oglio
@@ -31,7 +31,7 @@ class SystemAccessLogList extends TStandardList
         
         // creates the form, with a table inside
         $this->form = new BootstrapFormBuilder('form_search_SystemAccessLog');
-        $this->form->setFormTitle('Access Log');
+        $this->form->setFormTitle(_t('Access Log'));
         
         // create the form fields
         $login = new TEntry('login');

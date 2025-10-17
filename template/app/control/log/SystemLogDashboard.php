@@ -2,7 +2,7 @@
 /**
  * SystemLogDashboard
  *
- * @version    8.2
+ * @version    8.3
  * @package    control
  * @subpackage log
  * @author     Pablo Dall'Oglio
@@ -24,132 +24,177 @@ class SystemLogDashboard extends TPage
             $html = new THtmlRenderer('app/resources/system/log/dashboard.html');
             
             TTransaction::open('log');
-            $indicator1 = new THtmlRenderer('app/resources/info-box.html');
-            $indicator2 = new THtmlRenderer('app/resources/info-box.html');
-            $indicator3 = new THtmlRenderer('app/resources/info-box.html');
-            $indicator4 = new THtmlRenderer('app/resources/info-box.html');
-            
-            $accesses = SystemAccessLog::where('login_year','=',date('Y'))
+            $indicator1 = new TNumericIndicator;
+            $indicator1->setTitle(_t('Accesses today'));
+            $indicator1->setValue(SystemAccessLog::where('login_year','=',date('Y'))
                                        ->where('login_month','=',date('m'))
                                        ->where('login_day','=',date('d'))
-                                       ->count();
-            $sqllogs = SystemSqlLog::where('log_year','=',date('Y'))
-                                   ->where('log_month','=',date('m'))
-                                   ->where('log_day','=',date('d'))
-                                   ->count();
-            $reqlogs = SystemRequestLog::where('log_year','=',date('Y'))
+                                       ->count());
+            $indicator1->setIcon('sign-in-alt');
+            $indicator1->setColor('#00a65a');
+            $indicator1->setNumericMask(0, ',', '.');
+            
+            $indicator2 = new TNumericIndicator;
+            $indicator2->setTitle(_t('Requests today'));
+            $indicator2->setValue(SystemRequestLog::where('log_year','=',date('Y'))
                                        ->where('log_month','=',date('m'))
                                        ->where('log_day','=',date('d'))
-                                       ->count();
-            $reqavg = SystemRequestLog::where('log_year','=',date('Y'))
+                                       ->count());
+            $indicator2->setIcon('globe');
+            $indicator2->setColor('#605ca8');
+            $indicator2->setNumericMask(0, ',', '.');
+
+            $indicator3 = new TNumericIndicator;
+            $indicator3->setTitle(_t('Request time average') . ' (ms)');
+            $indicator3->setValue(round( (float) SystemRequestLog::where('log_year','=',date('Y'))
                                       ->where('log_month','=',date('m'))
                                       ->where('log_day','=',date('d'))
-                                      ->avgBy('request_duration');
+                                      ->avgBy('request_duration'), 2) );
+            $indicator3->setIcon('hourglass-end');
+            $indicator3->setColor('#ff851b');
+            $indicator3->setNumericMask(2, ',', '.');
+
+            $indicator4 = new TNumericIndicator;
+            $indicator4->setTitle(_t('SQL DML Statements'));
+            $indicator4->setValue(SystemSqlLog::where('log_year','=',date('Y'))
+                                   ->where('log_month','=',date('m'))
+                                   ->where('log_day','=',date('d'))
+                                   ->count());
+            $indicator4->setIcon('database');
+            $indicator4->setColor('#0073b7');
+            $indicator4->setNumericMask(0, ',', '.');
             
-            $indicator1->enableSection('main', ['title' => _t('Accesses today'),       'icon' => 'sign-in-alt',   'background' => 'green',  'value' => $accesses]);
-            $indicator2->enableSection('main', ['title' => _t('Requests today'),       'icon' => 'globe',         'background' => 'purple', 'value' => $reqlogs]);
-            $indicator3->enableSection('main', ['title' => _t('Request time average'), 'icon' => 'hourglass-end', 'background' => 'orange', 'value' => round( (float) $reqavg,2) . ' ms']);
-            $indicator4->enableSection('main', ['title' => _t('SQL DML Statements'),   'icon' => 'database',      'background' => 'blue',   'value' => $sqllogs]);
+            $month_days = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+            $xlabels_std = [];
+            $data_std = [];
             
-            $chart1 = new THtmlRenderer('app/resources/google_column_chart.html');
-            $data1 = [];
-            $data1[] = [ _t('Day'), _t('Count') ];
+            // Inicializa todos os dias do mês com zero
+            for ($day = 1; $day <= $month_days; $day++) {
+                $day_ok = str_pad($day, 2, '0', STR_PAD_LEFT); // Ex: '01', '02', ...
+                $xlabels_std[$day_ok] = $day_ok;
+                $data_std[$day_ok] = 0;
+            }
+            
+            /*********** Acess by day *************/
+            
+            $chart1 = new TBarChart;
+            $chart1->setTitle(_t('Accesses by day'));
+            $chart1->setHeight(300);
+            $chart1->setXLabels([_t('Count')]);
             
             $stats1 = SystemAccessLog::groupBy('login_day')
                                      ->where('login_year', '=', date('Y'))
                                      ->where('login_month', '=', date('m'))
                                      ->orderBy('login_day')
                                      ->countBy('id', 'count');
+            $xlabels = $xlabels_std;
+            $data = $data_std;
+            
             if ($stats1)
             {
                 foreach ($stats1 as $row)
                 {
-                    $data1[] = [ $row->login_day, (int) $row->count];
+                    $day = str_pad($row->login_day, 2, '0', STR_PAD_LEFT);
+                    $data[$day] = (int) $row->count;
                 }
             }
+            $xlabels = array_values($xlabels);
+            $data = array_values($data);
             
-            // replace the main section variables
-            $chart1->enableSection('main', ['data'   => json_encode($data1),
-                                            'width'  => '100%',          'height'  => '300px',
-                                            'title'  => _t('Accesses by day'),  'uniqid' => uniqid(),
-                                            'ytitle' => _t('Accesses by day'),  'xtitle' => _t('Count'),
-                                            ]);
+            $chart1->setXLabels($xlabels);
+            $chart1->addDataset(_t('Count'), $data);
             
-            $chart2 = new THtmlRenderer('app/resources/google_column_chart.html');
-            $data2 = [];
-            $data2[] = [ _t('Day'), _t('Count') ];
+            
+            
+            /*********** Requests by day *************/
+            
+            $chart2 = new TBarChart;
+            $chart2->setTitle(_t('Requests by day'));
+            $chart2->setHeight(300);
+            $chart2->setXLabels([_t('Count')]);
             
             $stats2 = SystemRequestLog::groupBy('log_day')
                                       ->where('log_year', '=', date('Y'))
                                       ->where('log_month', '=', date('m'))
                                       ->orderBy('log_day')
                                       ->countBy('id', 'count');
+            $xlabels = $xlabels_std;
+            $data = $data_std;
             
             if ($stats2)
             {
                 foreach ($stats2 as $row)
                 {
-                    $data2[] = [ $row->log_day, (int) $row->count];
+                    $day = str_pad($row->log_day, 2, '0', STR_PAD_LEFT);
+                    $data[$day] = (int) $row->count;
                 }
             }
+            $xlabels = array_values($xlabels);
+            $data = array_values($data);
             
-            // replace the main section variables
-            $chart2->enableSection('main', ['data'   => json_encode($data2),
-                                            'width'  => '100%',         'height'  => '300px',
-                                            'title'  => _t('Requests by day'),  'uniqid' => uniqid(),
-                                            'ytitle' => _t('Requests by day'),   'xtitle' => _t('Count'),
-                                            ]);
+            $chart2->setXLabels($xlabels);
+            $chart2->addDataset(_t('Count'), $data);
+            
+            /*********** Request time average *************/
 
-            $chart3 = new THtmlRenderer('app/resources/google_column_chart.html');
-            $data3 = [];
-            $data3[] = [ _t('Day'), _t('Sum') ];
+            $chart3 = new TBarChart;
+            $chart3->setTitle(_t('Request time average'));
+            $chart3->setHeight(300);
+            $chart3->setXLabels([_t('Sum')]);
             
             $stats3 = SystemRequestLog::groupBy('log_day')
                                       ->where('log_year', '=', date('Y'))
                                       ->where('log_month', '=', date('m'))
                                       ->orderBy('log_day')
                                       ->avgBy('request_duration', 'avg');
-            
+            $xlabels = $xlabels_std;
+            $data = $data_std;
             if ($stats3)
             {
                 foreach ($stats3 as $row)
                 {
-                    $data3[] = [ $row->log_day, (int) $row->avg];
+                    $day = str_pad($row->log_day, 2, '0', STR_PAD_LEFT);
+                    $data[$day] = (int) $row->avg;
                 }
             }
+            $xlabels = array_values($xlabels);
+            $data = array_values($data);
             
-            // replace the main section variables
-            $chart3->enableSection('main', ['data'   => json_encode($data3),
-                                            'width'  => '100%',         'height'  => '300px',
-                                            'title'  => _t('Request time average') . ' (ms)',  'uniqid' => uniqid(),
-                                            'ytitle' => _t('Request time average'),   'xtitle' => _t('Count'),
-                                            ]);
+            $chart3->setXLabels($xlabels);
+            $chart3->addDataset(_t('Sum'), $data);
 
 
-            $chart4 = new THtmlRenderer('app/resources/google_column_chart.html');
-            $data4 = [];
-            $data4[] = [ _t('Day'), _t('Count') ];
+            /*********** SQL Statements by day *************/
+
+            $chart4 = new TBarChart;
+            $chart4->setTitle(_t('SQL statements by day'));
+            $chart4->setHeight(300);
+            $chart4->setXLabels([_t('Count')]);
             
             $stats4 = SystemSqlLog::groupBy('log_day')
                                   ->where('log_year', '=', date('Y'))
                                   ->where('log_month', '=', date('m'))
                                   ->orderBy('log_day')
                                   ->countBy('id', 'count');
-            
+            $xlabels = $xlabels_std;
+            $data = $data_std;
             if ($stats4)
             {
                 foreach ($stats4 as $row)
                 {
-                    $data4[] = [ $row->log_day, (int) $row->count];
+                    $day = str_pad($row->log_day, 2, '0', STR_PAD_LEFT);
+                    $data[$day] = (int) $row->count;
                 }
             }
             
-            // replace the main section variables
-            $chart4->enableSection('main', ['data'   => json_encode($data4),
-                                            'width'  => '100%',         'height'  => '400px',
-                                            'title'  => _t('SQL statements by day'),  'uniqid' => uniqid(),
-                                            'ytitle' => _t('SQL statements by day'),   'xtitle' => _t('Count'),
-                                            ]);
+            $xlabels = array_values($xlabels);
+            $data = array_values($data);
+            
+            $chart4->setXLabels($xlabels);
+            $chart4->addDataset(_t('Count'), $data);
+            
+            
+            /*********** Tables *************/
             
             $stats5 = SystemRequestLog::groupBy('class_name')
                                       ->where('log_year', '=', date('Y'))
@@ -178,10 +223,10 @@ class SystemLogDashboard extends TPage
                                           'indicator2' => $indicator2,
                                           'indicator3' => $indicator3,
                                           'indicator4' => $indicator4,
-                                          'chart1'     => $stats1 ? $chart1 : TPanelGroup::pack(_t('Accesses by day'),'No logs'),
-                                          'chart2'     => $stats2 ? $chart2 : TPanelGroup::pack(_t('Requests by day'),'No logs'),
-                                          'chart3'     => $stats3 ? $chart3 : TPanelGroup::pack(_t('Request time average'),'No logs'),
-                                          'chart4'     => $stats4 ? $chart4 : TPanelGroup::pack(_t('SQL statements by day'),'No logs'),
+                                          'chart1'     => $stats1 ? TPanelGroup::pack('', $chart1) : TPanelGroup::pack(_t('Accesses by day'),'No logs'),
+                                          'chart2'     => $stats2 ? TPanelGroup::pack('', $chart2) : TPanelGroup::pack(_t('Requests by day'),'No logs'),
+                                          'chart3'     => $stats3 ? TPanelGroup::pack('', $chart3) : TPanelGroup::pack(_t('Request time average'),'No logs'),
+                                          'chart4'     => $stats4 ? TPanelGroup::pack('', $chart4) : TPanelGroup::pack(_t('SQL statements by day'),'No logs'),
                                           'table1'     => $stats5 ? $table1 : TPanelGroup::pack(_t('Slower pages'),'No logs'),
                                           'table2'     => $stats6 ? $table2 : TPanelGroup::pack(_t('Slower methods'),'No logs'),
                                           ] );
