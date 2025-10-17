@@ -88,12 +88,12 @@ return [
             'menu_mode'  => 'dark',
             'main_mode'  => 'light',
             'box_layout' => '0'
-        ],
-        'system' =>  [
-            'system_version' => '8.2.0.1',
-            'system_name_sub'=> 'Fork do Adianti FrameWork',
-            'adianti_min_version'=> '8.3.0',
-            'formdin_min_version'=> '5.5.0',
-        ],
-    ]
+        ]
+    ],
+    'system' =>  [
+        'system_version' => '8.2.0.1',
+        'system_name_sub'=> 'Fork do Adianti FrameWork',
+        'adianti_min_version'=> '8.3.0',
+        'formdin_min_version'=> '5.5.0',
+    ],    
 ];
