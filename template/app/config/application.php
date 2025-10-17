@@ -4,8 +4,8 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'template',
-        'title' => 'Adianti Fork Template',
-        'theme' => 'adminbs5_v4',
+        'title' => 'Adianti Template 8.3',
+        'theme' => 'adminbs5',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
         'multiunit' => '1',
@@ -20,6 +20,9 @@ return [
           'pt' => 'Português',
           'en' => 'English',
           'es' => 'Español',
+          'fr' => 'Français',
+          'de' => 'Deutsch',
+          'it' => 'Italiano',
         ],
         'multi_database' => '0',
         'validate_strong_pass' => '1',
@@ -57,8 +60,8 @@ return [
         'string' => '#FFC472',
     ],
     'login' => [
-        'logo' => 'app/images/icon.png',
-        'background' => 'app/images/thumb-1920-698137.jpg'
+        'logo' => '',
+        'background' => ''
     ],
     'template' => [
         'navbar' => [
@@ -74,7 +77,8 @@ return [
             'has_main_mode_switch' => '1',
             'has_master_menu' => '1',
             'always_collapse' => '0',
-            'allow_page_tabs' => '0'
+            'allow_page_tabs' => '0',
+            'only_top_menu' => '0'
         ],
         'dialogs' => [
             'use_swal' => '1'
@@ -82,13 +86,8 @@ return [
         'theme' => [
             /*'menu_dark_color' => 'rgb(29 45 83)',*/
             'menu_mode'  => 'dark',
-            'main_mode'  => 'light'
+            'main_mode'  => 'light',
+            'box_layout' => '0'
         ]
-    ],
-    'system' =>  [
-        'system_version' => '8.2.0.1',
-        'system_name_sub'=> 'Fork do Adianti FrameWork',
-        'adianti_min_version'=> '8.2.0.1',
-        'formdin_min_version'=> '5.4.4',
-    ],
+    ]
 ];
