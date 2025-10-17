@@ -31,6 +31,16 @@ class AdiantiNavBarParser
                 $label = (string) $xmlElement->attributes()-> label;
             }
             
+            if (substr($label, 0, 3) == '_t{')
+            {
+                $label = _t(substr($label,3,-1));
+            }
+            else if (substr($label, 0, 4) == '_tf{')
+            {
+                $ini = AdiantiApplicationConfig::get();
+                $label = _tf(substr($label,4,-1), $ini['general']['source_language']);
+            }
+            
             if ($xmlElement->menu)
             {
                 $i = ($icon) ? new TImage($icon) : null;
@@ -157,6 +167,16 @@ class AdiantiNavBarParser
             $image = new TImage($item_icon . ' gray');
             //$image->{'style'} .= ';padding: 4px';
             $link->add($image);
+        }
+        
+        if (substr($item_label, 0, 3) == '_t{')
+        {
+            $item_label = _t(substr($item_label,3,-1));
+        }
+        else if (substr($item_label, 0, 4) == '_tf{')
+        {
+            $ini = AdiantiApplicationConfig::get();
+            $item_label = _tf(substr($item_label,4,-1), $ini['general']['source_language']);
         }
         
         $span = new TElement('span');
