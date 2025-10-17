@@ -48,6 +48,7 @@ class TFormDinLabelField
 {
     protected $adiantiObj;
     private $class = array();
+    private $tooltip;
     
 
     /**

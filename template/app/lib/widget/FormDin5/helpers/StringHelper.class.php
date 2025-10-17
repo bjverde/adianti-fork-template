@@ -70,18 +70,44 @@ class StringHelper
         return $string;
     }
     
-    /***
-     * Checks if text is different from UTF8 and converts to UTF-8
+    /**
+     * Converte qualquer string para UTF-8
+     * independente do encoding de origem.
+     *
      * @param string $string
      * @return string
      */
-    public static function str2utf8($string)
+    public static function str2utf8(string $string): string
     {
-        if ( mb_detect_encoding($string, 'UTF-8', true)!='UTF-8' ){
-            //$string= iconv('ISO-8859-1', 'UTF-8', $string);
-            $string = utf8_encode($string);
-            //$string = mb_convert_encoding($string, 'UTF-8');
+        if ($string === '') {
+            return $string; // string vazia, nada a fazer
         }
+
+        // Lista de encodings comuns que podem aparecer
+        $encodings = [
+            'UTF-8',
+            'ISO-8859-1',
+            'ISO-8859-15',
+            'Windows-1252',
+            'ASCII'
+        ];
+
+        // Detecta encoding de origem
+        $detected = mb_detect_encoding($string, $encodings, true);
+
+        if ($detected === false) {
+            // fallback: força interpretação como ISO-8859-1
+            $detected = 'ISO-8859-1';
+        }
+
+        // Converte para UTF-8 só se não estiver já em UTF-8
+        if ($detected !== 'UTF-8') {
+            $string = mb_convert_encoding($string, 'UTF-8', $detected);
+        } else {
+            // garante que não exista "UTF-8 sujo"
+            $string = mb_convert_encoding($string, 'UTF-8', 'UTF-8');
+        }
+
         return $string;
     }
 

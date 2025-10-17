@@ -52,6 +52,22 @@ function fd5ShowPosition(position,idField,showAltitude,fieldAllJson) {
         let fieldAlt = document.querySelector('#'+idField+'_alt');
         fieldAlt.value = altitude;
     }
+    fd5ShowFeedCorLat(idField,false);
+}
+function fd5ShowFeedCorLat(idField,showFieldCordLat) {
+    // 1. Constrói o ID da div de feedback dinamicamente.
+    //    Isso garante que, se 'idField' mudar, o código continua a funcionar.
+    const feedbackDivId = idField + '_feedback'; // Resultará em "cood2_feedback"
+    
+    // 2. Encontra a div de feedback na página.
+    const feedbackDiv = document.getElementById(feedbackDivId);
+
+    // 3. Se a div for encontrada, muda seu estilo para torná-la visível.
+    if (feedbackDiv) {
+        // Usamos 'inline-block' para que a div apareça ao lado do botão.
+        // Se quisesse que ela aparecesse numa linha abaixo, poderia usar 'block'.
+        feedbackDiv.style.display = 'inline-block';
+    }
 }
 function fd5ShowPositionError(error,idField,fieldAllJson) {
     var code= error.code;
