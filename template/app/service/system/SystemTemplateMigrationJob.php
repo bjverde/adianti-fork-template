@@ -2,7 +2,7 @@
 /**
  * SystemTemplateMigrationJob
  *
- * @version    8.2
+ * @version    8.3
  * @package    service
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -249,7 +249,7 @@ class SystemTemplateMigrationJob implements AdiantiJob
             
             $new = file_get_contents('app/config/application.php');
             $new = str_replace("'application' => 'template',", "'application' => '{$application}',", $new);
-            $new = str_replace("'title' => 'Adianti Template 8.2',", "'title' => '{$title}',", $new);
+            $new = str_replace("'title' => 'Adianti Template 8.3',", "'title' => '{$title}',", $new);
             file_put_contents('app/config/application.php', $new);
         }
     }

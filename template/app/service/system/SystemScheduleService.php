@@ -2,7 +2,7 @@
 /**
  * SystemScheduleService
  *
- * @version    8.2
+ * @version    8.3
  * @package    service
  * @subpackage cli
  * @author     Pablo Dall'Oglio

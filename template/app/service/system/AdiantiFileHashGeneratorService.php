@@ -2,7 +2,7 @@
 /**
  * AdiantiFileHashGeneratorService
  *
- * @version    8.2
+ * @version    8.3
  * @package    core
  * @author     Pablo Dall'Oglio
  * @author     Lucas Tomasi

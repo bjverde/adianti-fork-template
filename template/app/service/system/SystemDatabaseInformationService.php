@@ -18,24 +18,46 @@ class SystemDatabaseInformationService
     /**
      * Get database tables
      */
-    public static function getDatabaseTables($database)
+    public static function getDatabaseTables($database, $just_tables = false)
     {
         $info = TConnection::getDatabaseInfo($database);
-        $query['pgsql'] =  " SELECT n.nspname || '.' || c.relname AS table_name, obj_description(c.relfilenode, 'pg_class') as comment
-                               FROM pg_class c
-                                    LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
-                                    LEFT JOIN pg_tablespace t ON t.oid = c.reltablespace
-                               WHERE (c.relkind = 'r'::\"char\" OR c.relkind = 'v'::\"char\" OR c.relkind = 'f'::\"char\" OR c.relkind = 'm'::\"char\")
-                                     AND c.relname not like 'pg%' 
-                                     AND n.nspname <> 'information_schema'
-                                     AND has_schema_privilege(n.nspname, 'usage')
-                                     AND has_table_privilege(n.nspname || '.' || c.relname, 'select')
-                               ORDER BY 1";
-        $query['sqlite'] = "SELECT name FROM sqlite_master WHERE (type = 'table' or type='view') order by name";
-        $query['mysql']  = 'SHOW TABLE STATUS';
-        $query['oracle'] = "SELECT table_name FROM cat where table_type in ('TABLE', 'VIEW') AND table_name not like '%$%'";
-        $query['mssql']  = "SELECT user_name(uid) + '.' + name as name from dbo.sysobjects where (type = 'U' or type='V') order by name";
-        $query['fbird']  = 'SELECT rdb$'.'relation_name FROM rdb$'.'relations WHERE (rdb$'.'system_flag is null or rdb$'.'system_flag = 0)';
+        
+        if ($just_tables)
+        {
+           $query['pgsql'] = "SELECT n.nspname || '.' || c.relname AS table_name, obj_description(c.relfilenode, 'pg_class') as comment
+                                 FROM pg_class c
+                                      LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+                                      LEFT JOIN pg_tablespace t ON t.oid = c.reltablespace
+                                 WHERE c.relkind = 'r'::\"char\"
+                                       AND c.relname not like 'pg%' 
+                                       AND n.nspname <> 'information_schema'
+                                       AND has_schema_privilege(n.nspname, 'usage')
+                                       AND has_table_privilege(n.nspname || '.' || c.relname, 'select')
+                                 ORDER BY 1";
+            $query['sqlite'] = "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name";
+            $query['mysql']  = "SHOW FULL TABLES WHERE Table_type = 'BASE TABLE'";
+            $query['oracle'] = "SELECT table_name FROM cat WHERE table_type = 'TABLE' AND table_name NOT LIKE '%$%'";
+            $query['mssql']  = "SELECT user_name(uid) + '.' + name AS name FROM dbo.sysobjects WHERE type = 'U' ORDER BY name";
+            $query['fbird']  = 'SELECT rdb$'.'relation_name FROM rdb$'.'relations WHERE (rdb$'.'system_flag is null or rdb$'.'system_flag = 0)';
+        }
+        else
+        {
+            $query['pgsql'] =  " SELECT n.nspname || '.' || c.relname AS table_name, obj_description(c.relfilenode, 'pg_class') as comment
+                                   FROM pg_class c
+                                        LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+                                        LEFT JOIN pg_tablespace t ON t.oid = c.reltablespace
+                                   WHERE (c.relkind = 'r'::\"char\" OR c.relkind = 'v'::\"char\" OR c.relkind = 'f'::\"char\" OR c.relkind = 'm'::\"char\")
+                                         AND c.relname not like 'pg%' 
+                                         AND n.nspname <> 'information_schema'
+                                         AND has_schema_privilege(n.nspname, 'usage')
+                                         AND has_table_privilege(n.nspname || '.' || c.relname, 'select')
+                                   ORDER BY 1";
+            $query['sqlite'] = "SELECT name FROM sqlite_master WHERE (type = 'table' or type='view') order by name";
+            $query['mysql']  = 'SHOW TABLE STATUS';
+            $query['oracle'] = "SELECT table_name FROM cat where table_type in ('TABLE', 'VIEW') AND table_name not like '%$%'";
+            $query['mssql']  = "SELECT user_name(uid) + '.' + name as name from dbo.sysobjects where (type = 'U' or type='V') order by name";
+            $query['fbird']  = 'SELECT rdb$'.'relation_name FROM rdb$'.'relations WHERE (rdb$'.'system_flag is null or rdb$'.'system_flag = 0)';
+        }
         
         if (in_array($info['type'], [ 'pgsql', 'mysql', 'sqlite', 'oracle', 'mssql', 'fbird'] ))
         {
