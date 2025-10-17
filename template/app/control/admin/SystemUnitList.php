@@ -2,7 +2,7 @@
 /**
  * SystemUnitList
  *
- * @version    8.2
+ * @version    8.3
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -122,7 +122,7 @@ class SystemUnitList extends TStandardList
         $panel->addHeaderWidget($form_search);
         
         $panel->addHeaderActionLink('', new TAction(['SystemUnitForm', 'onEdit'], ['register_state' => 'false']), 'fa:plus');
-        $this->filter_label = $panel->addHeaderActionLink('Filtros', new TAction([$this, 'onShowCurtainFilters']), 'fa:filter');
+        $this->filter_label = $panel->addHeaderActionLink(_t('Filters'), new TAction([$this, 'onShowCurtainFilters']), 'fa:filter');
         
         // header actions
         $dropdown = new TDropDown(_t('Export'), 'fa:list');
@@ -149,7 +149,7 @@ class SystemUnitList extends TStandardList
         if (TSession::getValue(get_class($this).'_filter_counter') > 0)
         {
             $this->filter_label->class = 'btn btn-primary';
-            $this->filter_label->setLabel('Filtros ('. TSession::getValue(get_class($this).'_filter_counter').')');
+            $this->filter_label->setLabel(_t('Filters') . ' ('. TSession::getValue(get_class($this).'_filter_counter').')');
         }
         
         // vertical box container
@@ -170,12 +170,12 @@ class SystemUnitList extends TStandardList
         if (TSession::getValue(get_class($this).'_filter_counter') > 0)
         {
             $this->filter_label->class = 'btn btn-primary';
-            $this->filter_label->setLabel('Filtros ('. TSession::getValue(get_class($this).'_filter_counter').')');
+            $this->filter_label->setLabel(_t('Filters') . ' ('. TSession::getValue(get_class($this).'_filter_counter').')');
         }
         else
         {
             $this->filter_label->class = 'btn btn-default';
-            $this->filter_label->setLabel('Filtros');
+            $this->filter_label->setLabel(_t('Filters'));
         }
         
         if (!empty(TSession::getValue(get_class($this).'_filter_data')))
@@ -210,8 +210,8 @@ class SystemUnitList extends TStandardList
             
             $btn_close = new TButton('closeCurtain');
             $btn_close->onClick = "Template.closeRightPanel();";
-            $btn_close->setLabel("Fechar");
-            $btn_close->setImage('fas:times');
+            $btn_close->setLabel(_t('Close'));
+            $btn_close->setImage('fas:times red');
             
             // instantiate self class, populate filters in construct 
             $embed = new self;

@@ -2,7 +2,7 @@
 /**
  * SystemDatabaseExplorer
  *
- * @version    8.2
+ * @version    8.3
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -111,7 +111,7 @@ class SystemDatabaseExplorer extends TPage
      */
     public function onDisplayReimport($object)
     {
-        return $object->type == 'sqlite';
+        return $object->type == 'sqlite' || $object->type == 'pgsql' || $object->type == 'mysql';
     }
     
     /**
@@ -229,7 +229,7 @@ class SystemDatabaseExplorer extends TPage
             TTransaction::open( $database );
             $conn = TTransaction::get();
 
-            $tables = SystemDatabaseInformationService::getDatabaseTables( $database );
+            $tables = SystemDatabaseInformationService::getDatabaseTables( $database, true );
             if ($tables)
             {
                 foreach ($tables as $table)
@@ -247,13 +247,14 @@ class SystemDatabaseExplorer extends TPage
                     $handler = fopen($file, 'w');
                     
                     $addquotes = function($value) {
-                                    if(!is_numeric($value)) {
-                                        return "'{$value}'";
-                                    } else {
-                                        return $value;
-                                    }
-                                };
-                                
+                        // Check is not numeric or starts with '0'
+                        if (!is_numeric($value) || (is_string($value) && strlen($value) > 1 && substr($value,0,1) === '0')) {
+                            return "'{$value}'";
+                        } else {
+                            return $value;
+                        }
+                    };
+                    
                     $first_row = $result->fetch( PDO::FETCH_ASSOC );
                     if ($first_row)
                     {
@@ -308,6 +309,17 @@ class SystemDatabaseExplorer extends TPage
      */
     public static function onConfirmImport($param)
     {
+        $resetSequence = function(PDO $conn, string $table, string $column = 'id') {
+            $stmt = $conn->prepare("SELECT pg_get_serial_sequence(:table, :column)");
+            $stmt->execute([':table' => $table, ':column' => $column]);
+            $sequence = $stmt->fetchColumn();
+
+            if ($sequence) {
+                $stmt = $conn->prepare("SELECT setval(:sequence, (SELECT MAX($column) FROM $table))");
+                $stmt->execute([':sequence' => $sequence]);
+            }
+        };
+        
         try
         {
             $file = 'tmp/'.$param['file'];
@@ -316,8 +328,16 @@ class SystemDatabaseExplorer extends TPage
                 $dbinfo = TConnection::getDatabaseInfo($param['database']);
                 $dbinfo['fkey'] = '0';
                 $conn = TTransaction::open(null, $dbinfo);
-                $conn-> query ('PRAGMA foreign_keys = OFF');
-
+                
+                if ($dbinfo['type'] == 'sqlite')
+                {
+                    $conn-> query ('PRAGMA foreign_keys = OFF');
+                }
+                else if ($dbinfo['type'] == 'mysql')
+                {
+                    $conn-> query ('SET FOREIGN_KEY_CHECKS = 0');
+                }
+                
                 $zip = new ZipArchive();
 
                 if ($zip->open($file) === TRUE)
@@ -326,17 +346,33 @@ class SystemDatabaseExplorer extends TPage
                     {
                         $table    = $zip->getNameIndex($i);
                         $commands = array_filter(explode(";\n", $zip->getFromIndex($i)));
+                        $table_name = basename($table, '.sql');
+                        
+                        if ($dbinfo['type'] == 'pgsql')
+                        {
+                            $conn-> query ("ALTER TABLE {$table_name} DISABLE TRIGGER ALL");
+                        }
 
                         if ($commands)
                         {
                             foreach ($commands as $command)
                             {
+                                if ($dbinfo['type'] == 'pgsql' || $dbinfo['type'] == 'mysql')
+                                {
+                                    $command = str_replace("''", 'null', $command);
+                                }
                                 $result = $conn->query($command);
                                 if (!$result)
                                 {
                                     throw new Exception('error', _t('Error') . ' ' . $command);
                                 }
                             }
+                        }
+                        
+                        if ($dbinfo['type'] == 'pgsql')
+                        {
+                            $conn-> query ("ALTER TABLE {$table_name} ENABLE TRIGGER ALL");
+                            $resetSequence($conn, $table_name);
                         }
                     }
                     $zip->close();
@@ -345,6 +381,12 @@ class SystemDatabaseExplorer extends TPage
                 {
                     throw new Exception('error', _t('Permission denied') . ': ' . $file);
                 }
+                
+                if ($dbinfo['type'] == 'mysql')
+                {
+                    $conn-> query ('SET FOREIGN_KEY_CHECKS = 1');
+                }
+                
                 TTransaction::close();
                 new TMessage('info', _t('Records imported successfully'));
             }

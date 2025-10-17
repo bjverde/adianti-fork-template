@@ -2,7 +2,7 @@
 /**
  * SystemProfile2FAForm
  *
- * @version    8.2
+ * @version    8.3
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -52,38 +52,12 @@ class SystemProfile2FAForm extends TPage
             $otp = $user->otp_secret ? \OTPHP\TOTP::create($user->otp_secret) : \OTPHP\TOTP::create();
             $otp->setLabel($user->email);
             $otp->setIssuer($ini['general']['application']);
-
-            // --- INÍCIO DA CORREÇÃO ---
-            /* Em 2025 scanear o QrCode com o aplicativo do Google Authenticator estava gerando erro.
-             * Seguindo a documentação, foi necessário aplicar rawurlencode() em cada parte da URI.
-             * pois : não poderia ser codificado
-             * o padrão do Adianti é usar otp->getProvisioningUri() na linha do $writer->writeString
-             * 
-            */
-            // 1. Pega as partes separadamente
-            $secret = $otp->getSecret();
-            $issuer = $ini['general']['application'];
-            $label  = $user->email;
             
-            // 2. Aplica rawurlencode() em cada parte individualmente
-            $encodedIssuer = rawurlencode($issuer);
-            $encodedLabel  = rawurlencode($label);
-            
-            // 3. Monta a URI manualmente, mantendo o ":" literal
-            $provisioningUri = "otpauth://totp/{$encodedIssuer}:{$encodedLabel}?" .
-                               "secret={$secret}&" .
-                               "issuer={$encodedIssuer}";            
-            // --- FIM DA CORREÇÃO ---
-            
-            $provisioningUri = $provisioningUri; //Correção
-            //$provisioningUri = $otp->getProvisioningUri(); //Padrão Adianti v8.2.0
-            $htmlProvisioningUri = "<a href=\"{$provisioningUri}\" target=\"_blank\">Adicionar ao App de Autenticação</a>";
-
             // qrcodes
             $backend  = new \BaconQrCode\Renderer\Image\SvgImageBackEnd;
             $renderer = new \BaconQrCode\Renderer\ImageRenderer(new \BaconQrCode\Renderer\RendererStyle\RendererStyle((int) 350, 0), $backend);
             $writer   = new \BaconQrCode\Writer($renderer);
-            $qrcode   = $writer->writeString($provisioningUri);
+            $qrcode   = $writer->writeString($otp->getProvisioningUri());
             
             $secret  = new THidden('secret');
             $secret->setValue($otp->getSecret());
@@ -94,7 +68,6 @@ class SystemProfile2FAForm extends TPage
             $this->form->addFields( [$secret] );
             $this->form->addContent( [$qrcode] );
             
-            $this->form->addContent([ new TLabel(''), $htmlProvisioningUri ]);
             // $this->form->addContent([ new TLabel(_t('Secret key')), $otp->getSecret() ]);
             $this->form->addContent([ new TLabel(_t('Type')), 'TOTP (RFC 6238)' ]);
             

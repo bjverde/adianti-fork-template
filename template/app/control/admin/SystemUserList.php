@@ -2,7 +2,7 @@
 /**
  * SystemUserList
  *
- * @version    8.2
+ * @version    8.3
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -326,8 +326,8 @@ class SystemUserList extends TStandardList
             
             $btn_close = new TButton('closeCurtain');
             $btn_close->onClick = "Template.closeRightPanel();";
-            $btn_close->setLabel("Fechar");
-            $btn_close->setImage('fas:times');
+            $btn_close->setLabel(_t('Close'));
+            $btn_close->setImage('fas:times red');
             
             // instantiate self class, populate filters in construct 
             $embed = new self;
