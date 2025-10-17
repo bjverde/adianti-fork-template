@@ -4,7 +4,7 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'template',
-        'title' => 'Adianti Template 8.3',
+        'title' => 'Adianti Fork Template 8.3',
         'theme' => 'adminbs5',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
@@ -60,8 +60,8 @@ return [
         'string' => '#FFC472',
     ],
     'login' => [
-        'logo' => '',
-        'background' => ''
+        'logo' => 'app/images/icon.png',
+        'background' => 'app/images/thumb-1920-698137.jpg'
     ],
     'template' => [
         'navbar' => [
@@ -88,6 +88,12 @@ return [
             'menu_mode'  => 'dark',
             'main_mode'  => 'light',
             'box_layout' => '0'
-        ]
+        ],
+        'system' =>  [
+            'system_version' => '8.2.0.1',
+            'system_name_sub'=> 'Fork do Adianti FrameWork',
+            'adianti_min_version'=> '8.3.0',
+            'formdin_min_version'=> '5.5.0',
+        ],
     ]
 ];
