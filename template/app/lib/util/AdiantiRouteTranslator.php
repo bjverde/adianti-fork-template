@@ -2,7 +2,7 @@
 /**
  * Route translator
  *
- * @version    8.2
+ * @version    8.3
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006-2014 Adianti Solutions Ltd. (http://www.adianti.com.br)

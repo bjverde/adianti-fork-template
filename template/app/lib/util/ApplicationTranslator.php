@@ -4,7 +4,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * ApplicationTranslator
  *
- * @version    8.2
+ * @version    8.3
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -23,6 +23,8 @@ class ApplicationTranslator
     private function __construct()
     {
         $this->messages = [];
+        
+        /*
         $this->messages['en'] = [];
         $this->messages['pt'] = [];
         $this->messages['es'] = [];
@@ -34,7 +36,23 @@ class ApplicationTranslator
         $this->messages['en'][] = 'City';
         $this->messages['pt'][] = 'Cidade';
         $this->messages['es'][] = 'Ciudad';
+        */
         
+        if (file_exists('app/config/translations.json'))
+        {
+            $translations = json_decode(file_get_contents('app/config/translations.json'), true);
+            
+            if (is_array($translations))
+            {
+                foreach ($translations as $entry)
+                {
+                    foreach ($entry as $lang => $text)
+                    {
+                        $this->messages[$lang][] = $text;
+                    }
+                }
+            }
+        }
         //<entry-point>
         
         foreach ($this->messages as $lang => $messages)
@@ -82,7 +100,7 @@ class ApplicationTranslator
             }
         }
         
-        if (in_array($lang, array_keys($instance->messages)))
+        if (in_array($lang, array_keys($instance->messages)) || in_array($lang, ['pt', 'en', 'es', 'de', 'it', 'fr']))
         {
             $instance->lang = $lang;
         }
