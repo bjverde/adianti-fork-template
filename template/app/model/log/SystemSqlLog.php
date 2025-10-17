@@ -2,7 +2,7 @@
 /**
  * SystemSqlLog
  *
- * @version    8.2
+ * @version    8.3
  * @package    model
  * @subpackage log
  * @author     Pablo Dall'Oglio

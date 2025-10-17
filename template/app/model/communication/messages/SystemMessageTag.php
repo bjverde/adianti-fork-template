@@ -2,7 +2,7 @@
 /**
  * SystemMessageTag
  *
- * @version    8.2
+ * @version    8.3
  * @package    model
  * @subpackage communication
  * @author     Pablo Dall'Oglio
