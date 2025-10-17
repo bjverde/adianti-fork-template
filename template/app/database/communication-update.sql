@@ -1,5 +1,5 @@
 
---- new table/columns of 7.5
+-- new table/columns of 7.5
 CREATE TABLE system_folder (
     id int PRIMARY KEY NOT NULL,
     system_user_id int,
@@ -130,7 +130,7 @@ INSERT INTO system_wiki_share_group VALUES(6,2,3);
 INSERT INTO system_wiki_share_group VALUES(7,1,4);
 INSERT INTO system_wiki_share_group VALUES(8,2,4);
 
---- changes from 7.6.0
+-- changes from 7.6.0
 CREATE INDEX sys_message_user_id_idx ON system_message(system_user_id);
 CREATE INDEX sys_message_user_to_idx ON system_message(system_user_to_id);
 CREATE INDEX sys_notification_user_id_idx ON system_notification(system_user_id);
@@ -165,7 +165,7 @@ CREATE INDEX sys_wiki_tag_page_idx ON system_wiki_tag(system_wiki_page_id);
 CREATE INDEX sys_wiki_share_group_group_idx ON system_wiki_share_group(system_group_id);
 CREATE INDEX sys_wiki_share_group_page_idx ON system_wiki_share_group(system_wiki_page_id);
 
---- changes from 8.0
+-- changes from 8.0
 ALTER TABLE system_message ADD COLUMN removed char(1);
 ALTER TABLE system_message ADD COLUMN viewed char(1);
 ALTER TABLE system_message ADD COLUMN attachments text;
@@ -184,7 +184,7 @@ CREATE TABLE system_message_tag (
 
 ALTER TABLE system_wiki_page ADD COLUMN updated_by int;
 
---- Create system_schedule table
+-- Create system_schedule table
 CREATE TABLE system_schedule (
     id int PRIMARY KEY NOT NULL,
     schedule_type char(1),

@@ -1,4 +1,4 @@
---- changes from 7.0.0
+-- changes from 7.0.0
 ALTER TABLE system_access_log add column impersonated char(1);
 
 ALTER TABLE system_access_log add column access_ip varchar(256);
@@ -55,7 +55,7 @@ ALTER TABLE system_change_log ADD COLUMN log_year varchar(4);
 ALTER TABLE system_change_log ADD COLUMN log_month varchar(2);
 ALTER TABLE system_change_log ADD COLUMN log_day varchar(2);
 
---- changes from 7.4.0
+-- changes from 7.4.0
 ALTER TABLE system_access_log ADD COLUMN impersonated_by varchar(256);
 
 CREATE TABLE system_access_notification_log (
@@ -66,7 +66,7 @@ CREATE TABLE system_access_notification_log (
     login_time varchar(256)
 );
 
---- changes from 7.6.0
+-- changes from 7.6.0
 ALTER TABLE system_request_log ADD COLUMN class_method varchar(256);
 
 CREATE INDEX sys_change_log_login_idx ON system_change_log(login);
@@ -100,7 +100,7 @@ CREATE INDEX sys_request_log_method_idx ON system_request_log(class_method);
 
 CREATE INDEX sys_access_notification_log_login_idx ON system_access_notification_log(login);
 
---- changes from 8.0.0
+-- changes from 8.0.0
 
 CREATE TABLE system_schedule_log (
     id int PRIMARY KEY NOT NULL,
@@ -116,7 +116,7 @@ CREATE INDEX sys_schedule_log_class_idx ON system_schedule_log(class_name);
 CREATE INDEX sys_schedule_log_method_idx ON system_schedule_log(method);
 
 
---- changes from 8.1.0
+-- changes from 8.1.0
 
 CREATE TABLE system_sql_changes (
     id int PRIMARY KEY NOT NULL,

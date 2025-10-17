@@ -1,6 +1,6 @@
 
 
---- new programs of 3.0.0
+-- new programs of 3.0.0
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System PHP Info','SystemPHPInfoView');
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System ChangeLog View','SystemChangeLogView');
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'Welcome View','WelcomeView');
@@ -29,7 +29,7 @@ INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from syste
 UPDATE system_user set frontpage_id = (select id from system_program b where controller='WelcomeView') where id=1;
 
 
---- new programs of 4.0
+-- new programs of 4.0
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Message Form','SystemMessageForm');
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Message List','SystemMessageList');
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Message Form View','SystemMessageFormView');
@@ -90,7 +90,7 @@ CREATE TABLE system_preference (
 );
 
 
---- new programs of 5.0
+-- new programs of 5.0
 CREATE TABLE system_user_unit (
     id int PRIMARY KEY NOT NULL,
     system_user_id int,
@@ -117,7 +117,7 @@ INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from syste
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
                                         (select id from system_program where controller='SystemDataBrowser'));
                                         
---- new programs of 7.0
+-- new programs of 7.0
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Menu Editor','SystemMenuEditor');
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
                                         (select id from system_program where controller='SystemMenuEditor'));
@@ -144,7 +144,7 @@ INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_prog
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
                                         (select id from system_program where controller='SystemSessionDumpView'));
 
---- new programs of 7.4
+-- new programs of 7.4
 INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System files diff','SystemFilesDiff');
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
                                         (select id from system_program where controller='SystemFilesDiff'));
@@ -153,12 +153,12 @@ INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_prog
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
                                         (select id from system_program where controller='SystemInformationView'));
 
---- new columns of 7.4
+-- new columns of 7.4
 ALTER TABLE system_user add column accepted_term_policy char(1);
 ALTER TABLE system_user add column accepted_term_policy_at varchar(256);
 UPDATE system_user set accepted_term_policy='N';
 
---- new table/columns of 7.5
+-- new table/columns of 7.5
 ALTER TABLE system_user add column accepted_term_policy_data text;
 ALTER TABLE system_user add column phone varchar(256);
 ALTER TABLE system_user add column address varchar(256);
@@ -282,7 +282,7 @@ INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from syste
 UPDATE system_user set active='Y' WHERE active is null;
 
 
---- changes from 7.6.0
+-- changes from 7.6.0
 ALTER TABLE system_unit add column custom_code varchar(256);
 ALTER TABLE system_user add column custom_code varchar(256);
 ALTER TABLE system_user add column otp_secret varchar(256);
@@ -345,7 +345,7 @@ INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_prog
 INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
                                         (select id from system_program where controller='SystemSessionVarsView'));
 
---- changes from 8.0.0
+-- changes from 8.0.0
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System document create form', 'SystemDriveDocumentCreateForm');
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Message Tag form', 'SystemMessageTagForm');
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System schedule list', 'SystemScheduleList');
