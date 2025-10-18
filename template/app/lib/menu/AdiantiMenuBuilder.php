@@ -18,8 +18,8 @@ class AdiantiMenuBuilder
             throw new Exception(_t('File not found').': ' . $file);
         }
         
-        if ($theme == 'adminbs5')
-        {
+        $listTemas = array('adminbs5', 'adminbs5_v5');
+        if ( in_array($theme, $listTemas) ) {
             $xml  = new SimpleXMLElement(file_get_contents($file));
             $menu = new TMenu($xml, self::CHECK_PERMISSION, 1, 'sidebar-dropdown list-unstyled collapse', 'sidebar-item', 'sidebar-link collapsed', [__class__, 'prepareItem']);
             $menu->class = 'sidebar-nav';
