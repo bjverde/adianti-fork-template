@@ -4,7 +4,7 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'template',
-        'title' => 'Adianti Fork Template 8.3',
+        'title' => 'Adianti Fork Template',
         'theme' => 'adminbs5_v5',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
@@ -91,9 +91,9 @@ return [
         ]
     ],
     'system' =>  [
-        'system_version' => '8.2.0.1',
+        'system_version' => '8.3.0.1',
         'system_name_sub'=> 'Fork do Adianti FrameWork',
-        'adianti_min_version'=> '8.3.0',
+        'adianti_min_version'=> '8.3.0.1',
         'formdin_min_version'=> '5.5.0',
     ],    
 ];
