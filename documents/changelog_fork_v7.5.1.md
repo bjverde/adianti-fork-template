@@ -48,4 +48,4 @@ Os temas theme3 e theme4 foram substituidos algumas melhorias
 * 🔨- [#34 Update firebase/php-jwt from 6.0](https://github.com/bjverde/adianti-fork-template/issues/34)
 
 
-# [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)
+# [Voltar ultima versão](changelog_fork.md)

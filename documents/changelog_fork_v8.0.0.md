@@ -24,8 +24,4 @@ Nas telas de criar conta e redefiniar senha não tinha um link para voltar para 
 * :hammer: [#60 - Instalar FormDin5](https://github.com/bjverde/adianti-fork-template/issues/60)
 * :hammer: [#61 - Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/61)
 
-# ChangeLog versões antigas
-* [Changelog do Fork do Template do Adianti v8.0.0](changelog_fork_v8.0.0.md)
-* [Changelog do Fork do Template do Adianti v7.6.0](changelog_fork_v7.6.0.md)
-* [Changelog do Fork do Template do Adianti v7.5.1](changelog_fork_v7.5.1.md)
-* [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)
+# [Voltar ultima versão](changelog_fork.md)

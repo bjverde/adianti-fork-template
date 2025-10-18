@@ -60,3 +60,6 @@ https://github.com/bjverde/adianti-theme/blob/master/documents/template/bootstra
 
 ## 7 - Arquivos 
 Todos os arquivos com EOL (end of line) no formato Unix (LF) e arquivos em UTF-8 sem BOM
+
+
+# [Voltar ultima versão](changelog_fork.md)

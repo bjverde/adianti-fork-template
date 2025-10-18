@@ -39,9 +39,4 @@ Tela fork cria conta normal
 * :hammer: [#65 - Instalar FormDin5](https://github.com/bjverde/adianti-fork-template/issues/65)
 * :hammer: [#63 - Tema adminbs5_v3](https://github.com/bjverde/adianti-fork-template/issues/63s)
 
-# ChangeLog versões antigas
-* [Changelog do Fork do Template do Adianti v8.1.0](changelog_fork_v8.1.0.md)
-* [Changelog do Fork do Template do Adianti v8.0.0](changelog_fork_v8.0.0.md)
-* [Changelog do Fork do Template do Adianti v7.6.0](changelog_fork_v7.6.0.md)
-* [Changelog do Fork do Template do Adianti v7.5.1](changelog_fork_v7.5.1.md)
-* [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)
+# [Voltar ultima versão](changelog_fork.md)

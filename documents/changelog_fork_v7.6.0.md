@@ -25,7 +25,4 @@ Nas telas de criar conta e redefiniar senha não tinha um link para voltar para 
 * 🔨- [#52 Atualizar theme3 para theme3_v5 com Adianti 7.6.0](https://github.com/bjverde/adianti-fork-template/issues/52)
 * 🔨- [#51 update adianti template 7.6.0](https://github.com/bjverde/adianti-fork-template/issues/51)
 
-# ChangeLog versões antigas
-* [Changelog do Fork do Template do Adianti v7.6.0](changelog_fork_v7.6.0.md)
-* [Changelog do Fork do Template do Adianti v7.5.1](changelog_fork_v7.5.1.md)
-* [Changelog do Fork do Template do Adianti v7.3.0](changelog_fork_v7.3.0.md)
+# [Voltar ultima versão](changelog_fork.md)
