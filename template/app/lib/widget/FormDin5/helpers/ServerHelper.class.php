@@ -69,7 +69,7 @@ class ServerHelper
      */
     public static function getCurrentUrl( $trim_query_string = false ) 
     {
-        $pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? "https://" : "http://";
+        $pageURL = ( self::isHTTPS(true,true) ) ? "https://" : "http://";
         $pageURL = $pageURL.$_SERVER["SERVER_NAME"];
         $pageURL = $pageURL.( ( $_SERVER["SERVER_PORT"] != 80 ) ? ":".$_SERVER["SERVER_PORT"] : "") ;
         $pageURL = $pageURL.$_SERVER["REQUEST_URI"];

@@ -85,8 +85,8 @@ class TFormDinGenericField
                                ,string $id
                                ,$label
                                ,$boolRequired = false
-                               ,string $value=null
-                               ,string $placeholder =null)
+                               ,string|null $value=null
+                               ,string|null $placeholder =null)
     {
         $this->setAdiantiObj($adiantiObj);
         $this->setLabelTxt($label);

@@ -62,17 +62,38 @@
 class TFormDinRest {
 
     /**
+     * Verifica se está em ambiente de desenvolvimento (localhost)
+     */
+    private function isDev(){
+        // Verifica se está em ambiente de desenvolvimento (localhost)
+        $isDev = (isset($_SERVER['HTTP_HOST']) && (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false));
+        return $isDev;
+    }
+
+    /**
+     * ATENÇÃO: Apenas para desenvolvimento local!
+     * Desabilita a verificação do certificado SSL
+     */
+    private function setDisableSSL($options){
+        if( $this->isDev() ){            
+            $options[CURLOPT_SSL_VERIFYHOST] = 0; //Desabilita a verificação do nome do host
+            $options[CURLOPT_SSL_VERIFYPEER] = 0; //Desabilita a verificação do certificado SSL
+        }
+        return $options;
+    }    
+
+    /**
      * Cria uma Request com CURL
      *
      * @param string $url      01 - url que será feito o request
      * @param string $method   02 - POST = Valor Default, PUT, DELETE, GET
      * @param array  $params   03 - array de parametros, com chave e valor
-     * @param string $filePath 04 - camiho do arquivo que serã enviado
+     * @param array  $fileList 04 - array com elementos CURL exemplo ['nomeParametro'=>new CURLFile($caminhoArquivo,'image/png')]
      * @param string $userName 05 - usuário para basic Authorization
      * @param string $password 06 - senha para basic Authorization
      * @return string
      */
-    public function request($url, $method = 'POST', $params = [], $filePath = null, $userName = null, $password = null)
+    public function request($url, $method = 'POST', $params = [], $fileList = [], $userName = null, $password = null)
     {
         $ch = curl_init();
         
@@ -83,24 +104,53 @@ class TFormDinRest {
             $url .= '?'.http_build_query($params);
         }
         
-        $defaults = array(
+        $options = array(
             CURLOPT_URL => $url, 
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_CONNECTTIMEOUT => 10
+            CURLOPT_CONNECTTIMEOUT => 10     //Tempo de espera para conexão
         );
 
-        if( !empty($filePath) ){
-            curl_setopt($ch, CURLOPT_POSTFIELDS, ['file' => new CURLFile($filePath)]);
+        $options = $this->setDisableSSL($options);
+
+        if( !empty($fileList) ){
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fileList);
         }
         
         if (!empty($userName)){
-            $defaults[CURLOPT_HTTPHEADER] = ['Authorization: Basic '.base64_encode($userName . ':' . $password)];
+            $options[CURLOPT_HTTPHEADER] = ['Authorization: Basic '.base64_encode($userName . ':' . $password)];
         }
         
-        curl_setopt_array($ch, $defaults);
+        curl_setopt_array($ch, $options);
         $output = curl_exec ($ch);
+        
+        // Verifica se houve algum erro no cURL
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+            //var_dump("cURL error: " . $error_msg);
+            throw new Exception("cURL error: " . $error_msg);
+        }
+        
+        // Verifica o código HTTP da resposta
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        
+        // Códigos HTTP de erro (4xx e 5xx)
+        if ($httpCode >= 400) {
+            curl_close($ch);
+            $errorMessage = "HTTP Error {$httpCode}";
+            
+            // Tenta decodificar a resposta de erro se for JSON
+            $errorData = json_decode($output, true);
+            if (json_last_error() === JSON_ERROR_NONE && isset($errorData['message'])) {
+                $errorMessage .= ": " . $errorData['message'];
+            } else {
+                $errorMessage .= ": " . substr($output, 0, 200); // Primeiros 200 caracteres da resposta
+            }
+            
+            throw new Exception($errorMessage);
+        }
+        
         curl_close ($ch);
         return $output;
     }
@@ -111,7 +161,7 @@ class TFormDinRest {
      * @param string $url      01 - url que será feito o request
      * @param string $method   02 - POST = Valor Default, PUT, DELETE, GET
      * @param array  $params   03 - array de parametros, com chave e valor
-     * @param string $filePath 04 - camiho do arquivo que serã enviado
+     * @param array  $fileList 04 - array com elementos CURL exemplo ['nomeParametro'=>new CURLFile($caminhoArquivo,'image/png')]
      * @param string $userName 05 - usuário para basic Authorization
      * @param string $password 06 - senha para basic Authorization
      * @return string
