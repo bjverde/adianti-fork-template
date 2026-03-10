@@ -180,3 +180,7 @@ RewriteRule ^users$ rest.php?class=SystemUserRestService&method=handle&%{QUERY_S
 RewriteRule ^user-groups/([A-Za-z0-9]*)$ rest.php?class=SystemUserGroupRestService&method=handle&id=$1&%{QUERY_STRING} [NC]
 RewriteRule ^user-groups/([A-Za-z-_0-9]*)/([A-Za-z-_0-9]*)$ rest.php?class=SystemUserGroupRestService&method=$2&id=$1&%{QUERY_STRING} [NC]
 RewriteRule ^user-groups$ rest.php?class=SystemUserGroupRestService&method=handle&%{QUERY_STRING} [NC]
+
+<FilesMatch "^(composer\.phar|composer\.json|composer\.lock)$">
+  Require all denied
+</FilesMatch>
