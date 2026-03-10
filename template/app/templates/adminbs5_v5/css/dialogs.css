@@ -1,9 +1,0 @@
-
-/********************************* DIALOGS ********************************************/
-div:where(.swal2-container) {
-    z-index: 10000;
-}
-
-.modal-backdrop.fade {
-    opacity: var(--bs-backdrop-opacity) !important;
-}
