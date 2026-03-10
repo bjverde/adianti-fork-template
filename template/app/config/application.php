@@ -4,8 +4,8 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'template',
-        'title' => 'Adianti Fork Template',
-        'theme' => 'adminbs5_v5',
+        'title' => 'Adianti Fork Template 8.4',
+        'theme' => 'adminbs5',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
         'multiunit' => '1',
@@ -85,15 +85,16 @@ return [
         ],
         'theme' => [
             /*'menu_dark_color' => 'rgb(29 45 83)',*/
+            'login_mode'  => 'light',
             'menu_mode'  => 'dark',
             'main_mode'  => 'light',
             'box_layout' => '0'
         ]
     ],
     'system' =>  [
-        'system_version' => '8.3.0.1',
+        'system_version' => '8.4.0',
         'system_name_sub'=> 'Fork do Adianti FrameWork',
-        'adianti_min_version'=> '8.3.0.1',
+        'adianti_min_version'=> '8.4.0',
         'formdin_min_version'=> '5.5.0',
     ],    
 ];
