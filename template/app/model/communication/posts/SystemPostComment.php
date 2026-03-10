@@ -2,7 +2,7 @@
 /**
  * SystemPostComment
  *
- * @version    8.3
+ * @version    8.4
  * @package    model
  * @subpackage communication
  * @author     Pablo Dall'Oglio
@@ -81,7 +81,7 @@ class SystemPostComment extends TRecord
         $div->add($img);
         $div->add(TElement::tag('div', $this->date, ['class' => 'post-comment-date']));
         $div->add(TElement::tag('b', $this->get_system_user()->name));
-        $div->add($this->comment);
+        $div->add(htmlspecialchars($this->comment, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
         
         return $div;
     }

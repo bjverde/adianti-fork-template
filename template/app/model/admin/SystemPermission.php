@@ -2,7 +2,7 @@
 /**
  * SystemPermission
  *
- * @version    8.3
+ * @version    8.4
  * @package    model
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -11,7 +11,7 @@
  */
 class SystemPermission
 {
-    public static function checkPermission($class, $method = null)
+    public static function checkPermission($class, $method = '')
     {
         $ini = AdiantiApplicationConfig::get();
         

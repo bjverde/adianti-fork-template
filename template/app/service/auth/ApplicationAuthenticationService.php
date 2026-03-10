@@ -20,7 +20,7 @@ class ApplicationAuthenticationService
         
         if ($user)
         {
-            if (!empty($ini['permission']['auth_service']) and class_exists($ini['permission']['auth_service']))
+            if (!empty($ini['permission']['auth_service']) && class_exists($ini['permission']['auth_service']))
             {
                 $service = $ini['permission']['auth_service'];
                 $service::authenticate( $login, $password );
@@ -130,6 +130,44 @@ class ApplicationAuthenticationService
         if (TAPCache::enabled())
         {
             TAPCache::setValue('session_'.TSession::getValue('login'), session_id());
+        }
+    }
+    
+    /**
+     * Execute onAfterLogin hook
+     */
+    public static function onAfterLogin()
+    {
+        $ini  = AdiantiApplicationConfig::get();
+        
+        if (!empty($ini['hooks']['after_login']) && is_array($ini['hooks']['after_login']))
+        {
+            foreach ($ini['hooks']['after_login'] as $after_login_hook)
+            {
+                if (is_callable($after_login_hook))
+                {
+                    $after_login_hook([]);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Execute onBeforeLogout hook
+     */
+    public static function onBeforeLogout()
+    {
+        $ini  = AdiantiApplicationConfig::get();
+        
+        if (!empty($ini['hooks']['before_logout']) && is_array($ini['hooks']['before_logout']))
+        {
+            foreach ($ini['hooks']['before_logout'] as $before_logout_hook)
+            {
+                if (is_callable($before_logout_hook))
+                {
+                    $before_logout_hook([]);
+                }
+            }
         }
     }
     
