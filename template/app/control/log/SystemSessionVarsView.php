@@ -35,9 +35,11 @@ class SystemSessionVarsView extends TPage
         $vars['username'] = 'Retuns the user name';
         $vars['usermail'] = 'Retuns the user e-mail';
         $vars['usercustomcode'] = 'Retuns the user custom code';
+        $vars['extended_userid'] = 'Retuns the extended user id';
         $vars['userunitid'] = 'Retuns the user unit id';
         $vars['userunitname'] = 'Retuns the user unit name';
         $vars['userunitcustomcode'] = 'Retuns the user unit custom code';
+        $vars['extended_unitid'] = 'Retuns the extended unit id';
         $vars['unit_database'] = 'Retuns the user unit database';
         $vars['userunitname'] = 'Retuns the user unit name';
         $vars['user_language'] = 'Retuns the user language';

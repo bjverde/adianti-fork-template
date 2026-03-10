@@ -2,7 +2,7 @@
 /**
  * LoginForm
  *
- * @version    8.3
+ * @version    8.4
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -45,13 +45,13 @@ class LoginForm extends TPage
         $password->disableAutoComplete();
         $login->setSize('100%');
         $password->setSize('100%');
-        //$login->placeholder = _t('User');
-        //$password->placeholder = _t('Password');
-        //$password->disableToggleVisibility();
+        $login->placeholder = _t('User');
+        $password->placeholder = _t('Password');
+        $password->disableToggleVisibility();
         $login->autofocus = 'autofocus';
         
-        $this->form->addRowField(_t('Login'), $login, false );
-        $this->form->addRowField(_t('Password'), $password, false );
+        $this->form->addRowField(_t('Login'), $login, true );
+        $this->form->addRowField(_t('Password'), $password, true );
         
         $this->form->addRowContent( $previous_class );
         $this->form->addRowContent( $previous_method );
@@ -201,6 +201,7 @@ class LoginForm extends TPage
                 ApplicationAuthenticationService::loadSessionVars($user, true);
                 ApplicationAuthenticationService::setUnit( $data->unit_id ?? null );
                 ApplicationAuthenticationService::setLang( $data->lang_id ?? null );
+                ApplicationAuthenticationService::onAfterLogin();
                 SystemAccessLogService::registerLogin();
                 SystemAccessNotificationLogService::registerLogin();
                 
@@ -396,6 +397,7 @@ class LoginForm extends TPage
      */
     public static function onLogout()
     {
+        ApplicationAuthenticationService::onBeforeLogout();
         SystemAccessLogService::registerLogout();
         TSession::freeSession();
         AdiantiCoreApplication::gotoPage('LoginForm', '');
