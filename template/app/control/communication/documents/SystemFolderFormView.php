@@ -2,7 +2,7 @@
 /**
  * SystemFolderFormView
  *
- * @version    8.3
+ * @version    8.4
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio

@@ -2,7 +2,7 @@
 /**
  * SystemRequestLogList
  *
- * @version    8.3
+ * @version    8.4
  * @package    control
  * @subpackage log
  * @author     Pablo Dall'Oglio

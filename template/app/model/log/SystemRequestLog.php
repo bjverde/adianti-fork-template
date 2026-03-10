@@ -2,7 +2,7 @@
 /**
  * SystemRequestLog
  *
- * @version    8.3
+ * @version    8.4
  * @package    model
  * @subpackage log
  * @author     Pablo Dall'Oglio
