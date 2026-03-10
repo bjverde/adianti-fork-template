@@ -2,7 +2,7 @@
 /**
  * SystemRequestLogService
  *
- * @version    8.3
+ * @version    8.4
  * @package    service
  * @subpackage log
  * @author     Pablo Dall'Oglio
@@ -49,6 +49,24 @@ class SystemRequestLogService
         if (PHP_SAPI !== 'cli')
         {
             $object->request_headers = json_encode(getallheaders());
+        }
+        
+        $sensitiveKeys = [
+            'password',
+            'repassword',
+            'confirm_password',
+            'token',
+            'auth_token',
+            'password1',
+            'password2'
+        ];
+        
+        foreach ($sensitiveKeys as $key)
+        {
+            if (!empty($request[$key]))
+            {
+                $request[$key] = '*****';
+            }
         }
         
         $object->request_body = json_encode($request);
