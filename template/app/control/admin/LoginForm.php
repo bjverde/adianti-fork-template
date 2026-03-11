@@ -47,7 +47,7 @@ class LoginForm extends TPage
         $password->setSize('100%');
         $login->placeholder = _t('User');
         $password->placeholder = _t('Password');
-        $password->disableToggleVisibility();
+        //$password->disableToggleVisibility();
         $login->autofocus = 'autofocus';
         
         $this->form->addRowField(_t('Login'), $login, true );
