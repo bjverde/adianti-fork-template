@@ -384,6 +384,13 @@ class AdiantiTemplateTranslator
         $this->messages['de'][] = 'Login';
         $this->messages['fr'][] = 'Connexion';
 
+        $this->messages['en'][] = 'Logout';
+        $this->messages['pt'][] = 'Logout';
+        $this->messages['es'][] = 'Logout';
+        $this->messages['it'][] = 'Logout';
+        $this->messages['de'][] = 'Logout';
+        $this->messages['fr'][] = 'Déconnexion';
+
         $this->messages['en'][] = 'Name';
         $this->messages['pt'][] = 'Nome';
         $this->messages['es'][] = 'Nombre';
