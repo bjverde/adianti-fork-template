@@ -58,8 +58,8 @@ class SystemRegistrationForm extends TPage
         $this->form->addRowField( _t('Login'), $login, true );
         $this->form->addRowField( _t('Name'), $name, true );
         $this->form->addRowField( _t('Email'), $email, true );
-        $this->form->addRowField( _t('Password'), $password, true );
-        $this->form->addRowField( _t('Password confirmation'), $repassword, true );
+        $this->form->addRowField( _t('Password'), $password, false );
+        $this->form->addRowField( _t('Password confirmation'), $repassword, false );
         
         $this->form->addAction( _t('Save'),  new TAction([$this, 'onSave']), '');
         
