@@ -42,9 +42,9 @@ class SystemRegistrationForm extends TPage
         //$password->disableToggleVisibility();
         //$repassword->disableToggleVisibility();
         
-        $login->addValidation( _t('Login'), new TRequiredValidator);
         $name->addValidation( _t('Name'), new TRequiredValidator);
         $email->addValidation( _t('Email'), new TRequiredValidator);
+        $login->addValidation( _t('Login'), new TRequiredValidator);
         $password->addValidation( _t('Password'), new TRequiredValidator);
         $repassword->addValidation( _t('Password confirmation'), new TRequiredValidator);
         
