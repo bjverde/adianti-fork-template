@@ -33,6 +33,12 @@ class SystemAccessLogList extends TStandardList
         parent::addFilterField('login_time', '<=', 'login_time_fim', function($value) {
             return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
         }); // filter by end date/time
+        parent::addFilterField('logout_time', '>=', 'logout_time_ini', function($value) {
+            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
+        }); // filter by start logout date/time
+        parent::addFilterField('logout_time', '<=', 'logout_time_fim', function($value) {
+            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
+        }); // filter by end logout date/time
         parent::setLimit(20);
         
         // creates the form, with a table inside
@@ -41,21 +47,30 @@ class SystemAccessLogList extends TStandardList
         
         // create the form fields
         $login          = new TEntry('login');
-        $login_time_ini = new TDateTime('login_time_ini');
-        $login_time_fim = new TDateTime('login_time_fim');
+        $login_time_ini  = new TDateTime('login_time_ini');
+        $login_time_fim  = new TDateTime('login_time_fim');
+        $logout_time_ini = new TDateTime('logout_time_ini');
+        $logout_time_fim = new TDateTime('logout_time_fim');
 
         // configure date/time fields
         $login_time_ini->setMask('dd/mm/yyyy hh:ii');
         $login_time_fim->setMask('dd/mm/yyyy hh:ii');
         $login_time_ini->setDatabaseMask('yyyy-mm-dd hh:ii');
         $login_time_fim->setDatabaseMask('yyyy-mm-dd hh:ii');
+        $logout_time_ini->setMask('dd/mm/yyyy hh:ii');
+        $logout_time_fim->setMask('dd/mm/yyyy hh:ii');
+        $logout_time_ini->setDatabaseMask('yyyy-mm-dd hh:ii');
+        $logout_time_fim->setDatabaseMask('yyyy-mm-dd hh:ii');
 
         // add the fields
         $this->form->addFields( [new TLabel(_t('Login'))], [$login] );
         $this->form->addFields( [new TLabel(_t('Login') . ' (' . _t('Start') . ')')], [$login_time_ini], [new TLabel(_t('Login') . ' (' . _t('End') . ')')], [$login_time_fim] );
+        $this->form->addFields( [new TLabel(_t('Logout') . ' (' . _t('Start') . ')')], [$logout_time_ini], [new TLabel(_t('Logout') . ' (' . _t('End') . ')')], [$logout_time_fim] );
         $login->setSize('70%');
         $login_time_ini->setSize('70%');
         $login_time_fim->setSize('70%');
+        $logout_time_ini->setSize('70%');
+        $logout_time_fim->setSize('70%');
         
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue('SystemAccessLog_filter_data') );
