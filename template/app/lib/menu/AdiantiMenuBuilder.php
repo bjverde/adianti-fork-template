@@ -8,13 +8,11 @@ class AdiantiMenuBuilder
      */
     public static function parse($file, $theme)
     {
-        if (!extension_loaded('SimpleXML'))
-        {
+        if (!extension_loaded('SimpleXML')){
             throw new Exception(_t('Extension not found: ^1', 'SimpleXML'));
         }
         
-        if (!file_exists($file))
-        {
+        if (!file_exists($file)){
             throw new Exception(_t('File not found').': ' . $file);
         }
         
@@ -29,8 +27,7 @@ class AdiantiMenuBuilder
             $menu->show();
             return ob_get_clean();
         }
-        else
-        {
+        else{
             throw new Exception(_t('Theme not supported').': ' . $theme);
         }
     }
