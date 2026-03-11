@@ -17,12 +17,12 @@ return [
         'require_terms' => '0',
         'concurrent_sessions' => '1',
         'lang_options' => [
-          'pt' => 'Português',
-          'en' => 'English',
-          'es' => 'Español',
-          'fr' => 'Français',
-          'de' => 'Deutsch',
-          'it' => 'Italiano',
+            'pt' => 'Português',
+            'en' => 'English',
+            'es' => 'Español',
+            'fr' => 'Français',
+            'de' => 'Deutsch',
+            'it' => 'Italiano',
         ],
         'multi_database' => '0',
         'validate_strong_pass' => '1',
@@ -40,11 +40,11 @@ return [
     ],
     'permission' =>  [
         'public_classes' => [
-          'SystemRequestPasswordResetForm',
-          'SystemPasswordResetForm',
-          'SystemRegistrationForm',
-          'SystemPasswordRenewalForm',
-          'SystemConcurrentAccessView'
+            'SystemRequestPasswordResetForm',
+            'SystemPasswordResetForm',
+            'SystemRegistrationForm',
+            'SystemPasswordRenewalForm',
+            'SystemConcurrentAccessView'
         ],
         'user_register' => '1',
         'reset_password' => '1',
@@ -92,9 +92,9 @@ return [
         ]
     ],
     'system' =>  [
-        'system_version' => '8.4.0',
-        'system_name_sub'=> 'Fork do Adianti FrameWork',
-        'adianti_min_version'=> '8.4.0',
-        'formdin_min_version'=> '5.5.0',
-    ],    
+        'system_version' => '8.4.0.1',
+        'system_name_sub' => 'Fork do Adianti FrameWork',
+        'adianti_min_version' => '8.4.0.1',
+        'formdin_min_version' => '5.5.0',
+    ],
 ];
