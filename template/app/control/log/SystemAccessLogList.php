@@ -79,6 +79,9 @@ class SystemAccessLogList extends TStandardList
         $btn = $this->form->addAction(_t('Find'), new TAction(array($this, 'onSearch')), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
         
+        $btn_clear = $this->form->addAction(_t('Clear'), new TAction(array($this, 'onClear')), 'fa:eraser');
+        $btn_clear->class = 'btn btn-sm btn-default';
+        
         // creates a DataGrid
         $this->datagrid = new BootstrapDatagridWrapper(new TQuickGrid);
         $this->datagrid->style = 'width: 100%';
@@ -148,6 +151,15 @@ class SystemAccessLogList extends TStandardList
         $container->add($panel);
         
         parent::add($container);
+    }
+    
+    /**
+     * Clear filters
+     */
+    public function onClear($param = null)
+    {
+        parent::clearFilters();
+        $this->onReload(['offset' => 0, 'first_page' => 1]);
     }
     
     /**
