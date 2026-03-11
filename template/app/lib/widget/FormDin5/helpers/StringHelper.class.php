@@ -129,24 +129,28 @@ class StringHelper
 
     /**
      * Recebe uma string e formata com CPF ou CNPJ
+     * Se string não respeitar o formato do CPF ou CNPJ vai devolver a mesma string
      * https://gist.github.com/davidalves1/3c98ef866bad4aba3987e7671e404c1e
+     * Em 2026 foi criado um novo tipo de CNPJ que pode conter letras
+     * os dois ultimos digitos do CNPJ devem ser numeros
      * @param string $value
      * @return string
      */
     public static function formatCnpjCpf($value) 
     {
-        $cnpj_cpf = self::limpaCnpjCpf($value);
+        $cnpj_cpf = self::limpaCnpjNovo($value);
         if (strlen($cnpj_cpf) === 11) {
             $value = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $cnpj_cpf);
-        } else if(strlen($cnpj_cpf) === 14){
-            $value = preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cnpj_cpf);
+        } else if(strlen($cnpj_cpf) === 14 && is_numeric(substr($cnpj_cpf, -2))){
+            $value = preg_replace("/([A-Z0-9]{2})([A-Z0-9]{3})([A-Z0-9]{3})([A-Z0-9]{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cnpj_cpf);
         }
         return $value;
     }
 
     /**
      * Recebe uma string e deixar apenas os números sem formatação
-     *
+     * Para CNPJ use a função limpaCnpjNovo()
+     * 
      * @param string $value
      * @return string
      */
@@ -159,7 +163,7 @@ class StringHelper
 
     /**
      * Recebe uma string e verifica se é um CPF válido
-     *
+     * 
      * @param string $value
      * @return boolean
      */
@@ -196,6 +200,71 @@ class StringHelper
 		}
 		return true;
 	}
+
+    /**
+     * Recebe uma string limpar tudo que não seja número ou letra
+     * para o novo tipo de CNPJ que inicia em 2026     
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function limpaCnpjNovo($value) 
+    {
+        $value = self::strtoupper_utf8($value); // garante que seja maiúsculo
+        $limpo = preg_replace("/[^A-Z0-9]/", '', $value);
+        return $limpo;
+    }
+
+    /**
+     * Valida um CNPJ (Numérico ou Alfanumérico) seguindo o novo padrão da Receita Federal.
+     * * @param string $value O CNPJ a ser validado (formatado ou não)
+     * @return bool True se for válido, false caso contrário
+     */
+    public static function validarCnpj(string $value): bool
+    {
+        // 1. Remove caracteres não alfanuméricos e converte para maiúsculo
+        $cnpj = self::limpaCnpjNovo($value);
+
+        // 2. Verifica se possui o tamanho correto [cite: 61]
+        if (strlen($cnpj) !== 14) {
+            return false;
+        }
+
+        // 3. Evita sequências de números iguais conhecidas (ex: 11111111111111)
+        if (preg_match('/^(\d)\1{13}$/', $cnpj)) {
+            return false;
+        }
+
+        // Pesos para os cálculos dos dígitos verificadores [cite: 73, 86]
+        $pesos1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+        $pesos2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+
+        // Validação do Primeiro Dígito (DV1)
+        $soma1 = 0;
+        for ($i = 0; $i < 12; $i++) {
+            // Converte caractere para valor (ASCII - 48) 
+            $valor = ord($cnpj[$i]) - 48;
+            $soma1 += $valor * $pesos1[$i];
+        }
+        $resto1 = $soma1 % 11;
+        $dv1Expected = ($resto1 < 2) ? 0 : 11 - $resto1; // [cite: 78, 79]
+
+        if ((int)$cnpj[12] !== $dv1Expected) {
+            return false;
+        }
+
+        // Validação do Segundo Dígito (DV2)
+        $soma2 = 0;
+        for ($i = 0; $i < 13; $i++) {
+            $valor = ord($cnpj[$i]) - 48;
+            $soma2 += $valor * $pesos2[$i];
+        }
+        $resto2 = $soma2 % 11;
+        $dv2Expected = ($resto2 < 2) ? 0 : 11 - $resto2; // [cite: 88, 89]
+
+        return (int)$cnpj[13] === $dv2Expected;
+    }
+
 
     /**
      * Recebe uma string e formata o numero telefone em dos 4 formatos, conforme o tamanho da string

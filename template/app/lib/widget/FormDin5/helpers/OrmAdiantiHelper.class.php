@@ -48,6 +48,25 @@ class OrmAdiantiHelper
 {
 
     /**
+     * Recebe um valor e verifica se ele é um array, se for array
+     * o conector só ser "in" ou "not in" se for diferente disso
+     * vai gerar uma exception
+     *
+     * @param mixed  $ValueProperty - 01: valor de um property que vei do self::objPropertyValue
+     * @param string $conector - 02: conectores SQL informado no self::addFilter
+     * @return void
+     */
+    public static function objPropertyValueIsArray($ValueProperty,$conector)
+    {
+        if (is_array($ValueProperty)) {
+            $conector = StringHelper::strtolower_utf8($conector);
+            if ($conector != 'in' AND $conector != 'not in') {
+                throw new Exception("Conector $conector não é permitido para array");
+            }
+        }
+    }
+
+    /**
      * Recurpera o valor de um atributo de um Objeto
      *
      * @param object $obj - 01: Objeto Adianti
@@ -64,7 +83,6 @@ class OrmAdiantiHelper
         }
     	return $result;
     }
-
 
     /**
      * Verifica se uma propriedade foi setada em objeto, se não foi setada vai
@@ -119,8 +137,7 @@ class OrmAdiantiHelper
 
 
     /**
-     * Undocumented function
-     *
+     * Se $conector for like, adiciona % no início e no final do valor
      * @param string $conector   01: conectores SQL: like, =, !=, in, not in, >=, <=, >, <
      * @param null|mixed $value  02: valor que será passado
      * @return void
@@ -142,9 +159,9 @@ class OrmAdiantiHelper
      * @param string $filde       02: campo do banco que será usado
      * @param string $conector    03: conectores SQL: like, =, !=, in, not in, >=, <=, >, <
      * @param object $obj         04: Objeto Adianti
-     * @param string|null $objPropertyName 05: Nome da atributo do objeto
+     * @param string|null $objPropertyName 05: Nome do atributo no objeto
      * @param array|null|mixed $arrayParam 06: Array ou valor diretamente com possíveis valores
-     * @param string|null $arrayParamName  07: Nome do atributo do array que será usado para preencher o valor do objeto
+     * @param string|null $arrayParamName  07: Nome do atributo no array que será usado para preencher o valor do objeto
      * @param string $sql         08: String Sql para um sub select.
      * @return array
      */
@@ -156,6 +173,7 @@ class OrmAdiantiHelper
         }else{
             $value = ArrayHelper::get($arrayParam,$arrayParamName);
         }
+        self::objPropertyValueIsArray($value, $conector);
         if( self::valueTest($value) ){
             if( empty($sql) ){
                 $value = self::getValueWithTextLike($conector,$value);
@@ -175,9 +193,9 @@ class OrmAdiantiHelper
      * @param string $filde       02: campo do banco que será usado
      * @param string $conector    03: conectores SQL: like, =, !=, in, not in, >=, <=, >, <
      * @param object $obj         04: Objeto Adianti
-     * @param string|null $objPropertyName 05: Nome da atributo do objeto
+     * @param string|null $objPropertyName 05: Nome do atributo no objeto
      * @param array|null|mixed $arrayParam 06: Array ou valor diretamente com possíveis valores
-     * @param string|null $arrayParamName  07: Nome do atributo do array que será usado para preencher o valor do objeto
+     * @param string|null $arrayParamName  07: Nome do atributo no array que será usado para preencher o valor do objeto
      * @param string $sql         08: String Sql para um sub select.
      * @param string $operator    09: TExpression::AND_OPERATOR (Default) ou TExpression::OR_OPERATOR
      * @param string $showDump    10: show dump criteria SQL
@@ -200,6 +218,7 @@ class OrmAdiantiHelper
         }else{
             $value = ArrayHelper::get($arrayParam,$arrayParamName);
         }
+        self::objPropertyValueIsArray($value, $conector);
         if( self::valueTest($value) ){
             if( empty($sql) ){
                 $value = self::getValueWithTextLike($conector,$value);
