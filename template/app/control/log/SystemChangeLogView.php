@@ -35,6 +35,12 @@ class SystemChangeLogView extends TStandardList
         parent::addFilterField('login');
         parent::addFilterField('class_name', 'like'); // add a filter field
         parent::addFilterField('session_id', 'like'); // add a filter field
+        parent::addFilterField('logdate', '>=', 'logdate_ini', function($value) {
+            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
+        }); // filter by start date/time
+        parent::addFilterField('logdate', '<=', 'logdate_fim', function($value) {
+            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
+        }); // filter by end date/time
         parent::setLimit(20);
 
         $this->form = new BootstrapFormBuilder('form_table_logger');
@@ -45,14 +51,26 @@ class SystemChangeLogView extends TStandardList
         $login       = new TEntry('login');
         $class_name  = new TEntry('class_name');
         $session_id  = new TEntry('session_id');
+        $logdate_ini = new TDateTime('logdate_ini');
+        $logdate_fim = new TDateTime('logdate_fim');
+
+        // configure date/time fields
+        $logdate_ini->setMask('dd/mm/yyyy hh:ii');
+        $logdate_fim->setMask('dd/mm/yyyy hh:ii');
+        $logdate_ini->setDatabaseMask('yyyy-mm-dd hh:ii');
+        $logdate_fim->setDatabaseMask('yyyy-mm-dd hh:ii');
         
         $this->form->addFields( [new TLabel(_t('Table'))], [$tablename], [new TLabel(_t('Program'))], [$class_name] );
         $this->form->addFields( [new TLabel('Login')], [$login], [new TLabel(_t('Session'))], [$session_id]);
+        $this->form->addFields( [new TLabel(_t('Time') . ' (' . _t('Start') . ')')], [$logdate_ini], [new TLabel(_t('Time') . ' (' . _t('End') . ')')], [$logdate_fim] );
         
         $this->form->setData( TSession::getValue('SystemChangeLogView_filter_data') );
         
         $btn = $this->form->addAction(_t('Search'), new TAction(array($this, 'onSearch')), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
+
+        $btn_clear = $this->form->addAction(_t('Clear'), new TAction(array($this, 'onClear')), 'fa:eraser');
+        $btn_clear->class = 'btn btn-sm btn-default';          
         
         $this->formgrid = new TForm;
         
@@ -170,6 +188,15 @@ class SystemChangeLogView extends TStandardList
         
         $this->onReload($param);
     }
+
+    /**
+     * Clear filters
+     */
+    public function onClear($param = null)
+    {
+        parent::clearFilters();
+        $this->onReload(['offset' => 0, 'first_page' => 1]);
+    }     
     
     /**
      *
