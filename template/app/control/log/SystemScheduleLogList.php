@@ -29,6 +29,12 @@ class SystemScheduleLogList extends TStandardList
         parent::addFilterField('login', 'like'); // add a filter field
         parent::addFilterField('title', 'like'); // add a filter field
         parent::addFilterField('class_name', 'like'); // add a filter field
+        parent::addFilterField('logdate', '>=', 'logdate_ini', function($value) {
+            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
+        }); // filter by start date/time
+        parent::addFilterField('logdate', '<=', 'logdate_fim', function($value) {
+            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
+        }); // filter by end date/time        
         parent::setLimit(20);
         
         // creates the form, with a table inside
@@ -38,9 +44,19 @@ class SystemScheduleLogList extends TStandardList
         // create the form fields
         $title  = new TEntry('title');
         $class_name = new TEntry('class_name');
-        
+        $logdate_ini = new TDateTime('logdate_ini');
+        $logdate_fim = new TDateTime('logdate_fim');
+
+        // configure date/time fields
+        $logdate_ini->setMask('dd/mm/yyyy hh:ii');
+        $logdate_fim->setMask('dd/mm/yyyy hh:ii');
+        $logdate_ini->setDatabaseMask('yyyy-mm-dd hh:ii');
+        $logdate_fim->setDatabaseMask('yyyy-mm-dd hh:ii');
+
         // add the fields
         $this->form->addFields( [new TLabel(_t('Title'))], [$title], [new TLabel(_t('Class'))], [$class_name] );
+        $this->form->addFields( [new TLabel(_t('Time') . ' (' . _t('Start') . ')')], [$logdate_ini], [new TLabel(_t('Time') . ' (' . _t('End') . ')')], [$logdate_fim] );
+
         
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue('SystemScheduleLog_filter_data') );
