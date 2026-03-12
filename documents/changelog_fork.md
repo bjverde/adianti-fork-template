@@ -38,14 +38,25 @@ Tela fork cria conta normal
 
 ![criar conta fork](img/template_800_criar_conta_fork.png)
 
+### 3 - Telas de consulta de logs
+Incluido filtros por data e botão limpar nas telas
+* SystemChangeLogView
+* SystemScheduleLogList
+* SystemUserLogList
+* SystemAccessLogList
+* SystemSqlLogList
+
+
+
 ## ChangeLog por issue
-1. :bug: [Bug: script SQL carga MysSql](https://github.com/bjverde/adianti-fork-template/issues/85)
-2. :hammer: [Alterar caminho hash para o tema](https://github.com/bjverde/adianti-fork-template/issues/90)
-3. :hammer: [Instalar o FormDin v5.9.0](https://github.com/bjverde/adianti-fork-template/issues/86)
-4. :hammer: [Atualizar adminbs5 para adminbs5_v6](https://github.com/bjverde/adianti-fork-template/issues/88)
+1. :hammer: [Melhorias telas de log](https://github.com/bjverde/adianti-fork-template/issues/59)
+2. :hammer: [Melhoria 2FA](https://github.com/bjverde/adianti-fork-template/issues/80)
+3. :bug: [Bug: script SQL carga MysSql](https://github.com/bjverde/adianti-fork-template/issues/85)
+4. :hammer: [Instalar o FormDin v5.9.0](https://github.com/bjverde/adianti-fork-template/issues/86)
 5. :hammer: [Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/87)
-6. :hammer: [Mais traduções](https://github.com/bjverde/adianti-fork-template/issues/89)
-7. :hammer: [Melhorias telas de log](https://github.com/bjverde/adianti-fork-template/issues/59)
+6. :hammer: [Atualizar adminbs5 para adminbs5_v6](https://github.com/bjverde/adianti-fork-template/issues/88)
+7. :hammer: [Mais traduções](https://github.com/bjverde/adianti-fork-template/issues/89)
+8. :hammer: [Alterar caminho hash para o tema](https://github.com/bjverde/adianti-fork-template/issues/90)
 
 
 # ChangeLog versões antigas
