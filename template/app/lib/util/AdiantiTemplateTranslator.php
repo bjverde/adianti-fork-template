@@ -2302,12 +2302,26 @@ class AdiantiTemplateTranslator
         $this->messages['fr'][] = 'Clé secrète';
         $this->messages['de'][] = 'Geheimer Schlüssel';
 
-        $this->messages['en'][] = 'Use authencator app like Google Authenticator or Authy';
-        $this->messages['pt'][] = 'Use uma aplicação de autenticação como Google Authenticator ou Authy';
-        $this->messages['es'][] = 'Utilice una aplicación de autenticación como Google Authenticator o Authy';
-        $this->messages['it'][] = 'Usa un’app di autenticazione come Google Authenticator o Authy';
-        $this->messages['fr'][] = 'Utilisez une application d’authentification comme Google Authenticator ou Authy';
-        $this->messages['de'][] = 'Verwenden Sie eine Authentifizierungs-App wie Google Authenticator oder Authy';
+        $this->messages['en'][] = 'Use authencator app like Google Authenticator, Authy or Microsoft Authenticator';
+        $this->messages['pt'][] = 'Use uma aplicação de autenticação como Google Authenticator, Authy ou Microsoft Authenticator';
+        $this->messages['es'][] = 'Utilice una aplicación de autenticación como Google Authenticator, Authy o Microsoft Authenticator';
+        $this->messages['it'][] = 'Usa un’app di autenticazione come Google Authenticator, Authy o Microsoft Authenticator';
+        $this->messages['fr'][] = 'Utilisez une application d’authentification comme Google Authenticator, Authy ou Microsoft Authenticator';
+        $this->messages['de'][] = 'Verwenden Sie eine Authentifizierungs-App wie Google Authenticator, Authy ou Microsoft Authenticator';
+
+        $this->messages['en'][] = 'If Google Authenticator does not work, use Authy or Microsoft Authenticator';
+        $this->messages['pt'][] = 'Se Google Authenticator não funcionar, use Authy ou Microsoft Authenticator';
+        $this->messages['es'][] = 'Si Google Authenticator no funciona, use Authy o Microsoft Authenticator';
+        $this->messages['it'][] = 'Se Google Authenticator non funziona, usa Authy o Microsoft Authenticator';
+        $this->messages['fr'][] = 'Si Google Authenticator ne fonctionne pas, utilisez Authy ou Microsoft Authenticator';
+        $this->messages['de'][] = 'Wenn Google Authenticator nicht funktioniert, verwenden Sie Authy ou Microsoft Authenticator';
+
+        $this->messages['en'][] = 'Use the link to add to the Authenticator App on your phone';
+        $this->messages['pt'][] = 'Use o link para adicionar ao App de Autenticação no celular';
+        $this->messages['es'][] = 'Use el enlace para agregar a la aplicación de autenticación en el celular';
+        $this->messages['it'][] = 'Usa il link per aggiungere all’app di autenticazione sul cellulare';
+        $this->messages['fr'][] = 'Utilisez le lien pour ajouter à l’application d’authentification sur le téléphone';
+        $this->messages['de'][] = 'Verwenden Sie den Link, um ihn zur Authentifizierungs-App auf dem Handy hinzuzufügen';
 
         $this->messages['en'][] = 'Duration';
         $this->messages['pt'][] = 'Duração';
