@@ -29,7 +29,7 @@ return [
         'notification_login' => '0',
         'welcome_message' => 'Have a great jorney!',
         'request_log_service' => 'SystemRequestLogService',
-        'request_log' => '0',
+        'request_log' => '1',
         'request_log_types' => 'cli,web,rest',
         /*'password_renewal_interval' => '',*/
     ],
