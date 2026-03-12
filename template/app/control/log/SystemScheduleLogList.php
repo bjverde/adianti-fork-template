@@ -64,6 +64,9 @@ class SystemScheduleLogList extends TStandardList
         // add the search form actions
         $btn = $this->form->addAction(_t('Find'), new TAction(array($this, 'onSearch')), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
+
+        $btn_clear = $this->form->addAction(_t('Clear'), new TAction(array($this, 'onClear')), 'fa:eraser');
+        $btn_clear->class = 'btn btn-sm btn-default';
         
         // creates a DataGrid
         $this->datagrid = new BootstrapDatagridWrapper(new TQuickGrid);
@@ -107,6 +110,15 @@ class SystemScheduleLogList extends TStandardList
         
         parent::add($container);
     }
+
+    /**
+     * Clear filters
+     */
+    public function onClear($param = null)
+    {
+        parent::clearFilters();
+        $this->onReload(['offset' => 0, 'first_page' => 1]);
+    }    
     
     /**
      *
