@@ -52,23 +52,51 @@ class SystemProfile2FAForm extends TPage
             $otp = $user->otp_secret ? \OTPHP\TOTP::create($user->otp_secret) : \OTPHP\TOTP::create();
             $otp->setLabel($user->email);
             $otp->setIssuer($ini['general']['application']);
+
+            // --- INÍCIO DA CORREÇÃO ---
+            /* Em 2025 scanear o QrCode com o aplicativo do Google Authenticator estava gerando erro.
+             * Seguindo a documentação, foi necessário aplicar rawurlencode() em cada parte da URI.
+             * pois : não poderia ser codificado
+             * o padrão do Adianti é usar otp->getProvisioningUri() na linha do $writer->writeString
+             * 
+            */
+            // 1. Pega as partes separadamente
+            $secret = $otp->getSecret();
+            $issuer = $ini['general']['application'];
+            $label  = $user->email;
+            
+            // 2. Aplica rawurlencode() em cada parte individualmente
+            $encodedIssuer = rawurlencode($issuer);
+            $encodedLabel  = rawurlencode($label);
+            
+            // 3. Monta a URI manualmente, mantendo o ":" literal
+            $provisioningUri = "otpauth://totp/{$encodedIssuer}:{$encodedLabel}?" .
+                               "secret={$secret}&" .
+                               "issuer={$encodedIssuer}";            
+            // --- FIM DA CORREÇÃO ---
+            
+            $msglink = _t('Use the link to add to the Authenticator App on your phone');
+            $htmlProvisioningUri = "<a href=\"{$provisioningUri}\" target=\"_blank\">{$msglink}</a>";
             
             // qrcodes
             $backend  = new \BaconQrCode\Renderer\Image\SvgImageBackEnd;
             $renderer = new \BaconQrCode\Renderer\ImageRenderer(new \BaconQrCode\Renderer\RendererStyle\RendererStyle((int) 350, 0), $backend);
             $writer   = new \BaconQrCode\Writer($renderer);
-            $qrcode   = $writer->writeString($otp->getProvisioningUri());
+            //$qrcode   = $writer->writeString($otp->getProvisioningUri()); //Padrão Adianti v8.4.0
+            $qrcode   = $writer->writeString($provisioningUri); //Correção
             
             $secret  = new THidden('secret');
             $secret->setValue($otp->getSecret());
             
             $this->form->addContent([ new TLabel(_t('Scan the QR code with your phone to get started')) ]);
-            $this->form->addContent([ _t('Use authencator app like Google Authenticator or Authy') ] );
+            $this->form->addContent([ _t('Use authencator app like Google Authenticator, Authy or Microsoft Authenticator') ] );
+            $this->form->addContent([ _t('If Google Authenticator does not work, use Authy or Microsoft Authenticator') ] );
             
             $this->form->addFields( [$secret] );
             $this->form->addContent( [$qrcode] );
             
-            // $this->form->addContent([ new TLabel(_t('Secret key')), $otp->getSecret() ]);
+            $this->form->addContent([ new TLabel(''), $htmlProvisioningUri ]);
+            //$this->form->addContent([ new TLabel(_t('Secret key')), $otp->getSecret() ]);
             $this->form->addContent([ new TLabel(_t('Type')), 'TOTP (RFC 6238)' ]);
             
             $this->form->addFields( [new TLabel(_t('Enable 2FA'))],  [$enabled]);
