@@ -83,6 +83,11 @@ class SystemUserRestService extends AdiantiRecordService
             throw new Exception("Usuário não encontrado.");
         }
         
+        if ($user->active == 'N')
+        {
+            throw new Exception("Usuário inativo.");
+        }
+        
         // Security check: ensure the logged-in user is changing their own password, or is the admin
         $loggedUserId = TSession::getValue('userid');
         $loggedUserLogin = TSession::getValue('login');
@@ -98,6 +103,17 @@ class SystemUserRestService extends AdiantiRecordService
         {
             SystemUser::authenticate($user->login, $currentPassword);
         }
+        
+        // Validate strong password policy if enabled
+        $ini = AdiantiApplicationConfig::get();
+        if (isset($ini['general']['validate_strong_pass']) && $ini['general']['validate_strong_pass'] == '1')
+        {
+            (new TStrongPasswordValidator)->validate(_t('Password'), $newPassword);
+        }
+        
+        // Enforce old password validations and record usage history
+        SystemUserOldPassword::validate($user->id, $newPassword);
+        SystemUserOldPassword::register($user->id, $newPassword);
         
         $user->password = SystemUser::passwordHash($newPassword);
         $user->store();
