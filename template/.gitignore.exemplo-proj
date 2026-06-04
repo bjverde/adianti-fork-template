@@ -83,6 +83,7 @@ _*
 
 /app/templates/adminbs5/
 /app/templates/adminbs5_t/
+/app/templates/adminbs5_v3/
 /app/templates/adminbs5_v4/
 /app/templates/adminbs5_v5/
 /app/templates/adminbs5_v6/
@@ -111,6 +112,7 @@ _*
 
 /.htaccess
 /composer.json
+/composer.json.bak
 /composer.lock
 /cmd.php
 /crontab.php
