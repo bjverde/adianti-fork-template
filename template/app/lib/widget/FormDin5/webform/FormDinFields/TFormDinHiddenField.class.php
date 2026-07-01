@@ -59,7 +59,7 @@ class TFormDinHiddenField  extends TFormDinGenericField
     * @return THidden
     */
     public function __construct(string $id
-                               ,string $strValue=null
+                               ,?string $strValue=null
                                ,$boolRequired = false)
     {
         $adiantiObj = new THidden($id);

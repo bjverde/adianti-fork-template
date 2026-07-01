@@ -155,11 +155,11 @@ class TFormDinGrid
      */     
     public function __construct( $objForm
                                , string $strName
-                               , string $strTitle = null
+                               , ?string $strTitle = null
                                , $mixData = null
                                , $strHeight = null
                                , $strWidth = null
-                               , string $strKeyField = null
+                               , ?string $strKeyField = null
                                , $mixUpdateFields = null
                                , $intMaxRows = null
                                , $strRequestUrl = null
@@ -278,7 +278,7 @@ class TFormDinGrid
     public function addElementColumnList(string $type
                                         ,string $idcolumn
                                         ,string $label
-                                        ,string $width = NULL
+                                        ,?string $width = NULL
                                         ,string $align = 'left'
                                         )
     {
@@ -541,12 +541,12 @@ class TFormDinGrid
      */
     public function addColumn(string $name
                             , string $label
-                            , string $width = NULL
+                            , ?string $width = NULL
                             , string $align='left'
                             , bool $boolReadOnly = false
                             , bool $boolSortable = true
                             , bool $boolVisivle = true
-                            , string $autoHide = null
+                            , ?string $autoHide = null
                             )
     {
         $formDinGridColumn = new TFormDinGridColumn( $this->getObjForm()
@@ -580,13 +580,13 @@ class TFormDinGrid
      */
     public function addColumnFormatDate(string $name
                                       , string $label
-                                      , string $width = NULL
+                                      , ?string $width = NULL
                                       , string $align ='left'
                                       , string $format='d/m/Y'
                                       , bool $boolReadOnly = false
                                       , bool $boolSortable = true
                                       , bool $boolVisivle = true
-                                      , string $autoHide = null
+                                      , ?string $autoHide = null
                                       )
     {
         $formDinGridColumn = new TFormDinGridColumnFormatDate($this->getObjForm()
@@ -620,12 +620,12 @@ class TFormDinGrid
      */
     public function addColumnFormatCpfCnpj( string $name
                                           , string $label
-                                          , string $width = NULL
+                                          , ?string $width = NULL
                                           , string $align ='left'
                                           , bool $boolReadOnly = false
                                           , bool $boolSortable = true
                                           , bool $boolVisivle = true
-                                          , string $autoHide = null
+                                          , ?string $autoHide = null
                                           )
     {
         $formDinGridColumn = new TFormDinGridColumnFormatCpfCnpj($this->getObjForm()
@@ -657,9 +657,9 @@ class TFormDinGrid
      * @return TGridCheckColumn
      */
     public function addCheckColumn( string $strName
-                                  , string $strTitle = null
-                                  , string $strKeyField
-                                  , string $strDescField = null
+                                  , ?string $strTitle = null
+                                  , ?string $strKeyField = null
+                                  , ?string $strDescField = null
                                   , mixed $boolReadOnly = null
                                   , mixed $boolAllowCheckAll = null )
     {
@@ -708,13 +708,13 @@ class TFormDinGrid
      * @return object TFormDinGridAction
      */
     public function addButton( string $strRotulo
-                             , string $strAction = null
-                             , string $strName = null
-                             , string $strOnClick = null
-                             , string $strConfirmMessage = null
-                             , string $strImage = null
-                             , string $strImageDisabled = null
-                             , string $strHint = null
+                             , ?string $strAction = null
+                             , ?string $strName = null
+                             , ?string $strOnClick = null
+                             , ?string $strConfirmMessage = null
+                             , ?string $strImage = null
+                             , ?string $strImageDisabled = null
+                             , ?string $strHint = null
                              , mixed $boolSubmitAction = null
                              , mixed $mixUpdateButton = null
                              , $classDestiny   = null

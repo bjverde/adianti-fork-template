@@ -143,7 +143,7 @@ class TFormDinMessage {
      */
     public function __construct($mixMessage
                               , $type = TFormDinMessage::TYPE_INFO
-                              , TAction $action = NULL
+                              , ?TAction $action = NULL
                               , $title_msg = '')
     {
         $this->setMixMessage($mixMessage);
@@ -178,6 +178,15 @@ class TFormDinMessage {
         return $result;
     }
 
+    public static function getMsgLogInfor()
+    {
+        $msg = null;
+        $msg = 'Sistem: '.APPLICATION_NAME.' v:'.SYSTEM_VERSION;
+        $msg = $msg.PHP_EOL.'Adianti: '.FormDinHelper::getAdiantiFrameWorkVersion().' formDin: '.FormDinHelper::version();
+        $msg = $msg.PHP_EOL;
+        return $msg;
+    }    
+
     /**
      * Grava uma mensagem no error.log do apache com várias informações do sistema
      * recebe uma Exception
@@ -190,14 +199,15 @@ class TFormDinMessage {
         $app   = null;
         $login = null;
         $grupo = null;
-        if( ArrayHelper::has(APPLICATION_NAME,$_SESSION) ) {
+        if( isset($_SESSION) && ArrayHelper::has(APPLICATION_NAME,$_SESSION) ) {
             $app = ArrayHelper::getArray($_SESSION,APPLICATION_NAME);
         }
         if( ArrayHelper::has('USER',$app) ) {
             $login = ( ArrayHelper::has('LOGIN', $app['USER']) ? $app['USER']['LOGIN']:null );
             $grupo = ( ArrayHelper::has('GRUPO_NOME', $app['USER']) ? $app['USER']['GRUPO_NOME']:null );
         }
-        $log = 'formDin: '.FormDinHelper::version().' ,sistem: '.APPLICATION_NAME.' v:'.SYSTEM_VERSION.' ,usuario: '.$login
+        $log = self::getMsgLogInfor();
+        $log = $log.PHP_EOL.' usuario: '.$login
         .PHP_EOL.'type: '.get_class($exception).' ,Code: '.$exception->getCode().' ,file: '.$exception->getFile().' ,line: '.$exception->getLine()
         .PHP_EOL.'mensagem: '.$exception->getMessage()
         .PHP_EOL."Stack trace:"
@@ -215,8 +225,8 @@ class TFormDinMessage {
      */
     public static function logRecordSimple($message)
     {
-        $log = 'formDin: '.FormDinHelper::version().' ,sistem: '.APPLICATION_NAME.' v:'.SYSTEM_VERSION
-        .PHP_EOL.TAB.'mensagem: '.$message;
+        $log = self::getMsgLogInfor();
+        $log = $log.PHP_EOL.TAB.'mensagem: '.$message;
         $log = StringHelper::convert_encoding($log,'UTF-8','ASCII');
         error_log($log);
     }

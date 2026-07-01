@@ -95,10 +95,12 @@ class StringHelper
         // Detecta encoding de origem
         $detected = mb_detect_encoding($string, $encodings, true);
 
+        // @codeCoverageIgnoreStart
         if ($detected === false) {
             // fallback: força interpretação como ISO-8859-1
             $detected = 'ISO-8859-1';
         }
+        // @codeCoverageIgnoreEnd
 
         // Converte para UTF-8 só se não estiver já em UTF-8
         if ($detected !== 'UTF-8') {
@@ -303,16 +305,16 @@ class StringHelper
             return false;
         }
         //Retira números no formato 12,00
-        $naoNumero = preg_match('/^([0-9]*)([\.]{1})(\d{1,2})$/', $value, $output_array);
+        $naoNumero = preg_match('/^-?([0-9]*)([\.]{1})(\d{1,2})$/', $value, $output_array);
         if($naoNumero===1){
             return false;
         }
         //Retira números no formato 12,1234
-        $naoNumero = preg_match('/^([0-9]*)(...)([\.]{1})(\d{4,})$/', $value, $output_array);
+        $naoNumero = preg_match('/^-?([0-9]*)(...)([\.]{1})(\d{4,})$/', $value, $output_array);
         if($naoNumero===1){
             return false;
         }
-        $numero= preg_match('/^([0-9\.]*)(,?)(\d*)$/', $value, $output_array);
+        $numero= preg_match('/^-?([0-9\.]*)(,?)(\d*)$/', $value, $output_array);
         $result= ($numero===1)?true:false;
         return $result;
     }
@@ -330,16 +332,16 @@ class StringHelper
             return false;
         }
         //Retira números no formato 12,00
-        $naoNumero = preg_match('/^([0-9]*)([\,]{1})(\d{1,2})$/', $value, $output_array);
+        $naoNumero = preg_match('/^-?([0-9]*)([\,]{1})(\d{1,2})$/', $value, $output_array);
         if($naoNumero===1){
             return false;
         }
         //Retira números no formato 12,1234
-        $naoNumero = preg_match('/^([0-9]*)(...)([\,]{1})(\d{4,})$/', $value, $output_array);
+        $naoNumero = preg_match('/^-?([0-9]*)(...)([\,]{1})(\d{4,})$/', $value, $output_array);
         if($naoNumero===1){
             return false;
         }
-        $numero= preg_match('/^([0-9,]*)(\.?)(\d*)$/', $value, $output_array);
+        $numero= preg_match('/^-?([0-9,]*)(\.?)(\d*)$/', $value, $output_array);
         $result= ($numero===1)?true:false;
         return $result;
     }

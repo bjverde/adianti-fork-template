@@ -65,14 +65,16 @@ class SqlHelper
 	}
 	public static function getDbms(){
         $dbms =  null;
-        if ( !empty(self::$dbms) ){
+        if ( self::$dbms !== null ){
             $dbms = self::$dbms;
         } else {
-            if (defined(BANCO)) {
+            // @codeCoverageIgnoreStart
+            if (defined('BANCO')) {
                 $dbms = BANCO;
             }else{
                 $dbms = TFormDinPdoConnection::DBMS_SQLSERVER;
             }
+            // @codeCoverageIgnoreEnd
         }
         return $dbms;
     }
@@ -119,7 +121,7 @@ class SqlHelper
                                                   ,$isFalse
                                                   ,$testZero=true)
     {
-        $testZero  = empty($testZero)?true:$testZero;
+        $testZero = is_null($testZero)?true:$testZero;
         $retorno = $isFalse;
         $has = ArrayHelper::has($attribute, $whereGrid);
         if($has ) {
@@ -194,7 +196,7 @@ class SqlHelper
                                             , $value
                                             , $connector
                                             ) {
-        $testZero = empty($testZero)?true:$testZero;
+        $testZero = is_null($testZero)?true:$testZero;
         $connector = empty($connector)?self::SQL_CONNECTOR_AND:$connector;
         $isTrue = EOL.' AND '.$attribute.' = '.$value.'  ';
         $attribute = self::attributeIssetOrNotZero($arrayWhereGrid,$attribute,$isTrue,null,$testZero);
@@ -223,7 +225,7 @@ class SqlHelper
                                              , $dbms=null
                                              )
     {
-        $testZero = empty($testZero)?true:$testZero;
+        $testZero = is_null($testZero)?true:$testZero;
         $connector = empty($connector)?self::SQL_CONNECTOR_AND:$connector;
         $value = self::explodeTextString($value, $dbms);
         if ( $dbms == TFormDinPdoConnection::DBMS_SQLSERVER ) {
@@ -255,7 +257,7 @@ class SqlHelper
                                          , $connector
                                          )
     {
-        $testZero = empty($testZero)?true:$testZero;
+        $testZero = is_null($testZero)?true:$testZero;
         $connector = empty($connector)?self::SQL_CONNECTOR_AND:$connector;
         $isTrue = EOL.' AND '.$attribute.' = \''.$value.'\'  ';
         $attribute = self::attributeIssetOrNotZero($arrayWhereGrid,$attribute,$isTrue,null,$testZero);
@@ -272,7 +274,7 @@ class SqlHelper
                                           , $type
                                           )
     {
-        $testZero = empty($testZero)?true:$testZero;
+        $testZero = is_null($testZero)?true:$testZero;
         $connector = empty($connector)?self::SQL_CONNECTOR_AND:$connector;
         if($type == self::SQL_TYPE_IN_NUMERIC){
             $stringWhere = self::getSqlTypeNumeric($stringWhere, $arrayWhereGrid, $attribute, $testZero ,$value, $connector);
@@ -303,7 +305,7 @@ class SqlHelper
                                        , $type
                                        )
     {
-       $testZero  = empty($testZero)?true:$testZero;
+       $testZero = is_null($testZero)?true:$testZero;
        $connector = empty($connector)?self::SQL_CONNECTOR_AND:$connector;
        if(is_array($value)){
            $qtdElement = CountHelper::count($value);
@@ -352,7 +354,7 @@ class SqlHelper
                                                          , $dbms=null
                                                          )
     {
-        $testZero  = empty($testZero)?true:$testZero;
+        $testZero = is_null($testZero)?true:$testZero;
         $connector = empty($connector)?self::SQL_CONNECTOR_AND:$connector;
         if( ArrayHelper::has($attribute, $arrayWhereGrid) ){
             $dbms = empty($dbms)?SqlHelper::getDbms():$dbms;

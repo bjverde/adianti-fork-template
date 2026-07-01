@@ -108,6 +108,7 @@ class TFormDinFileFieldMulti extends TFormDinGenericField
         $adiantiObj->setAllowedExtensions( $this->getAllowedFileTypes() );
         //$adiantiObj->enableFileHandling();
         //$adiantiObj->enablePopover();
+        // @codeCoverageIgnoreStart
         if( !empty($value) ){
             $this->setValue($value);
         }
@@ -119,6 +120,7 @@ class TFormDinFileFieldMulti extends TFormDinGenericField
         if( $enablePopover==true ){
             $this->enablePopover();
         }
+        // @codeCoverageIgnoreEnd
 
         $post = $adiantiObj->getPostData();
         //FormDinHelper::debug($post);

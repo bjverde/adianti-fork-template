@@ -85,13 +85,10 @@ class TFormDinGeo {
      * @param integer $longitude
      */
     public function setVertice($latitude,$longitude){
-        $lastKey = array_key_last($this->vertices);
-        $nextKey = 0;
-        if($lastKey >= 1){
-            $nextKey = $lastKey+1;
-        }
-        $this->vertices[$nextKey]['latitude'] =$latitude;
-        $this->vertices[$nextKey]['longitude']=$longitude;
+        $this->vertices[] = [
+            'latitude' => $latitude,
+            'longitude' => $longitude
+        ];
     }
     public function isPointInQuadrilateral($latitude,$longitude) {
         $qtd = CountHelper::count($this->vertices);
@@ -104,8 +101,8 @@ class TFormDinGeo {
         }
 
         $vertices = $this->vertices;
-        $x = $latitude;
-        $y = $longitude;
+        $x = $longitude;
+        $y = $latitude;
         
         $inside = false;
         $n = count($vertices);

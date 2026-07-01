@@ -64,9 +64,9 @@ class HtmlHelper
      * @param string $numeroTelefone - formatado ou não com DDI e DDD
      * @param string $msg - mensagem que vai aparecer
      * @param boolean $iconeVerde - default é o icone verde
-     * @return void
+     * @return string
      */
-    public static function linkApiWhatsApp($numeroTelefone,$msg,$iconeVerde=true) 
+    public static function linkApiWhatsApp(string $numeroTelefone, string $msg, bool $iconeVerde = true): string 
     {
         $numeroLimpo = str_replace([' ','-','(',')','+'],['','','','',''], $numeroTelefone);
         $icon = "<i class='fab fa-whatsapp green' aria-hidden='true'></i>";

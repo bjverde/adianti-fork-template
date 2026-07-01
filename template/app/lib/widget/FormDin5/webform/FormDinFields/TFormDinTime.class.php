@@ -87,7 +87,7 @@ class TFormDinTime extends TFormDinGenericField
      * @return TTime
      */
     public function __construct(string $id
-                              , string $label=null
+                              , ?string $label=null
                               , $boolRequired=false
                               , $strMinValue=null
                               , $strMaxValue=null

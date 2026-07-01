@@ -174,7 +174,7 @@ class TFormDinIniFileHandler {
     public static function testBolean($valor){
         $result = false;
         $valor = strtoupper($valor);
-        if( $valor==1 || $valor==true || $valor=='TRUE' || $valor=='SIM' || $valor=='S' || $valor=='YES' || $valor=='Y' ){
+        if( $valor==1 || $valor=='TRUE' || $valor=='SIM' || $valor=='S' || $valor=='YES' || $valor=='Y' ){
             $result = true;
         }
         return $result;

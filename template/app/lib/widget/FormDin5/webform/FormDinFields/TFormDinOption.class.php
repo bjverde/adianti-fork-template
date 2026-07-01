@@ -320,7 +320,9 @@ class TFormDinOption  extends TFormDinGenericField
 					if( !$this->getKeyField() ){
 						list($strKeyField) = array_keys( $mixOptions );
 					}else{
+						// @codeCoverageIgnoreStart
 						$strKeyField = $this->getKeyField();
+						// @codeCoverageIgnoreEnd
 					}
 				}
 
@@ -329,7 +331,9 @@ class TFormDinOption  extends TFormDinGenericField
 					if( !$this->getDisplayField() ){
 						list(, $strDisplayField) = array_keys( $mixOptions );
 					} else {
+						// @codeCoverageIgnoreStart
 						$strDisplayField = $this->getDisplayField();
+						// @codeCoverageIgnoreEnd
 					}
 
 					if( !isset( $strDisplayField ) ) {

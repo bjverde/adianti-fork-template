@@ -79,11 +79,11 @@ class TFormDinTextField extends TFormDinGenericField
      */
     public function __construct(string $id
                                ,string $label
-                               ,int $intMaxLength = null
+                               ,?int $intMaxLength = null
                                ,$boolRequired = false
-                               ,int $intSize=null
-                               ,string $value=null
-                               ,string $placeholder =null)
+                               ,?int $intSize=null
+                               ,?string $value=null
+                               ,?string $placeholder =null)
     {
         $adiantiObj = new TEntry($id);
         parent::__construct($adiantiObj,$id,$label,$boolRequired,$value,$placeholder);

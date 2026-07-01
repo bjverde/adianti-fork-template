@@ -79,9 +79,9 @@ class TFormDinNumericField extends TFormDinGenericField
      */
     public function __construct(string $id
                                ,string $label
-                               ,int $intMaxLength = null
+                               ,?int $intMaxLength = null
                                ,$boolRequired = false
-                               ,int $decimalPlaces=null
+                               ,?int $decimalPlaces=null
                                ,$boolNewLine=null
                                ,$value=null
                                ,$strMinValue=null
@@ -92,10 +92,10 @@ class TFormDinNumericField extends TFormDinGenericField
                                ,$boolAllowNull=null
                                ,$boolLabelAbove=null
                                ,$boolNoWrapLabel=null
-                               ,string $strHint=null
+                               ,?string $strHint=null
                                ,$replaceOnPost=true
                                ,$placeholder=null
-                               ,string $decimalsSeparator=null
+                               ,?string $decimalsSeparator=null
                                )
     {
         $this->setThousandSeparator($boolFormatInteger);

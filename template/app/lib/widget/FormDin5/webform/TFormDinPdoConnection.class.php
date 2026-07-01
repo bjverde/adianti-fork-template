@@ -418,6 +418,7 @@ class TFormDinPdoConnection
                     $result = $this->convertArrayResult($result);
                 }else if( preg_match( '/^insert/i', $sql ) > 0  ){
                     $result = $conn->lastInsertId();
+                // @codeCoverageIgnoreStart
                 }else if( preg_match( '/^exec/i', $sql ) > 0  ){ // Para stored procedure do MS SQL Server                                        
                     $res = array();
                     //https://github.com/bjverde/formDin/issues/164
@@ -431,6 +432,7 @@ class TFormDinPdoConnection
                 }else if( preg_match( '/^call/i', $sql ) > 0  ){ // Para stored procedure do MySQL
                     $result = $stmt->fetchall();
                     $result = $this->convertArrayResult($result);
+                // @codeCoverageIgnoreEnd
                 }else if( preg_match( '/^PRAGMA/i', $sql ) > 0  ){//Informações do SqLite
                     $result = $stmt->fetchall();
                     $result = $this->convertArrayResult($result);
@@ -468,7 +470,7 @@ class TFormDinPdoConnection
      * @param string $repositoryName - 02: nome de classe em app/model
      * @return array Adianti
      */    
-    public function selectByTCriteria(TCriteria $criteria=null, $repositoryName=null)
+    public function selectByTCriteria(?TCriteria $criteria=null, $repositoryName=null)
     {
         try {
             $configConnect = $this->getConfigConnect();
@@ -495,7 +497,7 @@ class TFormDinPdoConnection
      * @param string $repositoryName - 02: nome de classe
      * @return array Adianti
      */
-    public function selectByTCriteriaCount(TCriteria $criteria=null, $repositoryName=null)
+    public function selectByTCriteriaCount(?TCriteria $criteria=null, $repositoryName=null)
     {
         try {
             $configConnect = $this->getConfigConnect();

@@ -432,7 +432,7 @@ class TFormDin
     */
     public function setMessage( $message
                               , $type = TFormDinMessage::TYPE_INFO
-                              , TAction $action = NULL
+                              , ?TAction $action = NULL
                               , $title_msg = '' )
     {
         $formDinLabelField = new TFormDinMessage($message,$type,$action,$title_msg);
@@ -454,12 +454,28 @@ class TFormDin
     */
     public function addMessage( $message
                               , $type = TFormDinMessage::TYPE_INFO
-                              , TAction $action = NULL
+                              , ?TAction $action = NULL
                               , $title_msg = '' )
     {
         $formDinLabelField = $this->setMessage($message,$type,$action,$title_msg);
         return $formDinLabelField;
     }
+
+	/**
+	 * Limpa os filtros do formulário de listagem e recarrega a grid.
+	 * @param object $pageObject Instância da classe de listagem (TPage)
+	 * @param string $className Nome da classe de listagem
+	 */
+	public static function clearListFilter($pageObject, $className)
+	{
+		$cleaner = function() use ($className) {
+			TSession::setValue($className.'_filter_data', NULL);
+			TSession::setValue($className.'_filters', NULL);
+			$this->form->clear();
+			$this->onReload(['offset' => 0, 'first_page' => 1]);
+		};
+		$cleaner->call($pageObject);
+	}
 
     /**
     * Adicionar botão no layout
@@ -490,19 +506,19 @@ class TFormDin
     * @return TButton|string|array
     */
     public function addButton( string $mixValue
-				       		 , string $strNameId=null
-				       		 , $strAction
-				       		 , string $strOnClick=null
-				       		 , string $strConfirmMessage=null
+				       		 , ?string $strNameId=null
+				       		 , $strAction=null
+				       		 , ?string $strOnClick=null
+				       		 , ?string $strConfirmMessage=null
 				       		 , $boolNewLine=null
 				       		 , $boolFooter=true
-				       		 , string $strImage=null
-				       		 , string $strImageDisabled=null
-				       		 , string $strHint=null
-				       		 , string $strVerticalAlign=null
+				       		 , ?string $strImage=null
+				       		 , ?string $strImageDisabled=null
+				       		 , ?string $strHint=null
+				       		 , ?string $strVerticalAlign=null
 				       		 , $boolLabelAbove=null
-				       		 , string $strLabel=null
-                             , string $strHorizontalAlign=null
+				       		 , ?string $strLabel=null
+                             , ?string $strHorizontalAlign=null
                              )
     {
         $objForm =  $this->getObjForm();
@@ -685,7 +701,7 @@ class TFormDin
      * @param object $data  - 2: FORMDIN5 $data $this->form->getData();
      * @param array  $param - 3: FORMDIN5 $param da entrada de metodo
      */
-    public function setVO( object $vo, object $data = null, array $param = null)
+    public function setVO( object $vo, ?object $data = null, ?array $param = null)
     {
         //FormDinHelper::d($param,'$param');
         //FormDinHelper::debug($data,'$data');
@@ -711,7 +727,7 @@ class TFormDin
     * @return TFormDinHiddenField
     */
     public function addHiddenField(string $id
-                                ,string $strValue=null
+                                ,?string $strValue=null
                                 ,$boolRequired = false)
     {
         $formField = new TFormDinHiddenField($id,$strValue,$boolRequired);
@@ -743,13 +759,13 @@ class TFormDin
      */
     public function addTextField(string $id
                                 ,string $strLabel
-                                ,int $intMaxLength = null
+                                ,?int $intMaxLength = null
                                 ,$boolRequired = false
-                                ,int $intSize=null
-                                ,string $strValue=null
+                                ,?int $intSize=null
+                                ,?string $strValue=null
                                 ,$boolNewLine = true
-                                ,string $strHint = null
-                                ,string $strExampleText =null
+                                ,?string $strHint = null
+                                ,?string $strExampleText =null
                                 ,$boolLabelAbove=false
                                 ,$boolNoWrapLabel = null)
     {
@@ -960,7 +976,7 @@ class TFormDin
     public function addSwitchField(string $id
                                   ,string $strLabel
                                   ,$boolRequired = false
-                                  ,array $itens=null
+                                  ,?array $itens=null
                                   ,$boolNewLine=null
                                   ,$boolLabelAbove=null
                                   ,$mixValue=null)
@@ -997,7 +1013,7 @@ class TFormDin
      * @return TFormDinPassword
      */
     public function addPasswordField( string $id
-                                    , string $label=null
+                                    , ?string $label=null
                                     , $boolRequired=null
                                     , $boolNewLine=null
                                     , $intmaxLength=null
@@ -1389,14 +1405,14 @@ class TFormDin
                                   ,$boolLabelAbove = false
                                   ,$mixValue = null
                                   ,$boolMultiSelect = false
-                                  ,int $intSize = null
-                                  ,int $intWidth = null
-                                  ,string $strFirstOptionText = null
-                                  ,string $strFirstOptionValue = null
-                                  ,string $strKeyColumn = null
-                                  ,string $strDisplayColumn = null
-                                  ,string $boolNoWrapLabel = null
-                                  ,string $strDataColumns = null
+                                  ,?int $intSize = null
+                                  ,?int $intWidth = null
+                                  ,?string $strFirstOptionText = null
+                                  ,?string $strFirstOptionValue = null
+                                  ,?string $strKeyColumn = null
+                                  ,?string $strDisplayColumn = null
+                                  ,?string $boolNoWrapLabel = null
+                                  ,?string $strDataColumns = null
                                   ,bool $enableSearch = false
                                   )
     {
@@ -1580,7 +1596,7 @@ class TFormDin
      * @return TFormDinCheckField
      */
     public function addCheckField(string $id
-                                , string $strLabel=null
+                                , ?string $strLabel=null
                                 , $boolRequired=null
                                 , $mixOptions=null
                                 , $boolNewLine=null
@@ -1890,8 +1906,8 @@ class TFormDin
      * @return TNumber
      */       
 	public function addNumberField( string $strName
-				           		  , string $strLabel=null
-				           		  , int $intMaxLength
+				           		  , ?string $strLabel=null
+				           		  , ?int $intMaxLength=null
 				           		, $boolRequired=null
 				           		, $intDecimalPlaces=null
 				           		, $boolNewLine=null
@@ -1955,8 +1971,8 @@ class TFormDin
 	 * @return TFormDinEmailField
 	 */
 	public function addEmailField( string $strName
-                                 , string $strLabel=null
-                                 , int $intMaxLength=null
+                                 , ?string $strLabel=null
+                                 , ?int $intMaxLength=null
                                  , $boolRequired=null
                                  , $intSize=null
                                  , $boolNewLine=null
@@ -2016,6 +2032,54 @@ class TFormDin
                                             ,$fieldsReadOnly
                                             ,$fieldAllJson
                                             );
+        $objField = $formField->getAdiantiObj();
+        $label = $formField->getLabel();
+        $this->addElementFormList($objField,self::TYPE_FIELD,$label,$boolNewLine,$boolLabelAbove);
+        return $formField;
+	}
+
+    /**
+     * Pegar informações geolocalização usando mapa interativo do Leaflet
+     *
+     * @param string  $idField         -01: ID do campo
+     * @param string  $label           -02: Label do campo, usado para validações
+     * @param boolean $boolRequired    -03: Campo obrigatório ou não. Default FALSE
+     * @param boolean $boolNewLine     -04: Default TRUE = campo em nova linha, FALSE continua na linha anterior
+     * @param boolean $boolLabelAbove  -05: Label na mesma linha DEFAULT is FALSE, para label acima = TRUE
+     * @param boolean $showFields      -06: TRUE (Default) or FALSE, Mostrar campos de latitude e longitude
+     * @param boolean $fieldsReadOnly  -07: TRUE ou FALSE (Default), Campos somente leitura
+     * @param double  $defaultLat      -08: Latitude inicial padrão. Default -15.793889
+     * @param double  $defaultLon      -09: Longitude inicial padrão. Default -47.882778
+     * @param int     $zoom            -10: Nível de zoom inicial do mapa. Default 12
+     * @param int     $height          -11: Altura do mapa em pixels. Default 400
+     * @param string  $geoJsonPath     -12: Caminho do arquivo GeoJSON a plotar. Default null
+     * @return TFormDinMapCord
+     */
+	public function addMapCord(string $idField
+                              ,string $label
+                              ,$boolRequired  =null
+                              ,$boolNewLine   =null
+                              ,$boolLabelAbove=null
+                              ,$showFields    =null
+                              ,$fieldsReadOnly=null
+                              ,$defaultLat    =null
+                              ,$defaultLon    =null
+                              ,$zoom          =null
+                              ,$height        =null
+                              ,$geoJsonPath   =null
+                             )
+	{
+        $formField = new TFormDinMapCord( $idField
+                                         ,$label
+                                         ,$boolRequired
+                                         ,$showFields
+                                         ,$fieldsReadOnly
+                                         ,$defaultLat
+                                         ,$defaultLon
+                                         ,$zoom
+                                         ,$height
+                                         ,$geoJsonPath
+                                         );
         $objField = $formField->getAdiantiObj();
         $label = $formField->getLabel();
         $this->addElementFormList($objField,self::TYPE_FIELD,$label,$boolNewLine,$boolLabelAbove);

@@ -78,7 +78,7 @@ class TFormDinGridTransformer
         return $action;
     }    
 
-    public static function simNao($value)
+    public static function simNao(mixed $value)
     {
         if($value === true || $value == 't' || $value === 1 || $value == '1' || $value == 's' || $value == 'S' || $value == 'T'){
             return 'Sim';
@@ -227,5 +227,29 @@ class TFormDinGridTransformer
             $link = "<a target='newwindow' href='https://www.google.com/maps/search/?api=1&query={$lat},{$lon}'>{$icon}{$msg}</a>";
             return $link;
         }
-    }    
+    }
+
+    /**
+     * Limita a altura de um texto em uma coluna do datagrid, adicionando uma barra de rolagem
+     * vertical caso o texto ultrapasse o tamanho limite. Evita a quebra do layout horizontal.
+     *
+     * @param string $value    Valor original do campo
+     * @param object $object   Objeto da linha atual (model)
+     * @param mixed  $row      Objeto da linha do Datagrid
+     * @param string $height   Altura máxima da caixa (ex: '120px', '5rem'). Padrão: '120px'
+     * @param string $cssClass Classe CSS customizada. Se informada, substitui todo o CSS inline padrão.
+     * @return string HTML da div contendo o texto processado
+     */
+    public static function gridTextoScroll($value, $object, $row, $height = '120px', $cssClass = null)
+    {
+        $texto = strip_tags($value);
+        $texto = htmlspecialchars($texto, ENT_QUOTES, 'UTF-8');
+        
+        if (!empty($cssClass)) {
+            return '<div class="' . htmlspecialchars($cssClass, ENT_QUOTES, 'UTF-8') . '">' . $texto . '</div>';
+        }
+
+        return '<div style="max-height: ' . htmlspecialchars($height, ENT_QUOTES, 'UTF-8') . '; max-width: 100%; overflow-y: auto; overflow-x: hidden; text-overflow: ellipsis; word-break: break-word;">' . $texto . '</div>';
+    }
+    
 }

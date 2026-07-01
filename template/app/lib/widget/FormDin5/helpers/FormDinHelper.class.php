@@ -62,8 +62,8 @@
 class FormDinHelper
 {
 
-    const FORMDIN_VERSION = '5.9.0';
-    const ADIANTI_MIN_FORMDIN = '7.5.1';
+    const FORMDIN_VERSION = '5.13.00';
+    const ADIANTI_MIN_FORMDIN = '8.4.0';
     const GRID_SIMPLE = 'GRID_SIMPLE';
     const GRID_SCREEN_PAGINATION = 'GRID_SCREEN_PAGINATION';
     const GRID_SQL_PAGINATION    = 'GRID_SQL_PAGINATION';
@@ -96,7 +96,7 @@ class FormDinHelper
     {
         $t = explode(".", $version);
         $qtd = CountHelper::count($t);
-        if( ($qtd<3)&&($qtd>4) ){
+        if( ($qtd<3)||($qtd>4) ){
             throw new DomainException(TFormDinMessage::FORM_MIN_VERSION_INVALID_FORMAT);
         }
     }    
@@ -156,9 +156,11 @@ class FormDinHelper
 	}
     //--------------------------------------------------------------------------------
     public static function getAdiantiFrameWorkVersion(){
+        // @codeCoverageIgnoreStart
         if(!defined('DS') ) { 
             define('DS', DIRECTORY_SEPARATOR); 
         }
+        // @codeCoverageIgnoreEnd
         $fileVersion = __DIR__.DS.'..'.DS.'..'.DS.'..'.DS.'..'.DS.'..'.DS.'lib'.DS.'VERSION';
         if ( !file_exists($fileVersion) ) {
             throw new InvalidArgumentException(TFormDinMessage::ERROR_FILE_NOT_FOUND.' VERSION do Adianti');
@@ -247,7 +249,7 @@ class FormDinHelper
      */
     public static function validateObjTypeTPDOConnectionObj($tpdo,$method,$line)
     {
-        ValidateHelper::objTypeTPDOConnectionObj($tpdo, $method, $line);
+        ValidateHelper::objTypeTFormDinPdoConnection($tpdo, $method, $line);
     }
     //--------------------------------------------------------------------------------
     /**
@@ -406,4 +408,24 @@ class FormDinHelper
         FormDinHelper::validateSizeWidthAndHeight($value);
         return $value;
     }
+
+    /**
+     * @deprecated change to TFormDinLabelField::getObjTLabel
+     * @return TLabel
+     */
+    public static function getObjTLabel(string $label, bool $required = FALSE, ?string $fontSize = '14px', ?string $fontColor = '#ff0000'): TLabel
+    {
+        return TFormDinLabelField::getObjTLabel($label, $required, $fontSize, $fontColor);
+    }    
+
+	/**
+     * @deprecated change to TFormDin::clearListFilter
+	 * Limpa os filtros do formulário de listagem e recarrega a grid.
+	 * @param object $pageObject Instância da classe de listagem (TPage)
+	 * @param string $className Nome da classe de listagem
+	 */
+	public static function clearListFilter($pageObject, $className)
+	{
+        TFormDin::clearListFilter($pageObject, $className);
+	}
 }

@@ -93,7 +93,7 @@ class TFormDinCheckList {
                                ,string $label
                                ,$boolRequired
                                ,$listItems
-                               ,int $intHeight=null
+                               ,?int $intHeight=null
                               )
     {
 

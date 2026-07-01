@@ -77,8 +77,8 @@ class TFormDinFoneField
                                ,string $strLabel
                                ,$boolRequired = false
                                ,$boolSendMask = true
-                               ,string $strValue=null
-                               ,string $strExampleText =null)
+                               ,?string $strValue=null
+                               ,?string $strExampleText =null)
     {
         $this->setLabel($strLabel);
         $this->adiantiObj = new TEntry($id);

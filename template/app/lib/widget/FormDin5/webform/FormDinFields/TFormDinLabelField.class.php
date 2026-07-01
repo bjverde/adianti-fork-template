@@ -50,6 +50,45 @@ class TFormDinLabelField
     private $class = array();
     private $tooltip;
     
+    const DEFAULT_FONT_SIZE = '14px';
+    const DEFAULT_REQ_COLOR = '#ff0000';
+
+    /**
+     * Retorna um objeto TLabel (Adianti) com o texto, fonte e cor informados.
+     * Caso seja informada uma classe CSS, a formatação via fonte e cor é desconsiderada,
+     * delegando a estilização para o CSS.
+     * 
+     * @param string $label Texto a ser exibido no label
+     * @param bool $required Define se o label representa um campo obrigatório
+     * @param string|null $fontSize Tamanho da fonte (ex: '14px'). Default: '14px'
+     * @param string|null $fontColor Cor da fonte. Default: '#ff0000' (se obrigatório)
+     * @param string|null $cssClass Classe CSS a ser aplicada ao elemento (default: null)
+     * @param bool $cssReplace Define se a classe CSS informada irá substituir (true) ou concatenar (false) (default: false)
+     * @return TLabel
+     */
+    public static function getObjTLabel(string $label, bool $required = FALSE, ?string $fontSize = self::DEFAULT_FONT_SIZE, ?string $fontColor = self::DEFAULT_REQ_COLOR, ?string $cssClass = null, bool $cssReplace = false): TLabel
+    {
+        if (!empty($cssClass)) {
+            $fontSize = null;
+            $fontColor = null;
+        }
+
+        $objLabel = new TLabel($label, null, $fontSize);
+        if ($required) {
+            $objLabel = new TLabel($label, $fontColor, $fontSize);
+        }
+
+        if (!empty($cssClass)) {
+            if ($cssReplace) {
+                $objLabel->setProperty('class', $cssClass, TRUE);
+            } else {
+                $objLabel->setProperty('class', $cssClass);
+            }
+        }
+
+        return $objLabel;
+    }
+
 
     /**
      * Label do campo de entrada

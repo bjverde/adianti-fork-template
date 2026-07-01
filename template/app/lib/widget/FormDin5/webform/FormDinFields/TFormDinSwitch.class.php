@@ -77,7 +77,7 @@ class TFormDinSwitch extends TFormDinRadio
      * @param string  $mixValue      - 7: Valor DEFAULT, informe o ID do array
      * @return mixed TRadioGroup
      */
-    public function __construct(string $id,string $label,$boolRequired = false,array $mixOptions= null, $boolNewLine=true,$boolLabelAbove=false,$mixValue=null)
+    public function __construct(string $id,string $label,$boolRequired = false,?array $mixOptions= null, $boolNewLine=true,$boolLabelAbove=false,$mixValue=null)
     {        
         if( !empty($mixOptions) ){
             $this->items = $mixOptions;

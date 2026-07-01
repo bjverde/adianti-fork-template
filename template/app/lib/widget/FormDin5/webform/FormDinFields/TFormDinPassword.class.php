@@ -66,7 +66,7 @@ class TFormDinPassword extends TFormDinGenericField
      * @return TLabel
      */
     public function __construct(string $id
-                               ,string $label=null
+                               ,?string $label=null
                                ,$boolRequired=null
                                ,$intmaxLength=null
                                ,$value=null

@@ -117,14 +117,14 @@ class TFormDinSelectField  extends TFormDinOption
                                ,$boolLabelAbove = false
                                ,$mixValue = null
                                ,$boolMultiSelect = false
-                               ,int $intQtdColumns = null
-                               ,int $intWidth = null
-                               ,string $strFirstOptionText = null
-                               ,string $strFirstOptionValue = null
-                               ,string $strKeyColumn = null
-                               ,string $strDisplayColumn = null
+                               ,?int $intQtdColumns = null
+                               ,?int $intWidth = null
+                               ,?string $strFirstOptionText = null
+                               ,?string $strFirstOptionValue = null
+                               ,?string $strKeyColumn = null
+                               ,?string $strDisplayColumn = null
                                ,$boolNoWrapLabel = null
-                               ,string $strDataColumns = null
+                               ,?string $strDataColumns = null
                                ,bool $enableSearch = false
                                )
     {
