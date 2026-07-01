@@ -3,21 +3,24 @@
 # Ignore **/ alll subdirectories
 # inicie com / para pegar o caminho sem isso será considerado recursivo
 
-.vscode/
+# Agent files
+.agent/
+
+# VsCode files
+/.vscode/
+
+# Eclipse files
 /.settings/
 /.project
 /.buildpath
 
-# System Files
-.git
-.gitattributes
-.gitlab-ci.yml
-.DS_Store
+#Arquivos compactados
+*.zip
+*.tar.gz
+*.tar
 
-# Temp files
-_*
 
-#Projeto FormDin5 com Adianti
+#Projeto em Adianti Fork template 8.4.0.1 com FormDin5 v5.9
 /app/config/communication.ini
 /app/config/framework_hashes.php
 /app/config/ldap.ini
@@ -29,26 +32,29 @@ _*
 /app/config/unit_b.ini
 /app/config/unit_database.php
 
-/app/control/admin
-/app/control/start
-/app/control/communication
-/app/control/log
+/app/control/admin/
+#app/control/builder
+/app/control/start/
+/app/control/communication/
+/app/control/log/
 /app/control/public/PublicView.php
 /app/control/public/SystemConcurrentAccessView.php
-/app/control/CommonPage.php
-/app/control/MessageList.php
-/app/control/NotificationList.php
-/app/control/SearchBox.php
-/app/control/SearchInputBox.php
-!/app/control/WelcomeView.php
+/app/control/CommonPage.class.php
+/app/control/MessageList.class.php
+/app/control/NotificationList.class.php
+/app/control/SearchBox.class.php
+/app/control/SearchInputBox.class.php
+!/app/control/WelcomeView.class.php
 
 /app/database/communication.db
 /app/database/communication.sql
+/app/database/communication-update.sql
 /app/database/log-update.sql
 /app/database/log.db
 /app/database/log.sql
 /app/database/permission-update.sql
 /app/database/permission.asta
+/app/database/permission.db
 /app/database/permission.sql
 /app/database/permission.xml
 /app/database/unit_a.db
@@ -62,11 +68,13 @@ _*
 #/app/lib/menu/
 /app/lib/menu/ApplicationMenuEditorItemRenderer.php
 /app/lib/menu/ApplicationMenuEditorRenderer.php
-/app/lib/pdf
-/app/lib/reports
+/app/lib/menu/AdiantiNavBarParser.php
+/app/lib/pdf/
+/app/lib/reports/
 /app/lib/util/
-/app/lib/validator
-/app/lib/widget
+/app/lib/validator/
+/app/lib/widget/
+/app/lib/widget/builder/
 
 /app/model/admin/
 /app/model/communication
@@ -80,6 +88,8 @@ _*
 /app/service/cli/
 /app/service/jobs/
 /app/service/log/
+/app/service/rest/
+/app/service/system/
 
 /app/templates/adminbs5/
 /app/templates/adminbs5_t/
@@ -111,15 +121,12 @@ _*
 
 
 /.htaccess
-/composer.json
-/composer.json.bak
-/composer.lock
+#/composer.json
+#/composer.lock
 /cmd.php
 /crontab.php
 /download.php
 /engine.php
-/htaccess.ldap
-/htaccess.sem-acesso-pasta-linux
 /index.php
 /init.php
 /LICENSE
@@ -129,5 +136,6 @@ _*
 /menu-public.xml
 /mobile.php
 /rest-secure.php.dist
+/rest.php
 /rest.php.dist
 /soap.php.dist
