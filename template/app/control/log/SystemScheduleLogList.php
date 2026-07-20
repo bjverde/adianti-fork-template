@@ -2,7 +2,7 @@
 /**
  * SystemScheduleLogList
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage log
  * @author     Pablo Dall'Oglio
@@ -29,12 +29,6 @@ class SystemScheduleLogList extends TStandardList
         parent::addFilterField('login', 'like'); // add a filter field
         parent::addFilterField('title', 'like'); // add a filter field
         parent::addFilterField('class_name', 'like'); // add a filter field
-        parent::addFilterField('logdate', '>=', 'logdate_ini', function($value) {
-            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
-        }); // filter by start date/time
-        parent::addFilterField('logdate', '<=', 'logdate_fim', function($value) {
-            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
-        }); // filter by end date/time        
         parent::setLimit(20);
         
         // creates the form, with a table inside
@@ -44,19 +38,9 @@ class SystemScheduleLogList extends TStandardList
         // create the form fields
         $title  = new TEntry('title');
         $class_name = new TEntry('class_name');
-        $logdate_ini = new TDateTime('logdate_ini');
-        $logdate_fim = new TDateTime('logdate_fim');
-
-        // configure date/time fields
-        $logdate_ini->setMask('dd/mm/yyyy hh:ii');
-        $logdate_fim->setMask('dd/mm/yyyy hh:ii');
-        $logdate_ini->setDatabaseMask('yyyy-mm-dd hh:ii');
-        $logdate_fim->setDatabaseMask('yyyy-mm-dd hh:ii');
-
+        
         // add the fields
         $this->form->addFields( [new TLabel(_t('Title'))], [$title], [new TLabel(_t('Class'))], [$class_name] );
-        $this->form->addFields( [new TLabel(_t('Time') . ' (' . _t('Start') . ')')], [$logdate_ini], [new TLabel(_t('Time') . ' (' . _t('End') . ')')], [$logdate_fim] );
-
         
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue('SystemScheduleLog_filter_data') );
@@ -64,9 +48,6 @@ class SystemScheduleLogList extends TStandardList
         // add the search form actions
         $btn = $this->form->addAction(_t('Find'), new TAction(array($this, 'onSearch')), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
-
-        $btn_clear = $this->form->addAction(_t('Clear'), new TAction(array($this, 'onClear')), 'fa:eraser');
-        $btn_clear->class = 'btn btn-sm btn-default';
         
         // creates a DataGrid
         $this->datagrid = new BootstrapDatagridWrapper(new TQuickGrid);
@@ -110,15 +91,6 @@ class SystemScheduleLogList extends TStandardList
         
         parent::add($container);
     }
-
-    /**
-     * Clear filters
-     */
-    public function onClear($param = null)
-    {
-        parent::clearFilters();
-        $this->onReload(['offset' => 0, 'first_page' => 1]);
-    }    
     
     /**
      *

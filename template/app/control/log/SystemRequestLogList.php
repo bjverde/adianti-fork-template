@@ -2,7 +2,7 @@
 /**
  * SystemRequestLogList
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage log
  * @author     Pablo Dall'Oglio
@@ -30,12 +30,8 @@ class SystemRequestLogList extends TStandardList
         parent::addFilterField('class_name', 'like'); // add a filter field
         parent::addFilterField('session_id', 'like'); // add a filter field
         parent::addFilterField('endpoint', '='); // add a filter field
-        parent::addFilterField('logdate', '>=', 'logdate_ini', function($value) {
-            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
-        }); // filter by start date/time
-        parent::addFilterField('logdate', '<=', 'logdate_fim', function($value) {
-            return TDateTime::convertToMask($value, 'dd/mm/yyyy hh:ii', 'yyyy-mm-dd hh:ii');
-        }); // filter by end date/time        
+        parent::addFilterField('logdate', '>=', 'start_date'); // add a filter field
+        parent::addFilterField('logdate', '<=', 'end_date'); // add a filter field
         parent::setLimit(20);
         
         // creates the form, with a table inside
@@ -47,21 +43,18 @@ class SystemRequestLogList extends TStandardList
         $class_name  = new TEntry('class_name');
         $session_id  = new TEntry('session_id');
         $endpoint    = new TCombo('endpoint');
-        $logdate_ini = new TDateTime('logdate_ini');
-        $logdate_fim = new TDateTime('logdate_fim');
-
-        // configure date/time fields
-        $logdate_ini->setMask('dd/mm/yyyy hh:ii');
-        $logdate_fim->setMask('dd/mm/yyyy hh:ii');
-        $logdate_ini->setDatabaseMask('yyyy-mm-dd hh:ii');
-        $logdate_fim->setDatabaseMask('yyyy-mm-dd hh:ii');        
-
+        $start_date = new TDateTime('start_date');
+        $end_date = new TDateTime('end_date');
+        $start_date->setSize('100%');
+        $end_date->setSize('100%');
+        
         $endpoint->addItems( [ 'cli' => 'CLI', 'rest' => 'REST', 'web' => 'WEB' ]);
         
         // add the fields
         $this->form->addFields( [new TLabel(_t('Login'))], [$login], [new TLabel(_t('Program'))], [$class_name] );
         $this->form->addFields( [new TLabel(_t('Session'))], [$session_id], [new TLabel('Endpoint')], [$endpoint] );
-        $this->form->addFields( [new TLabel(_t('Time') . ' (' . _t('Start') . ')')], [$logdate_ini], [new TLabel(_t('Time') . ' (' . _t('End') . ')')], [$logdate_fim] );
+        $this->form->addFields( [new TLabel(_t('Start date'))], [$start_date], [new TLabel(_t('End date'))], [$end_date] );
+        
         $login->setSize('70%');
         
         // keep the form filled during navigation with session data
@@ -70,9 +63,6 @@ class SystemRequestLogList extends TStandardList
         // add the search form actions
         $btn = $this->form->addAction(_t('Find'), new TAction(array($this, 'onSearch')), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
-
-        $btn_clear = $this->form->addAction(_t('Clear'), new TAction(array($this, 'onClear')), 'fa:eraser');
-        $btn_clear->class = 'btn btn-sm btn-default';        
         
         // creates a DataGrid
         $this->datagrid = new BootstrapDatagridWrapper(new TQuickGrid);
@@ -151,15 +141,6 @@ class SystemRequestLogList extends TStandardList
         
         $this->onReload($param);
     }
-
-    /**
-     * Clear filters
-     */
-    public function onClear($param = null)
-    {
-        parent::clearFilters();
-        $this->onReload(['offset' => 0, 'first_page' => 1]);
-    }    
     
     /**
      *
