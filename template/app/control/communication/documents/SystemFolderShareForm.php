@@ -2,7 +2,7 @@
 /**
  * SystemFolderShareForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -79,7 +79,7 @@ class SystemFolderShareForm extends TWindow
         $this->user_list->addItems( SystemUser::get() );
         TTransaction::close();
         
-        $btn = $this->form->addAction( _t('Save'), new TAction(array($this, 'onSave')), 'far:save' );
+        $btn = $this->form->addAction( _t('Save'), new TAction(array($this, 'onSave')), 'fa:check' );
         $btn->class = 'btn btn-sm btn-primary';
         
         parent::add($this->form);

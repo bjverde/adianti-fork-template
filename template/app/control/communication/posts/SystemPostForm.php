@@ -2,7 +2,7 @@
 /**
  * SystemPostForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
@@ -60,17 +60,16 @@ class SystemPostForm extends TPage
         $this->form->appendPage("Tags");
         $this->form->addFields([$tags]);
         
-        $btn_onsave = $this->form->addAction(_t("Save"), new TAction([$this, 'onSave']), 'fas:save #ffffff');
+        $btn_onsave = $this->form->addAction(_t("Save"), new TAction([$this, 'onSave']), 'fa:check #ffffff');
         $btn_onsave->addStyleClass('btn-primary'); 
         $btn_onclear = $this->form->addAction(_t("Clear form"), new TAction([$this, 'onClear']), 'fas:eraser #dd5a43');
-        $btn_onshow = $this->form->addAction(_t("Back"), new TAction(['SystemPostList', 'onReload']), 'fas:arrow-left #000000');
         
         $btnClose = new TButton('closeCurtain');
         $btnClose->class = 'btn btn-sm btn-default';
         $btnClose->style = 'margin-right:10px;';
         $btnClose->onClick = "Template.closeRightPanel();";
         $btnClose->setLabel(_t("Close"));
-        $btnClose->setImage('fas:times');
+        $btnClose->setImage('fas:times red');
         
         $this->form->addHeaderWidget($btnClose);
         

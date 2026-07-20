@@ -2,7 +2,7 @@
 /**
  * SystemScheduleForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -79,7 +79,12 @@ class SystemScheduleForm extends TPage
         $minute->enableSearch();
         $minute->setSize('100%');
         
-        $schedule_type->addItems(['M' => _t('Once a month'), 'W' => _t('Once a week'), 'D' => _t('Once a day'), 'F' => _t('Each five minutes')]);
+        $schedule_type->addItems(['M' => _t('Once a month'),
+                                  'W' => _t('Once a week'),
+                                  'D' => _t('Once a day'),
+                                  'H' => _t('Once an hour'),
+                                  'F' => _t('Each five minutes')]);
+        
         $schedule_type->setLayout('horizontal');
         $schedule_type->setUseButton();
         $schedule_type->setSize('100%');
@@ -113,17 +118,25 @@ class SystemScheduleForm extends TPage
         // outras propriedades
         $id->setEditable(false);
         
-        $this->form->addFields( [$id]);
-        $this->form->addFields( [new TLabel(_t('Title'))], [$title]);
-        $this->form->addFields( [new TLabel(_t('Method'))], [$class_method]);
-        $this->form->addFields( [new TLabel(_t('Type'))], [$schedule_type]);
-        $this->form->addFields( [new TLabel(_t('Month day'))], [$monthday]);
-        $this->form->addFields( [new TLabel(_t('Week day'))], [$weekday]);
-        $this->form->addFields( [new TLabel(_t('Hour'))], [$hour]);
-        $this->form->addFields( [new TLabel(_t('Minute'))], [$minute]);
-        $this->form->addFields( [new TLabel(_t('Active'))], [$active]);
+        $this->form->addFields( [$id] );
+        $this->form->addFields( [new TLabel(_t('Title'))] );
+        $this->form->addFields( [$title] );
+        $this->form->addFields( [new TLabel(_t('Method'))] );
+        $this->form->addFields( [$class_method] );
+        $this->form->addFields( [new TLabel(_t('Type'))] );
+        $this->form->addFields( [$schedule_type] );
+        $this->form->addFields( [new TLabel(_t('Month day'))] );
+        $this->form->addFields( [$monthday] );
+        $this->form->addFields( [new TLabel(_t('Week day'))] );
+        $this->form->addFields( [$weekday] );
+        $this->form->addFields( [new TLabel(_t('Hour'))] );
+        $this->form->addFields( [$hour] );
+        $this->form->addFields( [new TLabel(_t('Minute'))] );
+        $this->form->addFields( [$minute] );
+        $this->form->addFields( [new TLabel(_t('Active'))] );
+        $this->form->addFields( [$active] );
         
-        $btn = $this->form->addAction( _t('Save'), new TAction(array($this, 'onSave')), 'far:save' );
+        $btn = $this->form->addAction( _t('Save'), new TAction(array($this, 'onSave')), 'fa:check' );
         $btn->class = 'btn btn-sm btn-primary';
         
         $this->form->addActionLink( _t('Clear'), new TAction(array($this, 'onEdit')),  'fa:eraser red' );
@@ -158,6 +171,12 @@ class SystemScheduleForm extends TPage
                 TCombo::disableField('form_schedule', 'weekday');
                 TCombo::enableField('form_schedule', 'monthday');
                 TCombo::enableField('form_schedule', 'hour');
+                TCombo::enableField('form_schedule', 'minute');
+                break;
+            case 'H':
+                TCombo::disableField('form_schedule', 'monthday');
+                TCombo::disableField('form_schedule', 'weekday');
+                TCombo::disableField('form_schedule', 'hour');
                 TCombo::enableField('form_schedule', 'minute');
                 break;
             case 'F':

@@ -2,7 +2,7 @@
 /**
  * SystemWikiForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
@@ -84,9 +84,8 @@ class SystemWikiForm extends TPage
         $this->form->appendPage("Tags");
         $this->form->addFields([$tags]);
         
-        $btn_onsave = $this->form->addAction(_t("Save"), new TAction([$this, 'onSave']), 'fas:save #ffffff');
+        $btn_onsave = $this->form->addAction(_t("Save"), new TAction([$this, 'onSave']), 'fa:check #ffffff');
         $btn_onsave->addStyleClass('btn-primary'); 
-        $btn_onshow = $this->form->addAction(_t("Back"), new TAction(['SystemWikiList', 'onReload']), 'fas:arrow-left #000000');
         
         $btnClose = new TButton('closeCurtain');
         $btnClose->class = 'btn btn-sm btn-default';

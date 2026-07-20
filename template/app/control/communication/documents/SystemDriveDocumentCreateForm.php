@@ -2,7 +2,7 @@
 /**
  * SystemDriveDocumentCreateForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
@@ -60,7 +60,7 @@ class SystemDriveDocumentCreateForm extends TWindow
         $title->addValidation(_t('Title'), new TRequiredValidator);
         $content->addValidation(_t('Content'), new TRequiredValidator);
         
-        $btn = $this->form->addAction(_t('Save'), new TAction([$this, 'onSave']), 'far:save');
+        $btn = $this->form->addAction(_t('Save'), new TAction([$this, 'onSave']), 'fa:check');
         $btn->class = 'btn btn-sm btn-primary';
 
         parent::add($this->form);

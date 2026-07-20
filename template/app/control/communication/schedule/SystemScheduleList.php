@@ -2,7 +2,7 @@
 /**
  * SystemScheduleList
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -77,7 +77,11 @@ class SystemScheduleList extends TStandardList
         $this->datagrid->addColumn($column_active);
         
         $column_frequency->setTransformer( function($value, $object, $row) {
-            $freqs = ['M' => _t('Once a month'), 'W' => _t('Once a week'), 'D' => _t('Once a day'), 'F' => _t('Each five minutes')];
+            $freqs = ['M' => _t('Once a month'),
+                      'W' => _t('Once a week'),
+                      'D' => _t('Once a day'),
+                      'H' => _t('Once an hour'),
+                      'F' => _t('Each five minutes')];
             
             $week_day_items = [];
             $week_day_items['1'] = _t('Sunday');

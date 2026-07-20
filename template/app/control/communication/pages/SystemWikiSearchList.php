@@ -2,7 +2,7 @@
 /**
  * SystemWikiSearchList
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage communication
  * @author     Pablo Dall'Oglio
