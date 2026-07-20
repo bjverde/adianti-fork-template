@@ -15,7 +15,7 @@ use Adianti\Widget\Util\TExceptionView;
 /**
  * Basic structure to run a web application
  *
- * @version    8.4
+ * @version    8.6
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -33,7 +33,7 @@ class AdiantiCoreApplication
      *
      * @param $debug Activate Exception debug
      */
-    public static function run($debug = FALSE)
+    protected static function run($debug = FALSE)
     {
         self::$request_id = uniqid();
         self::$debug = $debug;
@@ -51,82 +51,85 @@ class AdiantiCoreApplication
         
         self::filterInput();
         
-        $rc = new ReflectionClass($class); 
-        
-        // check strict mode
-        self::checkStrictRequest($rc, 'web');
-        
-        if (in_array(strtolower($class), array_map('strtolower', AdiantiClassMap::getInternalClasses()) ))
+        if (class_exists($class))
         {
-            ob_start();
-            new TMessage( 'error', AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', " <b><i><u>{$class}</u></i></b>") );
-            $content = ob_get_contents();
-            ob_end_clean();
-        }
-        else if (!$rc-> isUserDefined ())
-        {
-            ob_start();
-            new TMessage( 'error', AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', " <b><i><u>{$class}</u></i></b>") );
-            $content = ob_get_contents();
-            ob_end_clean();
-        }
-        else if (class_exists($class))
-        {
-            if ($static)
+            $rc = new ReflectionClass($class);
+            
+            if (in_array(strtolower($class), array_map('strtolower', AdiantiClassMap::getInternalClasses()) ))
             {
-                if (method_exists($class, $method))
-                {
-                    $rf = new ReflectionMethod($class, $method);
-                    if ($rf-> isStatic ())
-                    {
-                        call_user_func(array($class, $method), $_REQUEST);
-                    }
-                    else
-                    {
-                        call_user_func(array(new $class($_REQUEST), $method), $_REQUEST);
-                    }
-                }
+                ob_start();
+                new TMessage( 'error', AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', " <b><i><u>{$class}</u></i></b>") );
+                $content = ob_get_contents();
+                ob_end_clean();
+            }
+            else if (!$rc-> isUserDefined ())
+            {
+                ob_start();
+                new TMessage( 'error', AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', " <b><i><u>{$class}</u></i></b>") );
+                $content = ob_get_contents();
+                ob_end_clean();
             }
             else
             {
-                try
+                // check strict mode
+                self::checkStrictRequest($rc, 'web');
+                
+                if ($static)
                 {
-                    $page = new $class( $_REQUEST );
-                    
-                    ob_start();
-                    $page->show( $_REQUEST );
-	                $content = ob_get_contents();
-	                ob_end_clean();
+                    if (method_exists($class, $method))
+                    {
+                        $rf = new ReflectionMethod($class, $method);
+                        if ($rf-> isStatic ())
+                        {
+                            call_user_func(array($class, $method), $_REQUEST);
+                        }
+                        else
+                        {
+                            call_user_func(array(new $class($_REQUEST), $method), $_REQUEST);
+                        }
+                    }
                 }
-                catch (Exception $e)
+                else
                 {
-                    ob_start();
-                    if ($debug)
+                    try
                     {
-                        new TExceptionView($e);
-                        $content = ob_get_contents();
+                        $page = new $class( $_REQUEST );
+                        
+                        ob_start();
+                        $page->show( $_REQUEST );
+    	                $content = ob_get_contents();
+    	                ob_end_clean();
                     }
-                    else
+                    catch (Exception $e)
                     {
-                        new TMessage('error', $e->getMessage() );
-                        $content = ob_get_contents();
+                        ob_start();
+                        if ($debug)
+                        {
+                            new TExceptionView($e);
+                            $content = ob_get_contents();
+                        }
+                        else
+                        {
+                            new TMessage('error', $e->getMessage() );
+                            $content = ob_get_contents();
+                        }
+                        ob_end_clean();
                     }
-                    ob_end_clean();
-                }
-                catch (Error $e)
-                {
-                    ob_start();
-                    if ($debug)
+                    catch (Error $e)
                     {
-                        new TExceptionView($e);
-                        $content = ob_get_contents();
+                        ob_start();
+                        if ($debug)
+                        {
+                            new TExceptionView($e);
+                            $content = ob_get_contents();
+                        }
+                        else
+                        {
+                            new TMessage('error', $e->getMessage() . '<br>' . basename($e->getFile()).':'. $e->getLine() );
+                            $content = ob_get_contents();
+                        }
+                        ob_end_clean();
                     }
-                    else
-                    {
-                        new TMessage('error', $e->getMessage() . '<br>' . basename($e->getFile()).':'. $e->getLine() );
-                        $content = ob_get_contents();
-                    }
-                    ob_end_clean();
                 }
             }
         }

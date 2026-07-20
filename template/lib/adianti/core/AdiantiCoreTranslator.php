@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Framework translation class for internal messages
  *
- * @version    8.4
+ * @version    8.6
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -181,6 +181,13 @@ class AdiantiCoreTranslator
         $this->messages['en'][] = 'Send';
         $this->messages['en'][] = 'Adjust image';
         $this->messages['en'][] = 'Signature area';
+        $this->messages['en'][] = 'Sum';
+        $this->messages['en'][] = 'Min';
+        $this->messages['en'][] = 'Max';
+        $this->messages['en'][] = 'Average';
+        $this->messages['en'][] = 'Count';
+        $this->messages['en'][] = 'Total';
+        $this->messages['en'][] = 'The method ^1 cannot be used together with the method ^2';
         
         
         $this->messages['pt'][] = 'Carregando';
@@ -340,7 +347,13 @@ class AdiantiCoreTranslator
         $this->messages['pt'][] = 'Enviar';
         $this->messages['pt'][] = 'Ajustar imagem';
         $this->messages['pt'][] = 'Área de Assinatura';
-        
+        $this->messages['pt'][] = 'Soma';
+        $this->messages['pt'][] = 'Mínimo';
+        $this->messages['pt'][] = 'Máximo';
+        $this->messages['pt'][] = 'Média';
+        $this->messages['pt'][] = 'Qtde';
+        $this->messages['pt'][] = 'Total';
+        $this->messages['pt'][] = 'O método ^1 não pode ser usado em conjunto com o método ^2';
         
         $this->messages['es'][] = 'Cargando';
         $this->messages['es'][] = 'Archivo no encontrado';
@@ -499,7 +512,13 @@ class AdiantiCoreTranslator
         $this->messages['es'][] = 'Enviar';
         $this->messages['es'][] = 'Ajustar imagem';
         $this->messages['es'][] = 'Área de Firma';
-        
+        $this->messages['es'][] = 'Suma';
+        $this->messages['es'][] = 'Mínimo';
+        $this->messages['es'][] = 'Máximo';
+        $this->messages['es'][] = 'Promedio';
+        $this->messages['es'][] = 'Conteo';
+        $this->messages['es'][] = 'Total';
+        $this->messages['es'][] = 'El método ^1 no se puede usar junto con el método ^2';
         
         $this->messages['it'][] = 'Caricamento';
         $this->messages['it'][] = 'File non trovato';
@@ -658,7 +677,13 @@ class AdiantiCoreTranslator
         $this->messages['it'][] = 'Inviare';
         $this->messages['it'][] = 'Regolare immagine';
         $this->messages['it'][] = 'Area di Firma';
-        
+        $this->messages['it'][] = 'Somma';
+        $this->messages['it'][] = 'Minimo';
+        $this->messages['it'][] = 'Massimo';
+        $this->messages['it'][] = 'Media';
+        $this->messages['it'][] = 'Conteggio';
+        $this->messages['it'][] = 'Totale';
+        $this->messages['it'][] = 'Il metodo ^1 non può essere utilizzato insieme al metodo ^2';
         
         $this->messages['fr'][] = 'Chargement';
         $this->messages['fr'][] = 'Fichier non trouvé';
@@ -817,6 +842,13 @@ class AdiantiCoreTranslator
         $this->messages['fr'][] = 'Envoyer';
         $this->messages['fr'][] = 'Ajuster l\'image';
         $this->messages['fr'][] = 'Zone de Signature';
+        $this->messages['fr'][] = 'Somme';
+        $this->messages['fr'][] = 'Minimum';
+        $this->messages['fr'][] = 'Maximum';
+        $this->messages['fr'][] = 'Moyenne';
+        $this->messages['fr'][] = 'Compte';
+        $this->messages['fr'][] = 'Total';
+        $this->messages['fr'][] = 'La méthode ^1 ne peut pas être utilisée avec la méthode ^2';
         
         
         $this->messages['de'][] = 'Laden';
@@ -976,6 +1008,14 @@ class AdiantiCoreTranslator
         $this->messages['de'][] = 'Senden';
         $this->messages['de'][] = 'Bild anpassen';
         $this->messages['de'][] = 'Unterschriftsbereich';
+        $this->messages['de'][] = 'Summe';
+        $this->messages['de'][] = 'Minimum';
+        $this->messages['de'][] = 'Maximum';
+        $this->messages['de'][] = 'Durchschnitt';
+        $this->messages['de'][] = 'Anzahl';
+        $this->messages['de'][] = 'Gesamt';
+        $this->messages['de'][] = 'Die Methode ^1 kann nicht zusammen mit der Methode ^2 verwendet werden';
+        
         //fim
 	
         foreach ($this->messages as $lang => $messages)
