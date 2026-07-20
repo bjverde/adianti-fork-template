@@ -4,8 +4,8 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'template',
-        'title' => 'Adianti Fork Template',
-        'theme' => 'adminbs5_v6',
+        'title' => 'Adianti Template 8.6',
+        'theme' => 'adminbs5',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
         'multiunit' => '1',
@@ -17,19 +17,19 @@ return [
         'require_terms' => '0',
         'concurrent_sessions' => '1',
         'lang_options' => [
-            'pt' => 'Português',
-            'en' => 'English',
-            'es' => 'Español',
-            'fr' => 'Français',
-            'de' => 'Deutsch',
-            'it' => 'Italiano',
+          'pt' => 'Português',
+          'en' => 'English',
+          'es' => 'Español',
+          'fr' => 'Français',
+          'de' => 'Deutsch',
+          'it' => 'Italiano',
         ],
         'multi_database' => '0',
         'validate_strong_pass' => '1',
         'notification_login' => '0',
         'welcome_message' => 'Have a great jorney!',
         'request_log_service' => 'SystemRequestLogService',
-        'request_log' => '1',
+        'request_log' => '0',
         'request_log_types' => 'cli,web,rest',
         /*'password_renewal_interval' => '',*/
     ],
@@ -40,17 +40,19 @@ return [
     ],
     'permission' =>  [
         'public_classes' => [
-            'SystemRequestPasswordResetForm',
-            'SystemPasswordResetForm',
-            'SystemRegistrationForm',
-            'SystemPasswordRenewalForm',
-            'SystemConcurrentAccessView'
+          'SystemRequestPasswordResetForm',
+          'SystemPasswordResetForm',
+          'SystemRegistrationForm',
+          'SystemPasswordRenewalForm',
+          'SystemConcurrentAccessView',
+          'SystemInvalidAccessView'
         ],
         'user_register' => '1',
         'reset_password' => '1',
         'default_groups' => '2',
         'default_screen' => '30',
         'default_units' => '1',
+        'user_deletion' => '1'
     ],
     'highlight' => [
         'comment' => '#808080',
@@ -60,8 +62,8 @@ return [
         'string' => '#FFC472',
     ],
     'login' => [
-        'logo' => 'app/images/icon.png',
-        'background' => 'app/images/thumb-1920-698137.jpg'
+        'logo' => '',
+        'background' => ''
     ],
     'template' => [
         'navbar' => [
@@ -75,10 +77,12 @@ return [
             'has_news' => '1',
             'has_menu_mode_switch' => '1',
             'has_main_mode_switch' => '1',
-            'has_master_menu' => '0', // 0 = menu lateral, 1 = menu icones
+            'has_master_menu' => '1',
             'always_collapse' => '0',
             'allow_page_tabs' => '0',
-            'only_top_menu' => '0'   // Habilita o menu superior            
+            'only_top_menu' => '0',
+            'header_display' => "visible",
+            'footer_display' => "visible"
         ],
         'dialogs' => [
             'use_swal' => '1'
@@ -90,11 +94,5 @@ return [
             'main_mode'  => 'light',
             'box_layout' => '0'
         ]
-    ],
-    'system' =>  [
-        'system_version' => '8.4.0.2',
-        'system_name_sub' => 'Fork do Adianti FrameWork',
-        'adianti_min_version' => '8.4.0.2',
-        'formdin_min_version' => '5.13.0',
-    ],
+    ]
 ];

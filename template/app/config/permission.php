@@ -6,6 +6,5 @@ return [
     'user'  =>  "",
     'pass'  =>  "",
     'type'  =>  "sqlite",
-    'prep'  =>  "1",
-    'slog'  => "SystemSqlLogService"
+    'prep'  =>  "1"
 ];
