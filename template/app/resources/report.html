@@ -1,0 +1,45 @@
+<html>
+<head>
+  <style>
+    @page {
+            margin-left: 25px;
+            margin-right: 25px;
+            margin-top: {top_margin}px;
+            margin-bottom: {bottom_margin}px;
+    }
+    * {
+        font-size: {font_size};
+    }
+    header { position: fixed; top: -{header_offset}px; left: 0px; right: 0px; background-color: {header_background}; height: {header_size}px; border-radius:5px; padding:5px; border: 1px solid {header_border_color} }
+    footer { position: fixed; bottom: -{footer_offset}px; left: 0px; right: 0px; background-color: {footer_background}; height: {footer_size}px; border-radius:5px; padding:5px; border: 1px solid {footer_border_color} }
+    p { page-break-after: always; }
+    p:last-child { page-break-after: never; }
+    .table-striped > tbody > tr:nth-of-type(odd) { background-color: {row_background};}
+    .form-group {
+        max-width:{fix_width} !important;
+    }
+    .col-sm-1,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9 {
+        position: relative;
+        float:left;
+        border:0;
+        border-radius:10px;
+        padding-top:7px;
+        padding-bottom:7px;
+    }
+  </style>
+</head>
+<body>
+    {content}
+</body>
+</html>

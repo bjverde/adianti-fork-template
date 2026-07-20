@@ -10,6 +10,45 @@ body {
 	background-color: #fff
 }
 
+
+.clearfix:after,
+.clearfix:before,
+.container-fluid:after,
+.container-fluid:before,
+.container:after,
+.container:before,
+.form-horizontal .form-group:after,
+.form-horizontal .form-group:before,
+.modal-footer:after,
+.modal-footer:before,
+.modal-header:after,
+.modal-header:before,
+.pager:after,
+.pager:before,
+.panel-body:after,
+.panel-body:before,
+.row:after,
+.row:before {
+	display: table;
+	content: " "
+}
+
+.clearfix:after,
+.container-fluid:after,
+.container:after,
+.form-horizontal .form-group:after,
+.modal-footer:after,
+.modal-header:after,
+.nav:after,
+.navbar-collapse:after,
+.navbar-header:after,
+.navbar:after,
+.pager:after,
+.panel-body:after,
+.row:after {
+	clear: both
+}
+
 .row {
     margin-top: 0;
     width:100%;
@@ -146,8 +185,8 @@ label {
     float:left;
     border:1px solid #e3e3e3;
     border-radius:10px;
-    padding-top:10px;
-    padding-bottom:10px;
+    padding-top:7px;
+    padding-bottom:7px;
 }
 
 .col-sm-1 > *,
@@ -353,3 +392,9 @@ label {
   color: #fff;
 }
 
+@page {
+    margin-top: 5mm;
+    margin-right: 5mm;
+    margin-bottom: 5mm;
+    margin-left: 5mm;
+}
