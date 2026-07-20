@@ -8,7 +8,7 @@ use Exception;
 /**
  * Basic HTTP Client request
  *
- * @version    8.4
+ * @version    8.6
  * @package    http
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -62,12 +62,19 @@ class AdiantiHttpClient
             $defaults[CURLOPT_HTTPHEADER] = $headers;
         }
         
-        curl_setopt_array($ch, $defaults);
-        $output = curl_exec ($ch);
-        
-        if ($output === false)
+        try
         {
-            throw new Exception( curl_error($ch) );
+            curl_setopt_array($ch, $defaults);
+            $output = curl_exec($ch);
+
+            if ($output === false)
+            {
+                throw new Exception(curl_error($ch));
+            }
+        }
+        finally
+        {
+            curl_close($ch);
         }
         
         $return = (array) json_decode($output, $assoc);
