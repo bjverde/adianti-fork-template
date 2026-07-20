@@ -357,36 +357,43 @@ Template.generateMasterMenu = function() {
         // connect elements via bs-target random id
         btn.data('bs-target-id', $(v).data('bs-target'));
         
-        // connect master menu click
-        btn.click( function(ev) {
-            // toggle active
-            $('#module-menu .master-menu-item').removeClass('active');
-            $(this).addClass('active');
-            
-            // find the correct submenu
-            let target_bs_id = $(this).data('bs-target-id');
-            let menu_item = $('a[data-bs-target="'+target_bs_id+'"]');
-            
-            // collect the submenu items ant transfer to side-menu-part
-            let ul = menu_item.closest('li').find('>ul');
-            if (ul.length > 0) {
-                $('#side-menu-part').html(ul.children().clone());
+        if ($(v).attr('href').substring(0,4) == 'http') {
+            btn.click( function(ev) {
+                window.open($(v).attr('href'), "_blank");
+            });
+        }
+        else {
+            // connect master menu click
+            btn.click( function(ev) {
+                // toggle active
+                $('#module-menu .master-menu-item').removeClass('active');
+                $(this).addClass('active');
                 
-                // adjust tootips that were already processed in the hidden full menu
-                $('#side-menu-part').html( $('#side-menu-part').html().replaceAll('data-original-title', 'title') );
-                __adianti_process_tooltips();
-            }
-            else {
-                // if doesn't has subitems, so trigger click
-                $(menu_item).trigger('click');
-            }
-            
-            // connect recently created submenu actions
-            Template.connectMenu();
-            
-            // Keep the current URL active when changing module
-            Template.findQueryStringMenuItem( false );
-        });
+                // find the correct submenu
+                let target_bs_id = $(this).data('bs-target-id');
+                let menu_item = $('a[data-bs-target="'+target_bs_id+'"]');
+                
+                // collect the submenu items ant transfer to side-menu-part
+                let ul = menu_item.closest('li').find('>ul');
+                if (ul.length > 0) {
+                    $('#side-menu-part').html(ul.children().clone());
+                    
+                    // adjust tootips that were already processed in the hidden full menu
+                    $('#side-menu-part').html( $('#side-menu-part').html().replaceAll('data-original-title', 'title') );
+                    __adianti_process_tooltips();
+                }
+                else {
+                    // if doesn't has subitems, so trigger click
+                    $(menu_item).trigger('click');
+                }
+                
+                // connect recently created submenu actions
+                Template.connectMenu();
+                
+                // Keep the current URL active when changing module
+                Template.findQueryStringMenuItem( false );
+            });
+        }
     });
     
     Template.transferTopActionsToLeftSidebar();
@@ -686,9 +693,11 @@ Template.setFirstPageTabInfo = function(label, url) {
 Template.adjustMenu = function() {
   if ($(window).width() > 767) {
       $("#sidebar").removeClass("collapsed");
+      $("body").removeClass("responsive");
   }
   else {
       $("#sidebar").addClass("collapsed");
+      $("body").addClass("responsive");
   }
 }
 
@@ -824,6 +833,14 @@ Template.setNavbarOptions = function(options) {
     if (options['only_top_menu'] == '1') {
         $('#sidebar').remove();
         $('#sidebar-toggle').remove();
+    }
+    
+    if (options['header_display'] == 'hidden') {
+        $('nav.navbar').addClass('display-mobile');
+    }
+    
+    if (options['footer_display'] == 'hidden') {
+        $('footer').hide();
     }
 }
 
