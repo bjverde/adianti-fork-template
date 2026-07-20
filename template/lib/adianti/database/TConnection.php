@@ -8,7 +8,7 @@ use Exception;
 /**
  * Singleton manager for database connections
  *
- * @version    8.4
+ * @version    8.6
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -266,12 +266,20 @@ class TConnection
         {
             // read the INI and retuns an array
             $ini = parse_ini_file($filei);
+            if (is_array($ini))
+            {
+                $ini['file'] = $database;
+            }
             self::$conn_cache[ $database ] = $ini;
             return $ini;
         }
         else if (file_exists($filep))
         {
             $ini = require $filep;
+            if (is_array($ini))
+            {
+                $ini['file'] = $database;
+            }
             self::$conn_cache[ $database ] = $ini;
             return $ini;
         }

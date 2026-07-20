@@ -16,7 +16,7 @@ use ReflectionClass;
 /**
  * Implements the Repository Pattern to deal with collections of Active Records
  *
- * @version    8.4
+ * @version    8.6
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -432,9 +432,16 @@ class TRepository
             foreach ($objects as $object)
             {
                 $key = (isset($object->$indexColumn)) ? $object->$indexColumn : $object->render($indexColumn);
-                $val = (isset($object->$valueColumn)) ? $object->$valueColumn : $object->render($valueColumn);
                 
-                $indexedArray[ $key ] = $val;
+                if ($valueColumn == '*')
+                {
+                    $indexedArray[ $key ] = $object;
+                }
+                else
+                {
+                    $val = (isset($object->$valueColumn)) ? $object->$valueColumn : $object->render($valueColumn);
+                    $indexedArray[ $key ] = $val;
+                }
             }
         }
         

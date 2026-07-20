@@ -17,7 +17,7 @@ use Closure;
 /**
  * Database Task manager
  *
- * @version    8.4
+ * @version    8.6
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2018 Adianti Solutions Ltd. (http://www.adianti.com.br)

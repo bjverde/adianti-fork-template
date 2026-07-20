@@ -24,7 +24,7 @@ use Traversable;
 /**
  * Base class for Active Records
  *
- * @version    8.4
+ * @version    8.6
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -761,6 +761,18 @@ abstract class TRecord implements IteratorAggregate
                                      bin2hex(chr((ord(random_bytes(1)) & 0x3F) | 0x80)) . bin2hex(random_bytes(1)),
                                      bin2hex(random_bytes(6))
                                  ]);
+                }
+                else if ((defined("{$class}::IDPOLICY")) AND (constant("{$class}::IDPOLICY") == 'uuid7'))
+                {
+                    $ts = (int)(microtime(true) * 1000);
+                
+                    $this->$pk =  implode('-', [
+                        bin2hex(pack('N', $ts >> 16)),
+                        bin2hex(pack('n', $ts & 0xFFFF)),
+                        bin2hex(chr((ord(random_bytes(1)) & 0x0F) | 0x70)) . bin2hex(random_bytes(1)),
+                        bin2hex(chr((ord(random_bytes(1)) & 0x3F) | 0x80)) . bin2hex(random_bytes(1)),
+                        bin2hex(random_bytes(6))
+                    ]);
                 }
                 else
                 {
@@ -1996,9 +2008,16 @@ abstract class TRecord implements IteratorAggregate
             foreach ($objects as $object)
             {
                 $key = (isset($object->$indexColumn)) ? $object->$indexColumn : $object->render($indexColumn);
-                $val = (isset($object->$valueColumn)) ? $object->$valueColumn : $object->render($valueColumn);
                 
-                $indexedArray[ $key ] = $val;
+                if ($valueColumn == '*')
+                {
+                    $indexedArray[ $key ] = $object;
+                }
+                else
+                {
+                    $val = (isset($object->$valueColumn)) ? $object->$valueColumn : $object->render($valueColumn);
+                    $indexedArray[ $key ] = $val;
+                }
             }
         }
         

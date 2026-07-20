@@ -9,7 +9,7 @@ use Adianti\Util\AdiantiStringConversion;
 /**
  * Provides an interface to define filters to be used inside a criteria
  *
- * @version    8.4
+ * @version    8.6
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
