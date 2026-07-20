@@ -2,7 +2,7 @@
 /**
  * SystemChangeLog
  *
- * @version    8.4
+ * @version    8.6
  * @package    model
  * @subpackage log
  * @author     Pablo Dall'Oglio

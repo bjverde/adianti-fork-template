@@ -2,7 +2,7 @@
 /**
  * SystemFolderBookmark
  *
- * @version    8.4
+ * @version    8.6
  * @package    model
  * @subpackage communication
  * @author     Pablo Dall'Oglio
