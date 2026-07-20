@@ -7,7 +7,7 @@ use Adianti\Control\TAction;
 /**
  * Pillbar
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -59,7 +59,7 @@ class TPillBar extends TElement
             $span_title = new TElement('span');
         }
         
-        $span_title->{'class'}     = 'nav-link';
+        $span_title->{'class'}     = 'nav-link py-1 px-2 fs-6 rounded-5';
         $span_title->add( $title );
         
         $li->add( $span_title );

@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * TProgressBar
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage util
  * @author     Ademilson Nunes

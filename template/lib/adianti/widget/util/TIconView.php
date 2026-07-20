@@ -10,7 +10,7 @@ use stdClass;
 /**
  * TIconView Widget
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio

@@ -18,7 +18,7 @@ use ApplicationTranslator;
 /**
  * Card
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -406,6 +406,14 @@ class TCardView extends TElement
     }
     
     /**
+     * Add a search attribute
+     */
+    public function addSearchAttribute($attribute)
+    {
+        $this->searchAttributes[] = $attribute;
+    }
+    
+    /**
      * Enable fuse search
      * @param $input Field input for search
      * @param $attribute Attribute name
@@ -592,6 +600,14 @@ class TCardView extends TElement
     public function prepareForPrinting()
     {
         $this->forPrinting = true;
+    }
+    
+    /**
+     * Return if the object is being printed
+     */
+    public function isPrinting()
+    {
+        return $this->forPrinting;
     }
     
     /**
