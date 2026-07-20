@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Bootstrap datagrid decorator for Adianti Framework
  *
- * @version    8.4
+ * @version    8.6
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -20,6 +20,7 @@ class BootstrapNotebookWrapper
     private $direction;
     private $divisions;
     private $wrapper_class;
+    private $tab_class;
     
     /**
      * Constructor method
@@ -31,6 +32,15 @@ class BootstrapNotebookWrapper
         $this->direction = '';
         $this->divisions = array(2,10);
         $this->wrapper_class = $wrapper_class;
+        $this->tab_class = 'tabs';
+    }
+    
+    /**
+     * Show as pills
+     */
+    public function enablePills()
+    {
+        $this->tab_class = 'pills';
     }
     
     /**
@@ -73,7 +83,7 @@ class BootstrapNotebookWrapper
         $rendered = $this->decorated->render();
         $rendered->{'role'} = 'tabpanel';
         unset($rendered->{'class'});
-        $rendered->{'class'} = 'tabwrapper ' . $this->wrapper_class;
+        $rendered->{'class'} = 'tabwrapper ' . $this->wrapper_class . ' ' . $this->tab_class;
         
         foreach ($this->properties as $property => $value)
         {
@@ -87,7 +97,7 @@ class BootstrapNotebookWrapper
             {
                 if ($section->{'class'} == 'nav nav-tabs')
                 {
-                    $section->{'class'} = "nav nav-tabs " . $this->direction;
+                    $section->{'class'} = "nav nav-" . $this->tab_class . ' ' . $this->direction;
                     if ($this->direction)
                     {
                         $section->{'class'} .= " flex-column";

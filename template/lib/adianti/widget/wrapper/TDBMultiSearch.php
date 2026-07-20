@@ -16,7 +16,7 @@ use Exception;
 /**
  * Database Multisearch Widget
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage wrapper
  * @author     Pablo Dall'Oglio
@@ -116,7 +116,7 @@ class TDBMultiSearch extends TMultiSearch
         $this->idTextSearch = false;
         $this->withTitles = TRUE;
         
-        if ((defined("{$model}::IDPOLICY")) AND (constant("{$model}::IDPOLICY") == 'uuid'))
+        if ((defined("{$model}::IDPOLICY")) AND (substr(constant("{$model}::IDPOLICY"),0,4) == 'uuid'))
         {
             $this->idTextSearch = true;
         }
