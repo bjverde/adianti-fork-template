@@ -16,7 +16,7 @@ use Exception;
 /**
  * MultiSearch backend
  *
- * @version    8.4
+ * @version    8.6
  * @package    service
  * @author     Pablo Dall'Oglio
  * @author     Matheus Agnes Dias (up to version 7.5)
@@ -100,7 +100,7 @@ class AdiantiMultiSearchService implements AdiantiController
                         }
                     }
                     
-                    $id_search_value = ((!empty($param['idtextsearch']) && $param['idtextsearch'] == '1') || ((defined("{$param['model']}::IDPOLICY")) AND (constant("{$param['model']}::IDPOLICY") == 'uuid')) || is_array($param['value']) ) ? $param['value'] : (int) $param['value'];
+                    $id_search_value = ((!empty($param['idtextsearch']) && $param['idtextsearch'] == '1') || ((defined("{$param['model']}::IDPOLICY")) AND (substr(constant("{$param['model']}::IDPOLICY"),0,4) == 'uuid')) || is_array($param['value']) ) ? $param['value'] : (int) $param['value'];
                     
                     if ($param['idsearch'] == '1' and !empty( $id_search_value ))
                     {

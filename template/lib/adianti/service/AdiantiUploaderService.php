@@ -8,7 +8,7 @@ use Adianti\Control\AdiantiController;
 /**
  * File uploader listener
  *
- * @version    8.4
+ * @version    8.6
  * @package    service
  * @author     Nataniel Rabaioli
  * @author     Pablo Dall'Oglio
