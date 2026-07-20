@@ -2,7 +2,7 @@
 /**
  * SystemProfileForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -16,10 +16,12 @@ class SystemProfileForm extends TPage
     public function __construct()
     {
         parent::__construct();
-        
         parent::setTargetContainer('adianti_right_panel');
         
-        $this->form = new BootstrapFormBuilder;
+        $ini = AdiantiApplicationConfig::get();
+        $add_fields = (!isset($ini['permission']['additional_user_fields']) || $ini['permission']['additional_user_fields'] == '1');
+        
+        $this->form = new BootstrapFormBuilder('SystemProfileForm');
         $this->form->setFormTitle(_t('Profile'));
         $this->form->setClientValidation(true);
         $this->form->enableCSRFProtection();
@@ -27,10 +29,15 @@ class SystemProfileForm extends TPage
         $name  = new TEntry('name');
         $login = new TEntry('login');
         $email = new TEntry('email');
-        $address = new TEntry('address');
-        $phone = new TEntry('phone');
-        $function_name = new TEntry('function_name');
-        $about = new TEntry('about');
+        
+        if ($add_fields)
+        {
+            $address = new TEntry('address');
+            $phone = new TEntry('phone');
+            $function_name = new TEntry('function_name');
+            $about = new TEntry('about');
+        }
+        
         $photo = new TFile('photo');
         $password1 = new TPassword('password1');
         $password2 = new TPassword('password2');
@@ -40,10 +47,15 @@ class SystemProfileForm extends TPage
         $name->setSize('80%');
         $login->setSize('80%');
         $email->setSize('80%');
-        $address->setSize('80%');
-        $phone->setSize('80%');
-        $function_name->setSize('80%');
-        $about->setSize('80%');
+        
+        if ($add_fields)
+        {
+            $address->setSize('80%');
+            $phone->setSize('80%');
+            $function_name->setSize('80%');
+            $about->setSize('80%');
+        }
+        
         $photo->setSize('80%');
         $password1->setSize('80%');
         $password2->setSize('80%');
@@ -55,15 +67,20 @@ class SystemProfileForm extends TPage
         $this->form->addFields( [new TLabel(_t('Name'))],  [$name]);
         $this->form->addFields( [new TLabel(_t('Login'))], [$login]);
         $this->form->addFields( [new TLabel(_t('Email'))], [$email]);
-        $this->form->addFields( [new TLabel(_t('Address'))], [$address]);
-        $this->form->addFields( [new TLabel(_t('Phone'))], [$phone]);
-        $this->form->addFields( [new TLabel(_t('About'))], [$about]);
-        $this->form->addFields( [new TLabel(_t('Function'))], [$function_name]);
+        
+        if ($add_fields)
+        {
+            $this->form->addFields( [new TLabel(_t('Address'))], [$address]);
+            $this->form->addFields( [new TLabel(_t('Phone'))], [$phone]);
+            $this->form->addFields( [new TLabel(_t('About'))], [$about]);
+            $this->form->addFields( [new TLabel(_t('Function'))], [$function_name]);
+        }
+        
         $this->form->addFields( [new TLabel(_t('Photo'))], [$photo]);
         $this->form->addFields( [new TLabel(_t('Password'))], [$password1]);
         $this->form->addFields( [new TLabel(_t('Password confirmation'))], [$password2]);
         
-        $btn = $this->form->addAction(_t('Save'), new TAction([$this, 'onSave']), 'fa:save');
+        $btn = $this->form->addAction(_t('Save'), new TAction([$this, 'onSave']), 'fa:check');
         $btn->class = 'btn btn-sm btn-primary';
         
         $this->form->addHeaderActionLink(_t('Close'), new TAction([$this, 'onClose']), 'fa:times red');
@@ -97,6 +114,7 @@ class SystemProfileForm extends TPage
         try
         {
             $ini  = AdiantiApplicationConfig::get();
+            $add_fields = (!isset($ini['permission']['additional_user_fields']) || $ini['permission']['additional_user_fields'] == '1');
             
             $this->form->validate();
             
@@ -106,10 +124,14 @@ class SystemProfileForm extends TPage
             $user = SystemUser::newFromLogin( TSession::getValue('login') );
             $user->name = $object->name;
             $user->email = $object->email;
-            $user->phone = $object->phone;
-            $user->address = $object->address;
-            $user->function_name = $object->function_name;
-            $user->about = $object->about;
+            
+            if ($add_fields)
+            {
+                $user->phone = $object->phone;
+                $user->address = $object->address;
+                $user->function_name = $object->function_name;
+                $user->about = $object->about;
+            }
             
             TSession::setValue('username', $user->name);
             TSession::setValue('usermail', $user->email);

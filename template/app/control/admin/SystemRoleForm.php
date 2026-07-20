@@ -2,7 +2,7 @@
 /**
  * SystemRoleForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -28,6 +28,7 @@ class SystemRoleForm extends TStandardForm
         $this->setDatabase('permission');              // defines the database
         $this->setActiveRecord('SystemRole');     // defines the active record
         $this->setAfterSaveAction( new TAction(['SystemRoleList', 'onReload']) );
+        $this->setUseToast(true);
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_SystemRole');
@@ -40,9 +41,12 @@ class SystemRoleForm extends TStandardForm
         $custom_code = new TEntry('custom_code');
         
         // add the fields
-        $this->form->addFields( [new TLabel('Id')], [$id] );
-        $this->form->addFields( [new TLabel(_t('Name'))], [$name] );
-        $this->form->addFields( [new TLabel(_t('Custom code'))], [$custom_code] );
+        $this->form->addFields( [new TLabel('Id')] );
+        $this->form->addFields( [$id] );
+        $this->form->addFields( [new TLabel(_t('Name'))] );
+        $this->form->addFields( [$name] );
+        $this->form->addFields( [new TLabel(_t('Custom code'))] );
+        $this->form->addFields( [$custom_code] );
         
         $id->setEditable(FALSE);
         $id->setSize('30%');
@@ -50,7 +54,7 @@ class SystemRoleForm extends TStandardForm
         $name->addValidation( _t('Name'), new TRequiredValidator );
         
         // create the form actions
-        $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'far:save');
+        $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'fa:check');
         $btn->class = 'btn btn-sm btn-primary';
         $this->form->addActionLink(_t('Clear'),  new TAction(array($this, 'onEdit')), 'fa:eraser red');
         //$this->form->addActionLink(_t('Back'),new TAction(array('SystemRoleList','onReload')),'far:arrow-alt-circle-left blue');

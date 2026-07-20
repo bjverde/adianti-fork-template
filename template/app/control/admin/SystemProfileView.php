@@ -2,7 +2,7 @@
 /**
  * SystemProfileView
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -15,6 +15,9 @@ class SystemProfileView extends TPage
     {
         parent::__construct();
         parent::setTargetContainer('adianti_right_panel');
+        
+        $ini = AdiantiApplicationConfig::get();
+        $add_fields = (!isset($ini['permission']['additional_user_fields']) || $ini['permission']['additional_user_fields'] == '1');
         
         $html = new THtmlRenderer('app/resources/system/admin/profile.html');
         $replaces = array();
@@ -37,6 +40,10 @@ class SystemProfileView extends TPage
         }
         
         $html->enableSection('main', $replaces);
+        if ($add_fields)
+        {
+            $html->enableSection('add_fields', $replaces);
+        }
         $html->enableTranslation();
         
         $container = TVBox::pack($html);

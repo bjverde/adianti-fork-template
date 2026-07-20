@@ -2,7 +2,7 @@
 /**
  * SystemPreferenceForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -64,7 +64,7 @@ class SystemPreferenceForm extends TStandardForm
         $mail_support->setSize('70%');
         $term_policy->setSize('70%', 250);
         
-        $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'far:save');
+        $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'fa:check');
         $btn->class = 'btn btn-sm btn-primary';
         
         $container = new TVBox;

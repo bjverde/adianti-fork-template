@@ -2,7 +2,7 @@
 /**
  * SystemRoleList
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -40,10 +40,12 @@ class SystemRoleList extends TStandardList
         $name = new TEntry('name');
         
         // add the fields
-        $this->form->addFields( [new TLabel('Id')], [$id] );
-        $this->form->addFields( [new TLabel(_t('Name'))], [$name] );
+        $this->form->addFields( [new TLabel('Id')] );
+        $this->form->addFields( [$id] );
+        $this->form->addFields( [new TLabel(_t('Name'))] );
+        $this->form->addFields( [$name] );
 
-        $id->setSize('30%');
+        $id->setSize('100%');
         $name->setSize('100%');
         
         // keep the form filled during navigation with session data

@@ -2,14 +2,14 @@
 /**
  * SystemUserList
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license-template
  */
-class SystemUserList extends TStandardList
+class SystemUserList extends TPage
 {
     protected $form;     // registration form
     protected $datagrid; // listing
@@ -17,6 +17,10 @@ class SystemUserList extends TStandardList
     protected $formgrid;
     protected $deleteButton;
     protected $transformCallback;
+    
+    use Adianti\Base\AdiantiStandardListTrait {
+        Delete as deleteTrait;
+    }
     
     /**
      * Page constructor
@@ -27,16 +31,16 @@ class SystemUserList extends TStandardList
         
         $ini  = AdiantiApplicationConfig::get();
         
-        parent::setDatabase('permission');            // defines the database
-        parent::setActiveRecord('SystemUser');   // defines the active record
-        parent::setDefaultOrder('id', 'asc');         // defines the default order
-        parent::addFilterField('id', '=', 'id'); // filterField, operator, formField
-        parent::addFilterField('name', 'like', 'name'); // filterField, operator, formField
-        parent::addFilterField('email', 'like', 'email'); // filterField, operator, formField
-        parent::addFilterField('active', '=', 'active'); // filterField, operator, formField
-        parent::setLimit(TSession::getValue(__CLASS__ . '_limit') ?? 10);
+        $this->setDatabase('permission');            // defines the database
+        $this->setActiveRecord('SystemUser');   // defines the active record
+        $this->setDefaultOrder('id', 'asc');         // defines the default order
+        $this->addFilterField('id', '=', 'id'); // filterField, operator, formField
+        $this->addFilterField('name', 'like', 'name'); // filterField, operator, formField
+        $this->addFilterField('email', 'like', 'email'); // filterField, operator, formField
+        $this->addFilterField('active', '=', 'active'); // filterField, operator, formField
+        $this->setLimit(TSession::getValue(__CLASS__ . '_limit') ?? 10);
         
-        parent::setAfterSearchCallback( [$this, 'onAfterSearch' ] );
+        $this->setAfterSearchCallback( [$this, 'onAfterSearch' ] );
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_SystemUser');
@@ -182,13 +186,16 @@ class SystemUserList extends TStandardList
         $action_edit->setField('id');
         $this->datagrid->addAction($action_edit);
         
-        // create DELETE action
-        $action_del = new TDataGridAction(array($this, 'onDelete'));
-        $action_del->setButtonClass('btn btn-default');
-        $action_del->setLabel(_t('Delete'));
-        $action_del->setImage('far:trash-alt red');
-        $action_del->setField('id');
-        $this->datagrid->addAction($action_del);
+        if (!isset($ini['permission']['user_deletion']) || $ini['permission']['user_deletion'] == '1')
+        {
+            // create DELETE action
+            $action_del = new TDataGridAction(array($this, 'onDelete'));
+            $action_del->setButtonClass('btn btn-default');
+            $action_del->setLabel(_t('Delete'));
+            $action_del->setImage('far:trash-alt red');
+            $action_del->setField('id');
+            $this->datagrid->addAction($action_del);
+        }
         
         // create CLONE action
         $action_clone = new TDataGridAction(array($this, 'onClone'));
@@ -213,6 +220,14 @@ class SystemUserList extends TStandardList
         $action_person->setImage('far:user-circle gray');
         $action_person->setFields(['id','login']);
         $this->datagrid->addAction($action_person);
+        
+        $action_unlock = new TDataGridAction(array($this, 'onUnlock'));
+        $action_unlock->setButtonClass('btn btn-default');
+        $action_unlock->setLabel(_t('Disable two-factor authentication'));
+        $action_unlock->setImage('fa:unlock gray');
+        $action_unlock->setFields(['id','login']);
+        $action_unlock->setDisplayCondition([$this,'displayUnlock']);
+        $this->datagrid->addAction($action_unlock);
         
         // create the datagrid model
         $this->datagrid->createModel();
@@ -411,6 +426,52 @@ class SystemUserList extends TStandardList
         {
             new TMessage('error', $e->getMessage());
             TTransaction::rollback();
+        }
+    }
+    
+    /**
+     * Display condition for unlock
+     */
+    public function displayUnlock($object)
+    {
+        return !empty($object->otp_secret);
+    }
+    
+    /**
+     *
+     */
+    public function onUnlock($param)
+    {
+        try
+        {
+            TTransaction::open('permission');
+            $user = SystemUser::find($param['id']);
+            if ($user instanceof SystemUser)
+            {
+                $user->otp_secret = null;
+                $user->store();
+            }
+            
+            TTransaction::close();
+            
+            $this->onReload($param);
+        }
+        catch (Exception $e)
+        {
+            new TMessage('error', $e->getMessage());
+            TTransaction::rollback();
+        }
+    }
+    
+    /**
+     *
+     */
+    public function Delete($param)
+    {
+        $ini  = AdiantiApplicationConfig::get();
+        if (!isset($ini['permission']['user_deletion']) || $ini['permission']['user_deletion'] == '1')
+        {
+            $this->deleteTrait($param);
         }
     }
 }

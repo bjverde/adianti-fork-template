@@ -2,7 +2,7 @@
 /**
  * SystemUnitForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -28,6 +28,7 @@ class SystemUnitForm extends TStandardForm
         $this->setDatabase('permission');              // defines the database
         $this->setActiveRecord('SystemUnit');     // defines the active record
         $this->setAfterSaveAction( new TAction(['SystemUnitList', 'onReload']) );
+        $this->setUseToast(true);
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_SystemUnit');
@@ -40,18 +41,22 @@ class SystemUnitForm extends TStandardForm
         $custom_code = new TEntry('custom_code');
         
         // add the fields
-        $this->form->addFields( [new TLabel('Id')], [$id] );
-        $this->form->addFields( [new TLabel(_t('Name'))], [$name] );
+        $this->form->addFields( [new TLabel('Id')] );
+        $this->form->addFields( [$id] );
+        $this->form->addFields( [new TLabel(_t('Name'))] );
+        $this->form->addFields( [$name] );
         
         if (!empty($ini['general']['multi_database']) and $ini['general']['multi_database'] == '1')
         {
             $database = new TCombo('connection_name');
             $database->addItems( SystemDatabaseInformationService::getConnections() );
-            $this->form->addFields( [new TLabel(_t('Database'))], [$database] );
+            $this->form->addFields( [new TLabel(_t('Database'))] );
+            $this->form->addFields( [$database] );
             $database->setSize('100%');
         }
         
-        $this->form->addFields( [new TLabel(_t('Custom code'))], [$custom_code] );
+        $this->form->addFields( [new TLabel(_t('Custom code'))] );
+        $this->form->addFields( [$custom_code] );
         
         $id->setEditable(FALSE);
         $id->setSize('30%');
@@ -59,7 +64,7 @@ class SystemUnitForm extends TStandardForm
         $name->addValidation( _t('Name'), new TRequiredValidator );
         
         // create the form actions
-        $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'far:save');
+        $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'fa:check');
         $btn->class = 'btn btn-sm btn-primary';
         $this->form->addActionLink(_t('Clear'),  new TAction(array($this, 'onEdit')), 'fa:eraser red');
         //$this->form->addActionLink(_t('Back'),new TAction(array('SystemUnitList','onReload')),'far:arrow-alt-circle-left blue');

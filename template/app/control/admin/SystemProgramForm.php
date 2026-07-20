@@ -2,7 +2,7 @@
 /**
  * SystemProgramForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -51,11 +51,15 @@ class SystemProgramForm extends TStandardForm
         $controller->setChangeAction(new TAction([$this, 'onChangeController']));
         
         // add the fields
-        $this->form->addFields( [new TLabel('ID')], [$id] );
-        $this->form->addFields( [new TLabel(_t('Controller'))], [$controller] );
-        $this->form->addFields( [new TLabel(_t('Name'))], [$name] );
-        $this->form->addFields( [new TFormSeparator(_t('Permission'))] );
+        $this->form->addFields( [new TLabel('ID')] );
+        $this->form->addFields( [$id] );
+        $this->form->addFields( [new TLabel(_t('Controller'))] );
+        $this->form->addFields( [$controller] );
+        $this->form->addFields( [new TLabel(_t('Name'))] );
+        $this->form->addFields( [$name] );
+        $this->form->addFields( [$fs = new TFormSeparator('<b>' . _t('Permission') . '</b>')] );
         
+        $fs->style = 'margin-top:20px';
         $id->setSize('30%');
         $name->setSize('100%');
         $controller->setSize('100%');
@@ -92,9 +96,11 @@ class SystemProgramForm extends TStandardForm
         
         $subform->appendPage( _t('Groups') );
         $subform->addFields( [$this->group_list] );
+        $subform->addContent( [new TAlert('warning', _t('Permission to use this program will be automatically granted to all user groups selected here'), false)]);
         
         $subform->appendPage( _t('Restricted methods') );
         $subform->addFields( [$this->methods_list] );
+        $subform->addContent( [new TAlert('warning', _t('When defining a restricted method, only users with the selected role will be able to execute that method'), false)]);
         
         $this->form->addContent([$subform]);
         
@@ -104,7 +110,7 @@ class SystemProgramForm extends TStandardForm
         $controller->addValidation(('Controller'), new TRequiredValidator);
 
         // add form actions
-        $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'far:save');
+        $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'fa:check');
         $btn->class = 'btn btn-sm btn-primary';
         
         $this->form->addActionLink(_t('Clear'), new TAction(array($this, 'onEdit')), 'fa:eraser red');
@@ -334,8 +340,9 @@ class SystemProgramForm extends TStandardForm
             }
             
             TTransaction::close();
-            $pos_action = new TAction(['SystemProgramList', 'onReload']);
-            new TMessage('info', AdiantiCoreTranslator::translate('Record saved'), $pos_action);
+            
+            TToast::show('info', _t('Record saved'));
+            AdiantiCoreApplication::loadPage('SystemProgramList', 'onReload');
             
             return $object;
         }

@@ -2,7 +2,7 @@
 /**
  * SystemProgramList
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -45,10 +45,13 @@ class SystemProgramList extends TStandardList
         $controller = new TEntry('controller');
 
         // add the fields
-        $this->form->addFields( [new TLabel(_t('Name'))], [$name] );
-        $this->form->addFields( [new TLabel(_t('Controller'))], [$controller] );
+        $this->form->addFields( [new TLabel(_t('Name'))] );
+        $this->form->addFields( [$name] );
+        $this->form->addFields( [new TLabel(_t('Controller'))] );
+        $this->form->addFields( [$controller] );
+        
         $name->setSize('100%');
-        $controller->setSize('70%');
+        $controller->setSize('100%');
         
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue('SystemProgram_filter_data') );

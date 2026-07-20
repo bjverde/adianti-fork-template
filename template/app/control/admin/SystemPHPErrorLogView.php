@@ -2,7 +2,7 @@
 /**
  * SystemPHPErrorLogView
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -94,8 +94,16 @@ class SystemPHPErrorLogView extends TPage
                     
                     $line = str_replace($matches[0], '', $line);
                     $pieces = explode(':', $line, 2);
-                    
-                    $type = $pieces[0];
+                    if (empty($pieces[1]))
+                    {
+                        $type = 'Error';
+                        $message = $pieces[0];
+                    }
+                    else
+                    {
+                        $type = $pieces[0];
+                        $message = $pieces[1];
+                    }
                     
                     if (stripos($type, 'error') !== false)
                     {
@@ -107,7 +115,6 @@ class SystemPHPErrorLogView extends TPage
                     }
                     
                     $type = "<b>{$type}</b>";
-                    $message = $pieces[1];
                     
                     $object = new stdClass;
                     $object->date = $date;

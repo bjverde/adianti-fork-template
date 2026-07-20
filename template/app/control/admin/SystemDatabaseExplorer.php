@@ -2,7 +2,7 @@
 /**
  * SystemDatabaseExplorer
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -51,16 +51,26 @@ class SystemDatabaseExplorer extends TPage
         
         $action4 = new TDataGridAction(array($this, 'onReimportSQL'));
         $action4->setParameter('register_state', 'false');
-        $action4->setImage('fa:cloud-arrow-up');
+        $action4->setImage('fa:file-import');
         $action4->setField('database');
         $action4->setLabel(_t('Import SQL'));
         $action4->setDisplayCondition([$this, 'onDisplayReimport']);
         
+        $action5 = new TDataGridAction(array($this, 'onImportJsonSeeds'));
+        $action5->setParameter('register_state', 'false');
+        $action5->setImage('fa:flask');
+        $action5->setField('database');
+        $action5->setLabel(_t('Insert sample data'));
+        $action5->setDisplayCondition([$this, 'onDisplayJsonSeeds']);
+        
         $agroup = new TDataGridActionGroup( null, 'fa:list');
         $agroup->addAction($action1);
+        $agroup->addSeparator();
         $agroup->addAction($action2);
         $agroup->addAction($action3);
+        $agroup->addSeparator();
         $agroup->addAction($action4);
+        $agroup->addAction($action5);
         
         $this->datagrid->addActionGroup($agroup);
         
@@ -112,6 +122,79 @@ class SystemDatabaseExplorer extends TPage
     public function onDisplayReimport($object)
     {
         return $object->type == 'sqlite' || $object->type == 'pgsql' || $object->type == 'mysql';
+    }
+    
+    /**
+     *
+     */
+    public function onDisplayJsonSeeds($object)
+    {
+        return (file_exists('app/config/seeds/'.$object->database.'.json'));
+    }
+    
+    /**
+     *
+     */
+    public static function onImportJsonSeeds($param)
+    {
+        // create two actions
+        $action1 = new TAction(array(__CLASS__, 'importJsonSeeds'));
+        $action1->setParameters($param);
+        
+        // shows the question dialog
+        new TQuestion(_t('Do you want to insert the sample data?'), $action1);
+    }
+    
+    /**
+     *
+     */
+    public static function importJsonSeeds($param)
+    {
+        try
+        {
+            $results = [];
+            $database = $param['database'];
+            TTransaction::open($database);
+            $seeds_file = 'app/config/seeds/'.$database.'.json';
+            if (file_exists($seeds_file))
+            {
+                $seeds = json_decode(file_get_contents($seeds_file));
+                if (!empty($seeds))
+                {
+                    foreach ($seeds as $model => $model_seeds)
+                    {
+                        $count = 0;
+                        foreach ($model_seeds as $seed_row)
+                        {
+                            $object = new $model;
+                            $pk = $object->getPrimaryKey();
+                            $object->fromArray( (array) $seed_row);
+                            unset($object->$pk);
+                            $object->store();
+                            $count ++;
+                        }
+                        $results[] = [_t('Model') => $model, _t('Count') => $count];
+                    }
+                }
+                $table = TTable::fromData($results, ['style'=>'border-collapse:collapse;', 'width' => '100%'], ['style'=>'font-weight:bold;text-align:center'], ['style'=>'text-align:center']);
+                
+                $window = TWindow::create(_t('Results'), 0.5, null);
+                $wrapper = new TElement('div');
+                $wrapper->style = 'margin:20px';
+                $wrapper->add($table);
+                
+                $table->class = 'table table-striped table-hover';
+                $window->add($wrapper);
+                $window->show();
+                
+                TToast::show('success', _t('Sample data inserted successfully'));
+            }
+            TTransaction::close();
+        }
+        catch (Exception $e)
+        {
+            new TMessage('error', $e->getMessage());
+        }
     }
     
     /**

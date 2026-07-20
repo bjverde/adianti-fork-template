@@ -2,7 +2,7 @@
 /**
  * SystemUserForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -24,8 +24,9 @@ class SystemUserForm extends TPage
     public function __construct()
     {
         parent::__construct();
-        
         parent::setTargetContainer('adianti_right_panel');
+        $ini  = AdiantiApplicationConfig::get();
+        $add_fields = (!isset($ini['permission']['additional_user_fields']) || $ini['permission']['additional_user_fields'] == '1');
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_System_user');
@@ -41,16 +42,21 @@ class SystemUserForm extends TPage
         $email         = new TEntry('email');
         $unit_id       = new TDBCombo('system_unit_id','permission','SystemUnit','id','name');
         $frontpage_id  = new TDBUniqueSearch('frontpage_id', 'permission', 'SystemProgram', 'id', 'name', 'name');
-        $phone         = new TEntry('phone');
-        $address       = new TEntry('address');
-        $function_name = new TEntry('function_name');
-        $about         = new TEntry('about');
+        
+        if ($add_fields)
+        {
+            $phone         = new TEntry('phone');
+            $address       = new TEntry('address');
+            $function_name = new TEntry('function_name');
+            $about         = new TEntry('about');
+        }
+        
         $custom_code   = new TEntry('custom_code');
         
         $password->disableAutoComplete();
         $repassword->disableAutoComplete();
         
-        $btn = $this->form->addAction( _t('Save'), new TAction(array($this, 'onSave')), 'far:save');
+        $btn = $this->form->addAction( _t('Save'), new TAction(array($this, 'onSave')), 'fa:check');
         $btn->class = 'btn btn-sm btn-primary';
         $this->form->addActionLink( _t('Clear'), new TAction(array($this, 'onEdit')), 'fa:eraser red');
         //$this->form->addActionLink( _t('Back'), new TAction(array('SystemUserList','onReload')), 'far:arrow-alt-circle-left blue');
@@ -76,13 +82,17 @@ class SystemUserForm extends TPage
         
         $this->form->addFields( [new TLabel('ID')], [$id],  [new TLabel(_t('Name'))], [$name] );
         $this->form->addFields( [new TLabel(_t('Login'))], [$login],  [new TLabel(_t('Email'))], [$email] );
-        $this->form->addFields( [new TLabel(_t('Address'))], [$address],  [new TLabel(_t('Phone'))], [$phone] );
-        $this->form->addFields( [new TLabel(_t('Function'))], [$function_name],  [new TLabel(_t('About'))], [$about] );
+        if ($add_fields)
+        {
+            $this->form->addFields( [new TLabel(_t('Address'))], [$address],  [new TLabel(_t('Phone'))], [$phone] );
+            $this->form->addFields( [new TLabel(_t('Function'))], [$function_name],  [new TLabel(_t('About'))], [$about] );
+        }
+        
         $this->form->addFields( [new TLabel(_t('Main unit'))], [$unit_id],  [new TLabel(_t('Front page'))], [$frontpage_id] );
         $this->form->addFields( [new TLabel(_t('Password'))], [$password],  [new TLabel(_t('Password confirmation'))], [$repassword] );
         $this->form->addFields( [new TLabel(_t('Custom code'))], [$custom_code] );
         
-        $subform = new BootstrapFormBuilder;
+        $subform = new BootstrapFormBuilder('form_System_user_subform');
         $subform->setFieldSizes('100%');
         $subform->setProperty('style', 'border:none');
         
@@ -276,10 +286,8 @@ class SystemUserForm extends TPage
             // close the transaction
             TTransaction::close();
             
-            $pos_action = new TAction(['SystemUserList', 'onReload']);
-            
-            // shows the success message
-            new TMessage('info', TAdiantiCoreTranslator::translate('Record saved'), $pos_action);
+            TToast::show('info', _t('Record saved'));
+            AdiantiCoreApplication::loadPage('SystemUserList', 'onReload');
         }
         catch (Exception $e) // in case of exception
         {

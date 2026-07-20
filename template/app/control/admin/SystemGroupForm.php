@@ -2,7 +2,7 @@
 /**
  * SystemGroupForm
  *
- * @version    8.4
+ * @version    8.6
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -44,8 +44,13 @@ class SystemGroupForm extends TPage
         // outras propriedades
         $id->setEditable(false);
         
-        $this->form->addFields( [new TLabel('ID')], [$id]);
-        $this->form->addFields( [new TLabel(_t('Name'))], [$name]);
+        $this->form->addFields( [new TLabel('ID')] );
+        $this->form->addFields( [$id] );
+        $this->form->addFields( [new TLabel(_t('Name'))] );
+        $this->form->addFields( [$name] );
+        $this->form->addFields( [$fs = new TFormSeparator('<b>' . _t('Permission') . '</b>')] );
+        
+        $fs->style = 'margin-top:10px';
         
         $this->program_list = new TCheckList('program_list');
         $this->program_list->setIdColumn('id');
@@ -53,7 +58,7 @@ class SystemGroupForm extends TPage
         $col_name    = $this->program_list->addColumn('name', _t('Name'),    'left',   '50%');
         $col_program = $this->program_list->addColumn('controller', _t('Menu path'),    'left',   '40%');
         $col_program->enableAutoHide(500);
-        $this->program_list->setHeight(350);
+        $this->program_list->setHeight(260);
         $this->program_list->makeScrollable();
         
         $col_name->enableSearch();
@@ -75,7 +80,7 @@ class SystemGroupForm extends TPage
         $this->user_list->setIdColumn('id');
         $this->user_list->addColumn('id',    'ID',    'center',  '10%');
         $col_user = $this->user_list->addColumn('name', _t('Name'),    'left',   '90%');
-        $this->user_list->setHeight(350);
+        $this->user_list->setHeight(280);
         $this->user_list->makeScrollable();
         
         $col_user->enableSearch();
@@ -84,13 +89,15 @@ class SystemGroupForm extends TPage
         $search_user->style = 'margin-left: 4px; border-radius: 4px';
         
         $subform = new BootstrapFormBuilder;
-        $subform->setProperty('style', 'border:none; box-shadow:none');
+        $subform->setProperty('style', 'border:none; box-shadow:none; margin-bottom: 0');
         
         $subform->appendPage( _t('Programs') );
         $subform->addFields( [$this->program_list] );
+        $subform->addContent( [new TAlert('warning', _t('The programs selected here will automatically have access permission granted to this user group'), false)]);
         
         $subform->appendPage( _t('Users') );
         $subform->addFields( [$this->user_list] );
+        $subform->addContent( [new TAlert('warning', _t('Select all users who will be part of this group'), false)]);
         
         $this->form->addContent( [$subform] );
         
@@ -99,7 +106,7 @@ class SystemGroupForm extends TPage
         $this->user_list->addItems( SystemUser::get() );
         TTransaction::close();
         
-        $btn = $this->form->addAction( _t('Save'), new TAction(array($this, 'onSave')), 'far:save' );
+        $btn = $this->form->addAction( _t('Save'), new TAction(array($this, 'onSave')), 'fa:check' );
         $btn->class = 'btn btn-sm btn-primary';
         
         $this->form->addActionLink( _t('Clear'), new TAction(array($this, 'onEdit')),  'fa:eraser red' );
@@ -158,8 +165,9 @@ class SystemGroupForm extends TPage
             
             TTransaction::close(); // close the transaction
             
-            $pos_action = new TAction(['SystemGroupList', 'onReload']);
-            new TMessage('info', _t('Record saved'), $pos_action); // shows the success message
+            TToast::show('info', _t('Record saved'));
+            AdiantiCoreApplication::loadPage('SystemGroupList', 'onReload');
+            
         }
         catch (Exception $e) // in case of exception
         {
@@ -172,7 +180,7 @@ class SystemGroupForm extends TPage
      * method onEdit()
      * Executed whenever the user clicks at the edit button da datagrid
      */
-    function onEdit($param)
+    public function onEdit($param)
     {
         try
         {
