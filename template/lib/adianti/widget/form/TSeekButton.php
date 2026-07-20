@@ -17,7 +17,7 @@ use ReflectionClass;
 /**
  * Record Lookup Widget: Creates a lookup field used to search values from associated entities
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

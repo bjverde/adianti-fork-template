@@ -19,7 +19,7 @@ use Exception;
 /**
  * Modal form constructor for Adianti Framework
  *
- * @version    8.4
+ * @version    8.6
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

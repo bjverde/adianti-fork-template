@@ -13,7 +13,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * Image uploader with cropper
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -261,6 +261,7 @@ class TImageCropper extends TField implements AdiantiWidgetInterface
      */
     public function setSize($width, $height = NULL)
     {
+        $height = empty($height) ? 100 : $height;
         $width = (strstr($width, '%') !== FALSE) ? $width : "{$width}px";
         $height = (strstr($height, '%') !== FALSE) ? $height : "{$height}px";
 
@@ -352,6 +353,11 @@ class TImageCropper extends TField implements AdiantiWidgetInterface
         
         $file = new TEntry('tfile_timagecropper_' . $this->id);
         $file->{'accept'} =  '.' . implode(',.', $this->extensions);
+        if ($this->webcam)
+        {   
+            $file->{'capture'}   = '';
+            $file->{'accept'} = 'image/*;capture=camera';
+        }
         $file->{'type'}   = 'file';
         $file->{'class' } = "sr-only";
         $file->{'id' }    = $file->getName();

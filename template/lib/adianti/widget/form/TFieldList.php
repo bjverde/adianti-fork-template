@@ -16,7 +16,7 @@ use stdClass;
 /**
  * Create a field list
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -442,7 +442,7 @@ class TFieldList extends TTable
         {
             foreach ($item as $prop => $prop_value)
             {
-                if (strpos($prop, $this->field_prefix) == false)
+                if (strpos($prop, $this->field_prefix) === false)
                 {
                     $new_prop = $this->field_prefix . '_' . $prop;
                     $item->$new_prop = $prop_value;

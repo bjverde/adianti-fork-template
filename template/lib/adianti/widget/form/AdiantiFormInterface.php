@@ -4,7 +4,7 @@ namespace Adianti\Widget\Form;
 /**
  * Form Interface
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

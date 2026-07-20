@@ -14,7 +14,7 @@ use Exception;
 /**
  * Spinner Widget (also known as spin button)
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

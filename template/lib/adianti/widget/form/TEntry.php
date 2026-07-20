@@ -13,7 +13,7 @@ use Exception;
 /**
  * Entry Widget
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -42,6 +42,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
     protected $delimiter;
     protected $exitOnEnterOn;
     protected $innerIcon;
+    protected $speechRecognition;
     
     /**
      * Class Constructor
@@ -56,6 +57,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
         $this->replaceOnPost = FALSE;
         $this->minLength = 1;
         $this->exitOnEnterOn = FALSE;
+        $this->speechRecognition = FALSE;
         $this->tag->{'type'}   = 'text';
         $this->tag->{'widget'} = 'tentry';
     }
@@ -72,7 +74,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
             $this->innerIcon->{'class'} .= ' tentry-toggle-visibility input-inner-icon right' ;
         }
     }
-
+    
     /**
      * Define input type
      */
@@ -370,6 +372,14 @@ class TEntry extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Enable Speech recognition
+     */
+    public function enableSpeechRecognition()
+    {
+        $this->speechRecognition = TRUE;
+    }
+    
+    /**
      * Shows the widget at the screen
      */
     public function show()
@@ -440,8 +450,14 @@ class TEntry extends TField implements AdiantiWidgetInterface
             $this->{'type'} = 'password';
             TScript::create(" tentry_toggle_visibility( '{$this->id}' ); ");
         }
-
-        if (!empty($this->innerIcon))
+        
+        if ($this->speechRecognition)
+        {
+            TScript::create(" tentry_enable_speech_recognition_button( '{$this->id}' ); ");
+        }
+        
+        // wrapper
+        if (!empty($this->innerIcon) || $this->speechRecognition)
         {
             $icon_wrapper = new TElement('div');
             $icon_wrapper->{'class'} = 'inner-icon-container';
