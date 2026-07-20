@@ -1,7 +1,7 @@
 # Sobre Adianti
 Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
 
-# Changelog do Adianti Fork Template v8.6.0
+# Changelog do Adianti Fork Template v8.4.0
 
 ## Principais alterações
 
@@ -60,7 +60,6 @@ Incluido filtros por data e botão limpar nas telas
 
 
 # ChangeLog versões antigas
-* [Changelog do Fork do Template do Adianti v8.4.0](changelog_fork_v8.4.0.md)
 * [Changelog do Fork do Template do Adianti v8.3.0](changelog_fork_v8.3.0.md)
 * [Changelog do Fork do Template do Adianti v8.2.0](changelog_fork_v8.2.0.md)
 * [Changelog do Fork do Template do Adianti v8.1.0](changelog_fork_v8.1.0.md)
