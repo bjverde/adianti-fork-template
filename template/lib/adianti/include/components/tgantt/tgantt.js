@@ -23,13 +23,30 @@ function tgantt_start( id, day_action, minuteValue, pixelValue, update_action ) 
 
 function tgantt_set_day_action(id, day_action)
 {
+    var gantt = $(this).closest('.tgantt');
+    
     $(id + ' .tgantt-event').on('click', function(e){
+        if ($(this).data('isDragging') || $(this).data('isResizing') || $(gantt).data('isDraggingScroll')) {
+            e.stopPropagation();
+            e.preventDefault();
+            return; // ignorar click se arrastou
+        }
+        
         e.stopPropagation();
         e.preventDefault();
         __adianti_load_page($(this).attr('href'));
     });
 
-    $(id + ' .tgantt-cell').on('click', function(){
+    $(id + ' .tgantt-cell').on('click', function(e) {
+        var slider = document.querySelector(id);
+        
+        // ignora click se está dragging scroll
+        if ($(slider).data('isDraggingScroll')) {
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
+        
         var tr_data = $(this).closest('tr').data();
         __adianti_load_page( day_action+'&start_time='+$(this).data('date')+'&group_id='+tr_data['id']+'&group_title='+tr_data['title']);
     })
@@ -51,11 +68,17 @@ function tgantt_set_update_action(id, update_action)
         grid: [pixelStep,100],
         drag: function(_, ui) {
             tgantt_update_data_title(id, ui);
+            $(this).data('isDragging', true);
         },
         stop: function(e, ui) {
             e.stopPropagation();
             // e.preventDefault();
-
+            
+            var that = $(this);
+            setTimeout(function() {
+                that.data('isDragging', false);
+            }, 10);
+            
             if( ui.position.left < 0) {
                 var width = ui.helper.width();
                 var left = Math.abs( ui.position.left );
@@ -114,6 +137,10 @@ function tgantt_set_update_action(id, update_action)
         stop: function(e, ui ) {
             e.stopPropagation();
             e.preventDefault();
+            
+            var that = $(this);
+            that.data('isResizing', true);
+            setTimeout(function() { that.data('isResizing', false); }, 10);
             
             var handle_position = $(this).data('ui-resizable').axis;
             if (handle_position == 'e')
@@ -257,4 +284,47 @@ function tgantt_get_time_resize(id, ui)
     }
 
     return ( ( ( resizeWidth / pixelStep ) * minuteStep ) /60);
+}
+
+function tgantt_drag_scroll(id)
+{
+    var slider = document.querySelector('#'+id);
+    var gantt  = $(slider).closest('.tgantt');
+    var isDown = false;
+    var startX;
+    var scrollLeft;
+    
+    $(slider).data('isDraggingScroll', false);
+    
+    slider.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.tgantt-event')) return;
+        
+        isDown = true;
+        $(gantt).data('isDraggingScroll', false); // reset
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    
+    });
+    slider.addEventListener('mouseleave', (e) => {
+        isDown = false;
+        slider.classList.remove('active');
+        $(gantt).data('isDraggingScroll', false);
+    });
+    slider.addEventListener('mouseup', (e) => {
+        isDown = false;
+        slider.classList.remove('active');
+        setTimeout(() => { $(gantt).data('isDraggingScroll', false); }, 0);
+    });
+    slider.addEventListener('mousemove', (e) => {
+        if (e.target.closest('.tgantt-event')) return;
+        if (!isDown) return;
+        
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 0.9;
+        slider.scrollLeft = scrollLeft - walk;
+        
+        $(gantt).data('isDraggingScroll', true);
+    });
 }

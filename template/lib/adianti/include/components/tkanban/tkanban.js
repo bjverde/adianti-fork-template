@@ -66,3 +66,46 @@ function kanban_start_item(classItem, itemDropAction)
 		cancel: '.kanban-item-actions'
     });
 }
+
+function kanban_drag_scroll(id)
+{
+    var slider = document.querySelector('#'+id);
+    var isDown = false;
+    var startX;
+    var scrollLeft;
+    
+    slider.addEventListener('mousedown', (e) => {
+        if (e.target.classList.contains('kanban-item-title')) {
+            return false;
+        }
+        isDown = true;
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    
+    });
+    slider.addEventListener('mouseleave', (e) => {
+        if (e.target.classList.contains('kanban-item-title')) {
+            return false;
+        }
+        isDown = false;
+        slider.classList.remove('active');
+    });
+    slider.addEventListener('mouseup', (e) => {
+        if (e.target.classList.contains('kanban-item-title')) {
+            return false;
+        }
+        isDown = false;
+        slider.classList.remove('active');
+    });
+    slider.addEventListener('mousemove', (e) => {
+        if (e.target.classList.contains('kanban-item-title')) {
+            return false;
+        }
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 0.9;
+        slider.scrollLeft = scrollLeft - walk;
+    });
+}

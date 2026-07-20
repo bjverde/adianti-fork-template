@@ -34,3 +34,8 @@
     margin-top: -1px;
     border: var(--bs-border-width) solid var(--bs-border-color);
 }
+
+.tabwrapper.bordered.pills .tab-pane {
+    margin-top: 10px;
+    border-radius: 10px;
+}

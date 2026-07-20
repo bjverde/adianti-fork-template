@@ -1,3 +1,7 @@
+select.tmulticombo, select.tdbmulticombo
+{
+    display:none;
+}
 .ms-options-wrap {
     position: relative;
     float: left;

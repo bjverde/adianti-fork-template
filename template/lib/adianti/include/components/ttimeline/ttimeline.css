@@ -10,7 +10,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 4px;
+    width: 2px;
     background: var(--bs-secondary-border-subtle);
     left: 31px;
     margin: 0;
@@ -39,8 +39,8 @@
     padding: 0;
     position: relative;
     background: var(--bs-body-bg);
-    box-shadow: var(--bs-box-shadow-sm);
-    border-radius: var(--bs-border-radius);
+    /*box-shadow: var(--bs-box-shadow-sm);*/
+    border-radius: 10px;
     border: var(--bs-border-width) solid var(--bs-border-color);
 }
 
@@ -53,7 +53,7 @@
 
 .timeline > li > .timeline-item > .timeline-header {
     margin: 0;
-    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+    /*border-bottom: var(--bs-border-width) solid var(--bs-border-color);*/
     padding: 10px;
     font-size: 16px;
     line-height: 1.1;

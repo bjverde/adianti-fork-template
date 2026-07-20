@@ -331,3 +331,74 @@ function tentry_toggle_visibility(id)
         }
     });
 }
+
+function tentry_enable_speech_recognition_button(element_id)
+{
+    var $textarea = $('#' + element_id);
+    if (!$textarea.length) return;
+
+    // $textarea.wrap('<div style="position:relative; display:inline-block; width:100%;height:100%"></div>');
+    // var $wrapper = $textarea.parent();
+
+    var $btn = $('<button type="button"><i class="fa fa-microphone"></i></button>');
+    $btn.addClass('tentry_recording_button');
+
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        console.warn('SpeechRecognition not supported');
+        return;
+    }
+    
+    var recognition = new SpeechRecognition();
+    recognition.continuous = true;
+
+    var recording_flag = false;
+
+    $btn.on('click', function () {
+        if (!recording_flag) {
+            recognition.start();
+            startMicAnimation();
+            recording_flag = true;
+        } else {
+            recognition.stop();
+            stopMicAnimation();
+            recording_flag = false;
+        }
+    });
+
+    recognition.onresult = function (event) {
+        var texto = event.results[event.results.length - 1][0].transcript;
+        $textarea.val(($textarea.val() + ' ' + texto).trim());
+    };
+
+    recognition.onend = function () {
+        stopMicAnimation();
+        recording_flag = false;
+    };
+
+    recognition.onerror = function () {
+        stopMicAnimation();
+        recording_flag = false;
+    };
+
+    function startMicAnimation() {
+        $btn.addClass('recording');
+    }
+
+    function stopMicAnimation() {
+        $btn.removeClass('recording');
+    }
+
+    //$wrapper.append($btn);
+    $textarea.after($btn);
+}
+
+function tentry_insert_text(form_name, field, content)
+{
+    var selector = tfield_get_selector(form_name, field);
+    var inputElement = $(selector)[0];
+    inputElement.focus(); // (required for some browsers)
+    // Inserts text at the current cursor/selection
+    inputElement.setRangeText(content, inputElement.selectionStart, inputElement.selectionEnd, 'end');
+}

@@ -27,3 +27,13 @@ table.fc-scrollgrid
 {
     border-color: var(--bs-border-color) !important;
 }
+
+.fc .fc-list-sticky .fc-list-day>*
+{
+    background: var(--bs-body-bg);
+}
+
+.fc .fc-list-event:hover td
+{
+    background: var(--bs-secondary-bg);
+}

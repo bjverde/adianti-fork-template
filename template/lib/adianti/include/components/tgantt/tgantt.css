@@ -168,9 +168,9 @@
     overflow: hidden;
     white-space: nowrap;
     line-height: 30px;
-    border-radius: 3px;
+    border-radius: 5px;
     user-select: none;
-    border: 1px solid var(--bs-border-color);
+    border: 2px solid var(--bs-border-color);
 }
 
 .tgantt .hour-cell {
