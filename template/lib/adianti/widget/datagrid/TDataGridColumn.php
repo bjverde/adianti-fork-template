@@ -8,7 +8,7 @@ use Adianti\Widget\Form\TEntry;
 /**
  * Representes a DataGrid column
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio
@@ -27,6 +27,7 @@ class TDataGridColumn
     private $properties;
     private $dataProperties;
     private $totalFunction;
+    private $totalFunctionLabel;
     private $totalMask;
     private $totalCallback;
     private $totalTransformed;
@@ -34,6 +35,7 @@ class TDataGridColumn
     private $inputSearch;
     private $htmlConversion;
     private $printable;
+    private $visible;
     
     /**
      * Class Constructor
@@ -53,6 +55,7 @@ class TDataGridColumn
         $this->dataProperties = array();
         $this->htmlConversion = true;
         $this->printable = true;
+        $this->visible = true;
     }
     
     /**
@@ -60,6 +63,8 @@ class TDataGridColumn
      */
     public function setVisibility($bool)
     {
+        $this->visible = $bool;
+        
         if ($bool)
         {
             $this->setProperty('style', '');
@@ -151,6 +156,14 @@ class TDataGridColumn
     public function isPrintable()
     {
         return $this->printable;
+    }
+    
+    /**
+     * Returns if column is visible
+     */
+    public function isVisible()
+    {
+        return $this->visible;
     }
     
     /**
@@ -359,36 +372,42 @@ class TDataGridColumn
     /**
      * Enable total
      */
-    public function enableTotal($function, $prefix = null, $decimals = 2, $decimal_separator = ',', $thousand_separator = '.')
+    public function enableTotal($function, $prefix = null, $decimals = 2, $decimal_separator = ',', $thousand_separator = '.', $total_function_label = false)
     {
         $this->totalFunction = $function;
         $this->totalMask     = "{$prefix}:{$decimals}{$decimal_separator}{$thousand_separator}";
+        $this->totalFunctionLabel = $total_function_label;
         
         if ($function == 'sum')
         {
             $this->setTotalFunction( function($values) {
                 return array_sum(array_filter($values, 'is_numeric'));
             });
+            $this->totalFunctionLabel = AdiantiCoreTranslator::translate('Sum') . ': ';
         }
         else if ($function == 'min') {
             $this->setTotalFunction(function($values) {
                 return min($values);
             });
+            $this->totalFunctionLabel = AdiantiCoreTranslator::translate('Min') . ': ';
         }
         else if ($function == 'max') {
             $this->setTotalFunction(function($values) {
                 return max($values);
             });
+            $this->totalFunctionLabel = AdiantiCoreTranslator::translate('Max') . ': ';
         }
         else if ($function == 'avg') {
             $this->setTotalFunction(function($values) {
                 return count($values) ? array_sum(array_filter($values, 'is_numeric')) / count($values) : 0;
             });
+            $this->totalFunctionLabel = AdiantiCoreTranslator::translate('Average') . ': ';
         }
         else if ($function == 'count') {
             $this->setTotalFunction(function($values) {
                 return count($values);
             });
+            $this->totalFunctionLabel = AdiantiCoreTranslator::translate('Count') . ': ';
         }
     }
     
@@ -425,6 +444,14 @@ class TDataGridColumn
     public function getTotalMask()
     {
         return $this->totalMask;
+    }
+    
+    /**
+     * Returns total label
+     */
+    public function getTotalFunctionLabel()
+    {
+        return $this->totalFunctionLabel;
     }
     
     /**
