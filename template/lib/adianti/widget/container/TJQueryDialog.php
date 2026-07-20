@@ -10,7 +10,7 @@ use Exception;
 /**
  * JQuery dialog container
  *
- * @version    8.4
+ * @version    8.6
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio
