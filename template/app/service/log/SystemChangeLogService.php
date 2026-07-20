@@ -2,7 +2,7 @@
 /**
  * SystemChangeLogService
  *
- * @version    8.4
+ * @version    8.6
  * @package    service
  * @subpackage log
  * @author     Pablo Dall'Oglio
@@ -35,31 +35,34 @@ class SystemChangeLogService
             TTransaction::open('log');
         }
         
-        foreach ($lastState as $key => $value)
+        if (!empty($lastState))
         {
-            if (!in_array($key, array_keys($currentState)) && !in_array($key, [$created_col, $updated_col, $deleted_col]) && ( (string) $value !== '') && ($operation == 'delete'))
+            foreach ($lastState as $key => $value)
             {
-                // deleted
-                $log = new SystemChangeLog;
-                $log->tablename  = $table;
-                $log->logdate    = date('Y-m-d H:i:s');
-                $log->log_year   = date('Y');
-                $log->log_month  = date('m');
-                $log->log_day    = date('d');
-                $log->login      = TSession::getValue('login');
-                $log->primarykey = $pk;
-                $log->pkvalue    = $activeRecord->$pk;
-                $log->operation  = 'deleted';
-                $log->columnname = $key;
-                $log->oldvalue   = (string) $value;
-                $log->newvalue   = '';
-                $log->access_ip  = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
-                $log->transaction_id  = $uniqid;
-                $log->log_trace  = $e->getTraceAsString();
-                $log->session_id = session_id();
-                $log->class_name = isset($_REQUEST['class']) ? $_REQUEST['class'] : '';
-                $log->php_sapi   = php_sapi_name();
-                $log->store();
+                if (!in_array($key, array_keys($currentState)) && !in_array($key, [$created_col, $updated_col, $deleted_col]) && ( (string) $value !== '') && ($operation == 'delete'))
+                {
+                    // deleted
+                    $log = new SystemChangeLog;
+                    $log->tablename  = $table;
+                    $log->logdate    = date('Y-m-d H:i:s');
+                    $log->log_year   = date('Y');
+                    $log->log_month  = date('m');
+                    $log->log_day    = date('d');
+                    $log->login      = TSession::getValue('login');
+                    $log->primarykey = $pk;
+                    $log->pkvalue    = $activeRecord->$pk;
+                    $log->operation  = 'deleted';
+                    $log->columnname = $key;
+                    $log->oldvalue   = (string) $value;
+                    $log->newvalue   = '';
+                    $log->access_ip  = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
+                    $log->transaction_id  = $uniqid;
+                    $log->log_trace  = $e->getTraceAsString();
+                    $log->session_id = session_id();
+                    $log->class_name = isset($_REQUEST['class']) ? $_REQUEST['class'] : '';
+                    $log->php_sapi   = php_sapi_name();
+                    $log->store();
+                }
             }
         }
         

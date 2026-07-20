@@ -2,7 +2,7 @@
 /**
  * SystemRequestLogService
  *
- * @version    8.4
+ * @version    8.6
  * @package    service
  * @subpackage log
  * @author     Pablo Dall'Oglio
@@ -44,7 +44,7 @@ class SystemRequestLogService
         $object->request_uri = (PHP_SAPI == 'cli') ? 'cmd.php' : $_SERVER['REQUEST_URI'];
         $object->request_method = (PHP_SAPI == 'cli') ? 'CLI' : $_SERVER['REQUEST_METHOD'];
         $object->request_duration = (int) ( $duration * 1000 ); // miliseconds
-        $object->query_string = (PHP_SAPI == 'cli') ? http_build_query($request) : ($_SERVER['QUERY_STRING'] ?? '');
+        $object->query_string = (PHP_SAPI == 'cli') ? http_build_query($request) : $_SERVER['QUERY_STRING'];
         
         if (PHP_SAPI !== 'cli')
         {

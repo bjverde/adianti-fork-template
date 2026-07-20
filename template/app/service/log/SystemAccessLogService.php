@@ -2,7 +2,7 @@
 /**
  * SystemAccessLogService
  *
- * @version    8.4
+ * @version    8.6
  * @package    service
  * @subpackage log
  * @author     Pablo Dall'Oglio
