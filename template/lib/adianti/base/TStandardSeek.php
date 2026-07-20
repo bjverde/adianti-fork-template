@@ -31,7 +31,7 @@ use StdClass;
 /**
  * Standard Page controller for Seek buttons
  *
- * @version    8.4
+ * @version    8.6
  * @package    base
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
