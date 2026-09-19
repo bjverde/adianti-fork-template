@@ -80,7 +80,7 @@ return [
             'has_master_menu' => '0',  // 0 = menu lateral, 1 = menu icones
             'always_collapse' => '0',
             'allow_page_tabs' => '0',
-            'only_top_menu' => '0',
+            'only_top_menu' => '0', // Habilita o menu superior
             'header_display' => "visible",
             'footer_display' => "visible"
         ],
