@@ -286,7 +286,7 @@ class TFormDinDaoDbms
 	*/
 	public function setMetadataDir( $strNewValue = null )
 	{
-		$this->metadataDir=trim( $strNewValue ) . '/';
+		$this->metadataDir=trim( (string) $strNewValue ) . '/';
 		$this->metadataDir=preg_replace( '/\/\//', '', $this->metadataDir ) . '/';
 
 		if ( !is_null( $strNewValue ) && !file_exists( $strNewValue ) )

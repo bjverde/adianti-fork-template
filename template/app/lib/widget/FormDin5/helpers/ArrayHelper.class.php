@@ -85,7 +85,7 @@ class ArrayHelper
     public static function has($atributeName,$array) 
     {
         $value = false;
-        if (is_array($array) && array_key_exists($atributeName, $array)) {
+        if (is_array($array) && array_key_exists($atributeName ?? '', $array)) {
             $value = true;
         }
         return $value;

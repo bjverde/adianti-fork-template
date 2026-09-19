@@ -100,4 +100,16 @@ class TFormDinSystemPermController
             throw $e;
         }
     }
+    //--------------------------------------------------------------------------------    
+    /**
+     * Cria um combo de usuários para usar em formulários compativel com diferentes versões do Adianti
+     * @param string $idCombo - ID do combo
+     * @return TDBCombo | null
+     */
+    public function getTDBComboUnit(string $idCombo, ?TCriteria $criteria=null){
+        $combo = new TDBCombo($idCombo, $this->getDatabase(), 'SystemUnit', 'id', '{name}','name asc' , $criteria);
+        $combo->enableSearch();
+        $combo->setSize('100%');
+        return $combo; // retorna o objeto salvo
+    }    
 }//fim classe

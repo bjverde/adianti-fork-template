@@ -43,7 +43,7 @@ class TFormDinGenericController
      * @param string $repositoryName - 02: nome de classe
      * @return array Adianti
      */
-    public function selectByTCriteria( TCriteria $criteria=null)
+    public function selectByTCriteria( TCriteria $criteria)
     {
         $result = $this->getDao()->selectByTCriteria($criteria);
         return $result;
@@ -55,19 +55,45 @@ class TFormDinGenericController
      * @param string $repositoryName - 02: nome de classe
      * @return array Adianti
      */
-    public function selectByTCriteriaCount( TCriteria $criteria=null)
+    public function selectByTCriteriaCount( TCriteria $criteria)
     {
         $result = $this->getDao()->selectByTCriteriaCount($criteria);
         return $result;
     }
     
+    /**
+     * Busca arrays baseado em uma criteria
+     *
+     * @param TCriteria $criteria
+     * @param bool $showDumpLogTela
+     * @return mixed|null
+     */    
     public function getArrayByCriteria(TCriteria $criteria,bool $showDumpLogTela=false){
         $result = $this->getDao()->getArrayByCriteria($criteria,$showDumpLogTela);
         return $result;
     }
 
+    /**
+     * Busca objetos baseados em uma criteria
+     *
+     * @param TCriteria $criteria
+     * @param bool $showDumpLogTela
+     * @return mixed|null
+     */
     public function getListObjByCriteria(TCriteria $criteria,bool $showDumpLogTela=false){
         $result = $this->getDao()->getListObjByCriteria($criteria,$showDumpLogTela);
         return $result;
     }
+
+    /**
+     * Conta registros baseado em uma criteria
+     *
+     * @param TCriteria $criteria
+     * @param bool $showDumpLogTela
+     * @return mixed|null
+     */    
+    public function getCountByCriteria(TCriteria $criteria,bool $showDumpLogTela=false){
+        $result = $this->getDao()->getCountByCriteria($criteria,$showDumpLogTela);
+        return $result;
+    }    
 }//fim classe
