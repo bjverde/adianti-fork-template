@@ -77,7 +77,7 @@ return [
             'has_news' => '1',
             'has_menu_mode_switch' => '1',
             'has_main_mode_switch' => '1',
-            'has_master_menu' => '1',
+            'has_master_menu' => '0',  // 0 = menu lateral, 1 = menu icones
             'always_collapse' => '0',
             'allow_page_tabs' => '0',
             'only_top_menu' => '0',
