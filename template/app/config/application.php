@@ -5,7 +5,7 @@ return [
         'language' => 'pt',
         'application' => 'template',
         'title' => 'Adianti Template 8.6',
-        'theme' => 'adminbs5',
+        'theme' => 'adminbs5_v7',
         'seed' => 'odfu6asnodf8as',
         'rest_key' => '',
         'multiunit' => '1',
