@@ -4,13 +4,20 @@
 # inicie com / para pegar o caminho sem isso será considerado recursivo
 
 # Agent files
-.agent/
+/.agents/
+/.agent/
+/.claude/
+/.antigravity/
+/.gemini/
+/AGENTS.md
+/CLAUDE.md
 
 # VsCode files
 /.vscode/
 
 # Eclipse files
 /.settings/
+/.vscode/
 /.project
 /.buildpath
 

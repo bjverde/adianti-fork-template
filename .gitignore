@@ -3,14 +3,17 @@
 # Ignore **/ alll subdirectories 
 
 # Agent files
-.agent/
-.claude/
-.antigravity/
-.gemini/
+/.agents/
+/.agent/
+/.claude/
+/.antigravity/
+/.gemini/
+/AGENTS.md
+/CLAUDE.md
 
 
 # VsCode files
-.vscode/
+/.vscode/
 
 # Eclipse files
 /.settings/
@@ -19,9 +22,9 @@
 /.buildpath
 
 #Arquivos compactados
-*.zip
-*.tar.gz
-*.tar
+/*.zip
+/*.tar.gz
+/*.tar
 
 # Documentos
-document/livros/*
+/document/livros/*
