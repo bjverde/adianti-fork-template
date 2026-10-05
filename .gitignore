@@ -2,6 +2,13 @@
 # Ignore * all files in directories
 # Ignore **/ alll subdirectories 
 
+# Agent files
+.agent/
+.claude/
+.antigravity/
+.gemini/
+
+
 # VsCode files
 .vscode/
 
@@ -10,3 +17,11 @@
 /.vscode/
 /.project
 /.buildpath
+
+#Arquivos compactados
+*.zip
+*.tar.gz
+*.tar
+
+# Documentos
+document/livros/*
