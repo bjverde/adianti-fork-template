@@ -1,12 +1,12 @@
 # Sobre Adianti
 Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
 
-# Changelog do Adianti Fork Template v8.6.0
+# Changelog do Adianti Fork Template v8.7.0.1
 
 ## Principais alterações
 
 ### 1 - Tema melhorado
-Instlado tema adminbs5_v6, que é uma versão melhorada do tema adminbs5. [Veja as mudanças no projeto adianti-theme](https://github.com/bjverde/adianti-theme/blob/master/documents/template/adminbs5_v6.md)
+Instlado tema adminbs5_v8, que é uma versão melhorada do tema adminbs5. [Veja as mudanças no projeto adianti-theme](https://github.com/bjverde/adianti-theme/blob/master/documents/template/adminbs5_v8.md)
 1. Zoom no celular, com movimento de pinça
 1. Houver no grid com amarelo
 1. Possibilitar selecionar label do campo
@@ -61,6 +61,7 @@ Incluido filtros por data e botão limpar nas telas
 
 # ChangeLog versões antigas
 * [Changelog do Fork do Template do Adianti v8.7.0](changelog_fork_v8.7.0.md)
+* [Changelog do Fork do Template do Adianti v8.6.0](changelog_fork_v8.6.0.md)
 * [Changelog do Fork do Template do Adianti v8.4.0](changelog_fork_v8.4.0.md)
 * [Changelog do Fork do Template do Adianti v8.3.0](changelog_fork_v8.3.0.md)
 * [Changelog do Fork do Template do Adianti v8.2.0](changelog_fork_v8.2.0.md)
