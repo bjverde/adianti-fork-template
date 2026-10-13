@@ -14,7 +14,7 @@ use Exception;
 /**
  * Text Widget (also known as Memo)
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -48,6 +48,14 @@ class TText extends TField implements AdiantiWidgetInterface
         $this->tag->{'widget'} = 'ttext';
         // defines the text default height
         $this->height= 100;
+    }
+    
+    /**
+     * Enable vertical resizing
+     */
+    public function enableVerticalResize()
+    {
+        $this->tag->{'style'} .= ';resize:vertical';
     }
     
     /**

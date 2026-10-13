@@ -2,7 +2,7 @@
 /**
  * SystemRequestLogService
  *
- * @version    8.6
+ * @version    8.7
  * @package    service
  * @subpackage log
  * @author     Pablo Dall'Oglio
@@ -61,11 +61,16 @@ class SystemRequestLogService
             'password2'
         ];
         
+        // obfuscate sensitive keys
         foreach ($sensitiveKeys as $key)
         {
             if (!empty($request[$key]))
             {
+                $value = $request[$key];
                 $request[$key] = '*****';
+                
+                $object->request_uri = str_replace("&{$key}={$value}","&{$key}=*****", $object->request_uri);
+                $object->query_string = str_replace("&{$key}={$value}","&{$key}=*****", $object->query_string);
             }
         }
         

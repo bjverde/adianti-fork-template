@@ -2,7 +2,7 @@
 /**
  * SystemChangeLogService
  *
- * @version    8.6
+ * @version    8.7
  * @package    service
  * @subpackage log
  * @author     Pablo Dall'Oglio

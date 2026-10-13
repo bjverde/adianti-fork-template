@@ -7,7 +7,7 @@ use Adianti\Widget\Base\TScript;
 /**
  * Page Wrapper
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio

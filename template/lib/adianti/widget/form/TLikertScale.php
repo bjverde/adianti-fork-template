@@ -16,7 +16,7 @@ use Exception;
 /**
  * Likert Scale
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

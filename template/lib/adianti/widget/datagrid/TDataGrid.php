@@ -19,7 +19,7 @@ use Exception;
 /**
  * DataGrid Widget: Allows to create datagrids with rows, columns and actions
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio

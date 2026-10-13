@@ -9,7 +9,7 @@ use Exception;
 /**
  * Bar chart widget
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage chart
  * @author     Pablo Dall'Oglio

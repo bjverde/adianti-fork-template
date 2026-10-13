@@ -1,4 +1,13 @@
 <?php
+/**
+ * SystemPermissionService
+ *
+ * @version    8.7
+ * @package    service
+ * @author     Pablo Dall'Oglio
+ * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
+ * @license    https://adiantiframework.com.br/license-template
+ */
 class SystemPermissionService
 {
     public static function reloadPermissions($goto = true)

@@ -16,7 +16,7 @@ use ReflectionClass;
 /**
  * Implements the Repository Pattern to deal with collections of Active Records
  *
- * @version    8.6
+ * @version    8.7
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

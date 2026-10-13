@@ -15,7 +15,7 @@ use Adianti\Widget\Util\TExceptionView;
 /**
  * Basic structure to run a web application
  *
- * @version    8.6
+ * @version    8.7
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -563,5 +563,47 @@ class AdiantiCoreApplication
     public static function getDebugMode()
     {
         return self::$debug;
+    }
+    
+    /**
+     *
+     */
+    public static function getSystemURL()
+    {
+        // Detect HTTPS
+        $is_https = false;
+    
+        if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+        {
+            $is_https = true;
+        }
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']))
+        {
+            $forwarded_proto = strtolower( trim(explode(',', $_SERVER['HTTP_X_FORWARDED_PROTO'])[0]) );
+            $is_https = ($forwarded_proto === 'https');
+        }
+        elseif (!empty($_SERVER['SERVER_PORT']))
+        {
+            $is_https = ((int) $_SERVER['SERVER_PORT'] === 443);
+        }
+        
+        $scheme = $is_https ? 'https' : 'http';
+    
+        // Host
+        $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
+    
+        // Remove eventual port
+        $host = preg_replace('/:\d+$/', '', $host);
+    
+        // Directory where the application is installed
+        $script_name = $_SERVER['SCRIPT_NAME'] ?? '';
+        $base_path  = str_replace('\\', '/', dirname($script_name));
+    
+        if ($base_path === '/' || $base_path === '.')
+        {
+            $base_path = '';
+        }
+    
+        return rtrim($scheme . '://' . $host . $base_path, '/');
     }
 }

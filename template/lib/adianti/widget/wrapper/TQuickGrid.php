@@ -9,7 +9,7 @@ use Adianti\Widget\Datagrid\TDataGridAction;
 /**
  * Create quick datagrids through its simple interface
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage wrapper
  * @author     Pablo Dall'Oglio

@@ -4,7 +4,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * ApplicationTranslator
  *
- * @version    8.6
+ * @version    8.7
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Class map
  *
- * @version    8.6
+ * @version    8.7
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -168,6 +168,7 @@ class AdiantiClassMap
         $classPath['TCardView']                       = 'lib/adianti/widget/util/TCardView.php';
         $classPath['TPageStep']                       = 'lib/adianti/widget/util/TPageStep.php';
         $classPath['TPillBar']                        = 'lib/adianti/widget/util/TPillBar.php';
+        $classPath['TMiniLoader']                     = 'lib/adianti/widget/util/TMiniLoader.php';
         $classPath['TDBArrowStep']                    = 'lib/adianti/widget/wrapper/TDBArrowStep.php';
         $classPath['TDBCheckGroup']                   = 'lib/adianti/widget/wrapper/TDBCheckGroup.php';
         $classPath['TDBCombo']                        = 'lib/adianti/widget/wrapper/TDBCombo.php';

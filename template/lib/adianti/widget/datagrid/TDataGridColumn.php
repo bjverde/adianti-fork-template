@@ -8,7 +8,7 @@ use Adianti\Widget\Form\TEntry;
 /**
  * Representes a DataGrid column
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio

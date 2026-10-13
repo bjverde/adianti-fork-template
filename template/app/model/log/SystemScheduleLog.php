@@ -2,7 +2,7 @@
 /**
  * SystemScheduleLog
  *
- * @version    8.6
+ * @version    8.7
  * @package    model
  * @subpackage log
  * @author     Pablo Dall'Oglio

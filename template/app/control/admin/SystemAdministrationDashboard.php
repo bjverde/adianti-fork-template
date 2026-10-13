@@ -2,7 +2,7 @@
 /**
  * SystemAdministrationDashboard
  *
- * @version    8.6
+ * @version    8.7
  * @package    control
  * @subpackage log
  * @author     Pablo Dall'Oglio

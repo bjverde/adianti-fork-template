@@ -5,7 +5,7 @@ use Adianti\Database\TConnection;
 /**
  * Database Information Service
  *
- * @version    3.0
+ * @version    8.7
  * @package    service
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006-2014 Adianti Solutions Ltd. (http://www.adianti.com.br)

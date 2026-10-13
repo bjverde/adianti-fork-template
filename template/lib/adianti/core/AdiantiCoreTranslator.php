@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Framework translation class for internal messages
  *
- * @version    8.6
+ * @version    8.7
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -188,7 +188,9 @@ class AdiantiCoreTranslator
         $this->messages['en'][] = 'Count';
         $this->messages['en'][] = 'Total';
         $this->messages['en'][] = 'The method ^1 cannot be used together with the method ^2';
-        
+        $this->messages['en'][] = 'There is no active session context to exit';
+        $this->messages['en'][] = 'Invalid name';
+        $this->messages['en'][] = 'Unsupported driver';
         
         $this->messages['pt'][] = 'Carregando';
         $this->messages['pt'][] = 'Arquivo não encontrado';
@@ -354,6 +356,9 @@ class AdiantiCoreTranslator
         $this->messages['pt'][] = 'Qtde';
         $this->messages['pt'][] = 'Total';
         $this->messages['pt'][] = 'O método ^1 não pode ser usado em conjunto com o método ^2';
+        $this->messages['pt'][] = 'Não há contexto de sessão ativo para sair';
+        $this->messages['pt'][] = 'Nome inválido';
+        $this->messages['pt'][] = 'Driver não suportado';
         
         $this->messages['es'][] = 'Cargando';
         $this->messages['es'][] = 'Archivo no encontrado';
@@ -519,7 +524,10 @@ class AdiantiCoreTranslator
         $this->messages['es'][] = 'Conteo';
         $this->messages['es'][] = 'Total';
         $this->messages['es'][] = 'El método ^1 no se puede usar junto con el método ^2';
-        
+        $this->messages['es'][] = 'No hay contexto de sesión activo para salir';
+        $this->messages['es'][] = 'Nombre inválido';
+        $this->messages['es'][] = 'Controlador no compatible';
+
         $this->messages['it'][] = 'Caricamento';
         $this->messages['it'][] = 'File non trovato';
         $this->messages['it'][] = 'Cerca';
@@ -684,7 +692,10 @@ class AdiantiCoreTranslator
         $this->messages['it'][] = 'Conteggio';
         $this->messages['it'][] = 'Totale';
         $this->messages['it'][] = 'Il metodo ^1 non può essere utilizzato insieme al metodo ^2';
-        
+        $this->messages['it'][] = 'Non c\'è alcun contesto di sessione attivo per uscire';
+        $this->messages['it'][] = 'Nome non valido';
+        $this->messages['it'][] = 'Driver non supportato';
+
         $this->messages['fr'][] = 'Chargement';
         $this->messages['fr'][] = 'Fichier non trouvé';
         $this->messages['fr'][] = 'Recherche';
@@ -849,7 +860,9 @@ class AdiantiCoreTranslator
         $this->messages['fr'][] = 'Compte';
         $this->messages['fr'][] = 'Total';
         $this->messages['fr'][] = 'La méthode ^1 ne peut pas être utilisée avec la méthode ^2';
-        
+        $this->messages['fr'][] = 'Il n\'y a pas de contexte de session actif pour quitter';
+        $this->messages['fr'][] = 'Nom invalide';
+        $this->messages['fr'][] = 'Pilote non pris en charge';
         
         $this->messages['de'][] = 'Laden';
         $this->messages['de'][] = 'Datei nicht gefunden';
@@ -1015,7 +1028,10 @@ class AdiantiCoreTranslator
         $this->messages['de'][] = 'Anzahl';
         $this->messages['de'][] = 'Gesamt';
         $this->messages['de'][] = 'Die Methode ^1 kann nicht zusammen mit der Methode ^2 verwendet werden';
-        
+        $this->messages['de'][] = 'Es gibt keinen aktiven Sitzungskontext zum Beenden';
+        $this->messages['de'][] = 'Ungültiger Name';
+        $this->messages['de'][] = 'Nicht unterstützter Treiber';
+
         //fim
 	
         foreach ($this->messages as $lang => $messages)

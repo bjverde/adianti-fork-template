@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Chart base
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage chart
  * @author     Pablo Dall'Oglio
