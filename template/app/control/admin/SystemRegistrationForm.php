@@ -39,8 +39,8 @@ class SystemRegistrationForm extends TPage
         $password->placeholder = _t('Password');
         $repassword->placeholder = _t('Password confirmation');
         
-        $password->disableToggleVisibility();
-        $repassword->disableToggleVisibility();
+        //$password->disableToggleVisibility();
+        //$repassword->disableToggleVisibility();
         
         $login->addValidation( _t('Login'), new TRequiredValidator);
         $name->addValidation( _t('Name'), new TRequiredValidator);
