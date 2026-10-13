@@ -364,3 +364,7 @@ INSERT INTO system_group_program (id, system_group_id, system_program_id) values
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 2, (select id from system_program where controller='SystemTextDocumentEditor'));
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 1, (select id from system_program where controller='SystemWikiPagePicker'));
 INSERT INTO system_group_program (id, system_group_id, system_program_id) values ( (SELECT coalesce(max(id),0)+1 FROM system_group_program b), 1, (select id from system_program where controller='SystemModulesCheckView'));
+
+--- changes from 8.7.0
+INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Unit Users List', 'SystemUnitUsersList');
+INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Unit User Form', 'SystemUnitUserForm');

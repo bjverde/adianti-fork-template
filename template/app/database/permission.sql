@@ -167,6 +167,9 @@ INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(i
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Support form', 'SystemSupportForm');
 INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Profile 2FA Form', 'SystemProfile2FAForm');
 
+INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Unit Users List', 'SystemUnitUsersList');
+INSERT INTO system_program (id, name, controller) values ((SELECT coalesce(max(id),0)+1 FROM system_program b), 'System Unit User Form', 'SystemUnitUserForm');
+
 
 --- Insert users
 INSERT INTO system_users (id,

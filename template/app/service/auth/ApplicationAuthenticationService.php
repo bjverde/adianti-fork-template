@@ -134,40 +134,51 @@ class ApplicationAuthenticationService
     }
     
     /**
-     * Execute onAfterLogin hook
+     * Load user session variables (mini version for user creation context)
      */
-    public static function onAfterLogin()
+    public static function loadMiniSessionVars($user, $open_transaction = false)
     {
-        $ini  = AdiantiApplicationConfig::get();
-        
-        if (!empty($ini['hooks']['after_login']) && is_array($ini['hooks']['after_login']))
+        if ($open_transaction)
         {
-            foreach ($ini['hooks']['after_login'] as $after_login_hook)
-            {
-                if (is_callable($after_login_hook))
-                {
-                    $after_login_hook([]);
-                }
-            }
+            TTransaction::open('permission');
+        }
+        
+        TSession::setValue('login', $user->login);
+        TSession::setValue('userid', $user->id);
+        TSession::setValue('username', $user->name);
+        TSession::setValue('usermail', $user->email);
+        TSession::setValue('usercustomcode', $user->custom_code);
+        
+        if (!empty($user->unit))
+        {
+            TSession::setValue('userunitid',$user->unit->id);
+            TSession::setValue('userunitname', $user->unit->name);
+            TSession::setValue('userunitcustomcode', $user->unit->custom_code);
+        }
+        
+        if ($open_transaction)
+        {
+            TTransaction::close();
         }
     }
     
     /**
-     * Execute onBeforeLogout hook
+     * Load unit session variables (mini version for user creation context)
      */
-    public static function onBeforeLogout()
+    public static function loadUnitMiniSessionVars($unit, $open_transaction = false)
     {
-        $ini  = AdiantiApplicationConfig::get();
-        
-        if (!empty($ini['hooks']['before_logout']) && is_array($ini['hooks']['before_logout']))
+        if ($open_transaction)
         {
-            foreach ($ini['hooks']['before_logout'] as $before_logout_hook)
-            {
-                if (is_callable($before_logout_hook))
-                {
-                    $before_logout_hook([]);
-                }
-            }
+            TTransaction::open('permission');
+        }
+        
+        TSession::setValue('userunitid', $unit->id);
+        TSession::setValue('userunitname', $unit->name);
+        TSession::setValue('userunitcustomcode', $unit->custom_code);
+        
+        if ($open_transaction)
+        {
+            TTransaction::close();
         }
     }
     

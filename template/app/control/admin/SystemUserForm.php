@@ -2,7 +2,7 @@
 /**
  * SystemUserForm
  *
- * @version    8.6
+ * @version    8.7
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -42,6 +42,9 @@ class SystemUserForm extends TPage
         $email         = new TEntry('email');
         $unit_id       = new TDBCombo('system_unit_id','permission','SystemUnit','id','name');
         $frontpage_id  = new TDBUniqueSearch('frontpage_id', 'permission', 'SystemProgram', 'id', 'name', 'name');
+        $unit_manager  = new TCheckButton('unit_manager');
+        $unit_manager->setIndexValue(1);
+        $unit_manager->setUseSwitch(true, 'blue');
         
         if ($add_fields)
         {
@@ -90,7 +93,7 @@ class SystemUserForm extends TPage
         
         $this->form->addFields( [new TLabel(_t('Main unit'))], [$unit_id],  [new TLabel(_t('Front page'))], [$frontpage_id] );
         $this->form->addFields( [new TLabel(_t('Password'))], [$password],  [new TLabel(_t('Password confirmation'))], [$repassword] );
-        $this->form->addFields( [new TLabel(_t('Custom code'))], [$custom_code] );
+        $this->form->addFields( [new TLabel(_t('Custom code'))], [$custom_code], [new TLabel(_t('Unit manager'))], [$unit_manager] );
         
         $subform = new BootstrapFormBuilder('form_System_user_subform');
         $subform->setFieldSizes('100%');
@@ -188,8 +191,11 @@ class SystemUserForm extends TPage
                 throw new Exception(TAdiantiCoreTranslator::translate('The field ^1 is required', _t('Login')));
             }
             
+            $new_user = false;
             if( empty($object->id) )
             {
+                $new_user = true;
+                
                 if (SystemUser::newFromLogin($object->login) instanceof SystemUser)
                 {
                     throw new Exception(_t('An user with this login is already registered'));
@@ -263,11 +269,35 @@ class SystemUserForm extends TPage
                 }
             }
             
+            $unit_progs = [];
+            
             if (!empty($data->program_list))
             {
                 foreach ($data->program_list as $program_id)
                 {
-                    $object->addSystemUserProgram( new SystemProgram( $program_id ) );
+                    $program = new SystemProgram( $program_id );
+                    
+                    if (in_array($program->controller, ['SystemUnitUserForm', 'SystemUnitUsersList']))
+                    {
+                        if ( $data->unit_manager !== '1')
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            $unit_progs[] = $program->controller;
+                        }
+                    }
+                    
+                    $object->addSystemUserProgram( $program );
+                }
+            }
+            
+            if ( $data->unit_manager == '1' && count($unit_progs) < 2)
+            {
+                foreach (array_diff(['SystemUnitUserForm', 'SystemUnitUsersList'], $unit_progs) as $unit_controller)
+                {
+                    $object->addSystemUserProgram( SystemProgram::findByController($unit_controller) );
                 }
             }
             
@@ -283,6 +313,11 @@ class SystemUserForm extends TPage
             $data->id = $object->id;
             TForm::sendData('form_System_user', $data);
             
+            if ($new_user)
+            {
+                SystemHookService::onAfterUserCreation($object);
+            }
+            
             // close the transaction
             TTransaction::close();
             
@@ -292,7 +327,6 @@ class SystemUserForm extends TPage
         catch (Exception $e) // in case of exception
         {
             new TMessage('error', $e->getMessage());
-            TTransaction::rollback();
         }
     }
     
@@ -304,6 +338,8 @@ class SystemUserForm extends TPage
     {
         try
         {
+            $unit_manager_progs = 0;
+            
             if (isset($param['key']))
             {
                 // get the parameter $key
@@ -339,6 +375,11 @@ class SystemUserForm extends TPage
                 $program_ids = array();
                 foreach ($object->getSystemUserPrograms() as $program)
                 {
+                    if (in_array($program->controller, ['SystemUnitUserForm', 'SystemUnitUsersList']))
+                    {
+                        $unit_manager_progs ++;
+                    }
+                    
                     $program_ids[] = $program->id;
                 }
                 
@@ -352,7 +393,7 @@ class SystemUserForm extends TPage
                 $object->group_list   = $groups;
                 $object->unit_list    = $units;
                 $object->role_list    = $role_ids;
-                
+                $object->unit_manager = $unit_manager_progs == 2 ? 1 : 0;
                 // fill the form with the active record data
                 $this->form->setData($object);
                 
@@ -367,7 +408,6 @@ class SystemUserForm extends TPage
         catch (Exception $e) // in case of exception
         {
             new TMessage('error', $e->getMessage());
-            TTransaction::rollback();
         }
     }
     

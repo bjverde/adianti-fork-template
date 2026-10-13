@@ -24,7 +24,7 @@ use Traversable;
 /**
  * Base class for Active Records
  *
- * @version    8.6
+ * @version    8.7
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -400,10 +400,30 @@ abstract class TRecord implements IteratorAggregate
 
         return NULL;
     }
-
+    
     /**
-     * Returns the the name of the created at column
-     * @return A String containing the created at column
+     * Check if there is a session filter
+     */
+    public static function hasSessionFilters()
+    {
+        $prefilters = self::getPrefilters();
+        if ($prefilters)
+        {
+            foreach ($prefilters as $field => $filter)
+            {
+                if (in_array($filter, ['{session.userid}', '{session.userunitid}']))
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Returns the the name of the created by column
+     * @return A String containing the created by column
      */
     public function getCreatedByColumn()
     {
@@ -414,6 +434,22 @@ abstract class TRecord implements IteratorAggregate
         {
             // returns the CREATEDBY Active Record class constant
             return constant("{$class}::CREATEDBY");
+        }
+    }
+    
+    /**
+     * Returns the the name of the created in column
+     * @return A String containing the created in column
+     */
+    public function getCreatedInColumn()
+    {
+        // get the Active Record class name
+        $class = get_class($this);
+        
+        if (defined("{$class}::CREATEDIN"))
+        {
+            // returns the CREATEDIN Active Record class constant
+            return constant("{$class}::CREATEDIN");
         }
     }
     
@@ -482,6 +518,17 @@ abstract class TRecord implements IteratorAggregate
         {
             $session_var = constant("{$class}::USERBYATT");
         }
+        
+        return TSession::getValue($session_var);
+    }
+    
+    /**
+     * Returns the information related to the logged unit
+     * @return A String containing unit id
+     */
+    public function getByUnitSessionIdentificator()
+    {
+        $session_var = 'userunitid';
         
         return TSession::getValue($session_var);
     }
@@ -733,6 +780,7 @@ abstract class TRecord implements IteratorAggregate
         $pk = $this->getPrimaryKey();
         $createdat = $this->getCreatedAtColumn();
         $createdby = $this->getCreatedByColumn();
+        $createdin = $this->getCreatedInColumn();
         $updatedat = $this->getUpdatedAtColumn();
         $updatedby = $this->getUpdatedByColumn();
         
@@ -815,6 +863,11 @@ abstract class TRecord implements IteratorAggregate
             if (!empty($createdby))
             {
                 $sql->setRowData($createdby, $this->getByUserSessionIdentificator() );
+            }
+            
+            if (!empty($createdin))
+            {
+                $sql->setRowData($createdin, $this->getByUnitSessionIdentificator() );
             }
 
             $this->runWriters($sql, $this->data);
@@ -1884,6 +1937,11 @@ abstract class TRecord implements IteratorAggregate
      */
     public static function findCache($id, $withTrashed = FALSE)
     {
+        if (is_null($id))
+        {
+            return;
+        }
+        
         $classname = get_called_class();
         $attr = constant("{$classname}::PRIMARYKEY");
         

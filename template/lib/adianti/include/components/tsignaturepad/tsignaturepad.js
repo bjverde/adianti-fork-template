@@ -115,7 +115,7 @@ var TSignaturePad = (function (field, title, buttonLabel, serviceAction, fileHan
             }
         }
 
-        that.container.css('background', '#ffffff');
+        that.container.css('background', 'var(--bs-body-bg)');
         $('#container_tsignaturepad_' + that.field).remove(); // close dialog
         __adianti_unblock_ui();
     }
@@ -142,7 +142,7 @@ var TSignaturePad = (function (field, title, buttonLabel, serviceAction, fileHan
         
         div.title = that.title;
         div.id    = 'container_tsignaturepad_' + that.field;
-        div.style.background = '#fff';
+        div.style.background = 'var(--bs-body-bg)';
         div.style.padding    = '10px';
         div.appendChild(canvas);
         div.appendChild(actions);

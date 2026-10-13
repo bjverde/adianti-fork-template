@@ -2,7 +2,7 @@
 /**
  * Route translator
  *
- * @version    8.6
+ * @version    8.7
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006-2014 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -10,6 +10,9 @@
  */
 class AdiantiRouteTranslator
 {
+    /**
+     * Translate URL
+     */
     public static function translate($url, $format = TRUE)
     {
         /**
@@ -54,6 +57,25 @@ class AdiantiRouteTranslator
         }
         
         return $url;
+    }
+    
+    /**
+     * Translate Template
+     */
+    public static function translateTemplate($template, $format = TRUE)
+    {
+        // automatic parse .htaccess
+        $routes = self::parseHtAccess();
+        
+        $keys = array_map('strlen', array_keys($routes));
+        array_multisort($keys, SORT_DESC, $routes);
+        
+        foreach ($routes as $pattern => $short)
+        {
+            $template = str_replace('"index.php?'.$pattern.'"', $short, $template);
+        }
+        
+        return $template;
     }
     
     /**

@@ -17,7 +17,7 @@ use Closure;
 /**
  * Database Task manager
  *
- * @version    8.6
+ * @version    8.7
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2018 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -25,6 +25,74 @@ use Closure;
  */
 class TDatabase
 {
+    /**
+     * Create database
+     * @param $conn    Connection
+     * @param $name    New database name
+     */
+    public static function createDatabase($conn, $name, $owner = null)
+    {
+        $dbinfo = TTransaction::getDatabaseInfo();
+        
+        if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $name))
+        {
+            throw new Exception(AdiantiCoreTranslator::translate('Invalid name') . ': ' . $name);
+        }
+        
+        if (!empty($owner) && !preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $owner))
+        {
+            throw new Exception(AdiantiCoreTranslator::translate('Invalid name') . ': ' . $owner);
+        }
+        
+        if ($dbinfo['type'] === 'pgsql')
+        {
+            $conn->exec("CREATE DATABASE \"$name\"");
+            
+            if ($owner)
+            {
+                $conn->exec("ALTER DATABASE \"$name\" OWNER TO \"$owner\"");
+            }
+        }
+        else if ($dbinfo['type'] === 'mysql')
+        {
+            $char = $dbinfo['char'] ?? 'utf8mb4';
+            $conn->exec("CREATE DATABASE `$name` CHARACTER SET {$char}");
+            
+            if ($owner)
+            {
+                $conn->exec("GRANT ALL PRIVILEGES ON `$name`.* TO `$owner`@'localhost'");
+                $conn->exec("FLUSH PRIVILEGES");
+            }
+        }
+        else if (in_array($dbinfo['type'], ['sqlsrv', 'mssql', 'dblib']))
+        {
+            $conn->exec("CREATE DATABASE [$name]");
+            
+            if ($owner)
+            {
+                $conn->exec("ALTER AUTHORIZATION ON DATABASE::[$name] TO [$owner]");
+            }
+        }
+        else if ($dbinfo['type'] === 'sqlite')
+        {
+            $path = 'app/database';
+            
+            if (!is_dir($path) || !is_writable($path))
+            {
+                throw new Exception(AdiantiCoreTranslator::translate('Permission denied') . ': ' . $path);
+            }
+            
+            $file = $path . '/' . $name . '.db';
+            
+            $pdo = new PDO('sqlite:' . $file);
+            $pdo = null;
+        }
+        else
+        {
+            throw new Exception(AdiantiCoreTranslator::translate('Unsupported driver') . ': ' . $dbinfo['type']);
+        }
+    }
+    
     /**
      * Drop table
      * 
@@ -236,6 +304,23 @@ class TDatabase
     {
         TTransaction::log($query);
         return $conn->query($query);
+    }
+    
+    /**
+     * Batch execute array of SQL
+     * 
+     * @param $conn  Connection
+     * @param $statements Array of SQL
+     */
+    public static function batchExecute($conn, $statements)
+    {
+        foreach ($statements as $stmt)
+        {
+            if ($stmt !== '')
+            {
+                $conn->exec($stmt);
+            }
+        }
     }
     
     /**

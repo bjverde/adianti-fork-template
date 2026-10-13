@@ -2,7 +2,7 @@
 /**
  * SystemUnitForm
  *
- * @version    8.6
+ * @version    8.7
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -27,8 +27,6 @@ class SystemUnitForm extends TStandardForm
         
         $this->setDatabase('permission');              // defines the database
         $this->setActiveRecord('SystemUnit');     // defines the active record
-        $this->setAfterSaveAction( new TAction(['SystemUnitList', 'onReload']) );
-        $this->setUseToast(true);
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_SystemUnit');
@@ -86,5 +84,42 @@ class SystemUnitForm extends TStandardForm
     public static function onClose($param)
     {
         TScript::create("Template.closeRightPanel()");
+    }
+    
+    /**
+     * method onSave()
+     * Executed whenever the user clicks at the save button
+     */
+    public function onSave()
+    {
+        try
+        {
+            // open a transaction with database
+            TTransaction::open($this->database);
+            $object = $this->form->getData($this->activeRecord);
+            $this->form->validate();
+            $new_unit = empty($object->id);
+            $object->store();
+            
+            if ($new_unit)
+            {
+                SystemHookService::onAfterUnitCreation($object);
+            }
+            
+            $this->form->setData($object);
+            TTransaction::close();
+            
+            TToast::show('info', AdiantiCoreTranslator::translate('Record saved'));
+            $pos_action = new TAction(['SystemUnitList', 'onReload']);
+            AdiantiCoreApplication::loadPageURL( $pos_action->serialize() );
+            
+            return $object;
+        }
+        catch (Exception $e) // in case of exception
+        {
+            $object = $this->form->getData();
+            $this->form->setData($object);
+            new TMessage('error', $e->getMessage());
+        }
     }
 }

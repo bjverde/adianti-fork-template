@@ -16,7 +16,7 @@ use Exception;
 /**
  * Input Dialog
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage dialog
  * @author     Pablo Dall'Oglio
@@ -78,7 +78,7 @@ class TInputDialog
             {
                 foreach ($actionButtons as $key => $button)
                 {
-                    if ($button->getAction()->getParameter('stay-open') !== 1)
+                    if ($button->getAction()->getParameter('stay-open') !== 1 && $button->getAction()->getParameter('stay-open') !== '1')
                     {
                         $button->addFunction( "tdialog_close('{$this->id}')" );
                     }
@@ -90,7 +90,7 @@ class TInputDialog
         else
         {
             $button = new TButton(strtolower(str_replace(' ', '_', $caption)));
-            if ($action->getParameter('stay-open') !== 1)
+            if ($action->getParameter('stay-open') !== 1 && $action->getParameter('stay-open') !== '1')
             {
                 $button->addFunction( "tdialog_close('{$this->id}')" );
             }

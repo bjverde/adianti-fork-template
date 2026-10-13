@@ -2,7 +2,7 @@
 /**
  * SystemDatabaseExplorer
  *
- * @version    8.6
+ * @version    8.7
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -80,7 +80,14 @@ class SystemDatabaseExplorer extends TPage
         // transformer to format database name
         $db_col->setTransformer( function ($value, $object, $cell) {
             $cell->{'style'} = 'position:relative';
-            return "<div style='float:left'>{$value}</div><div style='position: absolute;right: 10px;'><span class='badge text-bg-secondary'>{$object->type}</span></div>";
+            
+            $icons = [];
+            $icons['permission'] = '<i class="fas fa-user-shield blue"></i>';
+            $icons['communication'] = '<i class="fas fa-comments blue"></i>';
+            $icons['log'] = '<i class="fas fa-history blue"></i>';
+            
+            $icon = $icons[$value] ?? '';
+            return "<div style='float:left'>{$value} {$icon}</div><div style='position: absolute;right: 10px;'><span class='badge text-bg-secondary'>{$object->type}</span></div>";
         });
         
         // load database connections into datagrid
@@ -129,7 +136,7 @@ class SystemDatabaseExplorer extends TPage
      */
     public function onDisplayJsonSeeds($object)
     {
-        return (file_exists('app/config/seeds/'.$object->database.'.json'));
+        return (file_exists('app/config/seeds/'.$object->database.'.json') && class_exists('SystemMigrationService'));
     }
     
     /**
@@ -154,28 +161,11 @@ class SystemDatabaseExplorer extends TPage
         {
             $results = [];
             $database = $param['database'];
-            TTransaction::open($database);
-            $seeds_file = 'app/config/seeds/'.$database.'.json';
-            if (file_exists($seeds_file))
+            
+            $results = SystemMigrationService::importJsonSeeds([$database]);
+            
+            if (!empty($results))
             {
-                $seeds = json_decode(file_get_contents($seeds_file));
-                if (!empty($seeds))
-                {
-                    foreach ($seeds as $model => $model_seeds)
-                    {
-                        $count = 0;
-                        foreach ($model_seeds as $seed_row)
-                        {
-                            $object = new $model;
-                            $pk = $object->getPrimaryKey();
-                            $object->fromArray( (array) $seed_row);
-                            unset($object->$pk);
-                            $object->store();
-                            $count ++;
-                        }
-                        $results[] = [_t('Model') => $model, _t('Count') => $count];
-                    }
-                }
                 $table = TTable::fromData($results, ['style'=>'border-collapse:collapse;', 'width' => '100%'], ['style'=>'font-weight:bold;text-align:center'], ['style'=>'text-align:center']);
                 
                 $window = TWindow::create(_t('Results'), 0.5, null);
@@ -189,7 +179,6 @@ class SystemDatabaseExplorer extends TPage
                 
                 TToast::show('success', _t('Sample data inserted successfully'));
             }
-            TTransaction::close();
         }
         catch (Exception $e)
         {

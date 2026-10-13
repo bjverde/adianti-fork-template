@@ -2,7 +2,7 @@
 /**
  * SystemUser
  *
- * @version    8.6
+ * @version    8.7
  * @package    model
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -438,9 +438,16 @@ class SystemUser extends TRecord
      * Returns a SystemUser object based on its login
      * @param $login String with user login
      */
-    static public function newFromLogin($login)
+    static public function newFromLogin($login, $case_sensitive = true)
     {
-        return SystemUser::where('login', '=', $login)->first();
+        if ($case_sensitive)
+        {
+            return SystemUser::where('login', '=', $login)->first();
+        }
+        else
+        {
+            return SystemUser::where('upper(login)', '=', strtoupper($login))->first();
+        }
     }
     
     /**
@@ -456,9 +463,16 @@ class SystemUser extends TRecord
      * Returns a SystemUser object based on its e-mail
      * @param $email String with user email
      */
-    static public function newFromEmail($email)
+    static public function newFromEmail($email, $case_sensitive = true)
     {
-        return SystemUser::where('email', '=', $email)->first();
+        if ($case_sensitive)
+        {
+            return SystemUser::where('email', '=', $email)->first();
+        }
+        else
+        {
+            return SystemUser::where('upper(email)', '=', strtoupper($email))->first();
+        }
     }
     
     /**

@@ -8,7 +8,7 @@ use Exception;
 /**
  * Basic HTTP Client request
  *
- * @version    8.6
+ * @version    8.7
  * @package    http
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -25,6 +25,8 @@ class AdiantiHttpClient
      */
     public static function request($url, $method = 'POST', $params = [], $authorization = null, $headers = [], $assoc = false)
     {
+        $method = strtoupper($method);
+        
         if (!in_array('curl', get_loaded_extensions()))
         {
             throw new Exception(AdiantiCoreTranslator::translate('Extension not found: ^1', 'curl'));
@@ -62,19 +64,12 @@ class AdiantiHttpClient
             $defaults[CURLOPT_HTTPHEADER] = $headers;
         }
         
-        try
-        {
-            curl_setopt_array($ch, $defaults);
-            $output = curl_exec($ch);
+        curl_setopt_array($ch, $defaults);
+        $output = curl_exec($ch);
 
-            if ($output === false)
-            {
-                throw new Exception(curl_error($ch));
-            }
-        }
-        finally
+        if ($output === false)
         {
-            curl_close($ch);
+            throw new Exception(curl_error($ch));
         }
         
         $return = (array) json_decode($output, $assoc);

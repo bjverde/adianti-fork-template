@@ -10,7 +10,7 @@ use ApplicationTranslator;
 /**
  * Html Renderer
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage template
  * @author     Pablo Dall'Oglio
@@ -64,6 +64,22 @@ class THtmlRenderer
     {
         $html = new self($path);
         $html->enableSection('main', $replaces);
+        return $html;
+    }
+    
+    /**
+     *
+     */
+    public static function createFromString($string)
+    {
+        $temp = tmpfile();
+        fwrite($temp, $string);
+        rewind($temp);
+        
+        $meta = stream_get_meta_data($temp);
+        $path = $meta['uri'];
+        
+        $html = new self($path);
         return $html;
     }
     

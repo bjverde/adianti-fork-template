@@ -4,7 +4,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * AdiantiTemplateTranslator
  *
- * @version    8.6
+ * @version    8.7
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -3877,6 +3877,90 @@ class AdiantiTemplateTranslator
         $this->messages['it'][] = 'Disabilitare l\'autenticazione a due fattori';
         $this->messages['fr'][] = 'Désactiver l\'authentification à deux facteurs';
         $this->messages['de'][] = 'Zwei-Faktor-Authentifizierung deaktivieren';
+
+        $this->messages['en'][] = 'Error processing seeds for model ^1, database ^2';
+        $this->messages['pt'][] = 'Erro ao processar seeds da model ^1, banco de dados ^2';
+        $this->messages['es'][] = 'Error al procesar seeds del modelo ^1, base de datos ^2';
+        $this->messages['it'][] = 'Errore durante l\'elaborazione dei seeds del model ^1, database ^2';
+        $this->messages['fr'][] = 'Erreur lors du traitement des seeds du modèle ^1, base de données ^2';
+        $this->messages['de'][] = 'Fehler bei der Verarbeitung der Seeds für das Model ^1, Datenbank ^2';
+
+        $this->messages['en'][] = 'My subscriptions';
+        $this->messages['pt'][] = 'Minhas assinaturas';
+        $this->messages['es'][] = 'Mis suscripciones';
+        $this->messages['it'][] = 'Le mie sottoscrizioni';
+        $this->messages['fr'][] = 'Mes abonnements';
+        $this->messages['de'][] = 'Meine Abonnements';
+
+        $this->messages['en'][] = 'Unit Administration';
+        $this->messages['pt'][] = 'Administração da Unidade';
+        $this->messages['es'][] = 'Administración de la Unidad';
+        $this->messages['it'][] = 'Amministrazione dell\'Unità';
+        $this->messages['fr'][] = 'Administration de l\'Unité';
+        $this->messages['de'][] = 'Verwaltung der Einheit';
+
+        $this->messages['en'][] = 'Manage users, permissions and access for this unit';
+        $this->messages['pt'][] = 'Gerencie usuários, permissões e acessos desta unidade';
+        $this->messages['es'][] = 'Gestione usuarios, permisos y accesos de esta unidad';
+        $this->messages['it'][] = 'Gestisci utenti, permessi e accessi di questa unità';
+        $this->messages['fr'][] = 'Gérez les utilisateurs, les autorisations et les accès de cette unité';
+        $this->messages['de'][] = 'Verwalten Sie Benutzer, Berechtigungen und Zugriffe dieser Einheit';
+        
+        $this->messages['en'][] = 'Unit users';
+        $this->messages['pt'][] = 'Usuários da unidade';
+        $this->messages['es'][] = 'Usuarios de la unidad';
+        $this->messages['it'][] = 'Utenti dell\'unità';
+        $this->messages['fr'][] = 'Utilisateurs de l\'unité';
+        $this->messages['de'][] = 'Benutzer der Einheit';
+
+        $this->messages['en'][] = 'All rights reserved';
+        $this->messages['pt'][] = 'Todos os direitos reservados';
+        $this->messages['es'][] = 'Todos los derechos reservados';
+        $this->messages['it'][] = 'Tutti i diritti riservati';
+        $this->messages['fr'][] = 'Tous droits réservés';
+        $this->messages['de'][] = 'Alle Rechte vorbehalten';
+
+        $this->messages['en'][] = 'Your account has been created successfully';
+        $this->messages['pt'][] = 'Sua conta foi criada com sucesso';
+        $this->messages['es'][] = 'Su cuenta ha sido creada con éxito';
+        $this->messages['it'][] = 'Il tuo account è stato creato con successo';
+        $this->messages['fr'][] = 'Votre compte a été créé avec succès';
+        $this->messages['de'][] = 'Ihr Konto wurde erfolgreich erstellt';
+
+        $this->messages['en'][] = 'We are happy to have you here';
+        $this->messages['pt'][] = 'Estamos felizes em ter você por aqui';
+        $this->messages['es'][] = 'Nos alegra tenerlo aquí';
+        $this->messages['it'][] = 'Siamo felici di averti qui';
+        $this->messages['fr'][] = 'Nous sommes heureux de vous accueillir';
+        $this->messages['de'][] = 'Wir freuen uns, Sie hier zu haben';
+
+        $this->messages['en'][] = 'Access';
+        $this->messages['pt'][] = 'Acessar';
+        $this->messages['es'][] = 'Acceder';
+        $this->messages['it'][] = 'Accedi';
+        $this->messages['fr'][] = 'Accéder';
+        $this->messages['de'][] = 'Zugreifen';
+        
+        $this->messages['en'][] = 'Unit manager';
+        $this->messages['pt'][] = 'Gerente de unidade';
+        $this->messages['es'][] = 'Gerente de la unidad';
+        $this->messages['it'][] = 'Responsabile dell\'unità';
+        $this->messages['fr'][] = 'Responsable de l\'unité';
+        $this->messages['de'][] = 'Filialleiter';
+
+        $this->messages['en'][] = 'Pull request sent successfully';
+        $this->messages['pt'][] = 'Pull request enviado com sucesso';
+        $this->messages['es'][] = 'Pull request enviado con éxito';
+        $this->messages['it'][] = 'Pull request inviato con successo';
+        $this->messages['fr'][] = 'Pull request envoyé avec succès';
+        $this->messages['de'][] = 'Pull Request erfolgreich gesendet';
+
+        $this->messages['en'][] = 'Send pull request';
+        $this->messages['pt'][] = 'Enviar pull request';
+        $this->messages['es'][] = 'Enviar pull request';
+        $this->messages['it'][] = 'Inviare pull request';
+        $this->messages['fr'][] = 'Envoyer une pull request';
+        $this->messages['de'][] = 'Pull Request senden';
 
         foreach ($this->messages as $lang => $messages)
         {

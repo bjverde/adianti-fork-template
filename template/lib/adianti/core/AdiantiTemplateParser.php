@@ -10,7 +10,7 @@ use Exception;
 /**
  * Template parser
  *
- * @version    8.6
+ * @version    8.7
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -63,23 +63,12 @@ class AdiantiTemplateParser
             $content   = str_replace('{buildid}', AdiantiStringConversion::slug(file_get_contents('buildid')), $content);
         }
         
-        if (empty($ini['general']['creator_url']))
-        {
-            $content = str_replace('<!--[ISCREATOR]-->',  '<!--',  $content);
-            $content = str_replace('<!--[/ISCREATOR]-->', '-->',   $content);
-        }
-        
-        if (empty($ini['general']['creator_url']) || (TSession::getValue('login') !== 'admin'))
-        {
-            $content = str_replace('<!--[ISCREATORADMIN]-->',  '<!--',  $content);
-            $content = str_replace('<!--[/ISCREATORADMIN]-->', '-->',   $content);
-        }
-        
         $core_options = [ 'timezone'    => $ini['general']['timezone'],
                           'language'    => \ApplicationTranslator::getLanguage(),
                           'application' => $ini['general']['application'],
                           'title'       => $ini['general']['title'],
                           'theme'       => $ini['general']['theme'],
+                          'login'       => (string) TSession::getValue('login'),
                           'debug'       => $ini['general']['debug'] ];
         
         $content   = str_replace('{adianti_options}',  json_encode($core_options), $content);

@@ -8,7 +8,7 @@ use Exception;
 /**
  * Singleton manager for database connections
  *
- * @version    8.6
+ * @version    8.7
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -24,6 +24,17 @@ class TConnection
      * There'll be no instances of this class
      */
     private function __construct() {}
+    
+    /**
+     *
+     */
+    private static function initializeCache()
+    {
+        if (is_null(self::$conn_cache))
+        {
+            self::$conn_cache = [];
+        }
+    }
     
     /**
      * Opens a database connection
@@ -86,7 +97,8 @@ class TConnection
         {
             case 'pgsql':
                 $port = $port ? $port : '5432';
-                $conn = new PDO("pgsql:dbname={$name};user={$user}; password={$pass};host=$host;port={$port}{$opts}");
+                $dbname = $name ? "dbname={$name}" : '';
+                $conn = new PDO("pgsql:{$dbname};user={$user}; password={$pass};host=$host;port={$port}{$opts}");
                 if(!empty($char))
                 {
                     $conn-> exec ("SET CLIENT_ENCODING TO '{$char}';");
@@ -94,6 +106,8 @@ class TConnection
                 break;
             case 'mysql':
                 $port = $port ? $port : '3306';
+                $dbname = $name ? "dbname={$name}" : '';
+                
                 if ($char == 'ISO')
                 {
                     $options = array();
@@ -103,17 +117,17 @@ class TConnection
                         $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '{$zone}'");
                     }
 
-                    $conn = new PDO("mysql:host={$host};port={$port};dbname={$name}{$opts}", $user, $pass, $options);
+                    $conn = new PDO("mysql:host={$host};port={$port};{$dbname}{$opts}", $user, $pass, $options);
                 }
                 elseif ($char == 'utf8mb4')
                 {
                     $zone = $zone ? ";SET time_zone = '{$zone}'" : "";
-                    $conn = new PDO("mysql:host={$host};port={$port};dbname={$name}{$opts}", $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4{$zone}"));
+                    $conn = new PDO("mysql:host={$host};port={$port};{$dbname}{$opts}", $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4{$zone}"));
                 }
                 else
                 {
                     $zone = $zone ? ";SET time_zone = '{$zone}'" : "";
-                    $conn = new PDO("mysql:host={$host};port={$port};dbname={$name}{$opts}", $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8{$zone}"));
+                    $conn = new PDO("mysql:host={$host};port={$port};{$dbname}{$opts}", $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8{$zone}"));
                 }
                 break;
             case 'sqlite':
@@ -256,7 +270,9 @@ class TConnection
         $filei = "{$path}/{$database}.ini";
         $filep = "{$path}/{$database}.php";
         
-        if (!empty(self::$conn_cache[ $database ]))
+        self::initializeCache();
+        
+        if (!empty($database) && !empty(self::$conn_cache[ $database ]))
         {
             return self::$conn_cache[ $database ];
         }
@@ -296,6 +312,7 @@ class TConnection
      */
     public static function setDatabaseInfo($database, $info)
     {
+        self::initializeCache();
         self::$conn_cache[ $database ] = $info;
     }
 }

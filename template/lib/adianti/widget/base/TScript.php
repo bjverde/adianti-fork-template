@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Base class for scripts
  *
- * @version    8.6
+ * @version    8.7
  * @package    widget
  * @subpackage base
  * @author     Pablo Dall'Oglio
@@ -21,6 +21,11 @@ class TScript
      */
     public static function create( $code, $show = TRUE, $timeout = null )
     {
+        if (defined('ADIANTI_ALWAYS_DEFER_SCRIPTS') && empty($timeout))
+        {
+            $timeout = 100;
+        }
+        
         if ($timeout)
         {
             $code = "setTimeout( function() { $code }, $timeout )";

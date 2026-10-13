@@ -17,6 +17,7 @@ use Adianti\Widget\Form\AdiantiFormInterface;
 use Adianti\Widget\Form\AdiantiWidgetInterface;
 use Adianti\Widget\Form\TSeekButton;
 use Adianti\Widget\Form\TRadioGroup;
+use Adianti\Widget\Form\TText;
 use Adianti\Widget\Form\TCheckGroup;
 use Adianti\Widget\Form\TMultiEntry;
 use Adianti\Widget\Util\TActionLink;
@@ -33,7 +34,7 @@ use Exception;
 /**
  * Bootstrap form builder for Adianti Framework
  *
- * @version    8.6
+ * @version    8.7
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -1006,7 +1007,7 @@ class BootstrapFormBuilder implements AdiantiFormInterface
                     $field_wrapper->{'style'} .= ( (strpos($width,  '%') !== FALSE) ? ';width: '  . $width  : ';width: '  . $width.'px');
                 }
                 
-                if (!$object instanceof THtmlEditor)
+                if ( (!$object instanceof THtmlEditor) && (!$object instanceof TText) )
                 {
                     if ($height)
                     {
@@ -1062,7 +1063,7 @@ class BootstrapFormBuilder implements AdiantiFormInterface
             {
                 $object->setSize('100%', $field_size[1] - 7);
             }
-            else if ( ($field_size) AND !($object instanceof TRadioGroup || $object instanceof TCheckGroup))
+            else if ( ($field_size) AND !($object instanceof TRadioGroup || $object instanceof TCheckGroup || $object instanceof TText))
             {
                 $object->setSize('100%', '100%');
             }

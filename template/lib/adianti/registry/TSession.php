@@ -3,11 +3,13 @@ namespace Adianti\Registry;
 
 use SessionHandlerInterface;
 use Adianti\Registry\AdiantiRegistryInterface;
+use Adianti\Core\AdiantiCoreTranslator;
+use Exception;
 
 /**
  * Session Data Handler
  *
- * @version    8.6
+ * @version    8.7
  * @package    registry
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -15,6 +17,8 @@ use Adianti\Registry\AdiantiRegistryInterface;
  */
 class TSession implements AdiantiRegistryInterface
 {
+    private static $contexts = [];
+
     /**
      * Class Constructor
      */
@@ -50,19 +54,65 @@ class TSession implements AdiantiRegistryInterface
     }
     
     /**
+     * Enter session context
+     */
+    private static function enterContext($name)
+    {
+        self::$contexts[] = $name;
+    }
+    
+    /**
+     * Exit session context
+     */
+    private static function exitContext()
+    {
+        if (empty(self::$contexts))
+        {
+            throw new Exception(AdiantiCoreTranslator::translate('There is no active session context to exit'));
+        }
+        array_pop(self::$contexts);
+    }
+
+    /**
+     * Run function inside session context
+     */
+    public static function withContext($name, callable $callback)
+    {
+        self::enterContext($name);
+        try
+        {
+            return $callback();
+        }
+        finally
+        {
+            self::exitContext();
+        }
+    }
+
+    /**
+     * Build session key, using context (when inside a context)
+     */
+    private static function buildKey($var)
+    {
+        return self::$contexts ? implode('.', self::$contexts) . '.' . $var : $var;
+    }
+
+    /**
      * Define the value for a variable
      * @param $var   Variable Name
      * @param $value Variable Value
      */
     public static function setValue($var, $value)
     {
+        $key = self::buildKey($var);
+
         if (defined('APPLICATION_NAME'))
         {
-            $_SESSION[APPLICATION_NAME][$var] = $value;
+            $_SESSION[APPLICATION_NAME][$key] = $value;
         }
         else
         {
-            $_SESSION[$var] = $value;
+            $_SESSION[$key] = $value;
         }
     }
     
@@ -72,35 +122,33 @@ class TSession implements AdiantiRegistryInterface
      */
     public static function getValue($var)
     {
+        $key = self::buildKey($var);
+
         if (defined('APPLICATION_NAME'))
         {
-            if (isset($_SESSION[APPLICATION_NAME][$var]))
-            {
-                return $_SESSION[APPLICATION_NAME][$var];
-            }
+            return $_SESSION[APPLICATION_NAME][$key] ?? NULL;
         }
         else
         {
-            if (isset($_SESSION[$var]))
-            {
-                return $_SESSION[$var];
-            }
+            return $_SESSION[$key] ?? NULL;
         }
     }
-    
+
     /**
      * Clear the value for a variable
      * @param $var   Variable Name
      */
     public static function delValue($var)
     {
+        $key = self::buildKey($var);
+
         if (defined('APPLICATION_NAME'))
         {
-            unset($_SESSION[APPLICATION_NAME][$var]);
+            unset($_SESSION[APPLICATION_NAME][$key]);
         }
         else
         {
-            unset($_SESSION[$var]);
+            unset($_SESSION[$key]);
         }
     }
     

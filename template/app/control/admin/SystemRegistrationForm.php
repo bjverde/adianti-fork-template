@@ -2,7 +2,7 @@
 /**
  * SystemRegistrationForm
  *
- * @version    8.6
+ * @version    8.7
  * @package    control
  * @subpackage admin
  * @author     Pablo Dall'Oglio
@@ -39,12 +39,12 @@ class SystemRegistrationForm extends TPage
         $password->placeholder = _t('Password');
         $repassword->placeholder = _t('Password confirmation');
         
-        //$password->disableToggleVisibility();
-        //$repassword->disableToggleVisibility();
+        $password->disableToggleVisibility();
+        $repassword->disableToggleVisibility();
         
+        $login->addValidation( _t('Login'), new TRequiredValidator);
         $name->addValidation( _t('Name'), new TRequiredValidator);
         $email->addValidation( _t('Email'), new TRequiredValidator);
-        $login->addValidation( _t('Login'), new TRequiredValidator);
         $password->addValidation( _t('Password'), new TRequiredValidator);
         $repassword->addValidation( _t('Password confirmation'), new TRequiredValidator);
         
@@ -58,8 +58,17 @@ class SystemRegistrationForm extends TPage
         $this->form->addRowField( _t('Login'), $login, true );
         $this->form->addRowField( _t('Name'), $name, true );
         $this->form->addRowField( _t('Email'), $email, true );
-        $this->form->addRowField( _t('Password'), $password, false );
-        $this->form->addRowField( _t('Password confirmation'), $repassword, false );
+        $this->form->addRowField( _t('Password'), $password, true );
+        $this->form->addRowField( _t('Password confirmation'), $repassword, true );
+        
+        $ini = AdiantiApplicationConfig::get();
+        
+        if (!empty($ini['general']['system_mode']) && in_array($ini['general']['system_mode'], ['3','4']))
+        {
+            $unit_name = new TEntry('unit_name');
+            $this->form->addRowField( _t('Unit'), $unit_name, true );
+            $unit_name->addValidation( _t('Unit'), new TRequiredValidator);
+        }
         
         $this->form->addAction( _t('Save'),  new TAction([$this, 'onSave']), '');
         
@@ -149,6 +158,18 @@ class SystemRegistrationForm extends TPage
             $object->password = SystemUser::passwordHash($object->password);
             $object->frontpage_id = $ini['permission']['default_screen'];
             $object->clearParts();
+            
+            if (!empty($ini['general']['system_mode']) && in_array($ini['general']['system_mode'], ['3','4']))
+            {
+                $new_unit = new SystemUnit;
+                $new_unit->name = $param['unit_name'];
+                $new_unit->store();
+                
+                $object->system_unit_id = $new_unit->id;
+                
+                SystemHookService::onAfterUnitCreation($new_unit);
+            }
+            
             $object->store();
             
             $default_groups = explode(',', $ini['permission']['default_groups']);
@@ -157,19 +178,38 @@ class SystemRegistrationForm extends TPage
             {
                 foreach( $default_groups as $group_id )
                 {
-                    $object->addSystemUserGroup( new SystemGroup($group_id) );
+                    $group = SystemGroup::find($group_id);
+                    
+                    if ($group instanceof SystemGroup)
+                    {
+                        $object->addSystemUserGroup( $group );
+                    }
                 }
             }
             
-            $default_units = explode(',', $ini['permission']['default_units']);
-            
-            if( count($default_units) > 0 )
+            if (!empty($ini['general']['system_mode']) && in_array($ini['general']['system_mode'], ['3','4']))
             {
-                foreach( $default_units as $unit_id )
+                $object->addSystemUserUnit( $new_unit );
+            }
+            else
+            {
+                $default_units = explode(',', $ini['permission']['default_units']);
+                
+                if( count($default_units) > 0 )
                 {
-                    $object->addSystemUserUnit( new SystemUnit($unit_id) );
+                    foreach( $default_units as $unit_id )
+                    {
+                        $unit = SystemUnit::find($unit_id);
+                        
+                        if ($unit instanceof SystemUnit)
+                        {
+                            $object->addSystemUserUnit( $unit );
+                        }
+                    }
                 }
             }
+            
+            SystemHookService::onAfterUserCreation($object);
             
             TTransaction::close(); // close the transaction
             $pos_action = new TAction(['LoginForm', 'onLoad']);

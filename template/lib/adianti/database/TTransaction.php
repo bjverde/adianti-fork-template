@@ -16,7 +16,7 @@ use Exception;
 /**
  * Manage Database transactions
  *
- * @version    8.6
+ * @version    8.7
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -108,7 +108,7 @@ class TTransaction
         {
             $info['fake'] = 1;
         }
-        TTransaction::open($database, $info);
+        return TTransaction::open($database, $info);
     }
     
     /**

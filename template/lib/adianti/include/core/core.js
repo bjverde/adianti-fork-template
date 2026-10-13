@@ -68,7 +68,7 @@ function __adianti_set_name(application)
 
 function __adianti_set_language(lang)
 {
-    Adianti.language = lang;
+    Adianti.language = lang.replace('auto,','');
 }
 
 function __adianti_set_debug(debug)
