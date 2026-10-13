@@ -109,6 +109,6 @@ return [
         'system_version' => '8.6.0.1',
         'system_name_sub'=> 'Fork do Adianti FrameWork',
         'adianti_min_version'=> '8.6.0.1',
-        'formdin_min_version'=> '5.14.3',
+        'formdin_min_version'=> '5.15.2',
     ]
 ];
