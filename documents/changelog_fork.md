@@ -6,15 +6,22 @@ Informações sobre o Adianti e seu criador veja  [pagina principal](../README.m
 ## Principais alterações
 
 ### 1 - Tema melhorado
-Instlado tema adminbs5_v8, que é uma versão melhorada do tema adminbs5. [Veja as mudanças no projeto adianti-theme](https://github.com/bjverde/adianti-theme/blob/master/documents/template/adminbs5_v8.md)
+Instlado tema adminbs5_v8, que é uma versão melhorada do tema adminbs5. Abaixo um resumo das melhorias para mais detalhes [Veja as mudanças no projeto adianti-theme > Temas para o Template > adminbs5_v8.md](https://github.com/bjverde/adianti-theme/blob/master/documents/template/adminbs5_v8.md)
 1. Zoom no celular, com movimento de pinça
 1. Houver no grid com amarelo
 1. Possibilitar selecionar label do campo
 1. Incluir barra sobre titulo
 1. Incluir versão do sistema
+1. Correção do Bug manifest version no login
+
+### 2 Configurações do application
+1. Imagem de funto tela login
+1. Logo na tela de login
+1. has_master_menu = 0 -> menu normal e não menu de icones
+1. Atualizando Hash dos arquivos
 
 
-### 2 - Habilitando Toggle Visibility do campo senha
+### 3 - Habilitando Toggle Visibility do campo senha
 Tela normal de login
 
 ![login normal](img/template_80_login_normal.png)
@@ -38,25 +45,22 @@ Tela fork cria conta normal
 
 ![criar conta fork](img/template_800_criar_conta_fork.png)
 
-### 3 - Telas de consulta de logs
-Incluido filtros por data e botão limpar nas telas
-* SystemChangeLogView
-* SystemScheduleLogList
-* SystemUserLogList
-* SystemAccessLogList
-* SystemSqlLogList
-
 
 
 ## ChangeLog por issue
-1. :hammer: [Melhorias telas de log](https://github.com/bjverde/adianti-fork-template/issues/59)
-2. :hammer: [Melhoria 2FA](https://github.com/bjverde/adianti-fork-template/issues/80)
-3. :bug: [Bug: script SQL carga MysSql](https://github.com/bjverde/adianti-fork-template/issues/85)
-4. :hammer: [Instalar o FormDin v5.9.0](https://github.com/bjverde/adianti-fork-template/issues/86)
-5. :hammer: [Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/87)
-6. :hammer: [Atualizar adminbs5 para adminbs5_v6](https://github.com/bjverde/adianti-fork-template/issues/88)
-7. :hammer: [Mais traduções](https://github.com/bjverde/adianti-fork-template/issues/89)
-8. :hammer: [Alterar caminho hash para o tema](https://github.com/bjverde/adianti-fork-template/issues/90)
+1. :hammer: [#108 - Configurações gerais](https://github.com/bjverde/adianti-fork-template/issues/108)
+    * remover tema adminbs5
+    * instalar novo template adminbs5_v8 sobre o template
+    * alterar o AdiantiMenuBuilder
+    * alterar o application
+    * alterar index.php váriaveis do tema
+    * configurar img de fundo
+    * configurar logo
+    * Alterar nome titulo
+    * desativando has_master_menu
+2. :hammer: [#103  - Instalar o FormDin v5.15.1](https://github.com/bjverde/adianti-fork-template/issues/103)
+3. :hammer: [#106 - Habilitar olho na senha](https://github.com/bjverde/adianti-fork-template/issues/106)
+4. :hammer: [#107- Alterar caminho hash para o tema](https://github.com/bjverde/adianti-fork-template/issues/107)
 
 
 # ChangeLog versões antigas
