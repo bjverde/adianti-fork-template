@@ -114,6 +114,26 @@ class StringHelper
     }
 
     /**
+     * Normaliza uma string para NFC (Unicode Normalization Form C),
+     * garantindo que caracteres acentuados compostos (ex.: 'á' U+00E1)
+     * e decompostos (ex.: 'a' + '´' U+0061 U+0301) sejam comparáveis
+     * com mb_stripos e preg_match. Se a extensão intl não estiver
+     * disponível, registra no log de erro e retorna o texto original sem alterações.
+     *
+     * @param string $texto
+     * @return string
+     */
+    public static function normalizarUnicode(string $texto): string
+    {
+        if (!class_exists('Normalizer')) {
+            error_log('[FormDin5][StringHelper::normalizarUnicode] A extensão PHP "intl" (Normalizer) não está instalada ou habilitada. Recomenda-se instalá-la para normalização Unicode adequada.');
+            return $texto;
+        }
+        $normalizado = Normalizer::normalize($texto, Normalizer::FORM_C);
+        return $normalizado === false ? $texto : $normalizado;
+    }
+
+    /**
      * Converte uma string para outro encoding usando MB 
      *
      * @param string $string        01 - string que será convertida
@@ -534,5 +554,164 @@ class StringHelper
         $string = self::string2KebabCase($string);
         $string = preg_replace('/[-]/', '_', $string);
         return $string;
+    }
+
+    /**
+     * Limpa uma string removendo tags HTML, decodificando entidades,
+     * removendo barras invertidas, convertendo para UTF-8 e normalizando para Unicode NFC.
+     *
+     * @param string|null $texto Texto a ser limpo e normalizado.
+     * @return string Texto limpo em UTF-8 normalizado.
+     */
+    public static function limparTextoUtf8(?string $texto): string
+    {
+        if ($texto === null || $texto === '') {
+            return '';
+        }
+
+        $texto = strip_tags($texto);
+        $texto = html_entity_decode($texto, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $texto = str_replace('\\', '', $texto);
+        $texto = self::str2utf8($texto);
+        $texto = self::normalizarUnicode($texto);
+
+        return trim($texto);
+    }
+
+    /**
+     * Corta um texto do início para o fim baseado em quantidade de caracteres ou de palavras,
+     * adicionando reticências (...) caso o texto ultrapasse o limite.
+     * Remove tags HTML e converte para UTF-8 normalizado.
+     *
+     * @param string|null $texto Texto original (puro ou com HTML).
+     * @param int $limite Quantidade máxima de caracteres ou palavras (default: 250).
+     * @param bool $porCaracteres Se true, corta por quantidade de caracteres; se false, por quantidade de palavras (default: true).
+     * @param string $sufixo Sufixo adicionado caso o texto seja cortado (default: '...').
+     * @return string|null Texto cortado ou null se a entrada for nula/vazia.
+     */
+    public static function cortaTexto(?string $texto, int $limite = 250, bool $porCaracteres = true, string $sufixo = '...'): ?string
+    {
+        $texto = self::limparTextoUtf8($texto);
+        if ($texto === '') {
+            return null;
+        }
+
+        $limite = max(1, $limite);
+        $sufixoLimpo = trim($sufixo);
+
+        // 1. Corte por quantidade de caracteres (default)
+        if ($porCaracteres) {
+            $totalCaracteres = mb_strlen($texto, 'UTF-8');
+            if ($totalCaracteres <= $limite) {
+                return $texto;
+            }
+
+            $trecho = mb_substr($texto, 0, $limite, 'UTF-8');
+            return trim($trecho) . ($sufixoLimpo !== '' ? $sufixoLimpo : '');
+        }
+
+        // 2. Corte por quantidade de palavras
+        $palavras = preg_split('/\s+/u', $texto, -1, PREG_SPLIT_NO_EMPTY);
+        $totalPalavras = count($palavras);
+
+        if ($totalPalavras <= $limite) {
+            return $texto;
+        }
+
+        $trechoArray = array_slice($palavras, 0, $limite);
+        return implode(' ', $trechoArray) . ($sufixoLimpo !== '' ? ' ' . $sufixoLimpo : '');
+    }
+
+    /**
+     * Extrai um trecho do texto em torno de uma palavra, lista de palavras ou frase exata de pesquisa.
+     * Remove tags HTML e entidades para extrair texto limpo (Cenário 1: Texto Puro).
+     * Converte o texto para UTF-8 e normaliza caracteres Unicode.
+     *
+     * @param string|null $texto Texto de onde o trecho será extraído.
+     * @param string|array|null $palavrasPesquisa Palavra ou array de palavras a pesquisar.
+     * @param int $palavrasAntesDepois Quantidade de palavras antes e depois do termo localizado (default: 10).
+     * @param string|null $fraseExata Frase exata para busca prioritária (opcional).
+     * @return string|null Trecho extraído com reticências (...) ou null se o texto for nulo/vazio.
+     */
+    public static function extrairTrecho(?string $texto, $palavrasPesquisa = [], int $palavrasAntesDepois = 10, ?string $fraseExata = null): ?string
+    {
+        $texto = self::limparTextoUtf8($texto);
+        if ($texto === '') {
+            return null;
+        }
+
+        $palavrasAntesDepois = max(0, $palavrasAntesDepois);
+
+        // Divide o texto em palavras preservando separadores unicode
+        $palavras = preg_split('/\s+/u', $texto, -1, PREG_SPLIT_NO_EMPTY);
+        if (empty($palavras)) {
+            return null;
+        }
+
+        $totalPalavras = count($palavras);
+        $indiceInicioMatch = null;
+        $tamanhoMatch = 1;
+
+        // 1. Busca por frase exata (se informada)
+        if ($fraseExata !== null && trim($fraseExata) !== '') {
+            $fraseExataNorm = self::limparTextoUtf8($fraseExata);
+
+            $posChar = mb_stripos($texto, $fraseExataNorm, 0, 'UTF-8');
+            if ($posChar !== false) {
+                // Descobre em qual índice de palavra a frase exata começa
+                $textoAntes = mb_substr($texto, 0, $posChar, 'UTF-8');
+                $palavrasAntes = preg_split('/\s+/u', trim($textoAntes), -1, PREG_SPLIT_NO_EMPTY);
+                $indiceInicioMatch = empty($textoAntes) || empty($palavrasAntes) ? 0 : count($palavrasAntes);
+
+                $palavrasFrase = preg_split('/\s+/u', $fraseExataNorm, -1, PREG_SPLIT_NO_EMPTY);
+                $tamanhoMatch = max(1, count($palavrasFrase));
+            }
+        }
+
+        // 2. Se não encontrou por frase exata, busca pelas palavras de pesquisa
+        if ($indiceInicioMatch === null) {
+            $listaTermos = [];
+            if (is_array($palavrasPesquisa)) {
+                $listaTermos = $palavrasPesquisa;
+            } elseif (is_string($palavrasPesquisa) && trim($palavrasPesquisa) !== '') {
+                $listaTermos = [$palavrasPesquisa];
+            }
+
+            foreach ($listaTermos as $termo) {
+                if (!is_string($termo) || trim($termo) === '') {
+                    continue;
+                }
+                $termoNorm = self::limparTextoUtf8($termo);
+
+                $posChar = mb_stripos($texto, $termoNorm, 0, 'UTF-8');
+                if ($posChar !== false) {
+                    $textoAntes = mb_substr($texto, 0, $posChar, 'UTF-8');
+                    $palavrasAntes = preg_split('/\s+/u', trim($textoAntes), -1, PREG_SPLIT_NO_EMPTY);
+                    $indiceInicioMatch = empty($textoAntes) || empty($palavrasAntes) ? 0 : count($palavrasAntes);
+                    $tamanhoMatch = 1;
+                    break;
+                }
+            }
+        }
+
+        // 3. Monta o trecho com base na janela de palavras antes e depois
+        if ($indiceInicioMatch !== null) {
+            $inicio = max(0, $indiceInicioMatch - $palavrasAntesDepois);
+            $fim = min($totalPalavras, $indiceInicioMatch + $tamanhoMatch + $palavrasAntesDepois);
+            $qtd = $fim - $inicio;
+
+            $trechoArray = array_slice($palavras, $inicio, $qtd);
+            $prefixo = ($inicio > 0) ? '... ' : '';
+            $sufixo = ($fim < $totalPalavras) ? ' ...' : '';
+
+            return $prefixo . implode(' ', $trechoArray) . $sufixo;
+        }
+
+        // Fallback: não encontrou termo ou busca vazia, retorna as primeiras palavras
+        $qtdPadrao = min($totalPalavras, max(1, $palavrasAntesDepois * 2));
+        $trechoArray = array_slice($palavras, 0, $qtdPadrao);
+        $sufixo = ($totalPalavras > $qtdPadrao) ? ' ...' : '';
+
+        return implode(' ', $trechoArray) . $sufixo;
     }
 }

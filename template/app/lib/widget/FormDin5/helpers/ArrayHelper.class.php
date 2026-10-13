@@ -860,6 +860,13 @@ class ArrayHelper
         ValidateHelper::isString($keyColumn,__METHOD__,__LINE__);
         ValidateHelper::isString($valueColumn,__METHOD__,__LINE__);
         $arrayData   = ArrayHelper::convertArray2OutputFormat($arrayData,ArrayHelper::TYPE_PDO,$typeCase);
+        if ($typeCase === PDO::CASE_UPPER) {
+            $keyColumn = strtoupper($keyColumn);
+            $valueColumn = strtoupper($valueColumn);
+        } elseif ($typeCase === PDO::CASE_LOWER) {
+            $keyColumn = strtolower($keyColumn);
+            $valueColumn = strtolower($valueColumn);
+        }
         if( !array_key_exists($keyColumn, $arrayData[0]) ) {
             throw new InvalidArgumentException(TFormDinMessage::ERROR_TYPE_WRONG);
         }

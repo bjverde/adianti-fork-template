@@ -43,7 +43,7 @@ class TFormDinGenericController
      * @param string $repositoryName - 02: nome de classe
      * @return array Adianti
      */
-    public function selectByTCriteria( TCriteria $criteria)
+    public function selectByTCriteria( ?TCriteria $criteria=null)
     {
         $result = $this->getDao()->selectByTCriteria($criteria);
         return $result;
@@ -55,7 +55,7 @@ class TFormDinGenericController
      * @param string $repositoryName - 02: nome de classe
      * @return array Adianti
      */
-    public function selectByTCriteriaCount( TCriteria $criteria)
+    public function selectByTCriteriaCount( ?TCriteria $criteria=null)
     {
         $result = $this->getDao()->selectByTCriteriaCount($criteria);
         return $result;
@@ -68,7 +68,7 @@ class TFormDinGenericController
      * @param bool $showDumpLogTela
      * @return mixed|null
      */    
-    public function getArrayByCriteria(TCriteria $criteria,bool $showDumpLogTela=false){
+    public function getArrayByCriteria(?TCriteria $criteria = null,bool $showDumpLogTela=false){
         $result = $this->getDao()->getArrayByCriteria($criteria,$showDumpLogTela);
         return $result;
     }
@@ -80,7 +80,7 @@ class TFormDinGenericController
      * @param bool $showDumpLogTela
      * @return mixed|null
      */
-    public function getListObjByCriteria(TCriteria $criteria,bool $showDumpLogTela=false){
+    public function getListObjByCriteria(?TCriteria $criteria = null,bool $showDumpLogTela=false){
         $result = $this->getDao()->getListObjByCriteria($criteria,$showDumpLogTela);
         return $result;
     }
@@ -92,8 +92,23 @@ class TFormDinGenericController
      * @param bool $showDumpLogTela
      * @return mixed|null
      */    
-    public function getCountByCriteria(TCriteria $criteria,bool $showDumpLogTela=false){
+    public function getCountByCriteria(?TCriteria $criteria = null,bool $showDumpLogTela=false){
         $result = $this->getDao()->getCountByCriteria($criteria,$showDumpLogTela);
         return $result;
-    }    
+    }
+
+    /**
+     * Busca registros baseado em uma criteria e transforma em um array associativo chave => valor
+     *
+     * @param string $colunaChave
+     * @param string $colunaValor
+     * @param TCriteria|null $criteria
+     * @param bool $showDumpLogTela
+     * @return array
+     */
+    public function getArrayKeyValueByCriteria(string $colunaChave, string $colunaValor, ?TCriteria $criteria = null, bool $showDumpLogTela = false): array
+    {
+        $result = $this->getDao()->getArrayKeyValueByCriteria($colunaChave, $colunaValor, $criteria, $showDumpLogTela);
+        return $result;
+    }
 }//fim classe

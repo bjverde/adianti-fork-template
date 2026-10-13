@@ -397,5 +397,393 @@ class HtmlHelper
         );
         return $listPaises;
     }
+
+    /**
+     * Destaca (realça) palavras ou termos de pesquisa dentro de um texto com tags HTML.
+     * Sanitiza o texto contra XSS garantindo segurança.
+     *
+     * @param string|null $texto Texto onde as palavras serão destacadas.
+     * @param string|array|null $palavrasPesquisa Palavra, termo ou lista de termos a destacar.
+     * @param string $tag Tag HTML a ser utilizada para o destaque (default: 'mark').
+     * @param string $classeCss Classe CSS opcional para a tag HTML (default: '').
+     * @return string O texto em HTML com as palavras destacadas e sanitizado contra XSS.
+     */
+    public static function highlight(?string $texto, $palavrasPesquisa = [], string $tag = 'mark', string $classeCss = ''): string
+    {
+        if ($texto === null || $texto === '') {
+            return '';
+        }
+
+        $texto = StringHelper::str2utf8((string) $texto);
+        $texto = StringHelper::normalizarUnicode($texto);
+
+        $textoEscapado = htmlspecialchars($texto, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+        $termos = [];
+        if (is_array($palavrasPesquisa)) {
+            foreach ($palavrasPesquisa as $termo) {
+                if (is_string($termo) && trim($termo) !== '') {
+                    $termos[] = trim($termo);
+                }
+            }
+        } elseif (is_string($palavrasPesquisa) && trim($palavrasPesquisa) !== '') {
+            $termos[] = trim($palavrasPesquisa);
+        }
+
+        if (empty($termos)) {
+            return $textoEscapado;
+        }
+
+        $termosNormalizados = [];
+        foreach ($termos as $termo) {
+            $tNorm = StringHelper::str2utf8($termo);
+            $tNorm = trim(StringHelper::normalizarUnicode($tNorm));
+            if ($tNorm !== '') {
+                $termosNormalizados[] = htmlspecialchars($tNorm, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            }
+        }
+
+        $termosNormalizados = array_unique($termosNormalizados);
+        if (empty($termosNormalizados)) {
+            return $textoEscapado;
+        }
+
+        // Ordena por tamanho decrescente para priorizar termos mais longos/frases
+        usort($termosNormalizados, function ($a, $b) {
+            return mb_strlen($b, 'UTF-8') <=> mb_strlen($a, 'UTF-8');
+        });
+
+        $quotedWords = array_map(function ($word) {
+            return preg_quote($word, '/');
+        }, $termosNormalizados);
+
+        $pattern = '/(' . implode('|', $quotedWords) . ')/iu';
+        $tagSanitizada = preg_replace('/[^a-zA-Z0-9_-]/', '', $tag);
+        if (empty($tagSanitizada)) {
+            $tagSanitizada = 'mark';
+        }
+
+        $classAttr = !empty($classeCss) ? ' class="' . htmlspecialchars($classeCss, ENT_QUOTES, 'UTF-8') . '"' : '';
+        $replace = "<{$tagSanitizada}{$classAttr}>$1</{$tagSanitizada}>";
+
+        return preg_replace($pattern, $replace, $textoEscapado) ?? $textoEscapado;
+    }
+
+    /**
+     * Extrai um trecho do texto em torno das palavras pesquisadas e aplica destaque HTML.
+     * Método completo que integra a extração (StringHelper::extrairTrecho) com o destaque (HtmlHelper::highlight).
+     *
+     * @param string|null $texto Texto original completo.
+     * @param string|array|null $palavrasPesquisa Palavra ou lista de palavras a pesquisar.
+     * @param int $palavrasAntesDepois Quantidade de palavras antes e depois do termo (default: 10).
+     * @param string|null $fraseExata Frase exata para busca prioritária (opcional).
+     * @param string $tag Tag HTML a ser utilizada para o destaque (default: 'mark').
+     * @param string $classeCss Classe CSS opcional para a tag HTML (default: '').
+     * @return string HTML com o trecho extraído e termos destacados.
+     */
+    public static function highlightTexto(
+        ?string $texto,
+        $palavrasPesquisa = [],
+        int $palavrasAntesDepois = 10,
+        ?string $fraseExata = null,
+        string $tag = 'mark',
+        string $classeCss = ''
+    ): string {
+        if ($texto === null || trim($texto) === '') {
+            return '';
+        }
+
+        $trecho = StringHelper::extrairTrecho($texto, $palavrasPesquisa, $palavrasAntesDepois, $fraseExata);
+        if ($trecho === null || $trecho === '') {
+            return '';
+        }
+
+        $termos = [];
+        if ($fraseExata !== null && trim($fraseExata) !== '') {
+            $termos[] = trim($fraseExata);
+        }
+        if (is_array($palavrasPesquisa)) {
+            foreach ($palavrasPesquisa as $p) {
+                if (is_string($p) && trim($p) !== '') {
+                    $termos[] = trim($p);
+                }
+            }
+        } elseif (is_string($palavrasPesquisa) && trim($palavrasPesquisa) !== '') {
+            $termos[] = trim($palavrasPesquisa);
+        }
+
+        return self::highlight($trecho, array_unique($termos), $tag, $classeCss);
+    }
+
+    /**
+     * Aplica highlight nos termos de pesquisa dentro de um documento ou string que já contém tags HTML.
+     * Preserva as tags e atributos existentes, aplicando a tag de destaque apenas no texto visível.
+     *
+     * @param string|null $html Código HTML onde as palavras serão destacadas.
+     * @param string|array|null $palavrasPesquisa Palavra, termo ou lista de termos a destacar.
+     * @param string $tag Tag HTML a ser utilizada para o destaque (default: 'mark').
+     * @param string $classeCss Classe CSS opcional para a tag HTML (default: '').
+     * @return string O código HTML com os termos destacados no texto visível.
+     */
+    public static function highlightHtml(?string $html, $palavrasPesquisa = [], string $tag = 'mark', string $classeCss = ''): string
+    {
+        if ($html === null || $html === '') {
+            return '';
+        }
+
+        $html = StringHelper::str2utf8((string) $html);
+        $html = StringHelper::normalizarUnicode($html);
+
+        $termos = [];
+        if (is_array($palavrasPesquisa)) {
+            foreach ($palavrasPesquisa as $termo) {
+                if (is_string($termo) && trim($termo) !== '') {
+                    $termos[] = trim($termo);
+                }
+            }
+        } elseif (is_string($palavrasPesquisa) && trim($palavrasPesquisa) !== '') {
+            $termos[] = trim($palavrasPesquisa);
+        }
+
+        if (empty($termos)) {
+            return $html;
+        }
+
+        $termosNormalizados = [];
+        foreach ($termos as $termo) {
+            $tNorm = StringHelper::str2utf8($termo);
+            $tNorm = trim(StringHelper::normalizarUnicode($tNorm));
+            if ($tNorm !== '') {
+                $termosNormalizados[] = $tNorm;
+            }
+        }
+
+        $termosNormalizados = array_unique($termosNormalizados);
+        if (empty($termosNormalizados)) {
+            return $html;
+        }
+
+        usort($termosNormalizados, function ($a, $b) {
+            return mb_strlen($b, 'UTF-8') <=> mb_strlen($a, 'UTF-8');
+        });
+
+        $quotedWords = array_map(function ($word) {
+            return preg_quote($word, '/');
+        }, $termosNormalizados);
+
+        $patternTermos = implode('|', $quotedWords);
+        $tagSanitizada = preg_replace('/[^a-zA-Z0-9_-]/', '', $tag);
+        if (empty($tagSanitizada)) {
+            $tagSanitizada = 'mark';
+        }
+
+        $classAttr = !empty($classeCss) ? ' class="' . htmlspecialchars($classeCss, ENT_QUOTES, 'UTF-8') . '"' : '';
+        $replace = "<{$tagSanitizada}{$classAttr}>$1</{$tagSanitizada}>";
+
+        // Regex que casa os termos apenas quando estão FORA de tags HTML (<...>)
+        $pattern = '/(' . $patternTermos . ')(?![^<]*>)/iu';
+
+        return preg_replace($pattern, $replace, $html) ?? $html;
+    }
+
+    /**
+     * Fecha automaticamente tags HTML abertas após um corte de texto para não quebrar a estrutura da página.
+     *
+     * @param string $html Código HTML a ser balanceado.
+     * @return string HTML com todas as tags abertas devidamente fechadas.
+     */
+    public static function balancearTagsHtml(string $html): string
+    {
+        if (trim($html) === '') {
+            return $html;
+        }
+
+        $voidTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+
+        preg_match_all('#<([a-z1-6]+)(?: .*)?(?<![/|/ ])>#iU', $html, $resultAbertas);
+        $abertas = $resultAbertas[1];
+
+        preg_match_all('#</([a-z1-6]+)>#iU', $html, $resultFechadas);
+        $fechadas = $resultFechadas[1];
+
+        $abertasFiltradas = array_values(array_filter($abertas, function ($t) use ($voidTags) {
+            return !in_array(strtolower($t), $voidTags);
+        }));
+
+        $fechadasLower = array_map('strtolower', $fechadas);
+        $abertasReversas = array_reverse($abertasFiltradas);
+
+        foreach ($fechadasLower as $fechada) {
+            foreach ($abertasReversas as $idx => $aberta) {
+                if (strtolower($aberta) === $fechada) {
+                    unset($abertasReversas[$idx]);
+                    break;
+                }
+            }
+        }
+
+        foreach ($abertasReversas as $tag) {
+            $html .= '</' . $tag . '>';
+        }
+
+        return $html;
+    }
+
+    /**
+     * Extrai um trecho do HTML em torno dos termos de pesquisa PRESERVANDO a formatação e tags HTML existentes (Cenário 2).
+     * O corte de palavras é feito apenas sobre o texto visível, e qualquer tag aberta é balanceada/fechada automaticamente.
+     *
+     * @param string|null $html Código HTML de onde o trecho será extraído.
+     * @param string|array|null $palavrasPesquisa Palavra ou array de palavras a pesquisar.
+     * @param int $palavrasAntesDepois Quantidade de palavras antes e depois do termo localizado (default: 10).
+     * @param string|null $fraseExata Frase exata para busca prioritária (opcional).
+     * @return string|null Trecho em HTML com formatação preservada e tags balanceadas.
+     */
+    public static function extrairTrechoHtml(?string $html, $palavrasPesquisa = [], int $palavrasAntesDepois = 10, ?string $fraseExata = null): ?string
+    {
+        if ($html === null || trim($html) === '') {
+            return null;
+        }
+
+        $html = StringHelper::str2utf8($html);
+        $html = StringHelper::normalizarUnicode($html);
+
+        // Divide em tokens separando tags HTML (<...>) de texto visível
+        $tokens = preg_split('/(<[^>]*>)/u', $html, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        if (empty($tokens)) {
+            return null;
+        }
+
+        // Mapeia cada palavra visível ao índice do seu token
+        $mapaPalavras = [];
+        foreach ($tokens as $tIndex => $token) {
+            if (str_starts_with($token, '<') && str_ends_with($token, '>')) {
+                continue;
+            }
+            $palavrasTexto = preg_split('/\s+/u', trim($token), -1, PREG_SPLIT_NO_EMPTY);
+            foreach ($palavrasTexto as $p) {
+                $mapaPalavras[] = [
+                    'palavra' => $p,
+                    'tokenIndex' => $tIndex,
+                ];
+            }
+        }
+
+        $totalPalavras = count($mapaPalavras);
+        if ($totalPalavras === 0) {
+            return $html;
+        }
+
+        $textoLimpo = implode(' ', array_column($mapaPalavras, 'palavra'));
+        $indiceInicioMatch = null;
+        $tamanhoMatch = 1;
+
+        // 1. Busca por frase exata
+        if ($fraseExata !== null && trim($fraseExata) !== '') {
+            $fraseNorm = trim(StringHelper::normalizarUnicode(StringHelper::str2utf8($fraseExata)));
+            $posChar = mb_stripos($textoLimpo, $fraseNorm, 0, 'UTF-8');
+            if ($posChar !== false) {
+                $textoAntes = mb_substr($textoLimpo, 0, $posChar, 'UTF-8');
+                $palavrasAntes = preg_split('/\s+/u', trim($textoAntes), -1, PREG_SPLIT_NO_EMPTY);
+                $indiceInicioMatch = empty($textoAntes) || empty($palavrasAntes) ? 0 : count($palavrasAntes);
+                $palavrasFrase = preg_split('/\s+/u', $fraseNorm, -1, PREG_SPLIT_NO_EMPTY);
+                $tamanhoMatch = max(1, count($palavrasFrase));
+            }
+        }
+
+        // 2. Busca por palavras de pesquisa
+        if ($indiceInicioMatch === null) {
+            $listaTermos = [];
+            if (is_array($palavrasPesquisa)) {
+                $listaTermos = $palavrasPesquisa;
+            } elseif (is_string($palavrasPesquisa) && trim($palavrasPesquisa) !== '') {
+                $listaTermos = [$palavrasPesquisa];
+            }
+
+            foreach ($listaTermos as $termo) {
+                if (!is_string($termo) || trim($termo) === '') {
+                    continue;
+                }
+                $termoNorm = trim(StringHelper::normalizarUnicode(StringHelper::str2utf8($termo)));
+                $posChar = mb_stripos($textoLimpo, $termoNorm, 0, 'UTF-8');
+                if ($posChar !== false) {
+                    $textoAntes = mb_substr($textoLimpo, 0, $posChar, 'UTF-8');
+                    $palavrasAntes = preg_split('/\s+/u', trim($textoAntes), -1, PREG_SPLIT_NO_EMPTY);
+                    $indiceInicioMatch = empty($textoAntes) || empty($palavrasAntes) ? 0 : count($palavrasAntes);
+                    $tamanhoMatch = 1;
+                    break;
+                }
+            }
+        }
+
+        $palavrasAntesDepois = max(0, $palavrasAntesDepois);
+
+        if ($indiceInicioMatch !== null) {
+            $pInicio = max(0, $indiceInicioMatch - $palavrasAntesDepois);
+            $pFim = min($totalPalavras - 1, $indiceInicioMatch + $tamanhoMatch + $palavrasAntesDepois - 1);
+        } else {
+            $pInicio = 0;
+            $pFim = min($totalPalavras - 1, max(0, ($palavrasAntesDepois * 2) - 1));
+        }
+
+        $tokenInicio = $mapaPalavras[$pInicio]['tokenIndex'];
+        $tokenFim = $mapaPalavras[$pFim]['tokenIndex'];
+
+        $trechoHtml = '';
+        for ($i = $tokenInicio; $i <= $tokenFim; $i++) {
+            $trechoHtml .= $tokens[$i];
+        }
+
+        $prefixo = ($pInicio > 0) ? '... ' : '';
+        $sufixo = ($pFim < $totalPalavras - 1) ? ' ...' : '';
+
+        $resultado = $prefixo . $trechoHtml . $sufixo;
+        return self::balancearTagsHtml($resultado);
+    }
+
+    /**
+     * Extrai um trecho em torno dos termos de pesquisa PRESERVANDO as tags e formatação HTML existentes e aplicando destaque (Cenário 2).
+     *
+     * @param string|null $html Código HTML de onde o trecho será extraído.
+     * @param string|array|null $palavrasPesquisa Palavra ou lista de palavras a pesquisar.
+     * @param int $palavrasAntesDepois Quantidade de palavras antes e depois do termo (default: 10).
+     * @param string|null $fraseExata Frase exata para busca prioritária (opcional).
+     * @param string $tag Tag HTML a ser utilizada para o destaque (default: 'mark').
+     * @param string $classeCss Classe CSS opcional para a tag HTML (default: '').
+     * @return string HTML com o trecho extraído, formatação HTML preservada e termos destacados.
+     */
+    public static function highlightTextoHtml(
+        ?string $html,
+        $palavrasPesquisa = [],
+        int $palavrasAntesDepois = 10,
+        ?string $fraseExata = null,
+        string $tag = 'mark',
+        string $classeCss = ''
+    ): string {
+        if ($html === null || trim($html) === '') {
+            return '';
+        }
+
+        $trecho = self::extrairTrechoHtml($html, $palavrasPesquisa, $palavrasAntesDepois, $fraseExata);
+        if ($trecho === null || $trecho === '') {
+            return '';
+        }
+
+        $termos = [];
+        if ($fraseExata !== null && trim($fraseExata) !== '') {
+            $termos[] = trim($fraseExata);
+        }
+        if (is_array($palavrasPesquisa)) {
+            foreach ($palavrasPesquisa as $p) {
+                if (is_string($p) && trim($p) !== '') {
+                    $termos[] = trim($p);
+                }
+            }
+        } elseif (is_string($palavrasPesquisa) && trim($palavrasPesquisa) !== '') {
+            $termos[] = trim($palavrasPesquisa);
+        }
+
+        return self::highlightHtml($trecho, array_unique($termos), $tag, $classeCss);
+    }
 }
 ?>

@@ -2041,7 +2041,16 @@ class TFormDin
     /**
      * Pegar informações geolocalização usando mapa interativo do Leaflet
      *
-     * @param string  $idField         -01: ID do campo
+     * Cria um TFormDinMapCord e registra os campos de latitude e longitude
+     * no form. Por padrão os campos são {idField}_lat e {idField}_lon, use
+     * $fieldNameLat e $fieldNameLon para outros nomes, ex: colunas do banco.
+     *
+     * Exemplo com parâmetros nomeados:
+     *   $frm->addMapCord('mapcord', 'Coordenadas', true
+     *                   ,fieldNameLat: 'nu_latitude'
+     *                   ,fieldNameLon: 'nu_longitude');
+     *
+     * @param string  $idField         -01: ID do campo. Base do id do mapa e, por padrão, do nome dos campos lat/lon
      * @param string  $label           -02: Label do campo, usado para validações
      * @param boolean $boolRequired    -03: Campo obrigatório ou não. Default FALSE
      * @param boolean $boolNewLine     -04: Default TRUE = campo em nova linha, FALSE continua na linha anterior
@@ -2053,6 +2062,10 @@ class TFormDin
      * @param int     $zoom            -10: Nível de zoom inicial do mapa. Default 12
      * @param int     $height          -11: Altura do mapa em pixels. Default 400
      * @param string  $geoJsonPath     -12: Caminho do arquivo GeoJSON a plotar. Default null
+     * @param int     $decimalPlaces   -13: Quantidade de casas decimais de lat e lon. Default 6
+     * @param string  $decimalsSeparator -14: Separador decimal na tela, '.' (Default) ou ','. No getData() o valor sempre vem com '.'
+     * @param string  $fieldNameLat    -15: Nome do campo de latitude no form/getData(). Default {idField}_lat
+     * @param string  $fieldNameLon    -16: Nome do campo de longitude no form/getData(). Default {idField}_lon
      * @return TFormDinMapCord
      */
 	public function addMapCord(string $idField
@@ -2067,9 +2080,14 @@ class TFormDin
                               ,$zoom          =null
                               ,$height        =null
                               ,$geoJsonPath   =null
+                              ,$decimalPlaces =null
+                              ,$decimalsSeparator=null
+                              ,$fieldNameLat  =null
+                              ,$fieldNameLon  =null
                              )
 	{
-        $formField = new TFormDinMapCord( $idField
+        $formField = new TFormDinMapCord( $this->getAdiantiObj()
+                                         ,$idField
                                          ,$label
                                          ,$boolRequired
                                          ,$showFields
@@ -2079,6 +2097,10 @@ class TFormDin
                                          ,$zoom
                                          ,$height
                                          ,$geoJsonPath
+                                         ,$decimalPlaces
+                                         ,$decimalsSeparator
+                                         ,$fieldNameLat
+                                         ,$fieldNameLon
                                          );
         $objField = $formField->getAdiantiObj();
         $label = $formField->getLabel();
