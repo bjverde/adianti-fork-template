@@ -114,7 +114,7 @@ class TConnection
 
                     if ($zone)
                     {
-                        $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '{$zone}'");
+                        $options = array(Pdo\Mysql::ATTR_INIT_COMMAND => "SET time_zone = '{$zone}'");
                     }
 
                     $conn = new PDO("mysql:host={$host};port={$port};{$dbname}{$opts}", $user, $pass, $options);
@@ -122,12 +122,12 @@ class TConnection
                 elseif ($char == 'utf8mb4')
                 {
                     $zone = $zone ? ";SET time_zone = '{$zone}'" : "";
-                    $conn = new PDO("mysql:host={$host};port={$port};{$dbname}{$opts}", $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4{$zone}"));
+                    $conn = new PDO("mysql:host={$host};port={$port};{$dbname}{$opts}", $user, $pass, array(Pdo\Mysql::ATTR_INIT_COMMAND => "SET NAMES utf8mb4{$zone}"));
                 }
                 else
                 {
                     $zone = $zone ? ";SET time_zone = '{$zone}'" : "";
-                    $conn = new PDO("mysql:host={$host};port={$port};{$dbname}{$opts}", $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8{$zone}"));
+                    $conn = new PDO("mysql:host={$host};port={$port};{$dbname}{$opts}", $user, $pass, array(Pdo\Mysql::ATTR_INIT_COMMAND => "SET NAMES utf8{$zone}"));
                 }
                 break;
             case 'sqlite':
