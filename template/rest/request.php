@@ -30,7 +30,6 @@ function request($url, $method = 'POST', $params = [], $authorization = null)
     curl_setopt_array($ch, $defaults);
     $output = curl_exec ($ch);
     
-    curl_close ($ch);
     $return = (array) json_decode($output);
     
     if (json_last_error() !== JSON_ERROR_NONE)
