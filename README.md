@@ -18,7 +18,7 @@ https://adiantiframework.com.br/guia-rapido
 
 ### O que tem em cada pasta ?
 * template  - é o fork 
-* documents - diveros arquvivos sobre o fork
+* docs - diveros arquvivos sobre o fork
 
 ### Quais são as modificações em relação a versão original ?
 Veja documento [Changelog do Fork](docs/changelog_fork.md)
