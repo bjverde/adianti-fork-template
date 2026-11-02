@@ -21,4 +21,4 @@ https://adiantiframework.com.br/guia-rapido
 * documents - diveros arquvivos sobre o fork
 
 ### Quais são as modificações em relação a versão original ?
-Veja documento [Changelog do Fork](documents/changelog_fork.md)
+Veja documento [Changelog do Fork](docs/changelog_fork.md)
